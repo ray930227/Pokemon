@@ -8,6 +8,10 @@ Object::Object(const std::string& ImagePath) {
     ResetPosition();
 }
 
+Object::Object(const std::vector<std::string>& AnimationPaths) {
+    m_Drawable = std::make_shared<Util::Animation>(AnimationPaths, false, 500, false, 0);
+}
+
 void Object::SetImage(const std::string& ImagePath) {
     m_ImagePath = ImagePath;
 
@@ -26,10 +30,6 @@ bool Object::IfCollides(const std::shared_ptr<Object>& other) const {
     bool y_overlap = (y1 - edge1.y <= y2 && y2 <= y1) || (y2 - edge2.y <= y1 && y1 <= y2);
 
     return x_overlap && y_overlap;
-}
-
-Object::Object(const std::vector<std::string>& AnimationPaths) {
-    m_Drawable = std::make_shared<Util::Animation>(AnimationPaths, false, 500, false, 0);
 }
 
 bool Object::IfAnimationEnds() const {
