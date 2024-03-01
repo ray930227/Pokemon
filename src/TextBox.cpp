@@ -9,7 +9,7 @@ TextBox::TextBox(){
     m_BG->SetPosition({0,-249});
     m_BG->SetZIndex(99);
     m_Text=std::make_shared<Object>(std::make_unique<Util::Text>(RESOURCE_DIR"/text.ttf", 20,
-                                                                 "NONE",
+                                                                 " ",
                                                                  Util::Color::FromName(Util::Colors::BLACK)));
     m_Text->SetPosition({0,-249});
     m_Text->SetZIndex(100);
@@ -17,6 +17,14 @@ TextBox::TextBox(){
 
 size_t TextBox::GetLineIndex() {
     return m_LineIndex;
+}
+
+std::string TextBox::GetLine() {
+    return m_AllText[m_LineIndex];
+}
+
+bool TextBox::GetVisibility() const {
+    return m_BG->GetVisibility();
 }
 
 void TextBox::SetText(const std::string &str){
@@ -28,6 +36,15 @@ void TextBox::SetText(const std::string &str){
 void TextBox::SetVisible(bool visible) {
     m_BG->SetVisible(visible);
     m_Text->SetVisible(visible);
+}
+
+void TextBox::SetScale(const glm::vec2 &scale) {
+    m_BG->SetScale(scale);
+}
+
+void TextBox::SetPosition(const glm::vec2 &Position)  {
+    m_BG->SetPosition(Position);
+    m_Text->SetPosition(Position);
 }
 
 void TextBox::ReadLines(const std::string &LinesPath) {

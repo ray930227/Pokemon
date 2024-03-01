@@ -42,6 +42,9 @@ private:
     std::shared_ptr<Object> m_AnimatedText;
     std::shared_ptr<Object> m_BG;
     std::shared_ptr<TextBox> m_TB;
+    std::string PlayerName;
+    std::shared_ptr<TextBox> tempBox;
+
 };
 
 #endif
