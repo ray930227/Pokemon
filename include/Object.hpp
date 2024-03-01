@@ -32,6 +32,8 @@ public:
 
     void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
 
+    void SetScale(const glm::vec2& scale){m_Transform.scale = scale;}
+
     [[nodiscard]] bool IfCollides(const std::shared_ptr<Object>& other) const;
 
     [[nodiscard]] bool IsLooping() const {
