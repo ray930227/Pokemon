@@ -5,15 +5,21 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
-void App::Start() {
-    LOG_TRACE("Start");
-    m_CurrentState = State::UPDATE;
+void App::Init() {
+    if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER)){
+        LOG_DEBUG("Update");
+
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
+        Util::Input::IfExit()) {
+        m_CurrentState = State::END;
+    }
 }
 
 void App::Update() {
-    
+    LOG_TRACE("Update");
     //TODO: do your things here and delete this line <3
-    
+
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
