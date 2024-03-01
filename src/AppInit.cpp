@@ -5,12 +5,11 @@
 #include "Util/Logger.hpp"
 
 void App::Init() {
-
-
-    if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER)){
-        LOG_DEBUG(Util::Input::GetCursorPosition().x);
-
+    if (Util::Input::IsKeyDown(Util::Keycode::Z)){
+        m_TB->Next();
+        if
     }
+
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;

@@ -6,7 +6,7 @@
 
 void App::Home() {
     LOG_TRACE("Home");
-    if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER)){
+    if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER) || Util::Input::IsKeyPressed(Util::Keycode::RETURN)){
         m_AnimatedText->SetLooping(false);
         m_AnimatedText->SetVisible(false);
         m_BG=std::make_shared<Object>(RESOURCE_DIR"/Background/WhiteBG.png");
@@ -14,6 +14,10 @@ void App::Home() {
         m_BG->SetZIndex(0);
         m_BG->SetVisible(true);
         m_Root.AddChild(m_BG);
+        m_TB=std::make_shared<TextBox>();
+        m_TB->SetVisible(true);
+        m_TB->ReadLines(RESOURCE_DIR"/Lines/OpeningLine.txt");
+        m_Root.AddChildren(m_TB->GetChildren());
         m_CurrentState = State::INIT;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
