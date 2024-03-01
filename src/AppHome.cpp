@@ -18,6 +18,11 @@ void App::Home() {
         m_TB->SetVisible(true);
         m_TB->ReadLines(RESOURCE_DIR"/Lines/OpeningLine.txt");
         m_Root.AddChildren(m_TB->GetChildren());
+        tempBox=std::make_shared<TextBox>();
+        tempBox->SetPosition({0,0});
+        tempBox->SetScale({0.5,0.5});
+        tempBox->SetVisible(false);
+        m_Root.AddChildren(tempBox->GetChildren());
         m_CurrentState = State::INIT;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

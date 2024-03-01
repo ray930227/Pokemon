@@ -16,8 +16,12 @@ private:
 public:
     TextBox();
     size_t GetLineIndex();
+    std::string GetCurrentLine();
+    [[nodiscard]] bool GetVisibility() const;
     void SetText(const std::string &str);
     void SetVisible(bool visible);
+    void SetScale(const glm::vec2& scale);
+    void SetPosition(const glm::vec2& Position);
     void ReadLines(const std::string &LinesPath);
     void Next();
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
