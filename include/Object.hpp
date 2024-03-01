@@ -12,6 +12,8 @@ public:
 
     explicit Object(const std::vector<std::string>& AnimationPaths);
 
+    Object(const std::shared_ptr<Core::Drawable> &drawable);
+
     Object(const Object&) = delete;
 
     Object(Object&&) = delete;

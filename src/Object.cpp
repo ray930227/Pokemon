@@ -1,5 +1,6 @@
 #include "Object.hpp"
 #include "Util/Image.hpp"
+#include "Util/Text.hpp"
 
 
 Object::Object(const std::string& ImagePath) {
@@ -10,6 +11,10 @@ Object::Object(const std::string& ImagePath) {
 
 Object::Object(const std::vector<std::string>& AnimationPaths) {
     m_Drawable = std::make_shared<Util::Animation>(AnimationPaths, false, 500, false, 0);
+}
+
+Object::Object(const std::shared_ptr<Core::Drawable> &drawable){
+    SetDrawable(drawable);
 }
 
 void Object::SetImage(const std::string& ImagePath) {

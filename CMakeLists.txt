@@ -24,6 +24,9 @@ add_executable(${PROJECT_NAME}
         include/Object.hpp
         src/Object.cpp
         src/AppInit.cpp
+        include/TextBox.hpp
+        src/TextBox.cpp
+        src/TextBox.cpp
 )
 
 if(MSVC)

@@ -5,6 +5,7 @@
 
 #include "Util/Root.hpp"
 #include "Object.hpp"
+#include "TextBox.hpp"
 
 class App {
 public:
@@ -37,6 +38,7 @@ private:
     Util::Root m_Root;
     std::shared_ptr<Object> m_AnimatedText;
     std::shared_ptr<Object> m_BG;
+    std::shared_ptr<TextBox> m_TB;
 };
 
 #endif
