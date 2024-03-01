@@ -5,17 +5,6 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 
-void App::Init() {
-    if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER)){
-        LOG_DEBUG("Update");
-
-    }
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
-        Util::Input::IfExit()) {
-        m_CurrentState = State::END;
-    }
-}
-
 void App::Update() {
     LOG_TRACE("Update");
     //TODO: do your things here and delete this line <3

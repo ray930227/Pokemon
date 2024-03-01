@@ -11,7 +11,6 @@ void App::Start() {
     for(int i=20;i<100;i+=10){
         tempText.push_back(RESOURCE_DIR"/Start/press enter to start"+std::to_string(i)+"%.png");
     }
-
     m_AnimatedText=std::make_shared<Object>(tempText);
     m_AnimatedText->SetVisible(true);
     m_AnimatedText->SetPosition({0,0});
