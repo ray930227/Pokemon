@@ -15,6 +15,7 @@ private:
     size_t m_LineIndex;
 public:
     TextBox();
+    size_t GetLineIndex();
     void SetText(const std::string &str);
     void SetVisible(bool visible);
     void ReadLines(const std::string &LinesPath);

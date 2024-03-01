@@ -15,6 +15,10 @@ TextBox::TextBox(){
     m_Text->SetZIndex(100);
 }
 
+size_t TextBox::GetLineIndex() {
+    return m_LineIndex;
+}
+
 void TextBox::SetText(const std::string &str){
     m_Text->SetDrawable(std::make_unique<Util::Text>(RESOURCE_DIR"/text.ttf", 30,
                                                      str,

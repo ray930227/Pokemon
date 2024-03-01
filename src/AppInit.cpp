@@ -7,7 +7,6 @@
 void App::Init() {
     if (Util::Input::IsKeyDown(Util::Keycode::Z)){
         m_TB->Next();
-        if
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
