@@ -27,6 +27,7 @@ add_executable(${PROJECT_NAME}
         include/TextBox.hpp
         src/TextBox.cpp
         src/TextBox.cpp
+        src/AppFight.cpp
 )
 
 if(MSVC)

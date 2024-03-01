@@ -7,6 +7,9 @@
 void App::Init() {
     if (Util::Input::IsKeyDown(Util::Keycode::Z)){
         m_TB->Next();
+        if(m_TB->GetLineIndex()==9){
+
+        }
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

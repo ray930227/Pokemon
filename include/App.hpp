@@ -14,6 +14,7 @@ public:
         HOME,
         INIT,
         UPDATE,
+        FIGHT,
         END,
     };
 
@@ -26,6 +27,8 @@ public:
     void Init();
 
     void Update();
+
+    void Fight();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
