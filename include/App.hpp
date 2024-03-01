@@ -3,10 +3,15 @@
 
 #include "pch.hpp" // IWYU pragma: export
 
+#include "Util/Root.hpp"
+#include "Object.hpp"
+
 class App {
 public:
     enum class State {
         START,
+        HOME,
+        INIT,
         UPDATE,
         END,
     };
@@ -14,6 +19,10 @@ public:
     State GetCurrentState() const { return m_CurrentState; }
 
     void Start();
+
+    void Home();
+
+    void Init();
 
     void Update();
 
@@ -24,6 +33,9 @@ private:
 
 private:
     State m_CurrentState = State::START;
+
+    Util::Root m_Root;
+    std::shared_ptr<Object> m_AnimatedText;
 };
 
 #endif
