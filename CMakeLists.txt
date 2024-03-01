@@ -23,6 +23,7 @@ add_executable(${PROJECT_NAME}
         src/AppHome.cpp
         include/Object.hpp
         src/Object.cpp
+        src/AppInit.cpp
 )
 
 if(MSVC)

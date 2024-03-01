@@ -36,6 +36,7 @@ private:
 
     Util::Root m_Root;
     std::shared_ptr<Object> m_AnimatedText;
+    std::shared_ptr<Object> m_BG;
 };
 
 #endif
