@@ -16,7 +16,7 @@ private:
 public:
     TextBox();
     size_t GetLineIndex();
-    std::string GetLine();
+    std::string GetCurrentLine();
     [[nodiscard]] bool GetVisibility() const;
     void SetText(const std::string &str);
     void SetVisible(bool visible);

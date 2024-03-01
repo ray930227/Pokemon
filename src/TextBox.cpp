@@ -19,7 +19,7 @@ size_t TextBox::GetLineIndex() {
     return m_LineIndex;
 }
 
-std::string TextBox::GetLine() {
+std::string TextBox::GetCurrentLine() {
     return m_AllText[m_LineIndex];
 }
 
