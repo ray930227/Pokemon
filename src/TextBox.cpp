@@ -5,12 +5,10 @@
 #include <fstream>
 
 TextBox::TextBox(){
-    m_BG=std::make_shared<Object>(RESOURCE_DIR"/Background/textbox.png");
+    m_BG=std::make_shared<Image>(RESOURCE_DIR"/Background/textbox.png");
     m_BG->SetPosition({0,-249});
     m_BG->SetZIndex(99);
-    m_Text=std::make_shared<Object>(std::make_unique<Util::Text>(RESOURCE_DIR"/text.ttf", 20,
-                                                                 " ",
-                                                                 Util::Color::FromName(Util::Colors::BLACK)));
+    m_Text=std::make_shared<Text>();
     m_Text->SetPosition({0,-249});
     m_Text->SetZIndex(100);
 }
@@ -28,9 +26,7 @@ bool TextBox::GetVisibility() const {
 }
 
 void TextBox::SetText(const std::string &str){
-    m_Text->SetDrawable(std::make_unique<Util::Text>(RESOURCE_DIR"/text.ttf", 30,
-                                                     str,
-                                                     Util::Color::FromName(Util::Colors::BLACK)));
+    m_Text->SetText(str);
 }
 
 void TextBox::SetVisible(bool visible) {

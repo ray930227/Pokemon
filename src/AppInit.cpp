@@ -127,6 +127,8 @@ void App::Init() {
     else if (Util::Input::IsKeyDown(Util::Keycode::Z)){
         m_TB->Next();
         if(m_TB->GetLineIndex()==10){
+            tempBox->SetPosition({0,0});
+            tempBox->SetScale({0.5,0.5});
             tempBox->SetVisible(true);
             PlayerName=" ";
         }
