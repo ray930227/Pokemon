@@ -38,7 +38,6 @@ add_executable(${PROJECT_NAME}
         src/Text.cpp
         src/Text.cpp
         src/Character.cpp
-        src/Character.cpp
         src/AppUpdate.cpp
 )
 
