@@ -28,6 +28,15 @@ add_executable(${PROJECT_NAME}
         src/TextBox.cpp
         src/TextBox.cpp
         src/AppFight.cpp
+        include/Character.hpp
+        include/Image.hpp
+        src/Image.cpp
+        include/GIF.hpp
+        src/GIF.cpp
+        src/GIF.cpp
+        include/Text.hpp
+        src/Text.cpp
+        src/Text.cpp
 )
 
 if(MSVC)

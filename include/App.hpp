@@ -4,8 +4,9 @@
 #include "pch.hpp" // IWYU pragma: export
 
 #include "Util/Root.hpp"
-#include "Object.hpp"
 #include "TextBox.hpp"
+#include "Image.hpp"
+#include "GIF.hpp"
 
 class App {
 public:
@@ -39,12 +40,11 @@ private:
     State m_CurrentState = State::START;
 
     Util::Root m_Root;
-    std::shared_ptr<Object> m_AnimatedText;
-    std::shared_ptr<Object> m_BG;
+    std::shared_ptr<GIF> m_AnimatedText;
+    std::shared_ptr<Image> m_BG;
     std::shared_ptr<TextBox> m_TB;
     std::string PlayerName;
     std::shared_ptr<TextBox> tempBox;
-
 };
 
 #endif

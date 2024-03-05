@@ -11,13 +11,26 @@ void App::Start() {
     for(int i=20;i<100;i+=10){
         tempText.push_back(RESOURCE_DIR"/Start/press enter to start"+std::to_string(i)+"%.png");
     }
-    m_AnimatedText=std::make_shared<Object>(tempText);
-    m_AnimatedText->SetVisible(true);
-    m_AnimatedText->SetPosition({0,0});
+    m_AnimatedText=std::make_shared<GIF>(tempText);
     m_AnimatedText->SetZIndex(10);
     m_AnimatedText->SetLooping(true);
     m_AnimatedText->SetInterval(100);
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
+
+
+    m_BG=std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
+    m_BG->SetZIndex(0);
+    m_BG->SetVisible(false);
+    m_Root.AddChild(m_BG);
+
+    m_TB=std::make_shared<TextBox>();
+    m_TB->SetVisible(false);
+    m_Root.AddChildren(m_TB->GetChildren());
+
+    tempBox=std::make_shared<TextBox>();
+    tempBox->SetVisible(false);
+    m_Root.AddChildren(tempBox->GetChildren());
+
     m_CurrentState = State::HOME;
 }
