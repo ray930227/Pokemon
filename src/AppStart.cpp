@@ -32,5 +32,13 @@ void App::Start() {
     tempBox->SetVisible(false);
     m_Root.AddChildren(tempBox->GetChildren());
 
+    Player=std::make_shared<Character>();
+    Player->SetZIndex(50);
+    Player->SetPosition({36,-36});
+    Player->SetVisible(false);
+    m_Root.AddChild(Player);
+
+    NPC_Bromance=std::make_shared<Character>();
+
     m_CurrentState = State::HOME;
 }

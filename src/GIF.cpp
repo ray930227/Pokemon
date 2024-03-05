@@ -17,6 +17,11 @@ bool GIF::IsAnimationEnds() const {
     return animation->GetCurrentFrameIndex() == animation->GetFrameCount() - 1;
 }
 
+std::size_t GIF::GetFrameCount() const {
+    auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+    return temp->GetFrameCount();
+}
+
 void GIF::SetInterval(int interval)  {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     temp->SetInterval(interval);

@@ -21,8 +21,16 @@ std::string TextBox::GetCurrentLine() {
     return m_AllText[m_LineIndex];
 }
 
+std::string TextBox::GetText() {
+    return m_Text->GetText();
+}
+
 bool TextBox::GetVisibility() const {
     return m_BG->GetVisibility();
+}
+
+std::vector<std::shared_ptr<Util::GameObject>> TextBox::GetChildren() const{
+    return {m_BG,m_Text};
 }
 
 void TextBox::SetText(const std::string &str){
@@ -65,6 +73,116 @@ void TextBox::Next() {
     }
 }
 
-std::vector<std::shared_ptr<Util::GameObject>> TextBox::GetChildren() const{
-    return {m_BG,m_Text};
+void TextBox::InputString() {
+    std::string tempStr=m_Text->GetText();
+    if(Util::Input::IsKeyDown(Util::Keycode::A)){
+        if(tempStr==" ") tempStr="A";
+        else tempStr+="a";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::B)){
+        if(tempStr==" ") tempStr="B";
+        else tempStr+="b";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::C)){
+        if(tempStr==" ") tempStr="C";
+        else tempStr+="c";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::D)){
+        if(tempStr==" ") tempStr="D";
+        else tempStr+="d";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::E)){
+        if(tempStr==" ") tempStr="E";
+        else tempStr+="e";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::F)){
+        if(tempStr==" ") tempStr="F";
+        else tempStr+="f";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::G)){
+        if(tempStr==" ") tempStr="G";
+        else tempStr+="g";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::H)){
+        if(tempStr==" ") tempStr="H";
+        else tempStr+="h";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::I)){
+        if(tempStr==" ") tempStr="I";
+        else tempStr+="i";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::J)){
+        if(tempStr==" ") tempStr="J";
+        else tempStr+="j";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::K)){
+        if(tempStr==" ") tempStr="K";
+        else tempStr+="k";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::L)){
+        if(tempStr==" ") tempStr="L";
+        else tempStr+="l";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::M)){
+        if(tempStr==" ") tempStr="M";
+        else tempStr+="m";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::N)){
+        if(tempStr==" ") tempStr="N";
+        else tempStr+="n";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::O)){
+        if(tempStr==" ") tempStr="O";
+        else tempStr+="o";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::P)){
+        if(tempStr==" ") tempStr="P";
+        else tempStr+="p";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::Q)){
+        if(tempStr==" ") tempStr="Q";
+        else tempStr+="q";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::R)){
+        if(tempStr==" ") tempStr="R";
+        else tempStr+="r";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::S)){
+        if(tempStr==" ") tempStr="S";
+        else tempStr+="s";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::T)){
+        if(tempStr==" ") tempStr="T";
+        else tempStr+="t";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::U)){
+        if(tempStr==" ") tempStr="U";
+        else tempStr+="u";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::V)){
+        if(tempStr==" ") tempStr="V";
+        else tempStr+="v";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::W)){
+        if(tempStr==" ") tempStr="W";
+        else tempStr+="w";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::X)){
+        if(tempStr==" ") tempStr="X";
+        else tempStr+="x";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::Y)){
+        if(tempStr==" ") tempStr="Y";
+        else tempStr+="y";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+        if(tempStr==" ") tempStr="Z";
+        else tempStr+="z";
+    }
+    if(Util::Input::IsKeyDown(Util::Keycode::BACKSPACE)){
+        if(tempStr.size()<=1) tempStr=" ";
+        else tempStr.pop_back();
+    }
+
+    m_Text->SetText(tempStr);
 }

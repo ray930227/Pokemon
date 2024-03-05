@@ -14,14 +14,16 @@ public:
     TextBox();
     size_t GetLineIndex();
     std::string GetCurrentLine();
+    std::string GetText();
     [[nodiscard]] bool GetVisibility() const;
+    [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
     void SetText(const std::string &str);
     void SetVisible(bool visible);
     void SetScale(const glm::vec2& scale);
     void SetPosition(const glm::vec2& Position);
     void ReadLines(const std::string &LinesPath);
     void Next();
-    [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
+    void InputString();
 };
 
 #endif //POKEMON_TEXTBOX_HPP
