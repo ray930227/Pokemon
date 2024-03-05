@@ -5,8 +5,11 @@
 #include "Util/Text.hpp"
 
 class Text:public Util::GameObject{
+private:
+    std::string m_Text;
 public:
     Text();
+    std::string& GetText();
     void SetText(const std::string &str);
     void SetPosition(const glm::vec2& Position);
 };

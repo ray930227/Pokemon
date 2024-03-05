@@ -37,6 +37,8 @@ add_executable(${PROJECT_NAME}
         include/Text.hpp
         src/Text.cpp
         src/Text.cpp
+        src/Character.cpp
+        src/AppUpdate.cpp
 )
 
 if(MSVC)

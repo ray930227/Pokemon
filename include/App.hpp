@@ -7,6 +7,7 @@
 #include "TextBox.hpp"
 #include "Image.hpp"
 #include "GIF.hpp"
+#include "Character.hpp"
 
 class App {
 public:
@@ -20,18 +21,12 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
-
     void Start();
-
     void Home();
-
     void Init();
-
     void Update();
-
     void Fight();
-
-    void End(); // NOLINT(readability-convert-member-functions-to-static)
+    void End();
 
 private:
     void ValidTask();
@@ -43,8 +38,11 @@ private:
     std::shared_ptr<GIF> m_AnimatedText;
     std::shared_ptr<Image> m_BG;
     std::shared_ptr<TextBox> m_TB;
-    std::string PlayerName;
+    std::shared_ptr<Character> Player;
+    std::shared_ptr<Character> NPC_Bromance;
     std::shared_ptr<TextBox> tempBox;
+    glm::vec2 Displacement = {0, 0};
+    int DisplacementCount;
 };
 
 #endif

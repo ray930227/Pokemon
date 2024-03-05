@@ -12,6 +12,7 @@ public:
     [[nodiscard]] bool IsLooping() const;
     [[nodiscard]] bool IsPlaying() const;
     [[nodiscard]] bool IsAnimationEnds() const;
+    std::size_t GetFrameCount() const;
     void SetInterval(int interval);
     void SetLooping(bool looping);
     void Play();
