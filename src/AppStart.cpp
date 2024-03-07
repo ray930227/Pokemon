@@ -18,11 +18,34 @@ void App::Start() {
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-
     m_BG=std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
     m_BG->SetZIndex(0);
     m_BG->SetVisible(false);
     m_Root.AddChild(m_BG);
+
+    m_BlackBG=std::make_shared<Image>(RESOURCE_DIR"/Background/BlackBG.png");
+    m_BlackBG->SetZIndex(0);
+    m_BlackBG->SetVisible(true);
+    m_BlackBG->SetPosition({0,0});
+    m_Root.AddChild(m_BlackBG);
+
+    m_FightLoad1_1=std::make_shared<Image>(RESOURCE_DIR"/Background/Fightloading1_1.png");
+    m_FightLoad1_1->SetZIndex(52);
+    m_FightLoad1_1->SetVisible(false);
+    m_FightLoad1_1->SetPosition({-720,0});
+
+    m_Root.AddChild(m_FightLoad1_1);
+    m_FightLoad1_2=std::make_shared<Image>(RESOURCE_DIR"/Background/Fightloading1_2.png");
+    m_FightLoad1_2->SetZIndex(52);
+    m_FightLoad1_2->SetVisible(false);
+    m_FightLoad1_2->SetPosition({720,0});
+    m_Root.AddChild(m_FightLoad1_2);
+
+    m_FightBG=std::make_shared<Image>(RESOURCE_DIR"/Background/Fightselectbox.png");
+    m_FightBG->SetZIndex(51);
+    m_FightBG->SetVisible(false);
+    m_FightBG->SetPosition({0,-249});
+    m_Root.AddChild(m_FightBG);
 
     m_TB=std::make_shared<TextBox>();
     m_TB->SetVisible(false);
