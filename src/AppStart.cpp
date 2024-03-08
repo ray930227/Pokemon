@@ -47,6 +47,18 @@ void App::Start() {
     m_FightBG->SetPosition({0,-249});
     m_Root.AddChild(m_FightBG);
 
+    m_arrow=std::make_shared<Image>(RESOURCE_DIR"/Background/arrow.png");
+    m_arrow->SetZIndex(52);
+    m_arrow->SetVisible(false);
+    m_arrow->SetPosition({-25,-200});
+    m_Root.AddChild(m_arrow);
+
+    m_Fightskill=std::make_shared<Image>(RESOURCE_DIR"/Background/Fightskillbox.png");
+    m_Fightskill->SetZIndex(53);
+    m_Fightskill->SetVisible(false);
+    m_Fightskill->SetPosition({0,-160});
+    m_Root.AddChild(m_Fightskill);
+
     m_TB=std::make_shared<TextBox>();
     m_TB->SetVisible(false);
     m_Root.AddChildren(m_TB->GetChildren());
