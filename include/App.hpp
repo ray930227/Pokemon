@@ -41,6 +41,8 @@ private:
     std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<Image> m_FightLoad1_1;
     std::shared_ptr<Image> m_FightLoad1_2;
+    std::shared_ptr<Image> m_arrow;
+    std::shared_ptr<Image> m_Fightskill;
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
     std::shared_ptr<Character> NPC_Bromance;

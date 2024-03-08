@@ -3,7 +3,6 @@
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
-#include "Util/BGM.hpp"
 
 void App::Update() {
     LOG_TRACE("Update");
@@ -44,10 +43,6 @@ void App::Update() {
     if(Util::Input::IsKeyPressed(Util::Keycode::F)){
         m_FightLoad1_1->SetVisible(true);
         m_FightLoad1_2->SetVisible(true);
-        m_FightBG->SetVisible(true);
-        Util::BGM battle(RESOURCE_DIR"/BGM/Battle.mp3");
-        battle.Play(1);
-        battle.SetVolume(128);
         m_CurrentState = State::FIGHT;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
