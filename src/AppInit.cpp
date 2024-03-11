@@ -48,8 +48,9 @@ void App::Init() {
         m_TB->SetText(tempStr);
     }
     if(!m_TB->GetVisibility()){
-        m_BG->SetImage(RESOURCE_DIR"/Background/Testmap.png");
-        m_BG->SetPosition({-1224,2592});
+        m_WhiteBG->SetVisible(false);
+        m_Map->SetVisible(true);
+        m_Map->SetPosition({-1224,2592});
         Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerfront.png"));
         Player->SetVisible(true);
         DisplacementCount=0;

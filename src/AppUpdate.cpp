@@ -7,10 +7,10 @@
 void App::Update() {
     LOG_TRACE("Update");
     if(DisplacementCount!=0){
-        m_BG->Move(Displacement);
+        m_Map->Move(Displacement);
         DisplacementCount--;
         if(DisplacementCount==0){
-            m_BG->SetPosition({round(m_BG->GetPosition().x),round(m_BG->GetPosition().y)});
+            m_Map->SetPosition({round(m_Map->GetPosition().x),round(m_Map->GetPosition().y)});
         }
     }
     else if(Util::Input::IsKeyPressed(Util::Keycode::UP)){
@@ -37,7 +37,7 @@ void App::Update() {
 
     if(Util::Input::IsKeyPressed(Util::Keycode::A)){
         Player->SetSpeed(5);
-        LOG_DEBUG("{},{}",m_BG->GetPosition().x,m_BG->GetPosition().y);
+        LOG_DEBUG("{},{}",m_Map->GetPosition().x,m_Map->GetPosition().y);
     }
 
     if(Util::Input::IsKeyPressed(Util::Keycode::F)){

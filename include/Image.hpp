@@ -14,7 +14,7 @@ public:
     void SetImage(const std::string& ImagePath);
     void SetPosition(const glm::vec2& Position);
     void SetScale(const glm::vec2& scale);
-    void Move(const glm::vec2& Displacement);
+
 };
 
 #endif //POKEMON_IMAGE_HPP

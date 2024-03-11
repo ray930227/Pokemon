@@ -10,7 +10,7 @@ void App::Home() {
         m_AnimatedText->SetLooping(false);
         m_AnimatedText->SetVisible(false);
 
-        m_BG->SetVisible(true);
+        m_WhiteBG->SetVisible(true);
 
         m_TB->SetVisible(true);
         m_TB->ReadLines(RESOURCE_DIR"/Lines/OpeningLine.txt");
