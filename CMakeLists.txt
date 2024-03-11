@@ -40,6 +40,10 @@ add_executable(${PROJECT_NAME}
         src/Character.cpp
         src/AppUpdate.cpp
         include/Pokemon.hpp
+        include/Map.hpp
+        src/Map.cpp
+        include/Block.hpp
+        src/Block.cpp
 )
 
 if(MSVC)

@@ -8,6 +8,7 @@
 #include "Image.hpp"
 #include "GIF.hpp"
 #include "Character.hpp"
+#include "Map.hpp"
 
 class App {
 public:
@@ -36,7 +37,8 @@ private:
 
     Util::Root m_Root;
     std::shared_ptr<GIF> m_AnimatedText;
-    std::shared_ptr<Image> m_BG;
+    std::shared_ptr<Map> m_Map;
+    std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;
     std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<Image> m_FightLoad1_1;

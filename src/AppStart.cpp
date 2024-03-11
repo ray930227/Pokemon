@@ -19,10 +19,15 @@ void App::Start() {
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-    m_BG=std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
-    m_BG->SetZIndex(0);
-    m_BG->SetVisible(false);
-    m_Root.AddChild(m_BG);
+    m_Map=std::make_shared<Map>(RESOURCE_DIR"/Background/Testmap.png",
+                                RESOURCE_DIR"/Background/MainMap.txt");
+    m_Map->SetVisible(false);
+    m_Root.AddChildren(m_Map->GetChildren());
+
+    m_WhiteBG=std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
+    m_WhiteBG->SetZIndex(0);
+    m_WhiteBG->SetVisible(false);
+    m_Root.AddChild(m_WhiteBG);
 
     m_BlackBG=std::make_shared<Image>(RESOURCE_DIR"/Background/BlackBG.png");
     m_BlackBG->SetZIndex(0);

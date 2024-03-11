@@ -1,0 +1,38 @@
+#include "Block.hpp"
+
+Block::Block(bool traversable,bool event) {
+    SetTraversable(traversable);
+    SetEvent(event);
+}
+
+bool Block::GetVisibility() const {
+    return m_Visible;
+}
+
+const glm::vec2 &Block::GetPosition() const {
+    return m_Transform.translation;
+}
+
+bool Block::GetTraversable() const{
+    return m_Traversable;
+}
+
+bool Block::GetEvent() const {
+    return m_Event;
+}
+
+void Block::SetImage(const std::string &ImagePath) {
+    SetDrawable(std::make_shared<Util::Image>(ImagePath));
+}
+
+void Block::SetPosition(const glm::vec2 &Position) {
+    m_Transform.translation = Position;
+}
+
+void Block::SetTraversable(bool traversable) {
+    m_Traversable=traversable;
+}
+
+void Block::SetEvent(bool event) {
+    m_Event=event;
+}
