@@ -13,6 +13,7 @@ public:
     [[nodiscard]] bool IsPlaying() const;
     [[nodiscard]] bool IsAnimationEnds() const;
     std::size_t GetFrameCount() const;
+    void SetPosition(const glm::vec2& Position);
     void SetInterval(int interval);
     void SetLooping(bool looping);
     void Play();
