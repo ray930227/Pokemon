@@ -36,3 +36,7 @@ void GIF::Play() {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     temp->Play();
 }
+
+void GIF::SetPosition(const glm::vec2 &Position) {
+    m_Transform.translation = Position;
+}
