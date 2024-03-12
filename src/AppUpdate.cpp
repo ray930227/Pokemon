@@ -7,29 +7,41 @@
 void App::Update() {
     LOG_TRACE("Update");
     if(DisplacementCount!=0){
+        glm::vec2 PlayerPosition=m_Map->GetPlayerPosition();
+
+        bool up=Displacement.y<0 && m_Map->GetBlocks()[PlayerPosition.x-1][PlayerPosition.y]->GetTraversable();
+        bool down=Displacement.y>0 && m_Map->GetBlocks()[PlayerPosition.x+1][PlayerPosition.y]->GetTraversable();
+        bool left=Displacement.x>0 && m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y-1]->GetTraversable();
+        bool right=Displacement.x<0 && m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y+1]->GetTraversable();
+        bool canMove=up || down || left || right;
+        //
+        if(!((DisplacementCount==Player->GetSpeed() && canMove) || DisplacementCount!=Player->GetSpeed())) {
+            Displacement={0,0};
+        }
         m_Map->Move(Displacement);
         DisplacementCount--;
         if(DisplacementCount==0){
             m_Map->SetPosition({round(m_Map->GetPosition().x),round(m_Map->GetPosition().y)});
         }
+
     }
     else if(Util::Input::IsKeyPressed(Util::Keycode::UP)){
-        Displacement={0,-72/Player->GetSpeed()};
+        Displacement={0,-72.0/Player->GetSpeed()};
         DisplacementCount=Player->GetSpeed();
         Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerback.png"));
     }
     else if(Util::Input::IsKeyPressed(Util::Keycode::DOWN)){
-        Displacement={0,72/Player->GetSpeed()};
+        Displacement={0,72.0/Player->GetSpeed()};
         DisplacementCount=Player->GetSpeed();
         Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerfront.png"));
     }
     else if(Util::Input::IsKeyPressed(Util::Keycode::RIGHT)){
-        Displacement={-72/Player->GetSpeed(),0};
+        Displacement={-72.0/Player->GetSpeed(),0};
         DisplacementCount=Player->GetSpeed();
         Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerright.png"));
     }
     else if(Util::Input::IsKeyPressed(Util::Keycode::LEFT)){
-        Displacement={72/Player->GetSpeed(),0};
+        Displacement={72.0/Player->GetSpeed(),0};
         DisplacementCount=Player->GetSpeed();
         Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerleft.png"));
     }
@@ -37,7 +49,9 @@ void App::Update() {
 
     if(Util::Input::IsKeyPressed(Util::Keycode::A)){
         Player->SetSpeed(5);
-        LOG_DEBUG("{},{}",m_Map->GetPosition().x,m_Map->GetPosition().y);
+        glm::vec2 PlayerPosition=m_Map->GetPlayerPosition();
+        LOG_DEBUG("({},{}),({},{})",m_Map->GetPosition().x,m_Map->GetPosition().y,PlayerPosition.x,PlayerPosition.y);
+
     }
 
     if(Util::Input::IsKeyPressed(Util::Keycode::F)){

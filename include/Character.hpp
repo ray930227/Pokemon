@@ -10,7 +10,7 @@ private:
 public:
     Character();
     std::string& GetName();
-    float GetSpeed();
+    int GetSpeed();
     void SetName(const std::string &str);
     void SetSpeed(float value);
     void SetPosition(const glm::vec2& Position);

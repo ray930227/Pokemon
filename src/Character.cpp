@@ -8,7 +8,7 @@ std::string &Character::GetName() {
     return Name;
 }
 
-float Character::GetSpeed() {
+int Character::GetSpeed() {
     return Speed;
 }
 
