@@ -18,6 +18,7 @@ Map::Map(const std::string& Path) {
         m_Blocks.push_back(tempBlocks);
     }
     fileBlock.close();
+    fileEvent.close();
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> Map::GetChildren() const {
