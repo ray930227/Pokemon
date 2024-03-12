@@ -14,7 +14,7 @@ void App::Update() {
         bool left=Displacement.x>0 && m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y-1]->GetTraversable();
         bool right=Displacement.x<0 && m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y+1]->GetTraversable();
         bool canMove=up || down || left || right;
-        //
+
         if(!((DisplacementCount==Player->GetSpeed() && canMove) || DisplacementCount!=Player->GetSpeed())) {
             Displacement={0,0};
         }
@@ -22,6 +22,12 @@ void App::Update() {
         DisplacementCount--;
         if(DisplacementCount==0){
             m_Map->SetPosition({round(m_Map->GetPosition().x),round(m_Map->GetPosition().y)});
+            int eventID=m_Map->GetBlocks()[m_Map->GetPlayerPosition().x][m_Map->GetPlayerPosition().y]->GetEventID();
+            if(eventID==2 && rand()%100<25){
+                m_FightLoad1_1->SetVisible(true);
+                m_FightLoad1_2->SetVisible(true);
+                m_CurrentState = State::FIGHT;
+            }
         }
 
     }

@@ -19,8 +19,7 @@ void App::Start() {
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-    m_Map=std::make_shared<Map>(RESOURCE_DIR"/Background/Testmap.png",
-                                RESOURCE_DIR"/Background/MainMap.txt");
+    m_Map=std::make_shared<Map>(RESOURCE_DIR"/Map/MainMap");
     m_Map->SetVisible(false);
     m_Root.AddChildren(m_Map->GetChildren());
 
