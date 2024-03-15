@@ -9,7 +9,11 @@
 #include "GIF.hpp"
 #include "Character.hpp"
 #include "Map.hpp"
+#include "Pokemon.hpp"
 
+#include "Util/Input.hpp"
+#include "Util/Keycode.hpp"
+#include "Util/Logger.hpp"
 class App {
 public:
     enum class State {
@@ -50,8 +54,8 @@ private:
     std::shared_ptr<Image> m_Fightitem;
     std::shared_ptr<Image> m_PlayerHP;
     std::shared_ptr<Image> m_EnemyHP;
-    std::shared_ptr<Image> m_PlayerPokemon;
-    std::shared_ptr<GIF> m_EnemyPokemon;
+    std::shared_ptr<Pokemon> m_PlayerPokemon;
+    std::shared_ptr<Pokemon> m_EnemyPokemon;
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
     std::shared_ptr<Character> NPC_Bromance;

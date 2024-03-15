@@ -1,8 +1,5 @@
 #include "App.hpp"
 
-#include "Util/Logger.hpp"
-#include "Util/Text.hpp"
-
 void App::Start() {
     LOG_TRACE("Start");
     std::vector<std::string> tempText;
@@ -83,22 +80,16 @@ void App::Start() {
     m_EnemyHP->SetPosition({-217,260});
     m_Root.AddChild(m_EnemyHP);
 
-    m_PlayerPokemon=std::make_shared<Image>(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback004.png");
-    m_PlayerPokemon->SetZIndex(51);
+    m_PlayerPokemon=std::make_shared<Pokemon>("004",0);
+    m_PlayerPokemon->SetZIndex(52);
     m_PlayerPokemon->SetVisible(false);
     m_PlayerPokemon->SetPosition({-210,-10});
     m_Root.AddChild(m_PlayerPokemon);
 
-    std::vector<std::string> Enemypoke;
-    Enemypoke.push_back(RESOURCE_DIR"/Pokemon/Pokemonfront/Pokemonfront007.png");
-    Enemypoke.push_back(RESOURCE_DIR"/Pokemon/Pokemonmove/Pokemonmove007.png");
-    m_EnemyPokemon=std::make_shared<GIF>(Enemypoke);
-    m_EnemyPokemon->SetZIndex(51);
-    m_EnemyPokemon->SetLooping(true);
+    m_EnemyPokemon=std::make_shared<Pokemon>("007",1);
+    m_EnemyPokemon->SetZIndex(52);
     m_EnemyPokemon->SetVisible(false);
-    m_EnemyPokemon->SetInterval(1500);
     m_EnemyPokemon->SetPosition({210,230});
-    m_EnemyPokemon->Play();
     m_Root.AddChild(m_EnemyPokemon);
     //----------------------------------------------------------------------------------------
     m_TB=std::make_shared<TextBox>();

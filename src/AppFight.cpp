@@ -1,9 +1,5 @@
 #include "App.hpp"
 
-#include "Util/Input.hpp"
-#include "Util/Keycode.hpp"
-#include "Util/Logger.hpp"
-
 void App::Fight() {
     //Looking for position
     if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER) || Util::Input::IsKeyPressed(Util::Keycode::RETURN)){
