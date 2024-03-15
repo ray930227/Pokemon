@@ -68,17 +68,17 @@ void App::Start() {
     m_Fightitem->SetPosition({0,-60});
     m_Root.AddChild(m_Fightitem);
 
-    m_PlayerHP=std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
-    m_PlayerHP->SetZIndex(52);
-    m_PlayerHP->SetVisible(false);
-    m_PlayerHP->SetPosition({63,-9});
-    m_Root.AddChild(m_PlayerHP);
+    m_PlayerHPimage=std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
+    m_PlayerHPimage->SetZIndex(52);
+    m_PlayerHPimage->SetVisible(false);
+    m_PlayerHPimage->SetPosition({63,-9});
+    m_Root.AddChild(m_PlayerHPimage);
 
-    m_EnemyHP=std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
-    m_EnemyHP->SetZIndex(52);
-    m_EnemyHP->SetVisible(false);
-    m_EnemyHP->SetPosition({-217,260});
-    m_Root.AddChild(m_EnemyHP);
+    m_EnemyHPimage=std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
+    m_EnemyHPimage->SetZIndex(52);
+    m_EnemyHPimage->SetVisible(false);
+    m_EnemyHPimage->SetPosition({-217,260});
+    m_Root.AddChild(m_EnemyHPimage);
 
     m_PlayerPokemon=std::make_shared<Pokemon>("004",0);
     m_PlayerPokemon->SetZIndex(52);
@@ -91,6 +91,27 @@ void App::Start() {
     m_EnemyPokemon->SetVisible(false);
     m_EnemyPokemon->SetPosition({210,230});
     m_Root.AddChild(m_EnemyPokemon);
+
+    m_PlayerHP=std::make_shared<Text>();
+    m_PlayerHP->SetZIndex(52);
+    m_PlayerHP->SetVisible(false);
+    m_PlayerHP->SetPosition({165,-60});
+    m_PlayerHP->SetText(std::to_string(m_PlayerPokemon->GetHP())+" / "+std::to_string(m_PlayerPokemon->GetHP()));
+    m_Root.AddChild(m_PlayerHP);
+
+    m_PlayerName=std::make_shared<Text>();
+    m_PlayerName->SetZIndex(52);
+    m_PlayerName->SetVisible(false);
+    m_PlayerName->SetPosition({165,25});
+    m_PlayerName->SetText(m_PlayerPokemon->GetName());
+    m_Root.AddChild(m_PlayerName);
+
+    m_EnemyName=std::make_shared<Text>();
+    m_EnemyName->SetZIndex(52);
+    m_EnemyName->SetVisible(false);
+    m_EnemyName->SetPosition({-180,310});
+    m_EnemyName->SetText(m_EnemyPokemon->GetName());
+    m_Root.AddChild(m_EnemyName);
     //----------------------------------------------------------------------------------------
     m_TB=std::make_shared<TextBox>();
     m_TB->SetVisible(false);

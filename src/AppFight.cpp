@@ -7,11 +7,11 @@ void App::Fight() {
     }
 
     if (Util::Input::IsKeyPressed(Util::Keycode::H)){
-        m_PlayerHP->SetScale({0.2,1});
+        m_PlayerHPimage->SetScale({0.2,1});
     }
 
-    if ((m_PlayerHP->GetScaledSize().x)<=91.200005){
-        m_PlayerHP->SetImage(RESOURCE_DIR"/Fight/RedHealth.png");
+    if ((m_PlayerHPimage->GetScaledSize().x)<=91.200005){
+        m_PlayerHPimage->SetImage(RESOURCE_DIR"/Fight/RedHealth.png");
     }
 
     if(m_FightLoad1_1->GetPosition().x!=720 && m_FightLoad1_1->GetVisibility()) {
@@ -25,10 +25,13 @@ void App::Fight() {
         m_FightLoad1_2->SetVisible(false);
         m_FightBG->SetVisible(true);
         m_arrow->SetVisible(true);
-        m_PlayerHP->SetVisible(true);
-        m_EnemyHP->SetVisible(true);
+        m_PlayerHPimage->SetVisible(true);
+        m_EnemyHPimage->SetVisible(true);
         m_PlayerPokemon->SetVisible(true);
         m_EnemyPokemon->SetVisible(true);
+        m_PlayerHP->SetVisible(true);
+        m_PlayerName->SetVisible(true);
+        m_EnemyName->SetVisible(true);
     }
 
     //Fight select 技能(-25,-200) 精靈(135,-200)
@@ -71,10 +74,13 @@ void App::Fight() {
         m_FightLoad1_2->SetVisible(false);
         m_Fightskill->SetVisible(false);
         m_arrow->SetVisible(false);
-        m_PlayerHP->SetVisible(false);
-        m_EnemyHP->SetVisible(false);
+        m_PlayerHPimage->SetVisible(false);
+        m_EnemyHPimage->SetVisible(false);
         m_PlayerPokemon->SetVisible(false);
         m_EnemyPokemon->SetVisible(false);
+        m_PlayerHP->SetVisible(false);
+        m_PlayerName->SetVisible(false);
+        m_EnemyName->SetVisible(false);
         m_CurrentState = State::UPDATE;
     }
     //返回

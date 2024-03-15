@@ -1,6 +1,8 @@
 #include "Pokemon.hpp"
+#include "UsefulFunctions.hpp"
 
 Pokemon::Pokemon(const std::string& ID,int choose){
+    m_ID=std::stoi(ID);
     if (choose==0){
         SetImage(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback"+ID+".png");
     }
@@ -20,4 +22,12 @@ void Pokemon::SetImage(const std::string& path) {
 
 void Pokemon::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
+}
+
+int Pokemon::GetHP() const{
+    return (useful::Getability(m_ID,0));
+}
+
+std::string Pokemon::GetName() const {
+    return (useful::Getname(m_ID));
 }
