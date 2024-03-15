@@ -24,6 +24,10 @@ int main(int, char**) {
                 app.Update();
                 break;
 
+            case App::State::EVENT:
+                app.Event();
+                break;
+
             case App::State::FIGHT:
                 app.Fight();
                 break;

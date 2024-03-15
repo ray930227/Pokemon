@@ -19,33 +19,6 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
-        src/AppStart.cpp
-        src/AppHome.cpp
-        include/Object.hpp
-        src/Object.cpp
-        src/AppInit.cpp
-        include/TextBox.hpp
-        src/TextBox.cpp
-        src/TextBox.cpp
-        src/AppFight.cpp
-        include/Character.hpp
-        include/Image.hpp
-        src/Image.cpp
-        include/GIF.hpp
-        src/GIF.cpp
-        src/GIF.cpp
-        include/Text.hpp
-        src/Text.cpp
-        src/Text.cpp
-        src/Character.cpp
-        src/AppUpdate.cpp
-        include/Pokemon.hpp
-        include/Map.hpp
-        src/Map.cpp
-        include/Block.hpp
-        src/Block.cpp
-        include/UsefulFunctions.hpp
-        src/UsefulFunction.cpp
 )
 
 if(MSVC)
