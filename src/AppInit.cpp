@@ -1,9 +1,5 @@
 #include "App.hpp"
 
-#include "Util/Input.hpp"
-#include "Util/Keycode.hpp"
-#include "Util/Logger.hpp"
-
 void App::Init() {
     if(tempBox->GetVisibility()){
         tempBox->InputString();
