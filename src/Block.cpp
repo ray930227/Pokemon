@@ -1,8 +1,9 @@
 #include "Block.hpp"
 
-Block::Block(bool traversable,bool event) {
+Block::Block(bool traversable,bool event,int eventID) {
     SetTraversable(traversable);
     SetEvent(event);
+    m_eventID=eventID;
 }
 
 bool Block::GetVisibility() const {
@@ -19,6 +20,10 @@ bool Block::GetTraversable() const{
 
 bool Block::GetEvent() const {
     return m_Event;
+}
+
+int Block::GetEventID() const {
+    return m_eventID;
 }
 
 void Block::SetImage(const std::string &ImagePath) {
