@@ -80,13 +80,13 @@ void App::Start() {
     m_EnemyHPimage->SetPosition({-217,260});
     m_Root.AddChild(m_EnemyHPimage);
 
-    m_PlayerPokemon=std::make_shared<Pokemon>("139",0);
+    m_PlayerPokemon=std::make_shared<Pokemon>("004",0);
     m_PlayerPokemon->SetZIndex(52);
     m_PlayerPokemon->SetVisible(false);
     m_PlayerPokemon->SetPosition({-210,-10});
     m_Root.AddChild(m_PlayerPokemon);
 
-    m_EnemyPokemon=std::make_shared<Pokemon>("139",1);
+    m_EnemyPokemon=std::make_shared<Pokemon>("007",1);
     m_EnemyPokemon->SetZIndex(52);
     m_EnemyPokemon->SetVisible(false);
     m_EnemyPokemon->SetPosition({210,230});

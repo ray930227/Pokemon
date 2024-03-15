@@ -19,7 +19,7 @@ private:
     int m_EV;
     int m_ID;
 public:
-    Pokemon(const std::string& ID,int choose);
+    Pokemon(const std::string& ID,int choose);//choose 0:back 1:front
     [[nodiscard]] bool GetVisibility() const;
     [[nodiscard]] const glm::vec2& GetPosition() const;
     void SetImage(const std::string& path);
