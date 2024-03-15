@@ -80,13 +80,13 @@ void App::Start() {
     m_EnemyHPimage->SetPosition({-217,260});
     m_Root.AddChild(m_EnemyHPimage);
 
-    m_PlayerPokemon=std::make_shared<Pokemon>("004",0);
+    m_PlayerPokemon=std::make_shared<Pokemon>("139",0);
     m_PlayerPokemon->SetZIndex(52);
     m_PlayerPokemon->SetVisible(false);
     m_PlayerPokemon->SetPosition({-210,-10});
     m_Root.AddChild(m_PlayerPokemon);
 
-    m_EnemyPokemon=std::make_shared<Pokemon>("007",1);
+    m_EnemyPokemon=std::make_shared<Pokemon>("139",1);
     m_EnemyPokemon->SetZIndex(52);
     m_EnemyPokemon->SetVisible(false);
     m_EnemyPokemon->SetPosition({210,230});
@@ -95,21 +95,21 @@ void App::Start() {
     m_PlayerHP=std::make_shared<Text>();
     m_PlayerHP->SetZIndex(52);
     m_PlayerHP->SetVisible(false);
-    m_PlayerHP->SetPosition({165,-60});
-    m_PlayerHP->SetText(std::to_string(m_PlayerPokemon->GetHP())+" / "+std::to_string(m_PlayerPokemon->GetHP()));
+    m_PlayerHP->SetPosition({170,-60});
+    m_PlayerHP->SetText(std::to_string(m_PlayerPokemon->GetAbility(0))+" / "+std::to_string(m_PlayerPokemon->GetAbility(0)));
     m_Root.AddChild(m_PlayerHP);
 
     m_PlayerName=std::make_shared<Text>();
     m_PlayerName->SetZIndex(52);
     m_PlayerName->SetVisible(false);
-    m_PlayerName->SetPosition({165,25});
+    m_PlayerName->SetPosition({175,25});
     m_PlayerName->SetText(m_PlayerPokemon->GetName());
     m_Root.AddChild(m_PlayerName);
 
     m_EnemyName=std::make_shared<Text>();
     m_EnemyName->SetZIndex(52);
     m_EnemyName->SetVisible(false);
-    m_EnemyName->SetPosition({-180,310});
+    m_EnemyName->SetPosition({-110,295});
     m_EnemyName->SetText(m_EnemyPokemon->GetName());
     m_Root.AddChild(m_EnemyName);
     //----------------------------------------------------------------------------------------

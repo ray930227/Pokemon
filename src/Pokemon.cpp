@@ -1,5 +1,4 @@
 #include "Pokemon.hpp"
-#include "UsefulFunctions.hpp"
 
 Pokemon::Pokemon(const std::string& ID,int choose){
     m_ID=std::stoi(ID);
@@ -24,10 +23,25 @@ void Pokemon::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
 }
 
-int Pokemon::GetHP() const{
-    return (useful::Getability(m_ID,0));
+int Pokemon::GetAbility(int option) const {
+    std::ifstream file(RESOURCE_DIR"/Pokemon/PokemonAbility.txt");
+    int Value[151][5];
+    for (int r = 0; r < 151; r++){
+        for (int c = 0; c < 5; c++){
+            file >> Value[r][c];
+        }
+    }
+    file.close();
+    return Value[m_ID-1][option];
 }
 
-std::string Pokemon::GetName() const {
-    return (useful::Getname(m_ID));
+std::string Pokemon::GetName() const{
+    std::ifstream file(RESOURCE_DIR"/Pokemon/Name.txt");
+    std::vector<std::string> Name;
+    std::string text;
+    while(file>>text){
+        Name.push_back(text);
+    }
+    file.close();
+    return Name[m_ID-1];
 }

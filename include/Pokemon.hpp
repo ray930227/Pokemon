@@ -4,6 +4,7 @@
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
 #include <string>
+#include <fstream>
 
 class Pokemon:public Util::GameObject{
 private:
@@ -23,8 +24,8 @@ public:
     [[nodiscard]] const glm::vec2& GetPosition() const;
     void SetImage(const std::string& path);
     void SetPosition(const glm::vec2& Position);
-    int GetHP() const;
-    std::string GetName() const;
+    [[nodiscard]] int GetAbility(int option) const;//option 0:HP 1:Attack 2:defense 3:special 4:speed
+    [[nodiscard]] std::string GetName() const;
 };
 
 #endif //POKEMON_POKEMON_HPP
