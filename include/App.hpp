@@ -17,6 +17,7 @@ public:
         HOME,
         INIT,
         UPDATE,
+        EVENT,
         FIGHT,
         END,
     };
@@ -26,6 +27,7 @@ public:
     void Home();
     void Init();
     void Update();
+    void Event();
     void Fight();
     void End();
 
