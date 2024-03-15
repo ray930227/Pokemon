@@ -44,6 +44,8 @@ add_executable(${PROJECT_NAME}
         src/Map.cpp
         include/Block.hpp
         src/Block.cpp
+        include/UsefulFunctions.hpp
+        src/UsefulFunction.cpp
 )
 
 if(MSVC)
