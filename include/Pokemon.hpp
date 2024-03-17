@@ -6,7 +6,7 @@
 #include <string>
 #include <fstream>
 
-class Pokemon:public Util::GameObject{
+class Pokemon : public Util::GameObject {
 private:
     std::string m_ImagePath;
     std::string m_Name;
@@ -19,11 +19,15 @@ private:
     int m_EV;
     int m_ID;
 public:
-    Pokemon(const std::string& ID,int choose);//choose 0:back 1:front
+    Pokemon(const std::string &ID, int choose);//choose 0:back 1:front
     [[nodiscard]] bool GetVisibility() const;
-    [[nodiscard]] const glm::vec2& GetPosition() const;
-    void SetImage(const std::string& path);
-    void SetPosition(const glm::vec2& Position);
+
+    [[nodiscard]] const glm::vec2 &GetPosition() const;
+
+    void SetImage(const std::string &path);
+
+    void SetPosition(const glm::vec2 &Position);
+
     [[nodiscard]] int GetAbility(int option) const;//option 0:HP 1:Attack 2:defense 3:special 4:speed
     [[nodiscard]] std::string GetName() const;
 };
