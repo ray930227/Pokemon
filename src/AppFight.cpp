@@ -77,6 +77,8 @@ void App::Fight() {
         m_PlayerHP->SetVisible(false);
         m_PlayerName->SetVisible(false);
         m_EnemyName->SetVisible(false);
+        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
+        m_BGM->Play();
         m_CurrentState = State::UPDATE;
     }
     //返回

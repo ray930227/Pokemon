@@ -70,6 +70,8 @@ void App::Init() {
         Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerfront.png"));
         Player->SetVisible(true);
         DisplacementCount = 0;
+        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
+        m_BGM->Play();
         m_CurrentState = State::UPDATE;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
