@@ -11,6 +11,8 @@ void App::Home() {
         m_TB->SetVisible(true);
         m_TB->ReadLines(RESOURCE_DIR"/Lines/OpeningLine.txt");
 
+        m_tempImage->SetVisible(true);
+
         m_CurrentState = State::INIT;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

@@ -55,6 +55,8 @@ private:
     std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;
     std::shared_ptr<Image> m_FightBG;
+    std::shared_ptr<Image> m_tempImage;
+
     std::shared_ptr<Image> m_FightLoad1_1;
     std::shared_ptr<Image> m_FightLoad1_2;
     std::shared_ptr<Image> m_arrow;
