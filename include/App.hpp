@@ -14,6 +14,7 @@
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
+#include "Util/BGM.hpp"
 
 class App {
 public:
@@ -50,6 +51,7 @@ private:
     State m_CurrentState = State::START;
 
     Util::Root m_Root;
+    std::shared_ptr<Util::BGM> m_BGM;
     std::shared_ptr<GIF> m_AnimatedText;
     std::shared_ptr<Map> m_Map;
     std::shared_ptr<Image> m_WhiteBG;

@@ -22,6 +22,8 @@ void App::Update() {
             if (eventID == 2 && rand() % 100 < 25) {
                 m_FightLoad1_1->SetVisible(true);
                 m_FightLoad1_2->SetVisible(true);
+                m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
+                m_BGM->Play();
                 m_CurrentState = State::FIGHT;
             }
         }

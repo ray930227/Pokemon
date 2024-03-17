@@ -36,6 +36,9 @@ void App::Start() {
     m_tempImage->SetVisible(false);
     m_Root.AddChild(m_tempImage);
 
+    m_BGM=std::make_shared<Util::BGM>(RESOURCE_DIR"/BGM/Opening.mp3");
+    m_BGM->Play();
+
     //region Fight
     m_FightLoad1_1 = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_1.png");
     m_FightLoad1_1->SetZIndex(51);
