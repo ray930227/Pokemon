@@ -1,9 +1,9 @@
 #include "Block.hpp"
 
-Block::Block(bool traversable,bool event,int eventID) {
+Block::Block(bool traversable, bool event, int eventID) {
     SetTraversable(traversable);
     SetEvent(event);
-    m_eventID=eventID;
+    m_eventID = eventID;
 }
 
 bool Block::GetVisibility() const {
@@ -14,7 +14,7 @@ const glm::vec2 &Block::GetPosition() const {
     return m_Transform.translation;
 }
 
-bool Block::GetTraversable() const{
+bool Block::GetTraversable() const {
     return m_Traversable;
 }
 
@@ -35,9 +35,9 @@ void Block::SetPosition(const glm::vec2 &Position) {
 }
 
 void Block::SetTraversable(bool traversable) {
-    m_Traversable=traversable;
+    m_Traversable = traversable;
 }
 
 void Block::SetEvent(bool event) {
-    m_Event=event;
+    m_Event = event;
 }

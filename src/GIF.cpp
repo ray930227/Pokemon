@@ -22,7 +22,7 @@ std::size_t GIF::GetFrameCount() const {
     return temp->GetFrameCount();
 }
 
-void GIF::SetInterval(int interval)  {
+void GIF::SetInterval(int interval) {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     temp->SetInterval(interval);
 }

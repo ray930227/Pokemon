@@ -17,8 +17,8 @@ void Image::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
 }
 
-void Image::SetScale(const glm::vec2 &scale) {m_Transform.scale = scale;}
+void Image::SetScale(const glm::vec2 &scale) { m_Transform.scale = scale; }
 
 void Image::Move(const glm::vec2 &Displacement) {
-    SetPosition(GetPosition()+Displacement);
+    SetPosition(GetPosition() + Displacement);
 }

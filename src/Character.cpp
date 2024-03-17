@@ -1,7 +1,7 @@
 #include "Character.hpp"
 
 Character::Character() {
-    Speed=10;
+    Speed = 10;
 }
 
 std::string &Character::GetName() {
@@ -13,11 +13,11 @@ int Character::GetSpeed() {
 }
 
 void Character::SetName(const std::string &str) {
-    Name=str;
+    Name = str;
 }
 
 void Character::SetSpeed(float value) {
-    Speed=value;
+    Speed = value;
 }
 
 void Character::SetPosition(const glm::vec2 &Position) {

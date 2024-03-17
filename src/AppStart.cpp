@@ -2,132 +2,135 @@
 
 void App::Start() {
     LOG_TRACE("Start");
+
     std::vector<std::string> tempText;
-    for(int i=100;i>=10;i-=10){
-        tempText.push_back(RESOURCE_DIR"/Start/press enter to start"+std::to_string(i)+"%.png");
+    for (int i = 100; i >= 10; i -= 10) {
+        tempText.push_back(RESOURCE_DIR"/Start/press enter to start" + std::to_string(i) + "%.png");
     }
-    for(int i=20;i<100;i+=10){
-        tempText.push_back(RESOURCE_DIR"/Start/press enter to start"+std::to_string(i)+"%.png");
+    for (int i = 20; i < 100; i += 10) {
+        tempText.push_back(RESOURCE_DIR"/Start/press enter to start" + std::to_string(i) + "%.png");
     }
-    m_AnimatedText=std::make_shared<GIF>(tempText);
+    m_AnimatedText = std::make_shared<GIF>(tempText);
     m_AnimatedText->SetZIndex(10);
     m_AnimatedText->SetLooping(true);
     m_AnimatedText->SetInterval(100);
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-    m_Map=std::make_shared<Map>(RESOURCE_DIR"/Map/MainMap");
+    m_Map = std::make_shared<Map>(RESOURCE_DIR"/Map/MainMap");
     m_Map->SetVisible(false);
     m_Root.AddChildren(m_Map->GetChildren());
 
-    m_WhiteBG=std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
+    m_WhiteBG = std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
     m_WhiteBG->SetZIndex(0);
     m_WhiteBG->SetVisible(false);
     m_Root.AddChild(m_WhiteBG);
 
-    m_BlackBG=std::make_shared<Image>(RESOURCE_DIR"/Background/BlackBG.png");
+    m_BlackBG = std::make_shared<Image>(RESOURCE_DIR"/Background/BlackBG.png");
     m_BlackBG->SetZIndex(0);
     m_BlackBG->SetVisible(true);
-    m_BlackBG->SetPosition({0,0});
+    m_BlackBG->SetPosition({0, 0});
     m_Root.AddChild(m_BlackBG);
 
-    //Fight
-    m_FightLoad1_1=std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_1.png");
+    /* region Fight */
+    m_FightLoad1_1 = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_1.png");
     m_FightLoad1_1->SetZIndex(51);
     m_FightLoad1_1->SetVisible(false);
-    m_FightLoad1_1->SetPosition({-720,0});
+    m_FightLoad1_1->SetPosition({-720, 0});
 
     m_Root.AddChild(m_FightLoad1_1);
-    m_FightLoad1_2=std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_2.png");
+    m_FightLoad1_2 = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_2.png");
     m_FightLoad1_2->SetZIndex(51);
     m_FightLoad1_2->SetVisible(false);
-    m_FightLoad1_2->SetPosition({720,0});
+    m_FightLoad1_2->SetPosition({720, 0});
     m_Root.AddChild(m_FightLoad1_2);
 
-    m_FightBG=std::make_shared<Image>(RESOURCE_DIR"/Fight/FightBG.png");
+    m_FightBG = std::make_shared<Image>(RESOURCE_DIR"/Fight/FightBG.png");
     m_FightBG->SetZIndex(51);
     m_FightBG->SetVisible(false);
-    m_FightBG->SetPosition({0,0});
+    m_FightBG->SetPosition({0, 0});
     m_Root.AddChild(m_FightBG);
 
-    m_arrow=std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
+    m_arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
     m_arrow->SetZIndex(54);
     m_arrow->SetVisible(false);
-    m_arrow->SetPosition({-25,-200});
+    m_arrow->SetPosition({-25, -200});
     m_Root.AddChild(m_arrow);
 
-    m_Fightskill=std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightskillbox.png");
+    m_Fightskill = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightskillbox.png");
     m_Fightskill->SetZIndex(53);
     m_Fightskill->SetVisible(false);
-    m_Fightskill->SetPosition({0,-160});
+    m_Fightskill->SetPosition({0, -160});
     m_Root.AddChild(m_Fightskill);
 
-    m_Fightitem=std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
+    m_Fightitem = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
     m_Fightitem->SetZIndex(53);
     m_Fightitem->SetVisible(false);
-    m_Fightitem->SetPosition({0,-60});
+    m_Fightitem->SetPosition({0, -60});
     m_Root.AddChild(m_Fightitem);
 
-    m_PlayerHPimage=std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
+    m_PlayerHPimage = std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
     m_PlayerHPimage->SetZIndex(52);
     m_PlayerHPimage->SetVisible(false);
-    m_PlayerHPimage->SetPosition({63,-9});
+    m_PlayerHPimage->SetPosition({63, -9});
     m_Root.AddChild(m_PlayerHPimage);
 
-    m_EnemyHPimage=std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
+    m_EnemyHPimage = std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
     m_EnemyHPimage->SetZIndex(52);
     m_EnemyHPimage->SetVisible(false);
-    m_EnemyHPimage->SetPosition({-217,260});
+    m_EnemyHPimage->SetPosition({-217, 260});
     m_Root.AddChild(m_EnemyHPimage);
 
-    m_PlayerPokemon=std::make_shared<Pokemon>("004",0);
+    m_PlayerPokemon = std::make_shared<Pokemon>("004", 0);
     m_PlayerPokemon->SetZIndex(52);
     m_PlayerPokemon->SetVisible(false);
-    m_PlayerPokemon->SetPosition({-210,-10});
+    m_PlayerPokemon->SetPosition({-210, -10});
     m_Root.AddChild(m_PlayerPokemon);
 
-    m_EnemyPokemon=std::make_shared<Pokemon>("007",1);
+    m_EnemyPokemon = std::make_shared<Pokemon>("007", 1);
     m_EnemyPokemon->SetZIndex(52);
     m_EnemyPokemon->SetVisible(false);
-    m_EnemyPokemon->SetPosition({210,230});
+    m_EnemyPokemon->SetPosition({210, 230});
     m_Root.AddChild(m_EnemyPokemon);
 
-    m_PlayerHP=std::make_shared<Text>();
+    m_PlayerHP = std::make_shared<Text>();
     m_PlayerHP->SetZIndex(52);
     m_PlayerHP->SetVisible(false);
-    m_PlayerHP->SetPosition({170,-60});
-    m_PlayerHP->SetText(std::to_string(m_PlayerPokemon->GetAbility(0))+" / "+std::to_string(m_PlayerPokemon->GetAbility(0)));
+    m_PlayerHP->SetPosition({170, -60});
+    m_PlayerHP->SetText(
+            std::to_string(m_PlayerPokemon->GetAbility(0)) + " / " + std::to_string(m_PlayerPokemon->GetAbility(0)));
     m_Root.AddChild(m_PlayerHP);
 
-    m_PlayerName=std::make_shared<Text>();
+    m_PlayerName = std::make_shared<Text>();
     m_PlayerName->SetZIndex(52);
     m_PlayerName->SetVisible(false);
-    m_PlayerName->SetPosition({175,25});
+    m_PlayerName->SetPosition({175, 25});
     m_PlayerName->SetText(m_PlayerPokemon->GetName());
     m_Root.AddChild(m_PlayerName);
 
-    m_EnemyName=std::make_shared<Text>();
+    m_EnemyName = std::make_shared<Text>();
     m_EnemyName->SetZIndex(52);
     m_EnemyName->SetVisible(false);
-    m_EnemyName->SetPosition({-110,295});
+    m_EnemyName->SetPosition({-110, 295});
     m_EnemyName->SetText(m_EnemyPokemon->GetName());
     m_Root.AddChild(m_EnemyName);
-    //----------------------------------------------------------------------------------------
-    m_TB=std::make_shared<TextBox>();
+    ///* endregion */
+
+    m_TB = std::make_shared<TextBox>();
     m_TB->SetVisible(false);
     m_Root.AddChildren(m_TB->GetChildren());
 
-    tempBox=std::make_shared<TextBox>();
+    tempBox = std::make_shared<TextBox>();
     tempBox->SetVisible(false);
     m_Root.AddChildren(tempBox->GetChildren());
 
-    Player=std::make_shared<Character>();
+    Player = std::make_shared<Character>();
     Player->SetZIndex(50);
-    Player->SetPosition({36,-36});
+    Player->SetPosition({36, -36});
     Player->SetVisible(false);
     m_Root.AddChild(Player);
 
-    NPC_Bromance=std::make_shared<Character>();
+    NPC_Bromance = std::make_shared<Character>();
 
     m_CurrentState = State::HOME;
 }
