@@ -31,7 +31,12 @@ void App::Start() {
     m_BlackBG->SetPosition({0, 0});
     m_Root.AddChild(m_BlackBG);
 
-    //Fight
+    m_tempImage=std::make_shared<Image>(RESOURCE_DIR"/Charactor/DrWholeBody.png");
+    m_tempImage->SetZIndex(1);
+    m_tempImage->SetVisible(false);
+    m_Root.AddChild(m_tempImage);
+
+    //region Fight
     m_FightLoad1_1 = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_1.png");
     m_FightLoad1_1->SetZIndex(51);
     m_FightLoad1_1->SetVisible(false);
@@ -113,7 +118,8 @@ void App::Start() {
     m_EnemyName->SetPosition({-110, 295});
     m_EnemyName->SetText(m_EnemyPokemon->GetName());
     m_Root.AddChild(m_EnemyName);
-    //----------------------------------------------------------------------------------------
+    //endregion
+
     m_TB = std::make_shared<TextBox>();
     m_TB->SetVisible(false);
     m_Root.AddChildren(m_TB->GetChildren());
