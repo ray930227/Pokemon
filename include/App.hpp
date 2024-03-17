@@ -14,6 +14,7 @@
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
+
 class App {
 public:
     enum class State {
@@ -27,12 +28,19 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
+
     void Start();
+
     void Home();
+
     void Init();
+
     void Update();
+
     void Event();
+
     void Fight();
+
     void End();
 
 private:

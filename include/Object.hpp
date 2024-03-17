@@ -8,33 +8,33 @@
 
 class Object : public Util::GameObject {
 public:
-    explicit Object(const std::string& ImagePath);
+    explicit Object(const std::string &ImagePath);
 
-    explicit Object(const std::vector<std::string>& AnimationPaths);
+    explicit Object(const std::vector<std::string> &AnimationPaths);
 
     Object(const std::shared_ptr<Core::Drawable> &drawable);
 
-    Object(const Object&) = delete;
+    Object(const Object &) = delete;
 
-    Object(Object&&) = delete;
+    Object(Object &&) = delete;
 
-    Object& operator=(const Object&) = delete;
+    Object &operator=(const Object &) = delete;
 
-    Object& operator=(Object&&) = delete;
+    Object &operator=(Object &&) = delete;
 
-    [[nodiscard]] const std::string& GetImagePath() const { return m_ImagePath; }
+    [[nodiscard]] const std::string &GetImagePath() const { return m_ImagePath; }
 
-    [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
+    [[nodiscard]] const glm::vec2 &GetPosition() const { return m_Transform.translation; }
 
     [[nodiscard]] bool GetVisibility() const { return m_Visible; }
 
-    void SetImage(const std::string& ImagePath);
+    void SetImage(const std::string &ImagePath);
 
-    void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
+    void SetPosition(const glm::vec2 &Position) { m_Transform.translation = Position; }
 
-    void SetScale(const glm::vec2& scale){m_Transform.scale = scale;}
+    void SetScale(const glm::vec2 &scale) { m_Transform.scale = scale; }
 
-    [[nodiscard]] bool IfCollides(const std::shared_ptr<Object>& other) const;
+    [[nodiscard]] bool IfCollides(const std::shared_ptr<Object> &other) const;
 
     [[nodiscard]] bool IsLooping() const {
         return std::dynamic_pointer_cast<Util::Animation>(m_Drawable)->GetLooping();
