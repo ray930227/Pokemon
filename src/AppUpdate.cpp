@@ -31,19 +31,15 @@ void App::Update() {
     } else if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         Displacement = {0, -72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
-        Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerback.png"));
     } else if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
         Displacement = {0, 72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
-        Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerfront.png"));
     } else if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
         Displacement = {-72.0 / Player->GetSpeed(), 0};
         DisplacementCount = Player->GetSpeed();
-        Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerright.png"));
     } else if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         Displacement = {72.0 / Player->GetSpeed(), 0};
         DisplacementCount = Player->GetSpeed();
-        Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerleft.png"));
     }
 
 
