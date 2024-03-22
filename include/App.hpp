@@ -68,9 +68,18 @@ private:
     std::shared_ptr<Image> m_EnemyHPimage;
     std::shared_ptr<Pokemon> m_PlayerPokemon;
     std::shared_ptr<Pokemon> m_EnemyPokemon;
+    std::shared_ptr<PokemonBag> m_PokemonBag;
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerName;
     std::shared_ptr<Text> m_EnemyName;
+    std::shared_ptr<Text> m_Skill1;
+    std::shared_ptr<Text> m_Skill2;
+    std::shared_ptr<Text> m_Skill3;
+    std::shared_ptr<Text> m_Skill4;
+    std::shared_ptr<Text> m_SkillInfo;
+    std::shared_ptr<Text> m_PlayerPokeInfo;
+    std::shared_ptr<Text> m_EnemyPokeInfo;
+
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
     std::shared_ptr<Character> NPC_Bromance;
