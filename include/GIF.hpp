@@ -6,7 +6,8 @@
 
 class GIF : public Util::GameObject {
 private:
-
+    int m_Interval;
+    bool m_Loop;
 public:
     GIF(const std::vector<std::string> &ImagePaths);
 
@@ -24,7 +25,13 @@ public:
 
     void SetLooping(bool looping);
 
+    void SetImagePaths(const std::vector<std::string> &ImagePaths);
+
+    void SetCurrentFrame(std::size_t index);
+
     void Play();
+
+    void Pause();
 };
 
 #endif //POKEMON_GIF_HPP

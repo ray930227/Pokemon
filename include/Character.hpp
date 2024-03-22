@@ -10,8 +10,10 @@ private:
     float m_Speed;
     PokemonBag m_PokemonBag;
     std::shared_ptr<GIF> m_Image;
+    std::vector<std::vector<std::string>> m_ImagePathses;
+    size_t m_CurrentImage;
 public:
-    explicit Character(const std::vector<std::string> &ImagePaths);
+    explicit Character(const std::vector<std::vector<std::string>> &ImagePathses);
 
     std::string &GetName();
 
@@ -23,6 +25,9 @@ public:
 
     void SetSpeed(float value);
 
+    void SetImagePathses(const std::vector<std::vector<std::string>> &ImagePathses);
+
+    void SetCurrentImage(size_t index);
 };
 
 #endif

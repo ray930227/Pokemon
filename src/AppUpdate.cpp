@@ -2,6 +2,7 @@
 
 void App::Update() {
     LOG_TRACE("Update");
+
     if (DisplacementCount != 0) {
         glm::vec2 PlayerPosition = m_Map->GetPlayerPosition();
 
@@ -26,21 +27,62 @@ void App::Update() {
                 m_BGM->Play();
                 m_CurrentState = State::FIGHT;
             }
-        }
 
+        }
+        LOG_DEBUG(Player->GetImage()->IsPlaying());
     } else if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         Displacement = {0, -72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
+        Player->SetCurrentImage(0);
+        Player->GetImage()->Play();
+        currentDirection = "UP";
     } else if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
         Displacement = {0, 72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
-    } else if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-        Displacement = {-72.0 / Player->GetSpeed(), 0};
-        DisplacementCount = Player->GetSpeed();
+        Player->SetCurrentImage(1);
+        Player->GetImage()->Play();
+        currentDirection = "DOWN";
     } else if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
         Displacement = {72.0 / Player->GetSpeed(), 0};
         DisplacementCount = Player->GetSpeed();
+        Player->SetCurrentImage(2);
+        Player->GetImage()->Play();
+        currentDirection = "LEFT";
+    } else if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+        Displacement = {-72.0 / Player->GetSpeed(), 0};
+        DisplacementCount = Player->GetSpeed();
+        Player->SetCurrentImage(3);
+        Player->GetImage()->Play();
+        currentDirection = "RIGHT";
     }
+
+//    if(Player->GetImage()->IsPlaying()==false) {
+//        if (currentDirection=="UP") {
+//            std::vector<std::string> tempImagePaths;
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerBack_2.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerBack_3.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
+//            Player->GetImage()->SetImagePaths(tempImagePaths);
+//        } else if (currentDirection=="DOWN") {
+//            std::vector<std::string> tempImagePaths;
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerFront_2.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerFront_3.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
+//            Player->GetImage()->SetImagePaths(tempImagePaths);
+//        } else if (currentDirection=="LEFT") {
+//            std::vector<std::string> tempImagePaths;
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerLeft_2.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerLeft_1.png");
+//            Player->GetImage()->SetImagePaths(tempImagePaths);
+//        } else if(currentDirection=="RIGHT") {
+//            std::vector<std::string> tempImagePaths;
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerRight_2.png");
+//            tempImagePaths.push_back(RESOURCE_DIR"/Charactor/playerRight_1.png");
+//            Player->GetImage()->SetImagePaths(tempImagePaths);
+//        }
+//    }
 
 
     if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
