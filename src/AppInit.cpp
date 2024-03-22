@@ -67,8 +67,7 @@ void App::Init() {
         m_tempImage->SetVisible(false);
         m_Map->SetVisible(true);
         m_Map->SetPosition({-1224, 2592});
-        Player->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/playerfront.png"));
-        Player->SetVisible(true);
+        Player->GetImage()->SetVisible(true);
         DisplacementCount = 0;
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
