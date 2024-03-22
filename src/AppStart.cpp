@@ -131,13 +131,20 @@ void App::Start() {
     tempBox->SetVisible(false);
     m_Root.AddChildren(tempBox->GetChildren());
 
-    Player = std::make_shared<Character>();
-    Player->SetZIndex(50);
-    Player->SetPosition({36, -36});
-    Player->SetVisible(false);
-    m_Root.AddChild(Player);
 
-    NPC_Bromance = std::make_shared<Character>();
+    tempText.clear();
+    for(int i=1;i<3;i++)
+        tempText.push_back(RESOURCE_DIR"/Charactor/playerfront_" + std::to_string(i) + ".png");
+    Player = std::make_shared<Character>(tempText);
+    Player->GetImage()->SetZIndex(50);
+    Player->GetImage()->SetPosition({36, -36});
+    Player->GetImage()->SetVisible(false);
+    m_Root.AddChild(Player->GetImage());
+
+
+    tempText.clear();
+    tempText.push_back(RESOURCE_DIR"/Charactor/enemyfront_1.png");
+    NPC_Bromance = std::make_shared<Character>(tempText);
 
     m_CurrentState = State::HOME;
 }
