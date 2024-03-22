@@ -1,7 +1,9 @@
 #include "GIF.hpp"
 
 GIF::GIF(const std::vector<std::string> &ImagePaths) {
-    SetDrawable(std::make_shared<Util::Animation>(ImagePaths, false, 500, false, 0));
+    m_Interval = 500;
+    m_Loop = false;
+    SetDrawable(std::make_shared<Util::Animation>(ImagePaths, false, m_Interval, m_Loop, 0));
 }
 
 bool GIF::IsLooping() const {
@@ -22,9 +24,14 @@ std::size_t GIF::GetFrameCount() const {
     return temp->GetFrameCount();
 }
 
+void GIF::SetPosition(const glm::vec2 &Position) {
+    m_Transform.translation = Position;
+}
+
 void GIF::SetInterval(int interval) {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
-    temp->SetInterval(interval);
+    m_Interval = interval;
+    temp->SetInterval(m_Interval);
 }
 
 void GIF::SetLooping(bool looping) {
@@ -32,11 +39,21 @@ void GIF::SetLooping(bool looping) {
     temp->SetLooping(looping);
 }
 
+void GIF::SetImagePaths(const std::vector<std::string> &ImagePaths) {
+    SetDrawable(std::make_shared<Util::Animation>(ImagePaths, false, m_Interval, m_Loop, 0));
+}
+
+void GIF::SetCurrentFrame(std::size_t index) {
+    auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+    temp->SetCurrentFrame(index);
+}
+
 void GIF::Play() {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     temp->Play();
 }
 
-void GIF::SetPosition(const glm::vec2 &Position) {
-    m_Transform.translation = Position;
+void GIF::Pause() {
+    auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+    temp->Pause();
 }
