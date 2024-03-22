@@ -31,12 +31,12 @@ void App::Start() {
     m_BlackBG->SetPosition({0, 0});
     m_Root.AddChild(m_BlackBG);
 
-    m_tempImage=std::make_shared<Image>(RESOURCE_DIR"/Charactor/DrWholeBody.png");
+    m_tempImage = std::make_shared<Image>(RESOURCE_DIR"/Charactor/DrWholeBody.png");
     m_tempImage->SetZIndex(1);
     m_tempImage->SetVisible(false);
     m_Root.AddChild(m_tempImage);
 
-    m_BGM=std::make_shared<Util::BGM>(RESOURCE_DIR"/BGM/Opening.mp3");
+    m_BGM = std::make_shared<Util::BGM>(RESOURCE_DIR"/BGM/Opening.mp3");
     m_BGM->Play();
 
     //region Fight
@@ -132,19 +132,32 @@ void App::Start() {
     m_Root.AddChildren(tempBox->GetChildren());
 
 
-    tempText.clear();
-    for(int i=1;i<3;i++)
-        tempText.push_back(RESOURCE_DIR"/Charactor/playerfront_" + std::to_string(i) + ".png");
-    Player = std::make_shared<Character>(tempText);
+    std::vector<std::vector<std::string>> tempImagePathses;
+    tempImagePathses.resize(4);
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_2.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_3.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_2.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_3.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/playerLeft_2.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/playerLeft_1.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_2.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_1.png");
+    Player = std::make_shared<Character>(tempImagePathses);
+    Player->SetCurrentImage(1);
     Player->GetImage()->SetZIndex(50);
     Player->GetImage()->SetPosition({36, -36});
     Player->GetImage()->SetVisible(false);
     m_Root.AddChild(Player->GetImage());
 
 
-    tempText.clear();
-    tempText.push_back(RESOURCE_DIR"/Charactor/enemyfront_1.png");
-    NPC_Bromance = std::make_shared<Character>(tempText);
+    tempImagePathses.clear();
+    tempImagePathses.resize(1);
+    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/enemyfront_1.png"});
+    NPC_Bromance = std::make_shared<Character>(tempImagePathses);
 
     m_CurrentState = State::HOME;
 }

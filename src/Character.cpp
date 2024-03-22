@@ -1,8 +1,10 @@
 #include "Character.hpp"
 
-Character::Character(const std::vector<std::string> &ImagePaths) {
-    m_Speed = 10;
-    m_Image=std::make_shared<GIF>(ImagePaths);
+Character::Character(const std::vector<std::vector<std::string>> &ImagePathses) {
+    m_Image = std::make_shared<GIF>(ImagePathses[0]);
+    SetImagePathses(ImagePathses);
+    m_CurrentImage = 0;
+    SetSpeed(10);
 }
 
 std::string &Character::GetName() {
@@ -23,4 +25,15 @@ void Character::SetName(const std::string &str) {
 
 void Character::SetSpeed(float value) {
     m_Speed = value;
+    m_Image->SetInterval((int) value * 15);
+}
+
+void Character::SetImagePathses(const std::vector<std::vector<std::string>> &ImagePathses) {
+    m_ImagePathses = ImagePathses;
+}
+
+void Character::SetCurrentImage(size_t index) {
+    m_CurrentImage = index;
+    if (m_Image->IsPlaying() == false)
+        m_Image->SetImagePaths(m_ImagePathses[m_CurrentImage]);
 }
