@@ -1,23 +1,23 @@
 #include "Character.hpp"
 
 Character::Character() {
-    Speed = 10;
+    m_Speed = 10;
 }
 
 std::string &Character::GetName() {
-    return Name;
+    return m_Name;
 }
 
 int Character::GetSpeed() {
-    return Speed;
+    return m_Speed;
 }
 
 void Character::SetName(const std::string &str) {
-    Name = str;
+    m_Name = str;
 }
 
 void Character::SetSpeed(float value) {
-    Speed = value;
+    m_Speed = value;
 }
 
 void Character::SetPosition(const glm::vec2 &Position) {

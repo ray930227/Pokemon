@@ -2,11 +2,13 @@
 #define POKEMON_CHARACTER_HPP
 
 #include "Util/GameObject.hpp"
+#include "PokemonBag.hpp"
 
 class Character : public Util::GameObject {
 private:
-    std::string Name;
-    float Speed;
+    std::string m_Name;
+    float m_Speed;
+    PokemonBag m_PokemonBag;
 public:
     Character();
 
