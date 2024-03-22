@@ -19,6 +19,8 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
+    include/PokemonBag.hpp
+    src/PokemonBag.cpp
 )
 
 if(MSVC)
