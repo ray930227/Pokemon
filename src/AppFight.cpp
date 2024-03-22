@@ -31,6 +31,8 @@ void App::Fight() {
         m_PlayerHP->SetVisible(true);
         m_PlayerName->SetVisible(true);
         m_EnemyName->SetVisible(true);
+        m_PlayerPokeInfo->SetVisible(true);
+        m_EnemyPokeInfo->SetVisible(true);
     }
 
     //Fight select 技能(-25,-200) 精靈(135,-200)
@@ -77,6 +79,8 @@ void App::Fight() {
         m_PlayerHP->SetVisible(false);
         m_PlayerName->SetVisible(false);
         m_EnemyName->SetVisible(false);
+        m_PlayerPokeInfo->SetVisible(false);
+        m_EnemyPokeInfo->SetVisible(false);
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
         m_CurrentState = State::UPDATE;

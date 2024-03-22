@@ -105,7 +105,7 @@ void App::Start() {
     m_PlayerHP->SetVisible(false);
     m_PlayerHP->SetPosition({170, -60});
     m_PlayerHP->SetText(
-            std::to_string(m_PlayerPokemon->GetAbility(0)) + " / " + std::to_string(m_PlayerPokemon->GetAbility(0)));
+            std::to_string(m_PlayerPokemon->GetHP()) + " / " + std::to_string(m_PlayerPokemon->GetHP()));
     m_Root.AddChild(m_PlayerHP);
 
     m_PlayerName = std::make_shared<Text>();
@@ -115,12 +115,45 @@ void App::Start() {
     m_PlayerName->SetText(m_PlayerPokemon->GetName());
     m_Root.AddChild(m_PlayerName);
 
+    m_PokemonBag = std::make_shared<PokemonBag>();
+    m_PokemonBag->addPomekon(m_PlayerPokemon);
+
     m_EnemyName = std::make_shared<Text>();
     m_EnemyName->SetZIndex(52);
     m_EnemyName->SetVisible(false);
     m_EnemyName->SetPosition({-110, 295});
     m_EnemyName->SetText(m_EnemyPokemon->GetName());
     m_Root.AddChild(m_EnemyName);
+
+    m_PlayerPokeInfo = std::make_shared<Text>();
+    m_PlayerPokeInfo->SetZIndex(54);
+    m_PlayerPokeInfo->SetVisible(false);
+    m_PlayerPokeInfo->SetPosition({-500, -70});
+    m_PlayerPokeInfo->SetDrawable(std::make_unique<Util::Text>(
+            RESOURCE_DIR"/text.ttf",30,
+            "IV:"+std::to_string(m_PlayerPokemon->GetIV())+"\n"+
+            "HP:"+std::to_string(m_PlayerPokemon->GetHP())+"\n"+
+            "Attack:"+std::to_string(m_PlayerPokemon->GetAttack())+"\n"+
+            "Defence:"+std::to_string(m_PlayerPokemon->GetDefence())+"\n"+
+            "Special:"+std::to_string(m_PlayerPokemon->GetSpecial())+"\n"+
+            "Speed:"+std::to_string(m_PlayerPokemon->GetSpeed()),
+            Util::Color::FromName(Util::Colors::WHITE)));
+    m_Root.AddChild(m_PlayerPokeInfo);
+
+    m_EnemyPokeInfo = std::make_shared<Text>();
+    m_EnemyPokeInfo->SetZIndex(54);
+    m_EnemyPokeInfo->SetVisible(false);
+    m_EnemyPokeInfo->SetPosition({500, 200});
+    m_EnemyPokeInfo->SetDrawable(std::make_unique<Util::Text>(
+            RESOURCE_DIR"/text.ttf",30,
+            "IV:"+std::to_string(m_EnemyPokemon->GetIV())+"\n"+
+            "HP:"+std::to_string(m_EnemyPokemon->GetHP())+"\n"+
+            "Attack:"+std::to_string(m_EnemyPokemon->GetAttack())+"\n"+
+            "Defence:"+std::to_string(m_EnemyPokemon->GetDefence())+"\n"+
+            "Special:"+std::to_string(m_EnemyPokemon->GetSpecial())+"\n"+
+            "Speed:"+std::to_string(m_EnemyPokemon->GetSpeed()),
+            Util::Color::FromName(Util::Colors::WHITE)));
+    m_Root.AddChild(m_EnemyPokeInfo);
     //endregion
 
     m_TB = std::make_shared<TextBox>();
