@@ -18,3 +18,5 @@ void Text::SetText(const std::string &str) {
 }
 
 void Text::SetPosition(const glm::vec2 &Position) { m_Transform.translation = Position; }
+
+const glm::vec2 &Text::GetPosition() const { return m_Transform.translation; }

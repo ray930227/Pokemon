@@ -15,6 +15,8 @@ public:
     void SetText(const std::string &str);
 
     void SetPosition(const glm::vec2 &Position);
+
+    [[nodiscard]] const glm::vec2 &GetPosition() const;
 };
 
 #endif //POKEMON_TEXT_HPP

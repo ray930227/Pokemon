@@ -108,35 +108,35 @@ void App::Start() {
             std::to_string(m_PlayerPokemon->GetHP()) + " / " + std::to_string(m_PlayerPokemon->GetHP()));
     m_Root.AddChild(m_PlayerHP);
 
-    m_PlayerName = std::make_shared<Text>();
-    m_PlayerName->SetZIndex(52);
-    m_PlayerName->SetVisible(false);
-    m_PlayerName->SetPosition({175, 25});
-    m_PlayerName->SetText(m_PlayerPokemon->GetName());
-    m_Root.AddChild(m_PlayerName);
+    m_PlayerPokeName = std::make_shared<Text>();
+    m_PlayerPokeName->SetZIndex(52);
+    m_PlayerPokeName->SetVisible(false);
+    m_PlayerPokeName->SetPosition({175, 25});
+    m_PlayerPokeName->SetText(m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
+    m_Root.AddChild(m_PlayerPokeName);
 
     m_PokemonBag = std::make_shared<PokemonBag>();
     m_PokemonBag->addPomekon(m_PlayerPokemon);
 
-    m_EnemyName = std::make_shared<Text>();
-    m_EnemyName->SetZIndex(52);
-    m_EnemyName->SetVisible(false);
-    m_EnemyName->SetPosition({-110, 295});
-    m_EnemyName->SetText(m_EnemyPokemon->GetName());
-    m_Root.AddChild(m_EnemyName);
+    m_EnemyPokeName = std::make_shared<Text>();
+    m_EnemyPokeName->SetZIndex(52);
+    m_EnemyPokeName->SetVisible(false);
+    m_EnemyPokeName->SetPosition({-110, 295});
+    m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
+    m_Root.AddChild(m_EnemyPokeName);
 
     m_PlayerPokeInfo = std::make_shared<Text>();
     m_PlayerPokeInfo->SetZIndex(54);
     m_PlayerPokeInfo->SetVisible(false);
     m_PlayerPokeInfo->SetPosition({-500, -70});
     m_PlayerPokeInfo->SetDrawable(std::make_unique<Util::Text>(
-            RESOURCE_DIR"/text.ttf",30,
-            "IV:"+std::to_string(m_PlayerPokemon->GetIV())+"\n"+
-            "HP:"+std::to_string(m_PlayerPokemon->GetHP())+"\n"+
-            "Attack:"+std::to_string(m_PlayerPokemon->GetAttack())+"\n"+
-            "Defence:"+std::to_string(m_PlayerPokemon->GetDefence())+"\n"+
-            "Special:"+std::to_string(m_PlayerPokemon->GetSpecial())+"\n"+
-            "Speed:"+std::to_string(m_PlayerPokemon->GetSpeed()),
+            RESOURCE_DIR"/text.ttf", 30,
+            "IV:" + std::to_string(m_PlayerPokemon->GetIV()) + "\n" +
+            "HP:" + std::to_string(m_PlayerPokemon->GetHP()) + "\n" +
+            "Attack:" + std::to_string(m_PlayerPokemon->GetAttack()) + "\n" +
+            "Defence:" + std::to_string(m_PlayerPokemon->GetDefence()) + "\n" +
+            "Special:" + std::to_string(m_PlayerPokemon->GetSpecial()) + "\n" +
+            "Speed:" + std::to_string(m_PlayerPokemon->GetSpeed()),
             Util::Color::FromName(Util::Colors::WHITE)));
     m_Root.AddChild(m_PlayerPokeInfo);
 
@@ -145,15 +145,61 @@ void App::Start() {
     m_EnemyPokeInfo->SetVisible(false);
     m_EnemyPokeInfo->SetPosition({500, 200});
     m_EnemyPokeInfo->SetDrawable(std::make_unique<Util::Text>(
-            RESOURCE_DIR"/text.ttf",30,
-            "IV:"+std::to_string(m_EnemyPokemon->GetIV())+"\n"+
-            "HP:"+std::to_string(m_EnemyPokemon->GetHP())+"\n"+
-            "Attack:"+std::to_string(m_EnemyPokemon->GetAttack())+"\n"+
-            "Defence:"+std::to_string(m_EnemyPokemon->GetDefence())+"\n"+
-            "Special:"+std::to_string(m_EnemyPokemon->GetSpecial())+"\n"+
-            "Speed:"+std::to_string(m_EnemyPokemon->GetSpeed()),
+            RESOURCE_DIR"/text.ttf", 30,
+            "IV:" + std::to_string(m_EnemyPokemon->GetIV()) + "\n" +
+            "HP:" + std::to_string(m_EnemyPokemon->GetHP()) + "\n" +
+            "Attack:" + std::to_string(m_EnemyPokemon->GetAttack()) + "\n" +
+            "Defence:" + std::to_string(m_EnemyPokemon->GetDefence()) + "\n" +
+            "Special:" + std::to_string(m_EnemyPokemon->GetSpecial()) + "\n" +
+            "Speed:" + std::to_string(m_EnemyPokemon->GetSpeed()),
             Util::Color::FromName(Util::Colors::WHITE)));
     m_Root.AddChild(m_EnemyPokeInfo);
+
+    m_Skill1 = std::make_shared<Text>();
+    m_Skill2 = std::make_shared<Text>();
+    m_Skill3 = std::make_shared<Text>();
+    m_Skill4 = std::make_shared<Text>();
+
+    std::vector<std::shared_ptr<Text>> m_SkillAll;
+    m_SkillAll.push_back(m_Skill1);
+    m_SkillAll.push_back(m_Skill2);
+    m_SkillAll.push_back(m_Skill3);
+    m_SkillAll.push_back(m_Skill4);
+    if (!m_PlayerPokemon->GetSkill().empty()){
+        m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
+    }
+    m_Root.AddChild(m_Skill1);
+
+    if (m_PlayerPokemon->GetSkill().size()>=2){
+        m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
+    }
+    m_Root.AddChild(m_Skill2);
+
+    if (m_PlayerPokemon->GetSkill().size()>=3){
+        m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
+    }
+    if (m_PlayerPokemon->IsSkillFull()){
+        m_Skill4->SetText(m_PlayerPokemon->GetSkill()[3]);
+    }
+    int GetSkillIndex=0;
+    int SkillOfY=-190;
+    for (const auto& skill:m_SkillAll){
+        skill->SetZIndex(54);
+        skill->SetVisible(false);
+        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length()/4*17),SkillOfY});
+        skill->SetPosition({skill->GetPosition().x-120,SkillOfY});
+        GetSkillIndex++;
+        SkillOfY-=40;
+        m_Root.AddChild(skill);
+    }
+
+    m_SkillInfo=std::make_shared<Text>();
+    m_SkillInfo->SetZIndex(54);
+    m_SkillInfo->SetVisible(false);
+    m_SkillInfo->SetPosition({-150,-60});
+//    m_SkillInfo->SetText("型態:" + m_PlayerPokemon->GetSkillType()[0] + "\n" +
+//    m_PlayerPokemon->GetSkillPP()[0] + " / " + m_PlayerPokemon->GetSkillPP()[0]);
+    m_Root.AddChild(m_SkillInfo);
     //endregion
 
     m_TB = std::make_shared<TextBox>();
