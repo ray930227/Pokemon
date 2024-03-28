@@ -4,7 +4,7 @@ Character::Character(const std::vector<std::vector<std::string>> &ImagePathses) 
     m_Image = std::make_shared<GIF>(ImagePathses[0]);
     SetImagePathses(ImagePathses);
     m_CurrentImagePath = 0;
-    SetSpeed(10);
+    SetSpeed(15);
 }
 
 std::string &Character::GetName() {
