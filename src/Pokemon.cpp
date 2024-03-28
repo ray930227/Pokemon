@@ -8,7 +8,7 @@ Pokemon::Pokemon(const std::string &ID, int choose) {
     m_DefenceBP = 0;
     m_SpecialBP = 0;
     m_SpeedBP = 0;
-    m_LV = 46;
+    m_LV = 5;
     FindType();
     FindName();
     FindAbiltiy();
@@ -62,14 +62,19 @@ void Pokemon::FindSkill() {
         Skills.push_back(LearnSkill);
     }
     FileOfSkill.close();
+
     for (long long unsigned int i = 0; i < LVs.size(); i++) {
-        if (!IsSkillFull()) {
-            if (LVs[i] == "—" or std::stoi(LVs[i]) <= m_LV) {
-                m_Skills.push_back(Skills[i]);
+        bool ShouldAdd=true;
+        if (LVs[i] == "—" or std::stoi(LVs[i]) <= m_LV) {
+            for (const auto &skill:m_Skills){
+                if (Skills[i]==skill){
+                    ShouldAdd=false;
+                }
             }
-        } else {
-            if (LVs[i] == "—" or std::stoi(LVs[i]) <= m_LV) {
-                m_Skills.erase(m_Skills.begin());
+            if (ShouldAdd){
+                if (IsSkillFull()){
+                    m_Skills.erase(m_Skills.begin());
+                }
                 m_Skills.push_back(Skills[i]);
             }
         }
@@ -92,6 +97,13 @@ void Pokemon::FindSkill() {
         std::string token;
         while (std::getline(ss, token, ' ')) {
             tokens.push_back(token);
+        }
+        if (m_SkillTypes.size()==4){
+            m_SkillTypes.erase(m_SkillTypes.begin());
+            m_SkillClass.erase(m_SkillClass.begin());
+            m_SkillDamage.erase(m_SkillDamage.begin());
+            m_SkillHitRates.erase(m_SkillHitRates.begin());
+            m_SkillPPs.erase(m_SkillPPs.begin());
         }
         m_SkillTypes.push_back(tokens[1]);
         m_SkillClass.push_back(tokens[2]);
@@ -162,8 +174,12 @@ int Pokemon::GetSpeed() const {
 }
 
 void Pokemon::LevelUp() {
-    m_LV++;
-    FindAbiltiy();
+    if (m_LV!=100){
+        m_LV++;
+        FindAbiltiy();
+        FindSkill();
+        IsEvolution();
+    }
 }
 
 int Pokemon::GetIV() const {
@@ -184,4 +200,22 @@ std::vector<std::string> Pokemon::GetSkillType() const {
 
 std::vector<std::string> Pokemon::GetSkillPP() const {
     return m_SkillPPs;
+}
+
+void Pokemon::IsEvolution(){
+    std::ifstream FileOfLevel(RESOURCE_DIR"/Pokemon/Levelup.txt");
+    std::vector<int> Levels;
+    std::string text;
+    while (FileOfLevel >> text) {
+        Levels.push_back(std::stoi(text));
+    }
+    FileOfLevel.close();
+    if (m_LV==Levels[m_ID-1] && Levels[m_ID-1]!=0){
+        std::stringstream ToString;
+        ToString << std::setw(3) << std::setfill('0') << m_ID+1;
+        std::string StringID = ToString.str();
+        SetImage(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback" + StringID + ".png");
+        m_ID++;
+        FindName();
+    }
 }

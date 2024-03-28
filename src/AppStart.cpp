@@ -169,13 +169,9 @@ void App::Start() {
     if (!m_PlayerPokemon->GetSkill().empty()){
         m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
     }
-    m_Root.AddChild(m_Skill1);
-
     if (m_PlayerPokemon->GetSkill().size()>=2){
         m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
     }
-    m_Root.AddChild(m_Skill2);
-
     if (m_PlayerPokemon->GetSkill().size()>=3){
         m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
     }
