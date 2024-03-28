@@ -70,8 +70,8 @@ private:
     std::shared_ptr<Pokemon> m_EnemyPokemon;
     std::shared_ptr<PokemonBag> m_PokemonBag;
     std::shared_ptr<Text> m_PlayerHP;
-    std::shared_ptr<Text> m_PlayerName;
-    std::shared_ptr<Text> m_EnemyName;
+    std::shared_ptr<Text> m_PlayerPokeName;
+    std::shared_ptr<Text> m_EnemyPokeName;
     std::shared_ptr<Text> m_Skill1;
     std::shared_ptr<Text> m_Skill2;
     std::shared_ptr<Text> m_Skill3;

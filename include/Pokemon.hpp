@@ -8,10 +8,16 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 
 class Pokemon : public Util::GameObject {
 private:
-    std::vector<std::string> m_Skill;
+    std::vector<std::string> m_Skills;
+    std::vector<std::string> m_SkillTypes;
+    std::vector<std::string> m_SkillClass;
+    std::vector<std::string> m_SkillDamage;
+    std::vector<std::string> m_SkillHitRates;
+    std::vector<std::string> m_SkillPPs;
     std::string m_ImagePath;
     std::string m_Name;
     std::vector<std::string> m_Type;
@@ -39,11 +45,21 @@ public:
 
     void SetPosition(const glm::vec2 &Position);
 
+    void LevelUp();
+
+    void FindName();
+
     [[nodiscard]] std::string GetName() const;
+
+    void FindSkill();
 
     [[nodiscard]] std::vector<std::string> GetSkill() const;
 
+    void FindType();
+
     [[nodiscard]] std::vector<std::string> GetType() const;
+
+    void FindAbiltiy();
 
     int GetHP() const;
 
@@ -55,9 +71,15 @@ public:
 
     int GetSpeed() const;
 
-    void LevelUp();
-
     int GetIV() const;
+
+    int GetLV() const;
+
+    bool IsSkillFull() const;
+
+    [[nodiscard]] std::vector<std::string> GetSkillType() const;
+
+    [[nodiscard]] std::vector<std::string> GetSkillPP() const;
 };
 
 #endif //POKEMON_POKEMON_HPP
