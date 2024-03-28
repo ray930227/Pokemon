@@ -17,7 +17,9 @@ public:
 
     [[nodiscard]] bool IsAnimationEnds() const;
 
-    std::size_t GetFrameCount() const;
+    [[nodiscard]] std::size_t GetFrameCount() const;
+
+    [[nodiscard]] std::size_t GetCurrentFrameIndex() const;
 
     void SetPosition(const glm::vec2 &Position);
 

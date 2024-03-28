@@ -24,6 +24,11 @@ std::size_t GIF::GetFrameCount() const {
     return temp->GetFrameCount();
 }
 
+std::size_t GIF::GetCurrentFrameIndex() const {
+    auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+    return temp->GetCurrentFrameIndex();
+}
+
 void GIF::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
 }
