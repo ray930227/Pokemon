@@ -80,6 +80,8 @@ public:
     [[nodiscard]] std::vector<std::string> GetSkillType() const;
 
     [[nodiscard]] std::vector<std::string> GetSkillPP() const;
+
+    void IsEvolution();
 };
 
 #endif //POKEMON_POKEMON_HPP
