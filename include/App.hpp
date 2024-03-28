@@ -28,6 +28,16 @@ public:
         END,
     };
 
+    enum class EventID{
+        MOVE,
+        DOOR,
+        GRASS,
+        BILLBOARD,
+        JUMP,
+        WEEKTREE,
+        NONE
+    };
+
     State GetCurrentState() const { return m_CurrentState; }
 
     void Start();
@@ -49,6 +59,7 @@ private:
 
 private:
     State m_CurrentState = State::START;
+    EventID m_CurrentEvent = EventID::NONE;
 
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;

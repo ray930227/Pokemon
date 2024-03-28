@@ -3,7 +3,7 @@
 Character::Character(const std::vector<std::vector<std::string>> &ImagePathses) {
     m_Image = std::make_shared<GIF>(ImagePathses[0]);
     SetImagePathses(ImagePathses);
-    m_CurrentImage = 0;
+    m_CurrentImagePath = 0;
     SetSpeed(10);
 }
 
@@ -32,8 +32,8 @@ void Character::SetImagePathses(const std::vector<std::vector<std::string>> &Ima
     m_ImagePathses = ImagePathses;
 }
 
-void Character::SetCurrentImage(size_t index) {
-    m_CurrentImage = index;
+void Character::SetCurrentImagePath(size_t index) {
+    m_CurrentImagePath = index;
     if (m_Image->IsPlaying() == false)
-        m_Image->SetImagePaths(m_ImagePathses[m_CurrentImage]);
+        m_Image->SetImagePaths(m_ImagePathses[m_CurrentImagePath]);
 }
