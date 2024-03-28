@@ -2,6 +2,7 @@
 
 void App::Start() {
     LOG_TRACE("Start");
+    srand(time(NULL));
     std::vector<std::string> tempText;
     for (int i = 100; i >= 10; i -= 10) {
         tempText.push_back(RESOURCE_DIR"/Start/press enter to start" + std::to_string(i) + "%.png");
@@ -167,20 +168,20 @@ void App::Start() {
 
     std::vector<std::vector<std::string>> tempImagePathses;
     tempImagePathses.resize(4);
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
     tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_2.png");
     tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
     tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_3.png");
-    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/playerBack_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
     tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_2.png");
     tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
     tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_3.png");
-    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/playerFront_1.png");
-    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/playerLeft_2.png");
     tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/playerLeft_1.png");
-    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_2.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/playerLeft_2.png");
     tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_1.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_2.png");
     Player = std::make_shared<Character>(tempImagePathses);
-    Player->SetCurrentImage(1);
+    Player->SetCurrentImagePath(1);
     Player->GetImage()->SetZIndex(50);
     Player->GetImage()->SetPosition({36, -36});
     Player->GetImage()->SetVisible(false);
