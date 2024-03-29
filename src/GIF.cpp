@@ -29,6 +29,8 @@ std::size_t GIF::GetCurrentFrameIndex() const {
     return temp->GetCurrentFrameIndex();
 }
 
+const glm::vec2 &GIF::GetPosition() const { return m_Transform.translation; }
+
 void GIF::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
 }
@@ -53,6 +55,10 @@ void GIF::SetCurrentFrame(std::size_t index) {
     temp->SetCurrentFrame(index);
 }
 
+void GIF::SetScale(const glm::vec2 &scale) {
+    m_Transform.scale = scale;
+}
+
 void GIF::Play() {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     temp->Play();
@@ -61,4 +67,8 @@ void GIF::Play() {
 void GIF::Pause() {
     auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
     temp->Pause();
+}
+
+void GIF::Move(const glm::vec2 &Displacement) {
+    SetPosition(GetPosition() + Displacement);
 }

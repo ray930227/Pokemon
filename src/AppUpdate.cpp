@@ -92,7 +92,7 @@ void App::Update() {
 
         int temp=m_Map->GetBlocks()[targetPosition.x][targetPosition.y]->GetEventID();
 
-        if(temp!=0) {
+        if(temp!=0 && !m_Map->GetBlocks()[targetPosition.x][targetPosition.y]->GetTraversable()) {
             m_CurrentEvent=(EventID)temp;
             m_CurrentState=State::EVENT;
         }
