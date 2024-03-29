@@ -33,6 +33,10 @@ void Pokemon::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
 }
 
+void Pokemon::Move(const glm::vec2 &Displacement) {
+    SetPosition(GetPosition() + Displacement);
+}
+
 void Pokemon::FindName() {
     std::ifstream file(RESOURCE_DIR"/Pokemon/Name.txt");
     std::vector<std::string> Name;

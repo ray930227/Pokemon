@@ -19,6 +19,7 @@ set(SRC_FILES
     UsefulFunction.cpp
     AppEvent.cpp
     Pokemon.cpp
+    AppLoading.cpp
 )
 
 set(INCLUDE_FILES

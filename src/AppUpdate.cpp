@@ -112,9 +112,16 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyPressed(Util::Keycode::F)) {
+        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
+        m_BGM->Play();
+        m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
         m_FightLoad1_1->SetVisible(true);
         m_FightLoad1_2->SetVisible(true);
-        m_CurrentState = State::FIGHT;
+        m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
+        m_tempImage->SetPosition({620, -10});
+        m_EnemyPokemon->SetPosition({-620, 230});
+        m_CurrentLoading = LoadingID::INTO;
+        m_CurrentState = State::LOADING;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
