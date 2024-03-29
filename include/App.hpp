@@ -28,7 +28,7 @@ public:
         END,
     };
 
-    enum class EventID{
+    enum class EventID {
         MOVE,
         DOOR,
         GRASS,

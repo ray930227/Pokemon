@@ -9,7 +9,7 @@ void App::Fight() {
     if (Util::Input::IsKeyPressed(Util::Keycode::H)) {
         m_PlayerHPimage->SetScale({0.2, 1});
         LOG_DEBUG(m_PlayerPokemon->GetSkill().size());
-        LOG_DEBUG("({},{})",m_Skill3->GetPosition().x,m_Skill3->GetPosition().y);
+        LOG_DEBUG("({},{})", m_Skill3->GetPosition().x, m_Skill3->GetPosition().y);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::U)) {
@@ -26,22 +26,19 @@ void App::Fight() {
         m_PlayerPokeName->SetText(m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
         m_PlayerHP->SetText(
                 std::to_string(m_PlayerPokemon->GetHP()) + " / " + std::to_string(m_PlayerPokemon->GetHP()));
-        if (m_PlayerPokemon->IsSkillFull()){
+        if (m_PlayerPokemon->IsSkillFull()) {
             m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
             m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
             m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
             m_Skill4->SetText(m_PlayerPokemon->GetSkill()[3]);
-        }
-        else if (m_PlayerPokemon->GetSkill().size()>=3){
+        } else if (m_PlayerPokemon->GetSkill().size() >= 3) {
             m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
             m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
             m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
-        }
-        else if (m_PlayerPokemon->GetSkill().size()>=2){
+        } else if (m_PlayerPokemon->GetSkill().size() >= 2) {
             m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
             m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
-        }
-        else if (!m_PlayerPokemon->GetSkill().empty()){
+        } else if (!m_PlayerPokemon->GetSkill().empty()) {
             m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
         }
         std::vector<std::shared_ptr<Text>> m_SkillAll;
@@ -49,17 +46,16 @@ void App::Fight() {
         m_SkillAll.push_back(m_Skill2);
         m_SkillAll.push_back(m_Skill3);
         m_SkillAll.push_back(m_Skill4);
-        int GetSkillIndex=0;
-        int SkillOfY=-190;
-        for (const auto& skill:m_SkillAll){
-            skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length()/4*17),SkillOfY});
-            skill->SetPosition({skill->GetPosition().x-120,SkillOfY});
+        int GetSkillIndex = 0;
+        int SkillOfY = -190;
+        for (const auto &skill: m_SkillAll) {
+            skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});
+            skill->SetPosition({skill->GetPosition().x - 120, SkillOfY});
             GetSkillIndex++;
-            SkillOfY-=40;
+            SkillOfY -= 40;
             m_Root.AddChild(skill);
         }
     }
-
 
 
     if ((m_PlayerHPimage->GetScaledSize().x) <= 91.200005) {
@@ -118,9 +114,9 @@ void App::Fight() {
         if (Util::Input::IsKeyDown(Util::Keycode::UP) && m_arrow->GetPosition().y != -190) {
             m_arrow->SetPosition({m_arrow->GetPosition().x, m_arrow->GetPosition().y + 40});
         } else if (Util::Input::IsKeyDown(Util::Keycode::DOWN) &&
-                ((m_PlayerPokemon->GetSkill().size() == 4 && m_arrow->GetPosition().y != -310) ||
-                (m_PlayerPokemon->GetSkill().size() == 2 && m_arrow->GetPosition().y != -230) ||
-                (m_PlayerPokemon->GetSkill().size() == 3 && m_arrow->GetPosition().y != -270))) {
+                   ((m_PlayerPokemon->GetSkill().size() == 4 && m_arrow->GetPosition().y != -310) ||
+                    (m_PlayerPokemon->GetSkill().size() == 2 && m_arrow->GetPosition().y != -230) ||
+                    (m_PlayerPokemon->GetSkill().size() == 3 && m_arrow->GetPosition().y != -270))) {
             m_arrow->SetPosition({m_arrow->GetPosition().x, m_arrow->GetPosition().y - 40});
 
         }

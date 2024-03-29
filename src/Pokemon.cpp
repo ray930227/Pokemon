@@ -64,15 +64,15 @@ void Pokemon::FindSkill() {
     FileOfSkill.close();
 
     for (long long unsigned int i = 0; i < LVs.size(); i++) {
-        bool ShouldAdd=true;
+        bool ShouldAdd = true;
         if (LVs[i] == "—" or std::stoi(LVs[i]) <= m_LV) {
-            for (const auto &skill:m_Skills){
-                if (Skills[i]==skill){
-                    ShouldAdd=false;
+            for (const auto &skill: m_Skills) {
+                if (Skills[i] == skill) {
+                    ShouldAdd = false;
                 }
             }
-            if (ShouldAdd){
-                if (IsSkillFull()){
+            if (ShouldAdd) {
+                if (IsSkillFull()) {
                     m_Skills.erase(m_Skills.begin());
                 }
                 m_Skills.push_back(Skills[i]);
@@ -98,7 +98,7 @@ void Pokemon::FindSkill() {
         while (std::getline(ss, token, ' ')) {
             tokens.push_back(token);
         }
-        if (m_SkillTypes.size()==4){
+        if (m_SkillTypes.size() == 4) {
             m_SkillTypes.erase(m_SkillTypes.begin());
             m_SkillClass.erase(m_SkillClass.begin());
             m_SkillDamage.erase(m_SkillDamage.begin());
@@ -174,7 +174,7 @@ int Pokemon::GetSpeed() const {
 }
 
 void Pokemon::LevelUp() {
-    if (m_LV!=100){
+    if (m_LV != 100) {
         m_LV++;
         FindAbiltiy();
         FindSkill();
@@ -202,7 +202,7 @@ std::vector<std::string> Pokemon::GetSkillPP() const {
     return m_SkillPPs;
 }
 
-void Pokemon::IsEvolution(){
+void Pokemon::IsEvolution() {
     std::ifstream FileOfLevel(RESOURCE_DIR"/Pokemon/Levelup.txt");
     std::vector<int> Levels;
     std::string text;
@@ -210,9 +210,9 @@ void Pokemon::IsEvolution(){
         Levels.push_back(std::stoi(text));
     }
     FileOfLevel.close();
-    if (m_LV==Levels[m_ID-1] && Levels[m_ID-1]!=0){
+    if (m_LV == Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
         std::stringstream ToString;
-        ToString << std::setw(3) << std::setfill('0') << m_ID+1;
+        ToString << std::setw(3) << std::setfill('0') << m_ID + 1;
         std::string StringID = ToString.str();
         SetImage(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback" + StringID + ".png");
         m_ID++;

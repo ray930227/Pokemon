@@ -17,7 +17,7 @@ void App::Start() {
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-    m_Map = std::make_shared<Map>(RESOURCE_DIR"/Map/MainMap");
+    m_Map = std::make_shared<Map>("MainMap");
     m_Map->SetVisible(false);
     m_Root.AddChildren(m_Map->GetChildren());
 
@@ -166,34 +166,34 @@ void App::Start() {
     m_SkillAll.push_back(m_Skill2);
     m_SkillAll.push_back(m_Skill3);
     m_SkillAll.push_back(m_Skill4);
-    if (!m_PlayerPokemon->GetSkill().empty()){
+    if (!m_PlayerPokemon->GetSkill().empty()) {
         m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
     }
-    if (m_PlayerPokemon->GetSkill().size()>=2){
+    if (m_PlayerPokemon->GetSkill().size() >= 2) {
         m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
     }
-    if (m_PlayerPokemon->GetSkill().size()>=3){
+    if (m_PlayerPokemon->GetSkill().size() >= 3) {
         m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
     }
-    if (m_PlayerPokemon->IsSkillFull()){
+    if (m_PlayerPokemon->IsSkillFull()) {
         m_Skill4->SetText(m_PlayerPokemon->GetSkill()[3]);
     }
-    int GetSkillIndex=0;
-    int SkillOfY=-190;
-    for (const auto& skill:m_SkillAll){
+    int GetSkillIndex = 0;
+    int SkillOfY = -190;
+    for (const auto &skill: m_SkillAll) {
         skill->SetZIndex(54);
         skill->SetVisible(false);
-        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length()/4*17),SkillOfY});
-        skill->SetPosition({skill->GetPosition().x-120,SkillOfY});
+        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});
+        skill->SetPosition({skill->GetPosition().x - 120, SkillOfY});
         GetSkillIndex++;
-        SkillOfY-=40;
+        SkillOfY -= 40;
         m_Root.AddChild(skill);
     }
 
-    m_SkillInfo=std::make_shared<Text>();
+    m_SkillInfo = std::make_shared<Text>();
     m_SkillInfo->SetZIndex(54);
     m_SkillInfo->SetVisible(false);
-    m_SkillInfo->SetPosition({-150,-60});
+    m_SkillInfo->SetPosition({-150, -60});
 //    m_SkillInfo->SetText("型態:" + m_PlayerPokemon->GetSkillType()[0] + "\n" +
 //    m_PlayerPokemon->GetSkillPP()[0] + " / " + m_PlayerPokemon->GetSkillPP()[0]);
     m_Root.AddChild(m_SkillInfo);
