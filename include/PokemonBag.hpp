@@ -11,7 +11,7 @@ public:
 
     std::vector<std::shared_ptr<Pokemon>> GetPokemons();
 
-    void addPomekon(const std::shared_ptr<Pokemon>& pokemon);
+    void addPomekon(const std::shared_ptr<Pokemon> &pokemon);
 
     bool isFull();
 };

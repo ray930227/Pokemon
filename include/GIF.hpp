@@ -21,6 +21,8 @@ public:
 
     [[nodiscard]] std::size_t GetCurrentFrameIndex() const;
 
+    const glm::vec2 &GetPosition() const;
+
     void SetPosition(const glm::vec2 &Position);
 
     void SetInterval(int interval);
@@ -31,9 +33,13 @@ public:
 
     void SetCurrentFrame(std::size_t index);
 
+    void SetScale(const glm::vec2 &scale);
+
     void Play();
 
     void Pause();
+
+    void Move(const glm::vec2 &Displacement);
 };
 
 #endif //POKEMON_GIF_HPP

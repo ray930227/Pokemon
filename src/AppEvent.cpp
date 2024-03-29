@@ -1,27 +1,31 @@
 #include "App.hpp"
 
 void App::Event() {
-    Util::Root root;
-
 
     switch (m_CurrentEvent) {
         case EventID::MOVE:
             if (DisplacementCount != 0) {
                 glm::vec2 PlayerPosition = m_Map->GetPlayerPosition();
 
-                bool up = Displacement.y < 0 &&
+                bool up = currentDirection=="UP" &&
                           m_Map->GetBlocks()[PlayerPosition.x - 1][PlayerPosition.y]->GetTraversable();
-                bool down = Displacement.y > 0 &&
+                bool down = currentDirection=="DOWN" &&
                             m_Map->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetTraversable();
-                bool left = Displacement.x > 0 &&
+                bool left = currentDirection=="LEFT" &&
                             m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y - 1]->GetTraversable();
-                bool right = Displacement.x < 0 &&
+                bool right = currentDirection=="RIGHT" &&
                              m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y + 1]->GetTraversable();
                 bool canMove = up || down || left || right;
 
                 if (!((DisplacementCount == Player->GetSpeed() && canMove) ||
                       DisplacementCount != Player->GetSpeed())) {
-                    Displacement = {0, 0};
+                    if (currentDirection == "DOWN" &&
+                        m_Map->GetBlocks()[PlayerPosition.x +1][PlayerPosition.y]->GetEventID()==(int)EventID::JUMP) {
+                        m_CurrentEvent = EventID::JUMP;
+                        DisplacementCount*=2;
+                    } else{
+                        Displacement = {0, 0};
+                    }
                 }
                 m_Map->Move(Displacement);
                 if (DisplacementCount == Player->GetSpeed() / 4 || DisplacementCount == Player->GetSpeed() / 3 * 2) {
@@ -51,7 +55,9 @@ void App::Event() {
 
                 }
             }
+            break;
 
+        case EventID::DOOR:
             break;
 
         case EventID::GRASS:
@@ -62,10 +68,36 @@ void App::Event() {
                 m_BGM->Play();
                 m_CurrentState = State::FIGHT;
             } else {
-
                 m_CurrentState = State::UPDATE;
             }
             m_CurrentEvent = EventID::NONE;
+            break;
+        case EventID::BILLBOARD:
+            m_CurrentState = State::UPDATE;
+            break;
+        case EventID::JUMP:
+            if(DisplacementCount!=0){
+                m_Map->Move(Displacement);
+                if(DisplacementCount>Player->GetSpeed()){
+                    Player->GetImage()->Move(Displacement);
+                }
+                else{
+                    Player->GetImage()->Move({0,Displacement.y*-1});
+                }
+                DisplacementCount--;
+            }
+            else{
+                m_Map->SetPosition({round(m_Map->GetPosition().x), round(m_Map->GetPosition().y)});
+                Player->GetImage()->SetPosition({36, -36});
+                m_CurrentEvent=EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+            break;
+
+        case EventID::WEEKTREE:
+            m_CurrentState = State::UPDATE;
+            break;
+        case EventID::NONE:
             break;
     }
 
@@ -75,6 +107,5 @@ void App::Event() {
         m_CurrentState = State::END;
     }
 
-    root.Update();
     m_Root.Update();
 }
