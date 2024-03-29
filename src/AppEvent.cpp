@@ -75,11 +75,16 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
         if (rand() % 100 < 25) {
-            m_FightLoad1_1->SetVisible(true);
-            m_FightLoad1_2->SetVisible(true);
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
-            m_CurrentState = State::FIGHT;
+            m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
+            m_FightLoad1_1->SetVisible(true);
+            m_FightLoad1_2->SetVisible(true);
+            m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
+            m_tempImage->SetPosition({620, -10});
+            m_EnemyPokemon->SetPosition({-620, 230});
+            m_CurrentLoading = LoadingID::INTO;
+            m_CurrentState = State::LOADING;
         } else {
             m_CurrentState = State::UPDATE;
         }

@@ -44,6 +44,9 @@ void App::Loading() {
                 case 1:
                     if (m_TB->GetVisibility() && (Util::Input::IsKeyDown(Util::Keycode::Z))) {
                         m_TB->Next();
+                        m_BallAnimation->Reset();
+                        m_BallAnimation->SetVisible(true);
+                        m_BallAnimation->Play();
                     }
                     m_PlayerBalls->SetVisible(true);
                     break;
@@ -52,17 +55,14 @@ void App::Loading() {
                     m_EnemyHPUI->SetVisible(true);
                     m_EnemyHPimage->SetVisible(true);
                     m_EnemyPokeName->SetVisible(true);
-                    if (m_PlayerPokemon->GetVisibility() && m_TB->GetVisibility() && (Util::Input::IsKeyDown(Util::Keycode::Z))) {
+                    if (m_PlayerPokemon->GetVisibility() && m_TB->GetVisibility() &&
+                        (Util::Input::IsKeyDown(Util::Keycode::Z))) {
                         m_TB->Next();
                     }
-                    if (m_tempImage->GetPosition().x!=-620){
-                        m_tempImage->Move({-10,0});
-                    }
-                    else{
-                        m_BallAnimation->SetScale({1.3,1.3});
-                        m_BallAnimation->SetVisible(true);
-                        m_BallAnimation->Play();
-                        if (m_BallAnimation->GetCurrentFrameIndex()==3){
+                    if (m_tempImage->GetPosition().x != -620) {
+                        m_tempImage->Move({-10, 0});
+                    } else {
+                        if (m_BallAnimation->IsAnimationEnds()) {
                             m_BallAnimation->SetVisible(false);
                             m_PlayerPokemon->SetVisible(true);
                             m_PlayerHPUI->SetVisible(true);
@@ -70,17 +70,18 @@ void App::Loading() {
                             m_PlayerPokeName->SetVisible(true);
                             m_PlayerHP->SetVisible(true);
                         }
-                        if (!m_TB->GetVisibility()){
+                        if (!m_TB->GetVisibility()) {
                             m_arrow->SetVisible(true);
                             m_PlayerPokeInfo->SetVisible(true);
                             m_EnemyPokeInfo->SetVisible(true);
                             m_BallAnimation->SetCurrentFrame(0);
                             m_CurrentState = State::FIGHT;
                         }
+
                     }
                     break;
             }
-            if (!m_TB->GetVisibility()){
+            if (!m_TB->GetVisibility()) {
                 m_FightBG->SetVisible(true);
             }
             break;

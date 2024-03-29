@@ -39,6 +39,8 @@ public:
 
     void Pause();
 
+    void Reset();
+
     void Move(const glm::vec2 &Displacement);
 };
 
