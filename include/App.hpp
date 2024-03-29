@@ -24,6 +24,7 @@ public:
         INIT,
         UPDATE,
         EVENT,
+        LOADING,
         FIGHT,
         END,
     };
@@ -35,6 +36,12 @@ public:
         BILLBOARD,
         JUMP,
         WEEKTREE,
+        NONE
+    };
+
+    enum class LoadingID{
+        INTO,
+        TEXT,
         NONE
     };
 
@@ -50,6 +57,8 @@ public:
 
     void Event();
 
+    void Loading();
+
     void Fight();
 
     void End();
@@ -60,6 +69,7 @@ private:
 private:
     State m_CurrentState = State::START;
     EventID m_CurrentEvent = EventID::NONE;
+    LoadingID m_CurrentLoading = LoadingID::NONE;
 
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;
@@ -77,6 +87,10 @@ private:
     std::shared_ptr<Image> m_Fightitem;
     std::shared_ptr<Image> m_PlayerHPimage;
     std::shared_ptr<Image> m_EnemyHPimage;
+    std::shared_ptr<Image> m_PlayerHPUI;
+    std::shared_ptr<Image> m_EnemyHPUI;
+    std::shared_ptr<Image> m_PlayerBalls;
+    std::shared_ptr<GIF> m_BallAnimation;
     std::shared_ptr<Pokemon> m_PlayerPokemon;
     std::shared_ptr<Pokemon> m_EnemyPokemon;
     std::shared_ptr<PokemonBag> m_PokemonBag;

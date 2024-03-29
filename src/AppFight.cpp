@@ -62,27 +62,6 @@ void App::Fight() {
         m_PlayerHPimage->SetImage(RESOURCE_DIR"/Fight/RedHealth.png");
     }
 
-    if (m_FightLoad1_1->GetPosition().x != 720 && m_FightLoad1_1->GetVisibility()) {
-        m_FightLoad1_1->SetPosition({m_FightLoad1_1->GetPosition().x + 15, 0});
-        m_FightLoad1_2->SetPosition({m_FightLoad1_2->GetPosition().x - 15, 0});
-    } else {
-        m_FightLoad1_1->SetPosition({-720, 0});
-        m_FightLoad1_2->SetPosition({720, 0});
-        m_FightLoad1_1->SetVisible(false);
-        m_FightLoad1_2->SetVisible(false);
-        m_FightBG->SetVisible(true);
-        m_arrow->SetVisible(true);
-        m_PlayerHPimage->SetVisible(true);
-        m_EnemyHPimage->SetVisible(true);
-        m_PlayerPokemon->SetVisible(true);
-        m_EnemyPokemon->SetVisible(true);
-        m_PlayerHP->SetVisible(true);
-        m_PlayerPokeName->SetVisible(true);
-        m_EnemyPokeName->SetVisible(true);
-        m_PlayerPokeInfo->SetVisible(true);
-        m_EnemyPokeInfo->SetVisible(true);
-    }
-
     //Fight select 技能(-25,-200) 精靈(135,-200)
     //             道具(-25,-300) 逃跑(135,-300)
     if (Util::Input::IsKeyPressed(Util::Keycode::UP) && m_arrow->GetPosition().y != -200
@@ -100,7 +79,7 @@ void App::Fight() {
     }
 
     //進入技能選單
-    if (!m_Fightskill->GetVisibility() && Util::Input::IsKeyPressed(Util::Keycode::Z)
+    if (!m_Fightskill->GetVisibility() && Util::Input::IsKeyDown(Util::Keycode::Z)
         && m_arrow->GetPosition().x == -25 && m_arrow->GetPosition().y == -200) {
         m_Fightskill->SetVisible(true);
         m_Skill1->SetVisible(true);
@@ -135,16 +114,21 @@ void App::Fight() {
         }
     }
     //進入道具選單
-    if (!m_Fightitem->GetVisibility() && Util::Input::IsKeyPressed(Util::Keycode::Z)
+    if (!m_Fightitem->GetVisibility() && Util::Input::IsKeyDown(Util::Keycode::Z)
         && m_arrow->GetPosition().x == -25 && m_arrow->GetPosition().y == -300) {
         m_Fightitem->SetVisible(true);
         m_arrow->SetPosition({-150, 160});
     }
     //逃跑
     if (!m_Fightskill->GetVisibility() && !m_Fightitem->GetVisibility()
-        && Util::Input::IsKeyPressed(Util::Keycode::Z)
+        && Util::Input::IsKeyDown(Util::Keycode::Z)
         && m_arrow->GetPosition().x == 135 && m_arrow->GetPosition().y == -300) {
         m_arrow->SetPosition({-25, -200});
+        m_WhiteBG->SetVisible(false);
+        m_WhiteBG->SetZIndex(0);
+        m_tempImage->SetZIndex(1);
+        m_PlayerHPUI->SetVisible(false);
+        m_EnemyHPUI->SetVisible(false);
         m_FightBG->SetVisible(false);
         m_FightLoad1_1->SetVisible(false);
         m_FightLoad1_2->SetVisible(false);

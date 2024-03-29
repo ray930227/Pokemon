@@ -28,6 +28,10 @@ int main(int, char **) {
                 app.Event();
                 break;
 
+            case App::State::LOADING:
+                app.Loading();
+                break;
+
             case App::State::FIGHT:
                 app.Fight();
                 break;

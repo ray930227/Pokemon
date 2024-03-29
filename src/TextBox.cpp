@@ -54,6 +54,7 @@ void TextBox::SetPosition(const glm::vec2 &Position) {
 void TextBox::ReadLines(const std::string &LinesPath) {
     std::ifstream ifs(LinesPath, std::ios::in);
     std::string s;
+    m_AllText.clear();
     while (std::getline(ifs, s)) {
         if (s.size() > 60) s.insert(s.begin() + (s.size() / 2 / 3 * 3), '\n');
         m_AllText.push_back(s);

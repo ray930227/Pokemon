@@ -45,6 +45,8 @@ public:
 
     void SetPosition(const glm::vec2 &Position);
 
+    void Move(const glm::vec2 &Displacement);
+
     void LevelUp();
 
     void FindName();
