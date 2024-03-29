@@ -18,26 +18,25 @@ void App::Init() {
             tempStr.pop_back();
             tempBox->SetText(tempStr);
         }
-    }
-    else if(m_tempImage->GetPosition().x!=0){
-        m_tempImage->Move({-10,0});
-    }
-    else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+    } else if (m_tempImage->GetPosition().x != 0) {
+        m_tempImage->Move({-10, 0});
+    } else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
         m_TB->Next();
 
         switch (m_TB->GetLineIndex()) {
             case 9:
-                m_tempImage->SetPosition({360,0});
+                m_tempImage->SetPosition({360, 0});
                 m_tempImage->SetImage(RESOURCE_DIR"/Charactor/playerWholeBody.png");
                 break;
-            case 10: case 13:
+            case 10:
+            case 13:
                 tempBox->SetPosition({0, 0});
                 tempBox->SetScale({0.5, 0.5});
                 tempBox->SetVisible(true);
                 tempBox->SetText(" ");
                 break;
             case 12:
-                m_tempImage->SetPosition({360,0});
+                m_tempImage->SetPosition({360, 0});
                 m_tempImage->SetImage(RESOURCE_DIR"/Charactor/enemyWholeBody.png");
                 break;
             case 15:
@@ -45,7 +44,6 @@ void App::Init() {
                 break;
         }
     }
-
 
 
     if (m_TB->GetText().find("<Player>") < m_TB->GetText().size()) {

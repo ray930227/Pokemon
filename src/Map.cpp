@@ -1,24 +1,9 @@
 #include "Map.hpp"
 
 Map::Map(const std::string &Path) {
-    m_BackGround = std::make_shared<Image>(Path + "/map.png");
+    m_BackGround = std::make_shared<Image>(RESOURCE_DIR"/Map/" + Path + "/map.png");
     m_BackGround->SetZIndex(0);
-
-    std::ifstream fileBlock(Path + "/blocks.txt", std::ios::in);
-    std::ifstream fileEvent(Path + "/event.txt", std::ios::in);
-    std::string tempStr1, tempStr2;
-    while (std::getline(fileBlock, tempStr1) && std::getline(fileEvent, tempStr2)) {
-        std::vector<std::shared_ptr<Block>> tempBlocks;
-        for (size_t i = 0; i < tempStr1.size(); i += 2) {
-            std::shared_ptr<Block> tempBlock = std::make_shared<Block>((tempStr1[i] - '0') % 2 == 0,
-                                                                       (tempStr1[i] - '0') / 2 % 2 == 1,
-                                                                       tempStr2[i] - '0');
-            tempBlocks.push_back(tempBlock);
-        }
-        m_Blocks.push_back(tempBlocks);
-    }
-    fileBlock.close();
-    fileEvent.close();
+    SetMap(Path);
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> Map::GetChildren() const {
@@ -47,6 +32,10 @@ std::vector<std::vector<std::shared_ptr<Block>>> &Map::GetBlocks() {
     return m_Blocks;
 }
 
+std::string &Map::GetCurrnetMap() {
+    return m_currentMap;
+}
+
 void Map::SetImage(const std::string &ImagePath) {
     m_BackGround->SetImage(ImagePath);
 }
@@ -57,6 +46,27 @@ void Map::SetPosition(const glm::vec2 &Position) {
 
 void Map::SetVisible(const bool visible) {
     m_BackGround->SetVisible(visible);
+}
+
+void Map::SetMap(const std::string &Path) {
+    m_currentMap = Path;
+    m_BackGround->SetImage(RESOURCE_DIR"/Map/" + Path + "/map.png");
+    std::ifstream fileBlock(RESOURCE_DIR"/Map/" + Path + "/blocks.txt", std::ios::in);
+    std::ifstream fileEvent(RESOURCE_DIR"/Map/" + Path + "/event.txt", std::ios::in);
+    std::string tempStr1, tempStr2;
+    m_Blocks.clear();
+    while (std::getline(fileBlock, tempStr1) && std::getline(fileEvent, tempStr2)) {
+        std::vector<std::shared_ptr<Block>> tempBlocks;
+        for (size_t i = 0; i < tempStr1.size(); i += 2) {
+            std::shared_ptr<Block> tempBlock = std::make_shared<Block>((tempStr1[i] - '0') % 2 == 0,
+                                                                       (tempStr1[i] - '0') / 2 % 2 == 1,
+                                                                       tempStr2[i] - '0');
+            tempBlocks.push_back(tempBlock);
+        }
+        m_Blocks.push_back(tempBlocks);
+    }
+    fileBlock.close();
+    fileEvent.close();
 }
 
 void Map::Move(const glm::vec2 &Displacement) {
