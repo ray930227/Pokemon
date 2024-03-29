@@ -39,7 +39,7 @@ public:
         NONE
     };
 
-    enum class LoadingID{
+    enum class LoadingID {
         INTO,
         TEXT,
         NONE

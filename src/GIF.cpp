@@ -69,6 +69,11 @@ void GIF::Pause() {
     temp->Pause();
 }
 
+void GIF::Reset() {
+    auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
+    temp->Reset();
+}
+
 void GIF::Move(const glm::vec2 &Displacement) {
     SetPosition(GetPosition() + Displacement);
 }

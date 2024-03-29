@@ -60,7 +60,7 @@ void App::Start() {
     m_Root.AddChild(m_FightBG);
 
     m_arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
-    m_arrow->SetZIndex(54);
+    m_arrow->SetZIndex(55);
     m_arrow->SetVisible(false);
     m_arrow->SetPosition({-25, -200});
     m_Root.AddChild(m_arrow);
@@ -108,11 +108,12 @@ void App::Start() {
     m_Root.AddChild(m_PlayerBalls);
 
     std::vector<std::string> tempBallPath;
-    for (int i=1;i<6;i++){
-        tempBallPath.push_back(RESOURCE_DIR"/Fight/BallEffect"+std::to_string(i)+".png");
+    for (int i = 1; i < 6; i++) {
+        tempBallPath.push_back(RESOURCE_DIR"/Fight/BallEffect" + std::to_string(i) + ".png");
     }
     m_BallAnimation = std::make_shared<GIF>(tempBallPath);
     m_BallAnimation->SetZIndex(52);
+    m_BallAnimation->SetScale({1.3, 1.3});
     m_BallAnimation->SetInterval(400);
     m_BallAnimation->SetVisible(false);
     m_BallAnimation->SetPosition({-210, -10});
