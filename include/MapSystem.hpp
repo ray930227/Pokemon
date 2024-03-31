@@ -1,21 +1,28 @@
-#ifndef POKEMON_MAP_HPP
-#define POKEMON_MAP_HPP
+#ifndef POKEMON_MAPSYSTEM_HPP
+#define POKEMON_MAPSYSTEM_HPP
 
 #include "Image.hpp"
 #include "Block.hpp"
 #include <fstream>
+#include <map>
 
-class Map {
+class MapSystem {
 private:
-    std::shared_ptr<Image> m_BackGround;
-    std::vector<std::vector<std::shared_ptr<Block>>> m_Blocks;
-    std::string m_currentMap;
+    typedef struct Map {
+        std::shared_ptr<Image> m_BackGround;
+        std::vector<std::vector<std::shared_ptr<Block>>> m_Blocks;
+    } s_Map;
+
+    std::map<std::string, s_Map> m_Maps;
+
+    std::string m_CurrentMapName;
+
 public:
-    Map(const std::string &Path);
+    MapSystem(const std::string &MapName);
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
 
-    [[nodiscard]] const glm::vec2 &GetPosition() const;
+    [[nodiscard]] const glm::vec2 &GetPosition();
 
     glm::vec2 GetPlayerPosition();
 
@@ -34,4 +41,4 @@ public:
     void Move(const glm::vec2 &Displacement);
 };
 
-#endif //POKEMON_MAP_HPP
+#endif //POKEMON_MAPSYSTEM_HPP

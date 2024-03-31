@@ -14,7 +14,7 @@ set(SRC_FILES
     Text.cpp
     Character.cpp
     AppUpdate.cpp
-    Map.cpp
+    MapSystem.cpp
     Block.cpp
     UsefulFunction.cpp
     AppEvent.cpp
@@ -31,7 +31,7 @@ set(INCLUDE_FILES
     GIF.hpp
     Text.hpp
     Pokemon.hpp
-    Map.hpp
+    MapSystem.hpp
     Block.hpp
     UsefulFunctions.hpp
 )

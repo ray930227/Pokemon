@@ -63,8 +63,8 @@ void App::Init() {
     if (!m_TB->GetVisibility()) {
         m_WhiteBG->SetVisible(false);
         m_tempImage->SetVisible(false);
-        m_Map->SetVisible(true);
-        m_Map->SetPosition({-1224, 2592});
+        m_MapSystem->SetVisible(true);
+        m_MapSystem->SetPosition({-1224, 2592});
         Player->GetImage()->SetVisible(true);
         DisplacementCount = 0;
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");

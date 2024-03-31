@@ -8,7 +8,7 @@
 #include "Image.hpp"
 #include "GIF.hpp"
 #include "Character.hpp"
-#include "Map.hpp"
+#include "MapSystem.hpp"
 #include "Pokemon.hpp"
 
 #include "Util/Input.hpp"
@@ -74,7 +74,7 @@ private:
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;
     std::shared_ptr<GIF> m_AnimatedText;
-    std::shared_ptr<Map> m_Map;
+    std::shared_ptr<MapSystem> m_MapSystem;
     std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;
     std::shared_ptr<Image> m_FightBG;

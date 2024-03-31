@@ -84,15 +84,15 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyPressed(Util::Keycode::Z)) {
-        glm::vec2 targetPosition = m_Map->GetPlayerPosition();
+        glm::vec2 targetPosition = m_MapSystem->GetPlayerPosition();
         if (currentDirection == "UP") targetPosition.x--;
         else if (currentDirection == "DOWN") targetPosition.x++;
         else if (currentDirection == "LEFT") targetPosition.y--;
         else if (currentDirection == "RIGHT") targetPosition.y++;
 
-        int temp = m_Map->GetBlocks()[targetPosition.x][targetPosition.y]->GetEventID();
+        int temp = m_MapSystem->GetBlocks()[targetPosition.x][targetPosition.y]->GetEventID();
 
-        if (temp != 0 && !m_Map->GetBlocks()[targetPosition.x][targetPosition.y]->GetTraversable()) {
+        if (temp != 0 && !m_MapSystem->GetBlocks()[targetPosition.x][targetPosition.y]->GetTraversable()) {
             m_CurrentEvent = (EventID) temp;
             m_CurrentState = State::EVENT;
         }
@@ -105,8 +105,8 @@ void App::Update() {
 
     if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
         Player->SetSpeed(5);
-        glm::vec2 PlayerPosition = m_Map->GetPlayerPosition();
-        LOG_DEBUG("({},{}),({},{})", m_Map->GetPosition().x, m_Map->GetPosition().y, PlayerPosition.x,
+        glm::vec2 PlayerPosition = m_MapSystem->GetPlayerPosition();
+        LOG_DEBUG("({},{}),({},{})", m_MapSystem->GetPosition().x, m_MapSystem->GetPosition().y, PlayerPosition.x,
                   PlayerPosition.y);
 
     }
