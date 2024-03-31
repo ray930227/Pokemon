@@ -5,29 +5,35 @@ void App::Event() {
     if (m_CurrentEvent == EventID::MOVE) {
         //region
         if (DisplacementCount != 0) {
-            glm::vec2 PlayerPosition = m_Map->GetPlayerPosition();
+            glm::vec2 PlayerPosition = m_MapSystem->GetPlayerPosition();
 
             bool up = currentDirection == "UP" &&
-                      m_Map->GetBlocks()[PlayerPosition.x - 1][PlayerPosition.y]->GetTraversable();
+                      m_MapSystem->GetBlocks()[PlayerPosition.x - 1][PlayerPosition.y]->GetTraversable();
             bool down = currentDirection == "DOWN" &&
-                        m_Map->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetTraversable();
+                        m_MapSystem->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetTraversable();
             bool left = currentDirection == "LEFT" &&
-                        m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y - 1]->GetTraversable();
+                        m_MapSystem->GetBlocks()[PlayerPosition.x][PlayerPosition.y - 1]->GetTraversable();
             bool right = currentDirection == "RIGHT" &&
-                         m_Map->GetBlocks()[PlayerPosition.x][PlayerPosition.y + 1]->GetTraversable();
+                         m_MapSystem->GetBlocks()[PlayerPosition.x][PlayerPosition.y + 1]->GetTraversable();
             bool canMove = up || down || left || right;
 
             if (!((DisplacementCount == Player->GetSpeed() && canMove) ||
                   DisplacementCount != Player->GetSpeed())) {
                 if (currentDirection == "DOWN" &&
-                    m_Map->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetEventID() == (int) EventID::JUMP) {
+                    m_MapSystem->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetEventID() ==
+                    (int) EventID::JUMP) {
                     m_CurrentEvent = EventID::JUMP;
                     DisplacementCount *= 2;
+                } else if (currentDirection == "DOWN" &&
+                           m_MapSystem->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetEventID() ==
+                           (int) EventID::DOOR) {
+                    m_CurrentEvent = EventID::DOOR;
+                    Displacement = {0, 0};
                 } else {
                     Displacement = {0, 0};
                 }
             }
-            m_Map->Move(Displacement);
+            m_MapSystem->Move(Displacement);
             if (DisplacementCount == Player->GetSpeed() / 4 || DisplacementCount == Player->GetSpeed() / 3 * 2) {
                 size_t FrameCount = Player->GetImage()->GetFrameCount();
                 size_t CurrentFrameIndex = Player->GetImage()->GetCurrentFrameIndex();
@@ -36,8 +42,8 @@ void App::Event() {
 
             DisplacementCount--;
             if (DisplacementCount == 0) {
-                m_Map->SetPosition({round(m_Map->GetPosition().x), round(m_Map->GetPosition().y)});
-                int eventID = m_Map->GetBlocks()[m_Map->GetPlayerPosition().x][m_Map->GetPlayerPosition().y]->GetEventID();
+                m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
+                int eventID = m_MapSystem->GetBlocks()[m_MapSystem->GetPlayerPosition().x][m_MapSystem->GetPlayerPosition().y]->GetEventID();
                 if (eventID != 0) {
                     m_CurrentEvent = (EventID) eventID;
                 } else if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
@@ -57,12 +63,19 @@ void App::Event() {
         }//endregion
     } else if (m_CurrentEvent == EventID::DOOR) {
         //region
-        auto PlayerPosition = m_Map->GetPlayerPosition();
-        auto currnetMap = m_Map->GetCurrnetMap();
+        auto PlayerPosition = m_MapSystem->GetPlayerPosition();
+        auto currnetMap = m_MapSystem->GetCurrnetMap();
         if (currnetMap == "MainMap") {
             if (PlayerPosition.x == 83 && PlayerPosition.y == 65) {
-                m_Map->SetMap("PlayerHouse1F");
-                m_Map->SetPosition({144, 216});
+                m_MapSystem->SetMap("PlayerHouse1F");
+                m_MapSystem->SetPosition({144, 216});
+            } else {
+                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+            }
+        } else if (currnetMap == "PlayerHouse1F") {
+            if (PlayerPosition.x == 8 && (PlayerPosition.y == 3 || PlayerPosition.y == 4)) {
+                m_MapSystem->SetMap("MainMap");
+                m_MapSystem->SetPosition({-1224, 2592});
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
@@ -95,7 +108,7 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::JUMP) {
         //region
         if (DisplacementCount != 0) {
-            m_Map->Move(Displacement);
+            m_MapSystem->Move(Displacement);
             if (DisplacementCount > Player->GetSpeed()) {
                 Player->GetImage()->Move(Displacement);
             } else {
@@ -103,7 +116,7 @@ void App::Event() {
             }
             DisplacementCount--;
         } else {
-            m_Map->SetPosition({round(m_Map->GetPosition().x), round(m_Map->GetPosition().y)});
+            m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
             Player->GetImage()->SetPosition({36, -36});
             m_CurrentEvent = EventID::NONE;
             m_CurrentState = State::UPDATE;

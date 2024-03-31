@@ -17,9 +17,11 @@ void App::Start() {
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-    m_Map = std::make_shared<Map>("MainMap");
-    m_Map->SetVisible(false);
-    m_Root.AddChildren(m_Map->GetChildren());
+    m_MapSystem = std::make_shared<MapSystem>("MainMap");
+    m_MapSystem->SetVisible(false);
+
+    m_Root.AddChildren(m_MapSystem->GetChildren());
+
 
     m_WhiteBG = std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
     m_WhiteBG->SetZIndex(0);
