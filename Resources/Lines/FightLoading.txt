@@ -1,2 +1,3 @@
+
 野生<WildPokemon>出現了!
 上吧! <PlayerPokemon>!
