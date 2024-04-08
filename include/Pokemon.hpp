@@ -45,7 +45,7 @@ public:
 
     void SetPosition(const glm::vec2 &Position);
 
-    [[nodiscard]] const glm::vec2 &GetScale() const;
+    [[nodiscard]] const glm::vec2 &GetScale() ;
 
     void SetScale(const glm::vec2 &scale);
 
