@@ -12,11 +12,12 @@ void App::Loading() {
                 m_tempImage->SetVisible(true);
                 m_tempImage->SetZIndex(52);
                 m_EnemyPokemon->SetVisible(true);
+                m_TB->SetVisible(true);
                 if (m_tempImage->GetPosition().x != -210) {
                     m_tempImage->Move({-10, 0});
                     m_EnemyPokemon->Move({10, 0});
                 } else {
-                    m_TB->SetVisible(true);
+                    m_TB->Next();
                     m_FightLoad1_1->SetPosition({-720, 0});
                     m_FightLoad1_2->SetPosition({720, 0});
                     m_FightLoad1_1->SetVisible(false);
@@ -41,21 +42,22 @@ void App::Loading() {
                 m_TB->SetText(tempStr);
             }
             switch (m_TB->GetLineIndex()) {
-                case 1:
+                case 2:
                     if (m_TB->GetVisibility() && (Util::Input::IsKeyDown(Util::Keycode::Z))) {
                         m_TB->Next();
                         m_BallAnimation->Reset();
                         m_BallAnimation->SetVisible(true);
                         m_BallAnimation->Play();
+                        m_PlayerPokemon->SetScale({0.5, 0.5});
                     }
                     m_PlayerBalls->SetVisible(true);
                     break;
-                case 2:
+                case 3:
                     m_PlayerBalls->SetVisible(false);
                     m_EnemyHPUI->SetVisible(true);
                     m_EnemyHPimage->SetVisible(true);
                     m_EnemyPokeName->SetVisible(true);
-                    if (m_PlayerPokemon->GetVisibility() && m_TB->GetVisibility() &&
+                    if (m_PlayerPokemon->GetScale().x >= 1 && m_TB->GetVisibility() &&
                         (Util::Input::IsKeyDown(Util::Keycode::Z))) {
                         m_TB->Next();
                     }
@@ -63,6 +65,10 @@ void App::Loading() {
                         m_tempImage->Move({-10, 0});
                     } else {
                         if (m_BallAnimation->IsAnimationEnds()) {
+                            if (m_PlayerPokemon->GetScale().x <= 1.0) {
+                                m_PlayerPokemon->SetScale(
+                                        {m_PlayerPokemon->GetScale().x + 0.05, m_PlayerPokemon->GetScale().y + 0.05});
+                            }
                             m_BallAnimation->SetVisible(false);
                             m_PlayerPokemon->SetVisible(true);
                             m_PlayerHPUI->SetVisible(true);

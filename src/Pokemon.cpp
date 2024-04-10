@@ -33,6 +33,12 @@ void Pokemon::SetPosition(const glm::vec2 &Position) {
     m_Transform.translation = Position;
 }
 
+const glm::vec2 &Pokemon::GetScale()  {
+    return m_Transform.scale;
+}
+
+void Pokemon::SetScale(const glm::vec2 &scale) { m_Transform.scale = scale; }
+
 void Pokemon::Move(const glm::vec2 &Displacement) {
     SetPosition(GetPosition() + Displacement);
 }
