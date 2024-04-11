@@ -65,25 +65,39 @@ void App::Event() {
         //region
         auto PlayerPosition = m_MapSystem->GetPlayerPosition();
         auto currnetMap = m_MapSystem->GetCurrnetMap();
-        if (currnetMap == "MainMap") {
-            if (PlayerPosition.x == 83 && PlayerPosition.y == 65) {
-                m_MapSystem->SetMap("PlayerHouse1F");
-                m_MapSystem->SetPosition({144, 216});
-            } else {
-                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
-            }
-        } else if (currnetMap == "PlayerHouse1F") {
-            if (PlayerPosition.x == 8 && (PlayerPosition.y == 3 || PlayerPosition.y == 4)) {
-                m_MapSystem->SetMap("MainMap");
-                m_MapSystem->SetPosition({-1224, 2592});
-            } else {
-                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
-            }
+
+        if (m_WhiteBG->GetZIndex() == 0) {
+            m_WhiteBG->SetVisible(true);
+            m_WhiteBG->SetZIndex(99);
+        } else if (m_WhiteBG->GetZIndex() > 90) {
+            m_WhiteBG->SetZIndex(m_WhiteBG->GetZIndex() - 1);
         } else {
-            LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+            if (currnetMap == "MainMap") {
+                if (PlayerPosition.x == 83 && PlayerPosition.y == 65) {
+                    m_MapSystem->SetMap("PlayerHouse1F");
+                    m_MapSystem->SetPosition({144, 216});
+                } else {
+                    LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+                }
+            } else if (currnetMap == "PlayerHouse1F") {
+                if (PlayerPosition.x == 2 && PlayerPosition.y == 8) {
+                    m_MapSystem->SetMap("PlayerHouse2F");
+                    m_MapSystem->SetPosition({-216, -216});
+                } else {
+                    m_MapSystem->SetMap("MainMap");
+                    m_MapSystem->SetPosition({-1224, 2520});
+                }
+            } else if (currnetMap == "PlayerHouse2F") {
+                m_MapSystem->SetMap("PlayerHouse1F");
+                m_MapSystem->SetPosition({-216, -216});
+            } else {
+                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+            }
+            m_WhiteBG->SetVisible(false);
+            m_WhiteBG->SetZIndex(0);
+            m_CurrentState = State::UPDATE;
+            m_CurrentEvent = EventID::NONE;
         }
-        m_CurrentState = State::UPDATE;
-        m_CurrentEvent = EventID::NONE;
         //endregion
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
