@@ -101,7 +101,7 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
-        if (rand() % 100 < 25) {
+        if (encounterable && rand() % 100 < 20) {
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
             m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
@@ -112,10 +112,26 @@ void App::Event() {
             m_EnemyPokemon->SetPosition({-620, 230});
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
+            m_CurrentEvent = EventID::NONE;
+
         } else {
-            m_CurrentState = State::UPDATE;
+            m_CurrentEvent = EventID::MOVE;
+            m_CurrentState = State::EVENT;
+            if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+                DisplacementCount = Player->GetSpeed();
+            } else if (currentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+                DisplacementCount = Player->GetSpeed();
+            } else if (currentDirection == "LEFT" && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
+                DisplacementCount = Player->GetSpeed();
+            } else if (currentDirection == "RIGHT" && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+                DisplacementCount = Player->GetSpeed();
+            } else {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
         }
-        m_CurrentEvent = EventID::NONE;
+
+
         //endregion
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
 

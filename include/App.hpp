@@ -111,6 +111,7 @@ private:
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
     int DisplacementCount;
+    bool encounterable= true;
     std::string currentDirection;
 };
 

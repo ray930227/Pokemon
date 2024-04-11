@@ -17,7 +17,7 @@ void App::Start() {
     m_AnimatedText->Play();
     m_Root.AddChild(m_AnimatedText);
 
-    m_MapSystem = std::make_shared<MapSystem>("MainMap");
+    m_MapSystem = std::make_shared<MapSystem>("PlayerHouse2F");
     m_MapSystem->SetVisible(false);
 
     m_Root.AddChildren(m_MapSystem->GetChildren());
