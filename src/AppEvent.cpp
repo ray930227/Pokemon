@@ -65,29 +65,43 @@ void App::Event() {
         //region
         auto PlayerPosition = m_MapSystem->GetPlayerPosition();
         auto currnetMap = m_MapSystem->GetCurrnetMap();
-        if (currnetMap == "MainMap") {
-            if (PlayerPosition.x == 83 && PlayerPosition.y == 65) {
-                m_MapSystem->SetMap("PlayerHouse1F");
-                m_MapSystem->SetPosition({144, 216});
-            } else {
-                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
-            }
-        } else if (currnetMap == "PlayerHouse1F") {
-            if (PlayerPosition.x == 8 && (PlayerPosition.y == 3 || PlayerPosition.y == 4)) {
-                m_MapSystem->SetMap("MainMap");
-                m_MapSystem->SetPosition({-1224, 2592});
-            } else {
-                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
-            }
+
+        if (m_WhiteBG->GetZIndex() == 0) {
+            m_WhiteBG->SetVisible(true);
+            m_WhiteBG->SetZIndex(99);
+        } else if (m_WhiteBG->GetZIndex() > 90) {
+            m_WhiteBG->SetZIndex(m_WhiteBG->GetZIndex() - 1);
         } else {
-            LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+            if (currnetMap == "MainMap") {
+                if (PlayerPosition.x == 83 && PlayerPosition.y == 65) {
+                    m_MapSystem->SetMap("PlayerHouse1F");
+                    m_MapSystem->SetPosition({144, 216});
+                } else {
+                    LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+                }
+            } else if (currnetMap == "PlayerHouse1F") {
+                if (PlayerPosition.x == 2 && PlayerPosition.y == 8) {
+                    m_MapSystem->SetMap("PlayerHouse2F");
+                    m_MapSystem->SetPosition({-216, -216});
+                } else {
+                    m_MapSystem->SetMap("MainMap");
+                    m_MapSystem->SetPosition({-1224, 2520});
+                }
+            } else if (currnetMap == "PlayerHouse2F") {
+                m_MapSystem->SetMap("PlayerHouse1F");
+                m_MapSystem->SetPosition({-216, -216});
+            } else {
+                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
+            }
+            m_WhiteBG->SetVisible(false);
+            m_WhiteBG->SetZIndex(0);
+            m_CurrentState = State::UPDATE;
+            m_CurrentEvent = EventID::NONE;
         }
-        m_CurrentState = State::UPDATE;
-        m_CurrentEvent = EventID::NONE;
         //endregion
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
-        if (rand() % 100 < 25) {
+        if (encounterable && rand() % 100 < 20) {
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
             m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
@@ -98,10 +112,26 @@ void App::Event() {
             m_EnemyPokemon->SetPosition({-620, 230});
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
+            m_CurrentEvent = EventID::NONE;
+
         } else {
-            m_CurrentState = State::UPDATE;
+            m_CurrentEvent = EventID::MOVE;
+            m_CurrentState = State::EVENT;
+            if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+                DisplacementCount = Player->GetSpeed();
+            } else if (currentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+                DisplacementCount = Player->GetSpeed();
+            } else if (currentDirection == "LEFT" && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
+                DisplacementCount = Player->GetSpeed();
+            } else if (currentDirection == "RIGHT" && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+                DisplacementCount = Player->GetSpeed();
+            } else {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
         }
-        m_CurrentEvent = EventID::NONE;
+
+
         //endregion
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
 
