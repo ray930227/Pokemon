@@ -5,6 +5,7 @@ Character::Character(const std::vector<std::vector<std::string>> &ImagePathses) 
     SetImagePathses(ImagePathses);
     m_CurrentImagePath = 0;
     SetSpeed(15);
+    m_PokemonBag=std::make_shared<PokemonBag>();
 }
 
 std::string &Character::GetName() {
@@ -19,7 +20,7 @@ std::shared_ptr<GIF> Character::GetImage() {
     return m_Image;
 }
 
-PokemonBag Character::GetPokemonBag() {
+std::shared_ptr<PokemonBag> Character::GetPokemonBag() {
     return m_PokemonBag;
 }
 

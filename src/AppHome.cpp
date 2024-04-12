@@ -5,6 +5,8 @@ void App::Home() {
     if (Util::Input::IsKeyPressed(Util::Keycode::F1)) {
         m_AnimatedText->SetLooping(false);
         m_AnimatedText->SetVisible(false);
+        Player->SetName("Player");
+        NPC_Bromance->SetName("Gay");
         m_CurrentState = State::INIT;
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER) || Util::Input::IsKeyPressed(Util::Keycode::RETURN)) {

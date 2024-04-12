@@ -71,8 +71,8 @@ void App::Init() {
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
 
-        Player->GetPokemonBag().addPomekon(std::make_shared<Pokemon>("004", 0));
-        NPC_Bromance->GetPokemonBag().addPomekon(std::make_shared<Pokemon>("151", 1));
+        Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004", 0));
+        NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("151", 1));
         Enemy = NPC_Bromance;
 
         m_CurrentState = State::UPDATE;
