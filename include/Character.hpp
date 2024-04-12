@@ -21,6 +21,8 @@ public:
 
     std::shared_ptr<GIF> GetImage();
 
+    PokemonBag GetPokemonBag();
+
     void SetName(const std::string &str);
 
     void SetSpeed(float value);
@@ -28,6 +30,7 @@ public:
     void SetImagePathses(const std::vector<std::vector<std::string>> &ImagePathses);
 
     void SetCurrentImagePath(size_t index);
+
 };
 
 #endif

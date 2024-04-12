@@ -56,13 +56,13 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::A)) {
-        Player->SetSpeed(Player->GetSpeed()==15 ? 5:15);
-        LOG_DEBUG("Set speed:{}",Player->GetSpeed());
+        Player->SetSpeed(Player->GetSpeed() == 15 ? 5 : 15);
+        LOG_DEBUG("Set speed:{}", Player->GetSpeed());
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::S)) {
-        encounterable=!encounterable;
-        LOG_DEBUG("Encounterable:{}",encounterable);
+        encounterable = !encounterable;
+        LOG_DEBUG("Encounterable:{}", encounterable);
     }
 
     if (Util::Input::IsKeyPressed(Util::Keycode::F)) {

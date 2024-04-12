@@ -107,11 +107,12 @@ private:
 
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
+    std::shared_ptr<Character> Enemy;
     std::shared_ptr<Character> NPC_Bromance;
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
     int DisplacementCount;
-    bool encounterable= true;
+    bool encounterable = true;
     std::string currentDirection;
 };
 
