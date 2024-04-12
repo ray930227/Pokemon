@@ -64,12 +64,17 @@ void App::Init() {
         m_WhiteBG->SetVisible(false);
         m_tempImage->SetVisible(false);
         m_MapSystem->SetVisible(true);
-        m_MapSystem->SetPosition({72,144});
+        m_MapSystem->SetPosition({72, 144});
         Player->GetImage()->SetVisible(true);
         Player->SetCurrentImagePath(0);
         DisplacementCount = 0;
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
+
+        Player->GetPokemonBag().addPomekon(std::make_shared<Pokemon>("004", 0));
+        NPC_Bromance->GetPokemonBag().addPomekon(std::make_shared<Pokemon>("151", 1));
+        Enemy = NPC_Bromance;
+
         m_CurrentState = State::UPDATE;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

@@ -19,6 +19,10 @@ std::shared_ptr<GIF> Character::GetImage() {
     return m_Image;
 }
 
+PokemonBag Character::GetPokemonBag() {
+    return m_PokemonBag;
+}
+
 void Character::SetName(const std::string &str) {
     m_Name = str;
 }
