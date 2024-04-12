@@ -29,7 +29,7 @@ void App::Update() {
         m_CurrentEvent = EventID::MOVE;
     }
 
-    if (Util::Input::IsKeyPressed(Util::Keycode::Z)) {
+    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
         glm::vec2 targetPosition = m_MapSystem->GetPlayerPosition();
         if (currentDirection == "UP") targetPosition.x--;
         else if (currentDirection == "DOWN") targetPosition.x++;

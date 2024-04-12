@@ -44,7 +44,7 @@ void App::Event() {
             if (DisplacementCount == 0) {
                 m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
                 int eventID = m_MapSystem->GetBlocks()[m_MapSystem->GetPlayerPosition().x][m_MapSystem->GetPlayerPosition().y]->GetEventID();
-                if (eventID != 0) {
+                if (eventID != 0 && (Displacement.x!=0 || Displacement.y!=0)) {
                     m_CurrentEvent = (EventID) eventID;
                 } else if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
                     DisplacementCount = Player->GetSpeed();
@@ -134,7 +134,34 @@ void App::Event() {
 
         //endregion
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
+        if (!m_TB->GetVisibility()) {
+            glm::vec2 BillboardPosition = m_MapSystem->GetPlayerPosition();
+            if (currentDirection == "UP") BillboardPosition.x--;
+            else if (currentDirection == "DOWN") BillboardPosition.x++;
+            else if (currentDirection == "LEFT") BillboardPosition.y--;
+            else BillboardPosition.y++;
 
+            if (BillboardPosition.x == 83 && BillboardPosition.y == 63) {
+                m_TB->SetText(Player->GetName()+"的家");
+            } else if(BillboardPosition.x == 83 && BillboardPosition.y == 71){
+                m_TB->SetText(NPC_Bromance->GetName()+"的家");
+            } else if(BillboardPosition.x == 87 && BillboardPosition.y == 67){
+                m_TB->SetText("真新鎮");
+            } else if(BillboardPosition.x == 91 && BillboardPosition.y == 73){
+                m_TB->SetText("大木博士的實驗室");
+            } else {
+                m_TB->SetText("(" + std::to_string((int) BillboardPosition.x) + "," +
+                              std::to_string((int) BillboardPosition.y) +
+                              ")'s billboard has not implement");
+            }
+            m_TB->SetVisible(true);
+        }
+
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+            m_TB->SetVisible(false);
+            m_CurrentEvent = EventID::NONE;
+            m_CurrentState = State::UPDATE;
+        }
     } else if (m_CurrentEvent == EventID::JUMP) {
         //region
         if (DisplacementCount != 0) {

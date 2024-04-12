@@ -8,7 +8,7 @@ class Character {
 private:
     std::string m_Name;
     float m_Speed;
-    PokemonBag m_PokemonBag;
+    std::shared_ptr<PokemonBag> m_PokemonBag;
     std::shared_ptr<GIF> m_Image;
     std::vector<std::vector<std::string>> m_ImagePathses;
     size_t m_CurrentImagePath;
@@ -21,7 +21,7 @@ public:
 
     std::shared_ptr<GIF> GetImage();
 
-    PokemonBag GetPokemonBag();
+    std::shared_ptr<PokemonBag> GetPokemonBag();
 
     void SetName(const std::string &str);
 
