@@ -44,7 +44,7 @@ void App::Event() {
             if (DisplacementCount == 0) {
                 m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
                 int eventID = m_MapSystem->GetBlocks()[m_MapSystem->GetPlayerPosition().x][m_MapSystem->GetPlayerPosition().y]->GetEventID();
-                if (eventID != 0 && (Displacement.x!=0 || Displacement.y!=0)) {
+                if (eventID != 0 && (Displacement.x != 0 || Displacement.y != 0)) {
                     m_CurrentEvent = (EventID) eventID;
                 } else if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
                     DisplacementCount = Player->GetSpeed();
@@ -78,9 +78,8 @@ void App::Event() {
                     m_MapSystem->SetPosition({144, 216});
                 } else if (PlayerPosition.x == 89 && PlayerPosition.y == 72) {
                     m_MapSystem->SetMap("OakLab");
-                    m_MapSystem->SetPosition({72,360});
-                }
-                else {
+                    m_MapSystem->SetPosition({72, 360});
+                } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
             } else if (currnetMap == "PlayerHouse1F") {
@@ -147,12 +146,12 @@ void App::Event() {
             else BillboardPosition.y++;
 
             if (BillboardPosition.x == 83 && BillboardPosition.y == 63) {
-                m_TB->SetText(Player->GetName()+"的家");
-            } else if(BillboardPosition.x == 83 && BillboardPosition.y == 71){
-                m_TB->SetText(NPC_Bromance->GetName()+"的家");
-            } else if(BillboardPosition.x == 87 && BillboardPosition.y == 67){
+                m_TB->SetText(Player->GetName() + "的家");
+            } else if (BillboardPosition.x == 83 && BillboardPosition.y == 71) {
+                m_TB->SetText(NPC_Bromance->GetName() + "的家");
+            } else if (BillboardPosition.x == 87 && BillboardPosition.y == 67) {
                 m_TB->SetText("真新鎮");
-            } else if(BillboardPosition.x == 91 && BillboardPosition.y == 73){
+            } else if (BillboardPosition.x == 91 && BillboardPosition.y == 73) {
                 m_TB->SetText("大木博士的實驗室");
             } else {
                 m_TB->SetText("(" + std::to_string((int) BillboardPosition.x) + "," +
@@ -187,11 +186,9 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
 
-    }
-    else if (m_CurrentEvent==EventID::BALL){
+    } else if (m_CurrentEvent == EventID::BALL) {
 
-    }
-    else if (m_CurrentEvent == EventID::NONE) {
+    } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }
 

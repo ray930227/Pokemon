@@ -4,8 +4,8 @@ Block::Block(bool traversable, bool event, int eventID) {
     SetTraversable(traversable);
     SetEvent(event);
     m_eventID = eventID;
-    m_Displayable=eventID==6;
-    if(m_Displayable)
+    m_Displayable = eventID == 6;
+    if (m_Displayable)
         SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Blocks/ball.png"));
 }
 
