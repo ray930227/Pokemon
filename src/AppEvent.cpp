@@ -76,7 +76,11 @@ void App::Event() {
                 if (PlayerPosition.x == 83 && PlayerPosition.y == 65) {
                     m_MapSystem->SetMap("PlayerHouse1F");
                     m_MapSystem->SetPosition({144, 216});
-                } else {
+                } else if (PlayerPosition.x == 89 && PlayerPosition.y == 72) {
+                    m_MapSystem->SetMap("OakLab");
+                    m_MapSystem->SetPosition({72,360});
+                }
+                else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
             } else if (currnetMap == "PlayerHouse1F") {
@@ -134,6 +138,7 @@ void App::Event() {
 
         //endregion
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
+        //region
         if (!m_TB->GetVisibility()) {
             glm::vec2 BillboardPosition = m_MapSystem->GetPlayerPosition();
             if (currentDirection == "UP") BillboardPosition.x--;
@@ -162,6 +167,7 @@ void App::Event() {
             m_CurrentEvent = EventID::NONE;
             m_CurrentState = State::UPDATE;
         }
+        //endregion
     } else if (m_CurrentEvent == EventID::JUMP) {
         //region
         if (DisplacementCount != 0) {
@@ -181,8 +187,12 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
 
-    } else if (m_CurrentEvent == EventID::NONE) {
+    }
+    else if (m_CurrentEvent==EventID::BALL){
 
+    }
+    else if (m_CurrentEvent == EventID::NONE) {
+        LOG_WARN("CurrentEvent is NONE");
     }
 
 

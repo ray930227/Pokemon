@@ -8,6 +8,7 @@ class Block : public Util::GameObject {
 private:
     bool m_Traversable;
     bool m_Event;
+    bool m_Displayable;
     int m_eventID;
 public:
     Block(bool traversable, bool event, int eventID);
@@ -29,6 +30,8 @@ public:
     void SetTraversable(bool traversable);
 
     void SetEvent(bool event);
+
+    bool isDisplayable();
 };
 
 #endif
