@@ -5,7 +5,7 @@ Character::Character(const std::vector<std::vector<std::string>> &ImagePathses) 
     SetImagePathses(ImagePathses);
     m_CurrentImagePath = 0;
     SetSpeed(15);
-    m_PokemonBag=std::make_shared<PokemonBag>();
+    m_PokemonBag = std::make_shared<PokemonBag>();
 }
 
 std::string &Character::GetName() {

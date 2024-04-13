@@ -36,6 +36,7 @@ public:
         BILLBOARD,
         JUMP,
         WEEKTREE,
+        BALL,
         NONE
     };
 
