@@ -1,0 +1,8 @@
+//
+// Created by ray93 on 2024/4/18.
+//
+
+#ifndef POKEMON_EVENTMANAGER_HPP
+#define POKEMON_EVENTMANAGER_HPP
+
+#endif //POKEMON_EVENTMANAGER_HPP
