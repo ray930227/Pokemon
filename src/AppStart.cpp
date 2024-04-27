@@ -74,10 +74,15 @@ void App::Start() {
     m_Root.AddChild(m_Fightskill);
 
     m_Fightitem = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
-    m_Fightitem->SetZIndex(53);
+    m_Fightitem->SetZIndex(54);
     m_Fightitem->SetVisible(false);
     m_Fightitem->SetPosition({0, -60});
     m_Root.AddChild(m_Fightitem);
+
+    m_FightPokemon=std::make_shared<Image>(RESOURCE_DIR"/Fight/FightPokemon.png");
+    m_FightPokemon->SetZIndex(54);
+    m_FightPokemon->SetVisible(false);
+    m_Root.AddChild(m_FightPokemon);
 
     m_PlayerHPimage = std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
     m_PlayerHPimage->SetZIndex(52);
@@ -128,7 +133,6 @@ void App::Start() {
     m_Root.AddChild(m_PlayerPokemon);
 
     m_PokemonBag = std::make_shared<PokemonBag>();
-    m_PokemonBag->addPomekon(m_PlayerPokemon);
 
     m_EnemyPokemon = std::make_shared<Pokemon>("007", 1);
     m_EnemyPokemon->SetZIndex(52);
@@ -140,22 +144,18 @@ void App::Start() {
     m_PlayerHP->SetZIndex(52);
     m_PlayerHP->SetVisible(false);
     m_PlayerHP->SetPosition({170, -60});
-    m_PlayerHP->SetText(
-            std::to_string(m_PlayerPokemon->GetHP()) + " / " + std::to_string(m_PlayerPokemon->GetHP()));
     m_Root.AddChild(m_PlayerHP);
 
     m_PlayerPokeName = std::make_shared<Text>();
     m_PlayerPokeName->SetZIndex(52);
     m_PlayerPokeName->SetVisible(false);
     m_PlayerPokeName->SetPosition({175, 25});
-    m_PlayerPokeName->SetText(m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
     m_Root.AddChild(m_PlayerPokeName);
 
     m_EnemyPokeName = std::make_shared<Text>();
     m_EnemyPokeName->SetZIndex(52);
     m_EnemyPokeName->SetVisible(false);
     m_EnemyPokeName->SetPosition({-110, 295});
-    m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
     m_Root.AddChild(m_EnemyPokeName);
 
     m_PlayerPokeInfo = std::make_shared<Text>();

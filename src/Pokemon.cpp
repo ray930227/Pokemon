@@ -9,6 +9,7 @@ Pokemon::Pokemon(const std::string &ID, int choose) {
     m_SpecialBP = 0;
     m_SpeedBP = 0;
     m_LV = 5;
+    m_Isfornt=choose;
     FindType();
     FindName();
     FindAbiltiy();
@@ -24,6 +25,9 @@ bool Pokemon::GetVisibility() const { return m_Visible; }
 
 const glm::vec2 &Pokemon::GetPosition() const { return m_Transform.translation; }
 
+std::string Pokemon::GetImagepath() {
+    return m_ImagePath;
+}
 void Pokemon::SetImage(const std::string &path) {
     m_ImagePath = path;
     SetDrawable(std::make_shared<Util::Image>(m_ImagePath));
@@ -114,12 +118,14 @@ void Pokemon::FindSkill() {
             m_SkillDamage.erase(m_SkillDamage.begin());
             m_SkillHitRates.erase(m_SkillHitRates.begin());
             m_SkillPPs.erase(m_SkillPPs.begin());
+            m_CurrentSkillPPs.erase(m_CurrentSkillPPs.begin());
         }
         m_SkillTypes.push_back(tokens[1]);
         m_SkillClass.push_back(tokens[2]);
         m_SkillDamage.push_back(tokens[3]);
         m_SkillHitRates.push_back(tokens[4]);
         m_SkillPPs.push_back(tokens[5]);
+        m_CurrentSkillPPs.push_back(tokens[5]);
     }
 }
 
@@ -157,6 +163,7 @@ void Pokemon::FindAbiltiy() {
     }
     FileOfAbility.close();
     m_HP = ((int(Value[m_ID - 1][0]) + m_IV + int(round(sqrt(m_HPBP) / 8))) * m_LV / 50) + 10 + m_LV;
+    m_CurrentHP=m_HP;
     m_Attack = ((int(Value[m_ID - 1][1]) + m_IV + int(round(sqrt(m_AttackBP) / 8))) * m_LV / 50) + 5;
     m_Defence = ((int(Value[m_ID - 1][2]) + m_IV + int(round(sqrt(m_DefenceBP) / 8))) * m_LV / 50) + 5;
     m_Special = ((int(Value[m_ID - 1][3]) + m_IV + int(round(sqrt(m_SpecialBP) / 8))) * m_LV / 50) + 5;
@@ -165,6 +172,14 @@ void Pokemon::FindAbiltiy() {
 
 int Pokemon::GetHP() const {
     return m_HP;
+}
+
+int Pokemon::GetCurrentHP() const {
+    return m_CurrentHP;
+}
+
+void Pokemon::PokemonHurt(int Damage) {
+    m_CurrentHP-=Damage;
 }
 
 int Pokemon::GetAttack() const {
@@ -212,6 +227,29 @@ std::vector<std::string> Pokemon::GetSkillPP() const {
     return m_SkillPPs;
 }
 
+std::vector<std::string> Pokemon::GetCurrentSkillPP() const {
+    return m_CurrentSkillPPs;
+}
+
+void Pokemon::ReducePP(int skill) {
+    int tempstr;
+    tempstr=std::stoi(m_CurrentSkillPPs[skill]);
+    tempstr-=1;
+    m_CurrentSkillPPs[skill]=std::to_string(tempstr);
+}
+
+std::vector<std::string> Pokemon::GetSkillDamge() const {
+    return m_SkillDamage;
+}
+
+std::vector<std::string> Pokemon::GetSkillHitRate() const {
+    return m_SkillHitRates;
+}
+
+std::vector<std::string> Pokemon::GetSkillClass() const {
+    return m_SkillClass;
+}
+
 void Pokemon::IsEvolution() {
     std::ifstream FileOfLevel(RESOURCE_DIR"/Pokemon/Levelup.txt");
     std::vector<int> Levels;
@@ -224,7 +262,12 @@ void Pokemon::IsEvolution() {
         std::stringstream ToString;
         ToString << std::setw(3) << std::setfill('0') << m_ID + 1;
         std::string StringID = ToString.str();
-        SetImage(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback" + StringID + ".png");
+        if (m_Isfornt){
+            SetImage(RESOURCE_DIR"/Pokemon/Pokemonfront/Pokemonfront" + StringID + ".png");
+        }
+        else{
+            SetImage(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback" + StringID + ".png");
+        }
         m_ID++;
         FindName();
     }

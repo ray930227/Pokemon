@@ -53,6 +53,39 @@ void App::Loading() {
                     m_PlayerBalls->SetVisible(true);
                     break;
                 case 3:
+                    m_PlayerHP->SetText(
+                            std::to_string(m_PlayerPokemon->GetCurrentHP()) + " / " +
+                            std::to_string(m_PlayerPokemon->GetHP()));
+                    m_PlayerPokeName->SetText(m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
+                    m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
+                    std::vector<std::shared_ptr<Text>> m_SkillAll;
+                    m_SkillAll.push_back(m_Skill1);
+                    m_SkillAll.push_back(m_Skill2);
+                    m_SkillAll.push_back(m_Skill3);
+                    m_SkillAll.push_back(m_Skill4);
+                    if (!m_PlayerPokemon->GetSkill().empty()) {
+                        m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
+                    }
+                    if (m_PlayerPokemon->GetSkill().size() >= 2) {
+                        m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
+                    }
+                    if (m_PlayerPokemon->GetSkill().size() >= 3) {
+                        m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
+                    }
+                    if (m_PlayerPokemon->IsSkillFull()) {
+                        m_Skill4->SetText(m_PlayerPokemon->GetSkill()[3]);
+                    }
+                    int GetSkillIndex = 0;
+                    int SkillOfY = -190;
+                    for (const auto &skill: m_SkillAll) {
+                        skill->SetZIndex(55);
+                        skill->SetVisible(false);
+                        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});
+                        skill->SetPosition({skill->GetPosition().x - 120, SkillOfY});
+                        GetSkillIndex++;
+                        SkillOfY -= 40;
+                        m_Root.AddChild(skill);
+                    }
                     m_PlayerBalls->SetVisible(false);
                     m_EnemyHPUI->SetVisible(true);
                     m_EnemyHPimage->SetVisible(true);
@@ -81,6 +114,7 @@ void App::Loading() {
                             m_PlayerPokeInfo->SetVisible(true);
                             m_EnemyPokeInfo->SetVisible(true);
                             m_BallAnimation->SetCurrentFrame(0);
+                            m_CurrentFighting = FightID::SELECT;
                             m_CurrentState = State::FIGHT;
                         }
 
