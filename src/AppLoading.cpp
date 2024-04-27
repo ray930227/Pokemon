@@ -56,8 +56,10 @@ void App::Loading() {
                     m_PlayerHP->SetText(
                             std::to_string(m_PlayerPokemon->GetCurrentHP()) + " / " +
                             std::to_string(m_PlayerPokemon->GetHP()));
-                    m_PlayerPokeName->SetText(m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
-                    m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
+                    m_PlayerPokeName->SetText(
+                            m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
+                    m_EnemyPokeName->SetText(
+                            m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
                     std::vector<std::shared_ptr<Text>> m_SkillAll;
                     m_SkillAll.push_back(m_Skill1);
                     m_SkillAll.push_back(m_Skill2);

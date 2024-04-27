@@ -79,7 +79,7 @@ void App::Start() {
     m_Fightitem->SetPosition({0, -60});
     m_Root.AddChild(m_Fightitem);
 
-    m_FightPokemon=std::make_shared<Image>(RESOURCE_DIR"/Fight/FightPokemon.png");
+    m_FightPokemon = std::make_shared<Image>(RESOURCE_DIR"/Fight/FightPokemon.png");
     m_FightPokemon->SetZIndex(54);
     m_FightPokemon->SetVisible(false);
     m_Root.AddChild(m_FightPokemon);

@@ -9,8 +9,9 @@ namespace useful {
     std::vector<std::string> split(std::string &str, char interval);
 }
 
-namespace PokeFunction{
+namespace PokeFunction {
     int FindIndex(std::string MyType);
-    float TypeDamage(std::string MyType,std::vector<std::string> EnemyType);
+
+    float TypeDamage(std::string MyType, std::vector<std::string> EnemyType);
 }
 #endif //POKEMON_USEFULFUNCTIONS_HPP

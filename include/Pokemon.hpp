@@ -45,7 +45,7 @@ public:
 
     [[nodiscard]] const glm::vec2 &GetPosition() const;
 
-    std::string  GetImagepath();
+    std::string GetImagepath();
 
     void SetImage(const std::string &path);
 

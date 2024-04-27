@@ -9,7 +9,7 @@ Pokemon::Pokemon(const std::string &ID, int choose) {
     m_SpecialBP = 0;
     m_SpeedBP = 0;
     m_LV = 5;
-    m_Isfornt=choose;
+    m_Isfornt = choose;
     FindType();
     FindName();
     FindAbiltiy();
@@ -28,6 +28,7 @@ const glm::vec2 &Pokemon::GetPosition() const { return m_Transform.translation; 
 std::string Pokemon::GetImagepath() {
     return m_ImagePath;
 }
+
 void Pokemon::SetImage(const std::string &path) {
     m_ImagePath = path;
     SetDrawable(std::make_shared<Util::Image>(m_ImagePath));
@@ -163,7 +164,7 @@ void Pokemon::FindAbiltiy() {
     }
     FileOfAbility.close();
     m_HP = ((int(Value[m_ID - 1][0]) + m_IV + int(round(sqrt(m_HPBP) / 8))) * m_LV / 50) + 10 + m_LV;
-    m_CurrentHP=m_HP;
+    m_CurrentHP = m_HP;
     m_Attack = ((int(Value[m_ID - 1][1]) + m_IV + int(round(sqrt(m_AttackBP) / 8))) * m_LV / 50) + 5;
     m_Defence = ((int(Value[m_ID - 1][2]) + m_IV + int(round(sqrt(m_DefenceBP) / 8))) * m_LV / 50) + 5;
     m_Special = ((int(Value[m_ID - 1][3]) + m_IV + int(round(sqrt(m_SpecialBP) / 8))) * m_LV / 50) + 5;
@@ -179,7 +180,7 @@ int Pokemon::GetCurrentHP() const {
 }
 
 void Pokemon::PokemonHurt(int Damage) {
-    m_CurrentHP-=Damage;
+    m_CurrentHP -= Damage;
 }
 
 int Pokemon::GetAttack() const {
@@ -233,9 +234,9 @@ std::vector<std::string> Pokemon::GetCurrentSkillPP() const {
 
 void Pokemon::ReducePP(int skill) {
     int tempstr;
-    tempstr=std::stoi(m_CurrentSkillPPs[skill]);
-    tempstr-=1;
-    m_CurrentSkillPPs[skill]=std::to_string(tempstr);
+    tempstr = std::stoi(m_CurrentSkillPPs[skill]);
+    tempstr -= 1;
+    m_CurrentSkillPPs[skill] = std::to_string(tempstr);
 }
 
 std::vector<std::string> Pokemon::GetSkillDamge() const {
@@ -262,10 +263,9 @@ void Pokemon::IsEvolution() {
         std::stringstream ToString;
         ToString << std::setw(3) << std::setfill('0') << m_ID + 1;
         std::string StringID = ToString.str();
-        if (m_Isfornt){
+        if (m_Isfornt) {
             SetImage(RESOURCE_DIR"/Pokemon/Pokemonfront/Pokemonfront" + StringID + ".png");
-        }
-        else{
+        } else {
             SetImage(RESOURCE_DIR"/Pokemon/Pokemonback/Pokemonback" + StringID + ".png");
         }
         m_ID++;
