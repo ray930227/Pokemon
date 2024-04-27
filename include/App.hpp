@@ -48,6 +48,12 @@ public:
         NONE
     };
 
+    enum class FightID {
+        SELECT,
+        FIGHT,
+        NONE
+    };
+
     State GetCurrentState() const { return m_CurrentState; }
 
     void Start();
@@ -73,6 +79,7 @@ private:
     State m_CurrentState = State::START;
     EventID m_CurrentEvent = EventID::NONE;
     LoadingID m_CurrentLoading = LoadingID::NONE;
+    FightID m_CurrentFighting = FightID::NONE;
 
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;
@@ -88,6 +95,7 @@ private:
     std::shared_ptr<Image> m_arrow;
     std::shared_ptr<Image> m_Fightskill;
     std::shared_ptr<Image> m_Fightitem;
+    std::shared_ptr<Image> m_FightPokemon;
     std::shared_ptr<Image> m_PlayerHPimage;
     std::shared_ptr<Image> m_EnemyHPimage;
     std::shared_ptr<Image> m_PlayerHPUI;

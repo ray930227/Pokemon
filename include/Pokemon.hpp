@@ -18,11 +18,14 @@ private:
     std::vector<std::string> m_SkillDamage;
     std::vector<std::string> m_SkillHitRates;
     std::vector<std::string> m_SkillPPs;
+    std::vector<std::string> m_CurrentSkillPPs;
+
     std::string m_ImagePath;
     std::string m_Name;
     std::vector<std::string> m_Type;
     int m_LV;
     int m_HP;
+    int m_CurrentHP;
     int m_Attack;
     int m_Defence;
     int m_Special;
@@ -34,12 +37,15 @@ private:
     int m_SpecialBP;
     int m_SpeedBP;
     int m_ID;
+    bool m_Isfornt;
 public:
     Pokemon(const std::string &ID, int choose);//choose 0:back 1:front
 
     [[nodiscard]] bool GetVisibility() const;
 
     [[nodiscard]] const glm::vec2 &GetPosition() const;
+
+    std::string GetImagepath();
 
     void SetImage(const std::string &path);
 
@@ -67,25 +73,39 @@ public:
 
     void FindAbiltiy();
 
-    int GetHP() const;
+    [[nodiscard]] int GetHP() const;
 
-    int GetAttack() const;
+    [[nodiscard]] int GetCurrentHP() const;
 
-    int GetDefence() const;
+    void PokemonHurt(int Damage);
 
-    int GetSpecial() const;
+    [[nodiscard]] int GetAttack() const;
 
-    int GetSpeed() const;
+    [[nodiscard]] int GetDefence() const;
 
-    int GetIV() const;
+    [[nodiscard]] int GetSpecial() const;
 
-    int GetLV() const;
+    [[nodiscard]] int GetSpeed() const;
 
-    bool IsSkillFull() const;
+    [[nodiscard]] int GetIV() const;
+
+    [[nodiscard]] int GetLV() const;
+
+    [[nodiscard]] bool IsSkillFull() const;
 
     [[nodiscard]] std::vector<std::string> GetSkillType() const;
 
     [[nodiscard]] std::vector<std::string> GetSkillPP() const;
+
+    [[nodiscard]] std::vector<std::string> GetCurrentSkillPP() const;
+
+    void ReducePP(int skill);
+
+    [[nodiscard]] std::vector<std::string> GetSkillDamge() const;
+
+    [[nodiscard]] std::vector<std::string> GetSkillHitRate() const;
+
+    [[nodiscard]] std::vector<std::string> GetSkillClass() const;
 
     void IsEvolution();
 };
