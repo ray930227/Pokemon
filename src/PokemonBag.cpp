@@ -13,6 +13,10 @@ void PokemonBag::addPomekon(const std::shared_ptr<Pokemon> &pokemon) {
         Pokemons.push_back(pokemon);
 }
 
+int PokemonBag::size() {
+    return Pokemons.size();
+}
+
 bool PokemonBag::isFull() {
     return Pokemons.size() == 6;
 }

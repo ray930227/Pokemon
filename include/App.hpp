@@ -10,6 +10,7 @@
 #include "Character.hpp"
 #include "MapSystem.hpp"
 #include "Pokemon.hpp"
+#include "EventManager.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -37,6 +38,7 @@ public:
         JUMP,
         WEEKTREE,
         BALL,
+        CHOOSE_POKEMON,
         NONE
     };
 
@@ -110,11 +112,13 @@ private:
     std::shared_ptr<Character> Player;
     std::shared_ptr<Character> Enemy;
     std::shared_ptr<Character> NPC_Bromance;
+    std::shared_ptr<Character> NPC_Oak;
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
     int DisplacementCount;
     bool encounterable = true;
     std::string currentDirection;
+    EventManager m_EventManager;
 };
 
 #endif

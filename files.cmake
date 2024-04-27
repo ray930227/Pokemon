@@ -2,7 +2,6 @@ set(SRC_FILES
     AppEnd.cpp
     AppStart.cpp
     AppHome.cpp
-    Object.cpp
     AppInit.cpp
     TextBox.cpp
     TextBox.cpp
@@ -24,7 +23,6 @@ set(SRC_FILES
 
 set(INCLUDE_FILES
     App.hpp
-    Object.hpp
     TextBox.hpp
     Character.hpp
     Image.hpp

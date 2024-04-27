@@ -43,9 +43,17 @@ void App::Event() {
             DisplacementCount--;
             if (DisplacementCount == 0) {
                 m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
-                int eventID = m_MapSystem->GetBlocks()[m_MapSystem->GetPlayerPosition().x][m_MapSystem->GetPlayerPosition().y]->GetEventID();
-                if (eventID != 0 && (Displacement.x != 0 || Displacement.y != 0)) {
-                    m_CurrentEvent = (EventID) eventID;
+                glm::vec2 playerPosition=m_MapSystem->GetPlayerPosition();
+                std::shared_ptr<Block> block = m_MapSystem->GetBlocks()[playerPosition.x][playerPosition.y];
+                if (block->GetEventID() != 0 && (Displacement.x != 0 || Displacement.y != 0)) {
+                    if(block->GetEventID()==(int)EventID::GRASS && Player->GetPokemonBag()->size()==0){
+                        m_TB->ReadLines(RESOURCE_DIR"/Lines/FirstInGrass.txt");
+                        m_TB->SetVisible(true);
+                        m_CurrentEvent=EventID::CHOOSE_POKEMON;
+                    }
+                    else{
+                        m_CurrentEvent = (EventID) block->GetEventID();
+                    }
                 } else if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
                     DisplacementCount = Player->GetSpeed();
                 } else if (currentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
@@ -93,6 +101,10 @@ void App::Event() {
             } else if (currnetMap == "PlayerHouse2F") {
                 m_MapSystem->SetMap("PlayerHouse1F");
                 m_MapSystem->SetPosition({-216, -216});
+            }
+            else if (currnetMap == "OakLab") {
+                m_MapSystem->SetMap("MainMap");
+                m_MapSystem->SetPosition({-1728,2952});
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
@@ -188,6 +200,37 @@ void App::Event() {
 
     } else if (m_CurrentEvent == EventID::BALL) {
 
+    } else if (m_CurrentEvent == EventID::CHOOSE_POKEMON) {
+        if(m_TB->GetVisibility()){
+            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+                m_TB->Next();
+                if(m_TB->GetLineIndex()==2){
+                    Player->SetCurrentImagePath(1);
+                    for(int i=0;i<10;i++){
+
+                    }
+                }
+
+            }
+            if (m_TB->GetText().find("<Player>") < m_TB->GetText().size()) {
+                std::string tempStr = m_TB->GetText();
+                tempStr.replace(tempStr.begin() + tempStr.find("<Player>"),
+                                tempStr.begin() + tempStr.find("<Player>") + 8,
+                                Player->GetName());
+                m_TB->SetText(tempStr);
+            }
+            if (m_TB->GetText().find("<NPC_Bromance>") < m_TB->GetText().size()) {
+                std::string tempStr = m_TB->GetText();
+                tempStr.replace(tempStr.begin() + tempStr.find("<NPC_Bromance>"),
+                                tempStr.begin() + tempStr.find("<NPC_Bromance>") + 14,
+                                NPC_Bromance->GetName());
+                m_TB->SetText(tempStr);
+            }
+        }
+        else{
+            m_CurrentEvent=EventID::NONE;
+            m_CurrentState=State::UPDATE;
+        }
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }
