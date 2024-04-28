@@ -267,5 +267,16 @@ void App::Start() {
     tempImagePathses.push_back({RESOURCE_DIR"/Charactor/enemyfront_1.png"});
     NPC_Bromance = std::make_shared<Character>(tempImagePathses);
 
+    tempImagePathses.clear();
+    tempImagePathses.resize(4);
+    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakBack.png"});
+    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakFront.png"});
+    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakLeft.png"});
+    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakRight.png"});
+    NPC_Oak = std::make_shared<Character>(tempImagePathses);
+    NPC_Oak->GetImage()->SetZIndex(49);
+    NPC_Oak->GetImage()->SetVisible(false);
+    m_Root.AddChild(NPC_Oak->GetImage());
+
     m_CurrentState = State::HOME;
 }

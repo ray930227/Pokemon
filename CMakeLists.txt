@@ -21,6 +21,8 @@ add_executable(${PROJECT_NAME}
     ${HEADER_FILES}
     include/PokemonBag.hpp
     src/PokemonBag.cpp
+    include/EventManager.hpp
+    src/EventManager.cpp
 )
 
 if(MSVC)
