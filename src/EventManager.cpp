@@ -7,7 +7,7 @@ EventManager::EventManager() {
     while (std::getline(fileArea, tempStr)) {
         std::vector<int> tempVector;
         for (size_t i = 0; i < tempStr.size(); i += 2) {
-            tempVector.push_back(tempStr[i]-'0');
+            tempVector.push_back(tempStr[i] - '0');
         }
         m_Area.push_back(tempVector);
     }

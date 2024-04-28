@@ -71,13 +71,13 @@ void App::Init() {
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
 
-        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("004", 0);
-        TempPokemon->SetZIndex(52);
-        TempPokemon->SetPosition({-210, -10});
-        TempPokemon->SetVisible(false);
-        m_Root.AddChild(TempPokemon);
-        Player->GetPokemonBag()->addPomekon(TempPokemon);
-        TempPokemon = std::make_shared<Pokemon>("007", 1);
+//        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("004", 0);
+//        TempPokemon->SetZIndex(52);
+//        TempPokemon->SetPosition({-210, -10});
+//        TempPokemon->SetVisible(false);
+//        m_Root.AddChild(TempPokemon);
+//        Player->GetPokemonBag()->addPomekon(TempPokemon);
+        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("007", 1);
         TempPokemon->SetZIndex(52);
         TempPokemon->SetPosition({210, 230});
         TempPokemon->SetVisible(false);
@@ -85,7 +85,7 @@ void App::Init() {
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
 
         Enemy = NPC_Bromance;
-        m_PlayerPokemon = Player->GetPokemonBag()->GetPokemons()[0];
+//        m_PlayerPokemon = Player->GetPokemonBag()->GetPokemons()[0];
         m_EnemyPokemon = Enemy->GetPokemonBag()->GetPokemons()[0];
 
         m_CurrentState = State::UPDATE;

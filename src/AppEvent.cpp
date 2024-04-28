@@ -43,15 +43,14 @@ void App::Event() {
             DisplacementCount--;
             if (DisplacementCount == 0) {
                 m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
-                glm::vec2 playerPosition=m_MapSystem->GetPlayerPosition();
+                glm::vec2 playerPosition = m_MapSystem->GetPlayerPosition();
                 std::shared_ptr<Block> block = m_MapSystem->GetBlocks()[playerPosition.x][playerPosition.y];
                 if (block->GetEventID() != 0 && (Displacement.x != 0 || Displacement.y != 0)) {
-                    if(block->GetEventID()==(int)EventID::GRASS && Player->GetPokemonBag()->size()==0){
+                    if (block->GetEventID() == (int) EventID::GRASS && Player->GetPokemonBag()->size() == 0) {
                         m_TB->ReadLines(RESOURCE_DIR"/Lines/FirstInGrass.txt");
                         m_TB->SetVisible(true);
-                        m_CurrentEvent=EventID::CHOOSE_POKEMON;
-                    }
-                    else{
+                        m_CurrentEvent = EventID::CHOOSE_POKEMON;
+                    } else {
                         m_CurrentEvent = (EventID) block->GetEventID();
                     }
                 } else if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
@@ -101,10 +100,9 @@ void App::Event() {
             } else if (currnetMap == "PlayerHouse2F") {
                 m_MapSystem->SetMap("PlayerHouse1F");
                 m_MapSystem->SetPosition({-216, -216});
-            }
-            else if (currnetMap == "OakLab") {
+            } else if (currnetMap == "OakLab") {
                 m_MapSystem->SetMap("MainMap");
-                m_MapSystem->SetPosition({-1728,2952});
+                m_MapSystem->SetPosition({-1728, 2952});
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
@@ -201,14 +199,31 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::BALL) {
 
     } else if (m_CurrentEvent == EventID::CHOOSE_POKEMON) {
-        if(m_TB->GetVisibility()){
-            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+        //region
+        if (m_TB->GetVisibility()) {
+            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
-                if(m_TB->GetLineIndex()==2){
+                if (m_TB->GetLineIndex() == 2) {
                     Player->SetCurrentImagePath(1);
-                    for(int i=0;i<10;i++){
+//                    NPC_Oak->SetCurrentImagePath(0);
+                    NPC_Oak->GetImage()->SetDrawable(
+                            std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakBack.png"));
+                    NPC_Oak->GetImage()->SetVisible(true);
+                    NPC_Oak->GetImage()->SetPosition({36, -180});
+                    for (int i = 0; i < Player->GetSpeed(); i++) {
+                        NPC_Oak->GetImage()->Move({0, 72.0 / Player->GetSpeed()});
+//                        if (i == Player->GetSpeed() / 4 || i == Player->GetSpeed() / 3 * 2) {
+//                            size_t FrameCount = NPC_Oak->GetImage()->GetFrameCount();
+//                            size_t CurrentFrameIndex = NPC_Oak->GetImage()->GetCurrentFrameIndex();
+//                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+//                        }
 
+                        m_Root.Update();
+                        auto context = Core::Context::GetInstance();
+                        context->Update();
                     }
+                    NPC_Oak->GetImage()->SetPosition(
+                            {round(NPC_Oak->GetImage()->GetPosition().x), round(NPC_Oak->GetImage()->GetPosition().y)});
                 }
 
             }
@@ -226,11 +241,72 @@ void App::Event() {
                                 NPC_Bromance->GetName());
                 m_TB->SetText(tempStr);
             }
+        } else {
+            std::vector<std::pair<int, glm::vec2>> temp;
+            temp.push_back({1, {0, 72.0 / Player->GetSpeed()}});
+            temp.push_back({m_MapSystem->GetPosition().x == -1584 ? 1 : 2, {72.0 / Player->GetSpeed(), 0}});
+            temp.push_back({10, {0, 72.0 / Player->GetSpeed()}});
+            temp.push_back({3, {-72.0 / Player->GetSpeed(), 0}});
+            temp.push_back({1, {0, -72.0 / Player->GetSpeed()}});
+
+            for (size_t i = 0; i < temp.size(); i++) {
+                if (temp[i].second.y < 0) Player->SetCurrentImagePath(0);
+                else if (temp[i].second.y > 0) Player->SetCurrentImagePath(1);
+                else if (temp[i].second.x > 0) Player->SetCurrentImagePath(2);
+                else Player->SetCurrentImagePath(3);
+
+                for (int times = 0; times < temp[i].first; times++) {
+//                    NPC_Oak->SetCurrentImagePath(1);
+                    if(i==temp.size()-1)
+                        NPC_Oak->GetImage()->SetVisible(false);
+                    for (int count = Player->GetSpeed(); count > 0; count--) {
+                        m_MapSystem->Move(temp[i].second);
+                        if (i+1<temp.size() && times == temp[i].first - 1) {
+                            if (temp[i].second.x == 0)
+                                NPC_Oak->GetImage()->Move({0 - temp[i + 1].second.x, temp[i].second.y});
+                            else
+                                NPC_Oak->GetImage()->Move({temp[i].second.x, 0 - temp[i + 1].second.y});
+
+                            if (temp[i + 1].second.y < 0)
+                                NPC_Oak->GetImage()->SetDrawable(
+                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakBack.png"));
+                            else if (temp[i + 1].second.y > 0)
+                                NPC_Oak->GetImage()->SetDrawable(
+                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakFront.png"));
+                            else if (temp[i + 1].second.x > 0)
+                                NPC_Oak->GetImage()->SetDrawable(
+                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakLeft.png"));
+                            else
+                                NPC_Oak->GetImage()->SetDrawable(
+                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakRight.png"));
+
+
+                        }
+                        if (count == Player->GetSpeed() / 4 || count == Player->GetSpeed() / 3 * 2) {
+                            size_t FrameCount = Player->GetImage()->GetFrameCount();
+                            size_t CurrentFrameIndex = Player->GetImage()->GetCurrentFrameIndex();
+                            Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+//                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+                        }
+
+                        m_Root.Update();
+                        auto context = Core::Context::GetInstance();
+                        context->Update();
+                    }
+                    m_MapSystem->SetPosition(
+                            {round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
+                    auto NPC_OakImage = NPC_Oak->GetImage();
+                    NPC_OakImage->SetPosition(
+                            {round(NPC_OakImage->GetPosition().x), round(NPC_OakImage->GetPosition().y)});
+                }
+                LOG_DEBUG("({},{})", m_MapSystem->GetPosition().x, m_MapSystem->GetPosition().y);
+
+
+            }
+
+            m_CurrentEvent = EventID::DOOR;
         }
-        else{
-            m_CurrentEvent=EventID::NONE;
-            m_CurrentState=State::UPDATE;
-        }
+        //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

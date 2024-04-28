@@ -16,6 +16,7 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 #include "Util/BGM.hpp"
+#include "Core/Context.hpp"
 
 class App {
 public:
@@ -71,9 +72,6 @@ public:
     void Fight();
 
     void End();
-
-private:
-    void ValidTask();
 
 private:
     State m_CurrentState = State::START;
