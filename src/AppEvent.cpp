@@ -122,7 +122,7 @@ void App::Event() {
             m_FightLoad1_2->SetVisible(true);
             m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
             m_tempImage->SetPosition({620, -10});
-            m_EnemyPokemon->SetPosition({-620, 230});
+            m_EnemyPokemonImage->SetPosition({-620, 230});
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;

@@ -50,8 +50,14 @@ public:
     };
 
     enum class FightID {
-        SELECT,
+        HOME,
+        SKILL,
+        POKEBACK,
+        BACKPACK,
         FIGHT,
+        OBTAINSKILL,
+        REPLACESKILL,
+        UPDATEINFO,
         NONE
     };
 
@@ -88,6 +94,8 @@ private:
     std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<Image> m_tempImage;
 
+    std::shared_ptr<Image> m_PlayerPokemonImage;
+    std::shared_ptr<Image> m_EnemyPokemonImage;
     std::shared_ptr<Image> m_FightLoad1_1;
     std::shared_ptr<Image> m_FightLoad1_2;
     std::shared_ptr<Image> m_arrow;
@@ -102,7 +110,6 @@ private:
     std::shared_ptr<GIF> m_BallAnimation;
     std::shared_ptr<Pokemon> m_PlayerPokemon;
     std::shared_ptr<Pokemon> m_EnemyPokemon;
-    std::shared_ptr<PokemonBag> m_PokemonBag;
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
     std::shared_ptr<Text> m_EnemyPokeName;
@@ -121,6 +128,8 @@ private:
     std::shared_ptr<Character> NPC_Oak;
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
+    int SkillChoose;
+    bool IsPlayerRound;
     int DisplacementCount;
     bool encounterable = true;
     std::string currentDirection;

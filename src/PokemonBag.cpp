@@ -1,7 +1,6 @@
 #include "PokemonBag.hpp"
 
 PokemonBag::PokemonBag() {
-
 }
 
 std::vector<std::shared_ptr<Pokemon>> PokemonBag::GetPokemons() {

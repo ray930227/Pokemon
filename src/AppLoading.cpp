@@ -11,11 +11,11 @@ void App::Loading() {
                 m_WhiteBG->SetZIndex(51);
                 m_tempImage->SetVisible(true);
                 m_tempImage->SetZIndex(52);
-                m_EnemyPokemon->SetVisible(true);
+                m_EnemyPokemonImage->SetVisible(true);
                 m_TB->SetVisible(true);
                 if (m_tempImage->GetPosition().x != -210) {
                     m_tempImage->Move({-10, 0});
-                    m_EnemyPokemon->Move({10, 0});
+                    m_EnemyPokemonImage->Move({10, 0});
                 } else {
                     m_TB->Next();
                     m_FightLoad1_1->SetPosition({-720, 0});
@@ -48,7 +48,7 @@ void App::Loading() {
                         m_BallAnimation->Reset();
                         m_BallAnimation->SetVisible(true);
                         m_BallAnimation->Play();
-                        m_PlayerPokemon->SetScale({0.5, 0.5});
+                        m_PlayerPokemonImage->SetScale({0.5, 0.5});
                     }
                     m_PlayerBalls->SetVisible(true);
                     break;
@@ -92,7 +92,7 @@ void App::Loading() {
                     m_EnemyHPUI->SetVisible(true);
                     m_EnemyHPimage->SetVisible(true);
                     m_EnemyPokeName->SetVisible(true);
-                    if (m_PlayerPokemon->GetScale().x >= 1 && m_TB->GetVisibility() &&
+                    if (m_PlayerPokemonImage->GetScale().x >= 1 && m_TB->GetVisibility() &&
                         (Util::Input::IsKeyDown(Util::Keycode::Z))) {
                         m_TB->Next();
                     }
@@ -100,12 +100,12 @@ void App::Loading() {
                         m_tempImage->Move({-10, 0});
                     } else {
                         if (m_BallAnimation->IsAnimationEnds()) {
-                            if (m_PlayerPokemon->GetScale().x <= 1.0) {
-                                m_PlayerPokemon->SetScale(
-                                        {m_PlayerPokemon->GetScale().x + 0.05, m_PlayerPokemon->GetScale().y + 0.05});
+                            if (m_PlayerPokemonImage->GetScale().x <= 1.0) {
+                                m_PlayerPokemonImage->SetScale(
+                                        {m_PlayerPokemonImage->GetScale().x + 0.05, m_PlayerPokemonImage->GetScale().y + 0.05});
                             }
                             m_BallAnimation->SetVisible(false);
-                            m_PlayerPokemon->SetVisible(true);
+                            m_PlayerPokemonImage->SetVisible(true);
                             m_PlayerHPUI->SetVisible(true);
                             m_PlayerHPimage->SetVisible(true);
                             m_PlayerPokeName->SetVisible(true);
@@ -116,7 +116,7 @@ void App::Loading() {
                             m_PlayerPokeInfo->SetVisible(true);
                             m_EnemyPokeInfo->SetVisible(true);
                             m_BallAnimation->SetCurrentFrame(0);
-                            m_CurrentFighting = FightID::SELECT;
+                            m_CurrentFighting = FightID::HOME;
                             m_CurrentState = State::FIGHT;
                         }
 

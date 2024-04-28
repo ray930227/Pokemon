@@ -20,6 +20,8 @@ public:
 
     void SetScale(const glm::vec2 &scale);
 
+    [[nodiscard]] const glm::vec2 &GetScale() const;
+
     void Move(const glm::vec2 &Displacement);
 };
 

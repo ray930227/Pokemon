@@ -43,5 +43,6 @@ float PokeFunction::TypeDamage(std::string MyType, std::vector<std::string> Enem
     for (auto type: EnemyType) {
         FinalBouns *= DamageBonus[FindIndex(MyType)][FindIndex(type)];
     }
+
     return FinalBouns;
 }
