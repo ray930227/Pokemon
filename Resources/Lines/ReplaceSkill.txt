@@ -1,0 +1,4 @@
+<PlayerPokemon>學習到了<Skill>!
+但<PlayerPokemon>不能學習超過四個技能
+你要讓<PlayerPokemon>學習新技能並取代舊技能嗎?      是      否
+你要移除掉哪個技能?

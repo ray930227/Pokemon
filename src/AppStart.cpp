@@ -126,19 +126,21 @@ void App::Start() {
     m_BallAnimation->SetPosition({-210, -10});
     m_Root.AddChild(m_BallAnimation);
 
-    m_PlayerPokemon = std::make_shared<Pokemon>("004", 0);
-    m_PlayerPokemon->SetZIndex(52);
-    m_PlayerPokemon->SetVisible(false);
-    m_PlayerPokemon->SetPosition({-210, -10});
-    m_Root.AddChild(m_PlayerPokemon);
+    m_PlayerPokemon = std::make_shared<Pokemon>("004");
 
-    m_PokemonBag = std::make_shared<PokemonBag>();
+    m_PlayerPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback"+m_PlayerPokemon->GetID()+".png");
+    m_PlayerPokemonImage->SetZIndex(52);
+    m_PlayerPokemonImage->SetVisible(false);
+    m_PlayerPokemonImage->SetPosition({-210, -10});
+    m_Root.AddChild(m_PlayerPokemonImage);
 
-    m_EnemyPokemon = std::make_shared<Pokemon>("007", 1);
-    m_EnemyPokemon->SetZIndex(52);
-    m_EnemyPokemon->SetVisible(false);
-    m_EnemyPokemon->SetPosition({210, 230});
-    m_Root.AddChild(m_EnemyPokemon);
+    m_EnemyPokemon = std::make_shared<Pokemon>("007");
+
+    m_EnemyPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
+    m_EnemyPokemonImage->SetZIndex(52);
+    m_EnemyPokemonImage->SetVisible(false);
+    m_EnemyPokemonImage->SetPosition({210, 230});
+    m_Root.AddChild(m_EnemyPokemonImage);
 
     m_PlayerHP = std::make_shared<Text>();
     m_PlayerHP->SetZIndex(52);

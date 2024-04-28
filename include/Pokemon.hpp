@@ -2,7 +2,6 @@
 #define POKEMON_POKEMON_HPP
 
 #include "Util/GameObject.hpp"
-#include "Util/Image.hpp"
 #include "UsefulFunctions.hpp"
 #include <string>
 #include <fstream>
@@ -10,7 +9,7 @@
 #include <sstream>
 #include <iomanip>
 
-class Pokemon : public Util::GameObject {
+class Pokemon {
 private:
     std::vector<std::string> m_Skills;
     std::vector<std::string> m_SkillTypes;
@@ -20,16 +19,15 @@ private:
     std::vector<std::string> m_SkillPPs;
     std::vector<std::string> m_CurrentSkillPPs;
 
-    std::string m_ImagePath;
     std::string m_Name;
     std::vector<std::string> m_Type;
     int m_LV;
-    int m_HP;
+    int m_HP{};
     int m_CurrentHP;
-    int m_Attack;
-    int m_Defence;
-    int m_Special;
-    int m_Speed;
+    int m_Attack{};
+    int m_Defence{};
+    int m_Special{};
+    int m_Speed{};
     int m_IV;
     int m_HPBP;
     int m_AttackBP;
@@ -37,25 +35,10 @@ private:
     int m_SpecialBP;
     int m_SpeedBP;
     int m_ID;
-    bool m_Isfornt;
 public:
-    Pokemon(const std::string &ID, int choose);//choose 0:back 1:front
+    Pokemon(const std::string &ID);
 
-    [[nodiscard]] bool GetVisibility() const;
-
-    [[nodiscard]] const glm::vec2 &GetPosition() const;
-
-    std::string GetImagepath();
-
-    void SetImage(const std::string &path);
-
-    void SetPosition(const glm::vec2 &Position);
-
-    [[nodiscard]] const glm::vec2 &GetScale();
-
-    void SetScale(const glm::vec2 &scale);
-
-    void Move(const glm::vec2 &Displacement);
+    std::string GetID();
 
     void LevelUp();
 
@@ -63,7 +46,15 @@ public:
 
     [[nodiscard]] std::string GetName() const;
 
+    std::pair<std::vector<std::string>, std::vector<std::string>> GetSkillInfo();
+
     void FindSkill();
+
+    void GetNewSkill();
+
+    void GetNewSkill(int SkillChange);
+
+    std::string NewSkill();
 
     [[nodiscard]] std::vector<std::string> GetSkill() const;
 
@@ -107,7 +98,10 @@ public:
 
     [[nodiscard]] std::vector<std::string> GetSkillClass() const;
 
-    void IsEvolution();
+    bool IsEvolution();
+
+    bool IsGetNewSkill();
+
 };
 
 #endif //POKEMON_POKEMON_HPP
