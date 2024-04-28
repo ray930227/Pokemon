@@ -13,6 +13,8 @@ public:
 
     void addPomekon(const std::shared_ptr<Pokemon> &pokemon);
 
+    int size();
+
     bool isFull();
 };
 
