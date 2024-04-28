@@ -71,17 +71,18 @@ void App::Fight() {
                 m_CurrentState = State::UPDATE;
             }
             if (Util::Input::IsKeyDown(Util::Keycode::U)) {
+                LOG_DEBUG(m_PlayerPokemon->GetLV());
                 m_PlayerPokemon->LevelUp();
                 m_EnemyPokemon->LevelUp();
-                m_PlayerPokeName->SetText(
-                        m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
-                m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
                 if (m_PlayerPokemon->IsEvolution()){
                     m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback"+m_PlayerPokemon->GetID()+".png");
                 }
                 if (m_EnemyPokemon->IsEvolution()){
-                    m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
+                    m_EnemyPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
                 }
+                m_PlayerPokeName->SetText(
+                        m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
+                m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
                 if (m_PlayerPokemon->IsGetNewSkill()) {
                     m_TB->SetVisible(true);
                     if (m_PlayerPokemon->IsSkillFull()) {
@@ -250,7 +251,6 @@ void App::Fight() {
                         m_arrow->SetVisible(false);
                         m_arrow->SetZIndex(55);
                         if (m_arrow->GetPosition().x == 55) {
-                            LOG_DEBUG("IN");
                             m_TB->Next();
                         } else {
                             m_TB->SetVisible(false);

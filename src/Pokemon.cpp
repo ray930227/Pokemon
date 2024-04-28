@@ -27,7 +27,6 @@ void Pokemon::LevelUp() {
     if (m_LV != 100) {
         m_LV++;
         FindAbiltiy();
-        IsEvolution();
     }
 }
 
@@ -285,9 +284,6 @@ bool Pokemon::IsEvolution() {
     }
     FileOfLevel.close();
     if (m_LV == Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
-        std::stringstream ToString;
-        ToString << std::setw(3) << std::setfill('0') << m_ID + 1;
-        std::string StringID = ToString.str();
         m_ID++;
         FindName();
         return true;
