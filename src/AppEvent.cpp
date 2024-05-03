@@ -197,7 +197,78 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
 
     } else if (m_CurrentEvent == EventID::BALL) {
+        //region
+        auto currnetMap = m_MapSystem->GetCurrnetMap();
+        glm::vec2 BallPosition = m_MapSystem->GetPlayerPosition();
+        if (currentDirection == "UP") BallPosition.x--;
+        else if (currentDirection == "DOWN") BallPosition.x++;
+        else if (currentDirection == "LEFT") BallPosition.y--;
+        else BallPosition.y++;
+        if (m_TFBox->GetVisibility()) {
+            if (m_TFBox->Choose()) {
+                m_TFBox->SetVisibility(false);
+                m_TB->SetVisible(false);
+                if (m_TFBox->GetTF()) {
+                    if (currnetMap == "OakLab") {
+                        std::vector<std::string> Lines;
+                        m_TB->SetVisible(true);
+                        if (BallPosition.x == 4 && BallPosition.y == 8) {
+                            Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
+                            NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
+                            Lines.push_back(Player->GetName() + "選擇了小火龍");
+                            Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
+                        } else if (BallPosition.x == 4 && BallPosition.y == 9) {
+                            Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
+                            NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
+                            Lines.push_back(Player->GetName() + "選擇了傑尼龜");
+                            Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
+                        } else if (BallPosition.x == 4 && BallPosition.y == 10) {
+                            Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
+                            NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
+                            Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
+                            Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
+                        }
+                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[BallPosition.x][BallPosition.y]);
+                        m_TB->ReadLines(Lines);
+                        while (m_TB->GetVisibility()) {
+                            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                                m_TB->Next();
+                            }
+                            m_Root.Update();
+                            auto context = Core::Context::GetInstance();
+                            context->Update();
+                        }
+                        m_Root.RemoveChild(
+                                m_MapSystem->GetBlocks()[BallPosition.x][((int) BallPosition.y - 8 + 1) % 3 + 8]);
+                    } else {
 
+                    }
+                    m_CurrentEvent = EventID::NONE;
+                    m_CurrentState = State::UPDATE;
+                }
+
+            }
+        } else {
+            if (currnetMap == "OakLab") {
+                if (Player->GetPokemonBag()->size() == 0) {
+                    m_TFBox->SetVisibility(true);
+                    m_TB->SetVisible(true);
+                    if (BallPosition.x == 4 && BallPosition.y == 8) {
+                        m_TB->SetText("是否要選擇小火龍");
+                    } else if (BallPosition.x == 4 && BallPosition.y == 9) {
+                        m_TB->SetText("是否要選擇傑尼龜");
+                    } else if (BallPosition.x == 4 && BallPosition.y == 10) {
+                        m_TB->SetText("是否要選擇妙蛙種子");
+                    }
+                } else {
+                    m_CurrentEvent = EventID::NONE;
+                    m_CurrentState = State::UPDATE;
+                }
+            } else {
+
+            }
+        }
+        //endregion
     } else if (m_CurrentEvent == EventID::CHOOSE_POKEMON) {
         //region
         if (m_TB->GetVisibility()) {
@@ -257,11 +328,11 @@ void App::Event() {
 
                 for (int times = 0; times < temp[i].first; times++) {
 //                    NPC_Oak->SetCurrentImagePath(1);
-                    if(i==temp.size()-1)
+                    if (i == temp.size() - 1)
                         NPC_Oak->GetImage()->SetVisible(false);
                     for (int count = Player->GetSpeed(); count > 0; count--) {
                         m_MapSystem->Move(temp[i].second);
-                        if (i+1<temp.size() && times == temp[i].first - 1) {
+                        if (i + 1 < temp.size() && times == temp[i].first - 1) {
                             if (temp[i].second.x == 0)
                                 NPC_Oak->GetImage()->Move({0 - temp[i + 1].second.x, temp[i].second.y});
                             else

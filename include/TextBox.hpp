@@ -33,6 +33,8 @@ public:
 
     void ReadLines(const std::string &LinesPath);
 
+    void ReadLines(std::vector<std::string> &Lines);
+
     void Next();
 
     void InputString();
