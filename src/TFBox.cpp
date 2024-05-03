@@ -22,7 +22,7 @@ std::vector<std::shared_ptr<Util::GameObject>> TFBox::GetChildren() const {
 }
 
 bool TFBox::GetTF() {
-    return m_Arrow->GetPosition().y == 10;
+    return m_Arrow->GetPosition().y == m_Box->GetPosition().y + 37;
 }
 
 void TFBox::SetVisibility(const bool visible) {
@@ -32,16 +32,16 @@ void TFBox::SetVisibility(const bool visible) {
 
 void TFBox::SetPosition(const glm::vec2 &Position) {
     m_Box->SetPosition(Position);
-    m_Arrow->SetPosition({Position.x - 50, 10});
+    m_Arrow->SetPosition({Position.x - 50, Position.y + 37});
 }
 
 bool TFBox::Choose() {
     if (Util::Input::IsKeyDown(Util::Keycode::UP)) {
-        m_Arrow->SetPosition({m_Arrow->GetPosition().x, 10});
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Box->GetPosition().y + 37});
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-        m_Arrow->SetPosition({m_Arrow->GetPosition().x, -62});
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Box->GetPosition().y - 35});
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {

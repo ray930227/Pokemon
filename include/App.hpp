@@ -41,7 +41,6 @@ public:
         WEEKTREE,
         BALL,
         CHOOSE_POKEMON,
-        TFBOX,
         NONE
     };
 
