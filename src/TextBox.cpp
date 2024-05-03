@@ -64,6 +64,14 @@ void TextBox::ReadLines(const std::string &LinesPath) {
     m_LineIndex = 1;
 }
 
+void TextBox::ReadLines(std::vector<std::string> &Lines) {
+    m_AllText.clear();
+    for(auto &i:Lines)
+        m_AllText.push_back(i);
+    SetText(m_AllText[0]);
+    m_LineIndex = 1;
+}
+
 void TextBox::Next() {
     if (m_LineIndex < m_AllText.size()) {
         SetText(m_AllText[m_LineIndex]);

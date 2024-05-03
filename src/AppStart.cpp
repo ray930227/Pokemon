@@ -241,6 +241,8 @@ void App::Start() {
     tempBox->SetVisible(false);
     m_Root.AddChildren(tempBox->GetChildren());
 
+    m_TFBox=std::make_shared<TFBox>();
+    m_Root.AddChildren(m_TFBox->GetChildren());
 
     std::vector<std::vector<std::string>> tempImagePathses;
     tempImagePathses.resize(4);
