@@ -102,7 +102,8 @@ void App::Loading() {
                         if (m_BallAnimation->IsAnimationEnds()) {
                             if (m_PlayerPokemonImage->GetScale().x <= 1.0) {
                                 m_PlayerPokemonImage->SetScale(
-                                        {m_PlayerPokemonImage->GetScale().x + 0.05, m_PlayerPokemonImage->GetScale().y + 0.05});
+                                        {m_PlayerPokemonImage->GetScale().x + 0.05,
+                                         m_PlayerPokemonImage->GetScale().y + 0.05});
                             }
                             m_BallAnimation->SetVisible(false);
                             m_PlayerPokemonImage->SetVisible(true);

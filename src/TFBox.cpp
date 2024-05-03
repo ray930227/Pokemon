@@ -1,8 +1,8 @@
 #include "TFBox.hpp"
 
 TFBox::TFBox() {
-    m_Box=std::make_shared<Image>(RESOURCE_DIR"/Background/TFBox.png");
-    m_Arrow=std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
+    m_Box = std::make_shared<Image>(RESOURCE_DIR"/Background/TFBox.png");
+    m_Arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
     m_Box->SetZIndex(99);
     m_Arrow->SetZIndex(99);
     SetVisibility(false);
@@ -17,12 +17,12 @@ const glm::vec2 &TFBox::GetPosition() const {
     return m_Box->GetPosition();
 }
 
-std::vector<std::shared_ptr<Util::GameObject>> TFBox::GetChildren() const{
-    return {m_Arrow,m_Box};
+std::vector<std::shared_ptr<Util::GameObject>> TFBox::GetChildren() const {
+    return {m_Arrow, m_Box};
 }
 
 bool TFBox::GetTF() {
-    return m_Arrow->GetPosition().y==10;
+    return m_Arrow->GetPosition().y == 10;
 }
 
 void TFBox::SetVisibility(const bool visible) {
@@ -32,19 +32,19 @@ void TFBox::SetVisibility(const bool visible) {
 
 void TFBox::SetPosition(const glm::vec2 &Position) {
     m_Box->SetPosition(Position);
-    m_Arrow->SetPosition({Position.x-50,10});
+    m_Arrow->SetPosition({Position.x - 50, 10});
 }
 
 bool TFBox::Choose() {
-    if(Util::Input::IsKeyDown(Util::Keycode::UP)){
-        m_Arrow->SetPosition({m_Arrow->GetPosition().x,10});
+    if (Util::Input::IsKeyDown(Util::Keycode::UP)) {
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x, 10});
     }
 
-    if(Util::Input::IsKeyDown(Util::Keycode::DOWN)){
-        m_Arrow->SetPosition({m_Arrow->GetPosition().x,-62});
+    if (Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x, -62});
     }
 
-    if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
         return true;
     }
 

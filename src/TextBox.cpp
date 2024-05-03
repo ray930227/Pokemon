@@ -66,7 +66,7 @@ void TextBox::ReadLines(const std::string &LinesPath) {
 
 void TextBox::ReadLines(std::vector<std::string> &Lines) {
     m_AllText.clear();
-    for(auto &i:Lines)
+    for (auto &i: Lines)
         m_AllText.push_back(i);
     SetText(m_AllText[0]);
     m_LineIndex = 1;

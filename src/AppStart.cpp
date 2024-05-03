@@ -128,7 +128,8 @@ void App::Start() {
 
     m_PlayerPokemon = std::make_shared<Pokemon>("004");
 
-    m_PlayerPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback"+m_PlayerPokemon->GetID()+".png");
+    m_PlayerPokemonImage = std::make_shared<Image>(
+            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" + m_PlayerPokemon->GetID() + ".png");
     m_PlayerPokemonImage->SetZIndex(52);
     m_PlayerPokemonImage->SetVisible(false);
     m_PlayerPokemonImage->SetPosition({-210, -10});
@@ -136,7 +137,8 @@ void App::Start() {
 
     m_EnemyPokemon = std::make_shared<Pokemon>("007");
 
-    m_EnemyPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
+    m_EnemyPokemonImage = std::make_shared<Image>(
+            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" + m_EnemyPokemon->GetID() + ".png");
     m_EnemyPokemonImage->SetZIndex(52);
     m_EnemyPokemonImage->SetVisible(false);
     m_EnemyPokemonImage->SetPosition({210, 230});
@@ -241,7 +243,7 @@ void App::Start() {
     tempBox->SetVisible(false);
     m_Root.AddChildren(tempBox->GetChildren());
 
-    m_TFBox=std::make_shared<TFBox>();
+    m_TFBox = std::make_shared<TFBox>();
     m_Root.AddChildren(m_TFBox->GetChildren());
 
     std::vector<std::vector<std::string>> tempImagePathses;
