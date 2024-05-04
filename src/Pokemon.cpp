@@ -170,7 +170,7 @@ void Pokemon::FindType() {
     std::ifstream FileOfType(RESOURCE_DIR"/Pokemon/Type.txt");
     std::vector<std::string> Types;
     std::string text;
-    while (FileOfType >> text) {
+    while (std::getline(FileOfType,text)) {
         Types.push_back(text);
     }
     FileOfType.close();

@@ -36,6 +36,10 @@ public:
     void Next();
 
     void InputString();
+
+    void AddText(const std::string &str);
+
+    void Reload();
 };
 
 #endif //POKEMON_TEXTBOX_HPP

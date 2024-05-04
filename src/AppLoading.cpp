@@ -60,26 +60,21 @@ void App::Loading() {
                             m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
                     m_EnemyPokeName->SetText(
                             m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
-                    std::vector<std::shared_ptr<Text>> m_SkillAll;
-                    m_SkillAll.push_back(m_Skill1);
-                    m_SkillAll.push_back(m_Skill2);
-                    m_SkillAll.push_back(m_Skill3);
-                    m_SkillAll.push_back(m_Skill4);
                     if (!m_PlayerPokemon->GetSkill().empty()) {
-                        m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
+                        m_AllSkills[0]->SetText(m_PlayerPokemon->GetSkill()[0]);
                     }
                     if (m_PlayerPokemon->GetSkill().size() >= 2) {
-                        m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
+                        m_AllSkills[1]->SetText(m_PlayerPokemon->GetSkill()[1]);
                     }
                     if (m_PlayerPokemon->GetSkill().size() >= 3) {
-                        m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
+                        m_AllSkills[2]->SetText(m_PlayerPokemon->GetSkill()[2]);
                     }
                     if (m_PlayerPokemon->IsSkillFull()) {
-                        m_Skill4->SetText(m_PlayerPokemon->GetSkill()[3]);
+                        m_AllSkills[3]->SetText(m_PlayerPokemon->GetSkill()[3]);
                     }
                     int GetSkillIndex = 0;
                     int SkillOfY = -190;
-                    for (const auto &skill: m_SkillAll) {
+                    for (const auto &skill: m_AllSkills) {
                         skill->SetZIndex(55);
                         skill->SetVisible(false);
                         skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});

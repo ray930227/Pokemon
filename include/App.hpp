@@ -58,6 +58,8 @@ public:
         OBTAINSKILL,
         REPLACESKILL,
         UPDATEINFO,
+        SHOWPLAYER,
+        SHOWENEMY,
         NONE
     };
 
@@ -113,10 +115,7 @@ private:
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
     std::shared_ptr<Text> m_EnemyPokeName;
-    std::shared_ptr<Text> m_Skill1;
-    std::shared_ptr<Text> m_Skill2;
-    std::shared_ptr<Text> m_Skill3;
-    std::shared_ptr<Text> m_Skill4;
+    std::vector<std::shared_ptr<Text>> m_AllSkills;
     std::shared_ptr<Text> m_SkillInfo;
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;
@@ -129,7 +128,7 @@ private:
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
     int SkillChoose;
-    bool IsPlayerRound;
+    bool IsPlayerRound = true;
     int DisplacementCount;
     bool encounterable = true;
     std::string currentDirection;
