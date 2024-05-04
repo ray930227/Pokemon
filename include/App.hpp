@@ -11,6 +11,7 @@
 #include "MapSystem.hpp"
 #include "Pokemon.hpp"
 #include "EventManager.hpp"
+#include "FightUI/PokeBagUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -52,7 +53,7 @@ public:
     enum class FightID {
         HOME,
         SKILL,
-        POKEBACK,
+        POKEPACK,
         BACKPACK,
         FIGHT,
         OBTAINSKILL,
@@ -120,6 +121,8 @@ private:
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;
 
+    std::shared_ptr<PokeBagUI> m_PokeBagUI;
+
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
     std::shared_ptr<Character> Enemy;
@@ -129,6 +132,7 @@ private:
     glm::vec2 Displacement = {0, 0};
     int SkillChoose;
     bool IsPlayerRound = true;
+    int m_CurrentPlayerPokemon=0;
     int DisplacementCount;
     bool encounterable = true;
     std::string currentDirection;

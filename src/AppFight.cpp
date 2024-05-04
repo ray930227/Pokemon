@@ -3,7 +3,7 @@
 void App::Fight() {
     switch (m_CurrentFighting) {
         case FightID::HOME:
-            //Fight select Skill(-25,-200) PokeBack(135,-200)
+            //Fight select Skill(-25,-200) POKEPACK(135,-200)
             //             BackPack(-25,-300) Run(135,-300)
             if (Util::Input::IsKeyPressed(Util::Keycode::UP) && m_arrow->GetPosition().y != -200
                 && !m_Fightskill->GetVisibility() && !m_Fightitem->GetVisibility() &&
@@ -40,7 +40,7 @@ void App::Fight() {
                        && m_arrow->GetPosition().x == 135 && m_arrow->GetPosition().y == -200) {
                 m_arrow->SetVisible(false);
                 m_FightPokemon->SetVisible(true);
-                m_CurrentFighting = FightID::POKEBACK;
+                m_CurrentFighting = FightID::POKEPACK;
             } else if (!m_Fightskill->GetVisibility() && !m_Fightitem->GetVisibility() &&
                        !m_FightPokemon->GetVisibility()
                        && Util::Input::IsKeyDown(Util::Keycode::Z)
@@ -161,7 +161,7 @@ void App::Fight() {
             }
             break;
 
-        case FightID::POKEBACK:
+        case FightID::POKEPACK:
             if (Util::Input::IsKeyPressed(Util::Keycode::X)) {
                 m_FightPokemon->SetVisible(false);
                 m_arrow->SetVisible(true);

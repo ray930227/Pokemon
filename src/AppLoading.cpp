@@ -27,20 +27,6 @@ void App::Loading() {
             }
             break;
         case LoadingID::TEXT:
-            if (m_TB->GetText().find("<WildPokemon>") < m_TB->GetText().size()) {
-                std::string tempStr = m_TB->GetText();
-                tempStr.replace(tempStr.begin() + tempStr.find("<WildPokemon>"),
-                                tempStr.begin() + tempStr.find("<WildPokemon>") + 13,
-                                m_EnemyPokemon->GetName());
-                m_TB->SetText(tempStr);
-            }
-            if (m_TB->GetText().find("<PlayerPokemon>") < m_TB->GetText().size()) {
-                std::string tempStr = m_TB->GetText();
-                tempStr.replace(tempStr.begin() + tempStr.find("<PlayerPokemon>"),
-                                tempStr.begin() + tempStr.find("<PlayerPokemon>") + 15,
-                                m_PlayerPokemon->GetName());
-                m_TB->SetText(tempStr);
-            }
             switch (m_TB->GetLineIndex()) {
                 case 2:
                     if (m_TB->GetVisibility() && (Util::Input::IsKeyDown(Util::Keycode::Z))) {
@@ -114,7 +100,6 @@ void App::Loading() {
                             m_CurrentFighting = FightID::HOME;
                             m_CurrentState = State::FIGHT;
                         }
-
                     }
                     break;
             }

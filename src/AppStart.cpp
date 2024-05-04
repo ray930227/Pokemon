@@ -134,6 +134,17 @@ void App::Start() {
     m_PlayerPokemonImage->SetPosition({-210, -10});
     m_Root.AddChild(m_PlayerPokemonImage);
 
+    m_PokeBagUI = std::make_shared<PokeBagUI>();
+    m_PokeBagUI->SetVisible(true);
+    for (size_t i=0;i<6;i++){
+        m_PokeBagUI->SetText(i,"LV:100\n一二三四五 ");
+        m_PokeBagUI->SetHP(i,"35/72");
+        for (size_t j=0;j<5;j++){
+            m_Root.AddChild(m_PokeBagUI->GetChildren()[i][j]);
+        }
+    }
+
+
     m_EnemyPokemon = std::make_shared<Pokemon>("007");
 
     m_EnemyPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
