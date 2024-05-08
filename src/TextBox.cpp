@@ -190,10 +190,10 @@ void TextBox::InputString() {
 void TextBox::AddText(const std::string &str) {
     m_AllText.push_back(str);
     SetText(m_AllText[0]);
-    m_LineIndex=1;
+    m_LineIndex = 1;
 }
 
 void TextBox::Reload() {
     m_AllText.clear();
-    m_LineIndex=0;
+    m_LineIndex = 0;
 }

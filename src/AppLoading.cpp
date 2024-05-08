@@ -36,39 +36,22 @@ void App::Loading() {
                         m_BallAnimation->Play();
                         m_PlayerPokemonImage->SetScale({0.5, 0.5});
                     }
+                    m_PlayerBalls->SetImage(
+                            RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(Player->GetPokemonBag()->size()) + ".png");
                     m_PlayerBalls->SetVisible(true);
                     break;
                 case 3:
                     m_PlayerHP->SetText(
-                            std::to_string(m_PlayerPokemon->GetCurrentHP()) + " / " +
-                            std::to_string(m_PlayerPokemon->GetHP()));
+                            std::to_string(
+                                    Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) +
+                            " / " +
+                            std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()));
                     m_PlayerPokeName->SetText(
-                            m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
+                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName() + " LV:" +
+                            std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV()));
                     m_EnemyPokeName->SetText(
                             m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
-                    if (!m_PlayerPokemon->GetSkill().empty()) {
-                        m_AllSkills[0]->SetText(m_PlayerPokemon->GetSkill()[0]);
-                    }
-                    if (m_PlayerPokemon->GetSkill().size() >= 2) {
-                        m_AllSkills[1]->SetText(m_PlayerPokemon->GetSkill()[1]);
-                    }
-                    if (m_PlayerPokemon->GetSkill().size() >= 3) {
-                        m_AllSkills[2]->SetText(m_PlayerPokemon->GetSkill()[2]);
-                    }
-                    if (m_PlayerPokemon->IsSkillFull()) {
-                        m_AllSkills[3]->SetText(m_PlayerPokemon->GetSkill()[3]);
-                    }
-                    int GetSkillIndex = 0;
-                    int SkillOfY = -190;
-                    for (const auto &skill: m_AllSkills) {
-                        skill->SetZIndex(55);
-                        skill->SetVisible(false);
-                        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});
-                        skill->SetPosition({skill->GetPosition().x - 120, SkillOfY});
-                        GetSkillIndex++;
-                        SkillOfY -= 40;
-                        m_Root.AddChild(skill);
-                    }
+                    m_FightSkillUI->SetText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill());
                     m_PlayerBalls->SetVisible(false);
                     m_EnemyHPUI->SetVisible(true);
                     m_EnemyHPimage->SetVisible(true);
@@ -83,7 +66,8 @@ void App::Loading() {
                         if (m_BallAnimation->IsAnimationEnds()) {
                             if (m_PlayerPokemonImage->GetScale().x <= 1.0) {
                                 m_PlayerPokemonImage->SetScale(
-                                        {m_PlayerPokemonImage->GetScale().x + 0.05, m_PlayerPokemonImage->GetScale().y + 0.05});
+                                        {m_PlayerPokemonImage->GetScale().x + 0.05,
+                                         m_PlayerPokemonImage->GetScale().y + 0.05});
                             }
                             m_BallAnimation->SetVisible(false);
                             m_PlayerPokemonImage->SetVisible(true);

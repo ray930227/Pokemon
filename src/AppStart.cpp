@@ -128,26 +128,24 @@ void App::Start() {
 
     m_PlayerPokemon = std::make_shared<Pokemon>("004");
 
-    m_PlayerPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback"+m_PlayerPokemon->GetID()+".png");
+    m_PlayerPokemonImage = std::make_shared<Image>(
+            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" + m_PlayerPokemon->GetID() + ".png");
     m_PlayerPokemonImage->SetZIndex(52);
     m_PlayerPokemonImage->SetVisible(false);
     m_PlayerPokemonImage->SetPosition({-210, -10});
     m_Root.AddChild(m_PlayerPokemonImage);
 
     m_PokeBagUI = std::make_shared<PokeBagUI>();
-    m_PokeBagUI->SetVisible(true);
-    for (size_t i=0;i<6;i++){
-        m_PokeBagUI->SetText(i,"LV:100\n一二三四五 ");
-        m_PokeBagUI->SetHP(i,"35/72");
-        for (size_t j=0;j<5;j++){
+    for (size_t i = 0; i < 6; i++) {
+        for (size_t j = 0; j < 6; j++) {
             m_Root.AddChild(m_PokeBagUI->GetChildren()[i][j]);
         }
     }
 
-
     m_EnemyPokemon = std::make_shared<Pokemon>("007");
 
-    m_EnemyPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
+    m_EnemyPokemonImage = std::make_shared<Image>(
+            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" + m_EnemyPokemon->GetID() + ".png");
     m_EnemyPokemonImage->SetZIndex(52);
     m_EnemyPokemonImage->SetVisible(false);
     m_EnemyPokemonImage->SetPosition({210, 230});
@@ -201,33 +199,10 @@ void App::Start() {
             Util::Color::FromName(Util::Colors::WHITE)));
     m_Root.AddChild(m_EnemyPokeInfo);
 
-    for(size_t i=0;i<4;i++){
-        m_AllSkills.push_back(std::make_shared<Text>());
-        m_Root.AddChild(m_AllSkills[i]);
-    }
-
-    if (!m_PlayerPokemon->GetSkill().empty()) {
-        m_AllSkills[0]->SetText(m_PlayerPokemon->GetSkill()[0]);
-    }
-    if (m_PlayerPokemon->GetSkill().size() >= 2) {
-        m_AllSkills[1]->SetText(m_PlayerPokemon->GetSkill()[1]);
-    }
-    if (m_PlayerPokemon->GetSkill().size() >= 3) {
-        m_AllSkills[2]->SetText(m_PlayerPokemon->GetSkill()[2]);
-    }
-    if (m_PlayerPokemon->IsSkillFull()) {
-        m_AllSkills[3]->SetText(m_PlayerPokemon->GetSkill()[3]);
-    }
-    int GetSkillIndex = 0;
-    int SkillOfY = -190;
-    for (const auto &skill: m_AllSkills) {
-        skill->SetZIndex(55);
-        skill->SetVisible(false);
-        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});
-        skill->SetPosition({skill->GetPosition().x - 120, SkillOfY});
-        GetSkillIndex++;
-        SkillOfY -= 40;
-        m_Root.AddChild(skill);
+    m_FightSkillUI = std::make_shared<FightSkillUI>();
+    m_FightSkillUI->SetText(m_PlayerPokemon->GetSkill());
+    for (size_t i = 0; i < 4; i++) {
+        m_Root.AddChild(m_FightSkillUI->GetChildren()[i]);
     }
 
     m_SkillInfo = std::make_shared<Text>();

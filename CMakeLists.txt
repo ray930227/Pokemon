@@ -24,6 +24,11 @@ add_executable(${PROJECT_NAME}
     include/EventManager.hpp
     src/EventManager.cpp
     include/FightUI/PokeBagUI.hpp
+    src/FightUI/PokeBagUI.cpp
+    include/FightUI/FightSkillUI.hpp
+    src/FightUI/FightSkillUI.cpp
+        include/FightUI/EvolutionUI.hpp
+        src/FightUI/EvolutionUI.cpp
 )
 
 if(MSVC)

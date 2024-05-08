@@ -19,7 +19,6 @@ set(SRC_FILES
     AppEvent.cpp
     Pokemon.cpp
     AppLoading.cpp
-    PokeBagUI.cpp
 )
 
 set(INCLUDE_FILES

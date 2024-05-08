@@ -40,6 +40,8 @@ public:
 
     std::string GetID();
 
+    int GetIDByInt();
+
     void LevelUp();
 
     void FindName();

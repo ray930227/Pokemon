@@ -12,6 +12,7 @@
 #include "Pokemon.hpp"
 #include "EventManager.hpp"
 #include "FightUI/PokeBagUI.hpp"
+#include "FightUI/FightSkillUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -116,12 +117,13 @@ private:
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
     std::shared_ptr<Text> m_EnemyPokeName;
-    std::vector<std::shared_ptr<Text>> m_AllSkills;
     std::shared_ptr<Text> m_SkillInfo;
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;
 
+    std::shared_ptr<FightSkillUI> m_FightSkillUI;
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
+    std::shared_ptr<GIF> m_EvolutionImage;
 
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
@@ -132,8 +134,10 @@ private:
     glm::vec2 Displacement = {0, 0};
     int SkillChoose;
     bool IsPlayerRound = true;
-    int m_CurrentPlayerPokemon=0;
+    int m_CurrentPlayerPokemon = 0;
     int DisplacementCount;
+    int FightCounter=0;
+    int ButtonTrigger=0;
     bool encounterable = true;
     std::string currentDirection;
     EventManager m_EventManager;

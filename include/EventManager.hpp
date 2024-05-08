@@ -4,10 +4,11 @@
 #include <fstream>
 #include <vector>
 #include <memory>
-class EventManager{
+
+class EventManager {
 private:
     std::vector<std::vector<int>> m_Area;
-    bool choosePokemon= false;
+    bool choosePokemon = false;
 public:
     EventManager();
 };

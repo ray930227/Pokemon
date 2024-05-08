@@ -72,7 +72,7 @@ void App::Update() {
         m_TB->Reload();
         m_TB->AddText(" ");
         m_TB->AddText("野生" + m_EnemyPokemon->GetName() + "出現了!");
-        m_TB->AddText("上吧! " + Player->GetPokemonBag()->GetPokemons()[0]->GetName()+"!");
+        m_TB->AddText("上吧! " + Player->GetPokemonBag()->GetPokemons()[0]->GetName() + "!");
         m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
                                        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID() +
                                        ".png");

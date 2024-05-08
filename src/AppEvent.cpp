@@ -257,11 +257,11 @@ void App::Event() {
 
                 for (int times = 0; times < temp[i].first; times++) {
 //                    NPC_Oak->SetCurrentImagePath(1);
-                    if(i==temp.size()-1)
+                    if (i == temp.size() - 1)
                         NPC_Oak->GetImage()->SetVisible(false);
                     for (int count = Player->GetSpeed(); count > 0; count--) {
                         m_MapSystem->Move(temp[i].second);
-                        if (i+1<temp.size() && times == temp[i].first - 1) {
+                        if (i + 1 < temp.size() && times == temp[i].first - 1) {
                             if (temp[i].second.x == 0)
                                 NPC_Oak->GetImage()->Move({0 - temp[i + 1].second.x, temp[i].second.y});
                             else

@@ -23,6 +23,10 @@ std::string Pokemon::GetID() {
     return StringID;
 }
 
+int Pokemon::GetIDByInt() {
+    return m_ID;
+}
+
 void Pokemon::LevelUp() {
     if (m_LV != 100) {
         m_LV++;
@@ -159,7 +163,7 @@ void Pokemon::GetNewSkill(int SkillChange) {
 
 std::string Pokemon::NewSkill() {
     std::vector<std::string> Skills = GetSkillInfo().first;
-    return Skills[Skills.size()-1];
+    return Skills[Skills.size() - 1];
 }
 
 std::vector<std::string> Pokemon::GetSkill() const {
@@ -170,7 +174,7 @@ void Pokemon::FindType() {
     std::ifstream FileOfType(RESOURCE_DIR"/Pokemon/Type.txt");
     std::vector<std::string> Types;
     std::string text;
-    while (std::getline(FileOfType,text)) {
+    while (std::getline(FileOfType, text)) {
         Types.push_back(text);
     }
     FileOfType.close();
@@ -195,9 +199,9 @@ void Pokemon::FindAbiltiy() {
         }
     }
     FileOfAbility.close();
-    int PreviousHP=m_HP;
+    int PreviousHP = m_HP;
     m_HP = ((int(Value[m_ID - 1][0]) + m_IV + int(round(sqrt(m_HPBP) / 8))) * m_LV / 50) + 10 + m_LV;
-    m_CurrentHP += m_HP-PreviousHP;
+    m_CurrentHP += m_HP - PreviousHP;
     m_Attack = ((int(Value[m_ID - 1][1]) + m_IV + int(round(sqrt(m_AttackBP) / 8))) * m_LV / 50) + 5;
     m_Defence = ((int(Value[m_ID - 1][2]) + m_IV + int(round(sqrt(m_DefenceBP) / 8))) * m_LV / 50) + 5;
     m_Special = ((int(Value[m_ID - 1][3]) + m_IV + int(round(sqrt(m_SpecialBP) / 8))) * m_LV / 50) + 5;
@@ -287,8 +291,7 @@ bool Pokemon::IsEvolution() {
         m_ID++;
         FindName();
         return true;
-    }
-    else{
+    } else {
         return false;
     }
 }

@@ -75,6 +75,8 @@ void App::Init() {
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
+        std::shared_ptr<Pokemon> SecondPokemon = std::make_shared<Pokemon>("143");
+        Player->GetPokemonBag()->addPomekon(SecondPokemon);
 
         m_CurrentState = State::UPDATE;
     }
