@@ -35,6 +35,8 @@ public:
 
     void Next();
 
+    void StopEvolution();
+
     [[nodiscard]] bool GetVisibility() const;
 
     int GetInterval();
