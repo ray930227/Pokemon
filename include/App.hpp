@@ -13,6 +13,7 @@
 #include "EventManager.hpp"
 #include "FightUI/PokeBagUI.hpp"
 #include "FightUI/FightSkillUI.hpp"
+#include "FightUI/EvolutionUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -57,6 +58,7 @@ public:
         POKEPACK,
         BACKPACK,
         FIGHT,
+        EVOLUTION,
         OBTAINSKILL,
         REPLACESKILL,
         UPDATEINFO,
@@ -123,7 +125,7 @@ private:
 
     std::shared_ptr<FightSkillUI> m_FightSkillUI;
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
-    std::shared_ptr<GIF> m_EvolutionImage;
+    std::shared_ptr<EvolutionUI> m_EvolutionUI;
 
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;

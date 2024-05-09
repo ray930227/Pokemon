@@ -8,7 +8,7 @@ Pokemon::Pokemon(const std::string &ID) {
     m_DefenceBP = 0;
     m_SpecialBP = 0;
     m_SpeedBP = 0;
-    m_LV = 5;
+    m_LV = 15;
     FindType();
     FindName();
     FindAbiltiy();
@@ -288,12 +288,17 @@ bool Pokemon::IsEvolution() {
     }
     FileOfLevel.close();
     if (m_LV == Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
-        m_ID++;
-        FindName();
         return true;
     } else {
         return false;
     }
+}
+
+void Pokemon::Evolution() {
+    m_ID++;
+    FindName();
+    FindAbiltiy();
+    FindType();
 }
 
 bool Pokemon::IsGetNewSkill() {

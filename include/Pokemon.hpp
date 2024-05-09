@@ -102,6 +102,8 @@ public:
 
     bool IsEvolution();
 
+    void Evolution();
+
     bool IsGetNewSkill();
 
 };

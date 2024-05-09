@@ -137,10 +137,11 @@ void App::Start() {
 
     m_PokeBagUI = std::make_shared<PokeBagUI>();
     for (size_t i = 0; i < 6; i++) {
-        for (size_t j = 0; j < 6; j++) {
-            m_Root.AddChild(m_PokeBagUI->GetChildren()[i][j]);
-        }
+            m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
     }
+
+    m_EvolutionUI = std::make_shared<EvolutionUI>();
+    m_Root.AddChildren(m_EvolutionUI->GetChildren());
 
     m_EnemyPokemon = std::make_shared<Pokemon>("007");
 
@@ -201,9 +202,7 @@ void App::Start() {
 
     m_FightSkillUI = std::make_shared<FightSkillUI>();
     m_FightSkillUI->SetText(m_PlayerPokemon->GetSkill());
-    for (size_t i = 0; i < 4; i++) {
-        m_Root.AddChild(m_FightSkillUI->GetChildren()[i]);
-    }
+    m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
     m_SkillInfo = std::make_shared<Text>();
     m_SkillInfo->SetZIndex(55);

@@ -29,6 +29,8 @@ add_executable(${PROJECT_NAME}
     src/FightUI/FightSkillUI.cpp
         include/FightUI/EvolutionUI.hpp
         src/FightUI/EvolutionUI.cpp
+        include/FightUI/LoadingUI.hpp
+        src/FightUI/LoadingUI.cpp
 )
 
 if(MSVC)
