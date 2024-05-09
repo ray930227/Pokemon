@@ -11,9 +11,6 @@
 #include "MapSystem.hpp"
 #include "Pokemon.hpp"
 #include "EventManager.hpp"
-#include "FightUI/PokeBagUI.hpp"
-#include "FightUI/FightSkillUI.hpp"
-#include "FightUI/EvolutionUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -55,15 +52,12 @@ public:
     enum class FightID {
         HOME,
         SKILL,
-        POKEPACK,
+        POKEBACK,
         BACKPACK,
         FIGHT,
-        EVOLUTION,
         OBTAINSKILL,
         REPLACESKILL,
         UPDATEINFO,
-        SHOWPLAYER,
-        SHOWENEMY,
         NONE
     };
 
@@ -119,13 +113,13 @@ private:
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
     std::shared_ptr<Text> m_EnemyPokeName;
+    std::shared_ptr<Text> m_Skill1;
+    std::shared_ptr<Text> m_Skill2;
+    std::shared_ptr<Text> m_Skill3;
+    std::shared_ptr<Text> m_Skill4;
     std::shared_ptr<Text> m_SkillInfo;
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;
-
-    std::shared_ptr<FightSkillUI> m_FightSkillUI;
-    std::shared_ptr<PokeBagUI> m_PokeBagUI;
-    std::shared_ptr<EvolutionUI> m_EvolutionUI;
 
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
@@ -135,11 +129,8 @@ private:
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
     int SkillChoose;
-    bool IsPlayerRound = true;
-    int m_CurrentPlayerPokemon = 0;
+    bool IsPlayerRound;
     int DisplacementCount;
-    int FightCounter=0;
-    int ButtonTrigger=0;
     bool encounterable = true;
     std::string currentDirection;
     EventManager m_EventManager;

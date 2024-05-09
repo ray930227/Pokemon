@@ -23,14 +23,6 @@ add_executable(${PROJECT_NAME}
     src/PokemonBag.cpp
     include/EventManager.hpp
     src/EventManager.cpp
-    include/FightUI/PokeBagUI.hpp
-    src/FightUI/PokeBagUI.cpp
-    include/FightUI/FightSkillUI.hpp
-    src/FightUI/FightSkillUI.cpp
-        include/FightUI/EvolutionUI.hpp
-        src/FightUI/EvolutionUI.cpp
-        include/FightUI/LoadingUI.hpp
-        src/FightUI/LoadingUI.cpp
 )
 
 if(MSVC)
