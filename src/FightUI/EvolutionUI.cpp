@@ -78,6 +78,11 @@ void EvolutionUI::Next() {
     m_TextBox->Next();
 }
 
+void EvolutionUI::StopEvolution() {
+    m_TextBox->SetText(m_Name[0]+"中斷了進化!");
+    
+}
+
 bool EvolutionUI::GetVisibility() const {
     m_TextBox->GetVisibility();
 }

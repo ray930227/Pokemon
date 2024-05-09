@@ -11,6 +11,10 @@
 #include "MapSystem.hpp"
 #include "Pokemon.hpp"
 #include "EventManager.hpp"
+#include "FightUI/EvolutionUI.hpp"
+#include "FightUI/FightSkillUI.hpp"
+#include "FightUI/PokeBagUI.hpp"
+#include "TFBox.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -52,9 +56,12 @@ public:
     enum class FightID {
         HOME,
         SKILL,
-        POKEBACK,
+        POKEPACK,
         BACKPACK,
         FIGHT,
+        EVOLUTION,
+        SHOWPLAYER,
+        SHOWENEMY,
         OBTAINSKILL,
         REPLACESKILL,
         UPDATEINFO,
@@ -94,6 +101,10 @@ private:
     std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<Image> m_tempImage;
 
+    std::shared_ptr<EvolutionUI> m_EvolutionUI;
+    std::shared_ptr<FightSkillUI> m_FightSkillUI;
+    std::shared_ptr<PokeBagUI> m_PokeBagUI;
+
     std::shared_ptr<Image> m_PlayerPokemonImage;
     std::shared_ptr<Image> m_EnemyPokemonImage;
     std::shared_ptr<Image> m_FightLoad1_1;
@@ -121,6 +132,7 @@ private:
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;
 
+    std::shared_ptr<TFBox> m_TFBox;
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> Player;
     std::shared_ptr<Character> Enemy;
@@ -131,6 +143,9 @@ private:
     int SkillChoose;
     bool IsPlayerRound;
     int DisplacementCount;
+    int m_CurrentPlayerPokemon=0;
+    int ButtonTrigger=0;
+    int FightCounter=0;
     bool encounterable = true;
     std::string currentDirection;
     EventManager m_EventManager;
