@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <fstream>
 
-class EvolutionUI{
+class EvolutionUI {
 private:
     std::shared_ptr<GIF> m_PokemonGIF;
     std::shared_ptr<Image> m_BG;
