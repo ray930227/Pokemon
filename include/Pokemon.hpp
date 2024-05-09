@@ -40,6 +40,8 @@ public:
 
     std::string GetID();
 
+    int GetIDByInt();
+
     void LevelUp();
 
     void FindName();
@@ -99,6 +101,8 @@ public:
     [[nodiscard]] std::vector<std::string> GetSkillClass() const;
 
     bool IsEvolution();
+
+    void Evolution();
 
     bool IsGetNewSkill();
 

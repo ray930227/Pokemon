@@ -8,7 +8,7 @@ Pokemon::Pokemon(const std::string &ID) {
     m_DefenceBP = 0;
     m_SpecialBP = 0;
     m_SpeedBP = 0;
-    m_LV = 5;
+    m_LV = 15;
     FindType();
     FindName();
     FindAbiltiy();
@@ -23,11 +23,14 @@ std::string Pokemon::GetID() {
     return StringID;
 }
 
+int Pokemon::GetIDByInt() {
+    return m_ID;
+}
+
 void Pokemon::LevelUp() {
     if (m_LV != 100) {
         m_LV++;
         FindAbiltiy();
-        IsEvolution();
     }
 }
 
@@ -171,7 +174,7 @@ void Pokemon::FindType() {
     std::ifstream FileOfType(RESOURCE_DIR"/Pokemon/Type.txt");
     std::vector<std::string> Types;
     std::string text;
-    while (FileOfType >> text) {
+    while (std::getline(FileOfType, text)) {
         Types.push_back(text);
     }
     FileOfType.close();
@@ -285,15 +288,17 @@ bool Pokemon::IsEvolution() {
     }
     FileOfLevel.close();
     if (m_LV == Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
-        std::stringstream ToString;
-        ToString << std::setw(3) << std::setfill('0') << m_ID + 1;
-        std::string StringID = ToString.str();
-        m_ID++;
-        FindName();
         return true;
     } else {
         return false;
     }
+}
+
+void Pokemon::Evolution() {
+    m_ID++;
+    FindName();
+    FindAbiltiy();
+    FindType();
 }
 
 bool Pokemon::IsGetNewSkill() {

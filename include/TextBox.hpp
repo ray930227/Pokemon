@@ -1,10 +1,11 @@
 #ifndef POKEMON_TEXTBOX_HPP
 #define POKEMON_TEXTBOX_HPP
 
+#include "Util/GameObject.hpp"
 #include "Image.hpp"
 #include "Text.hpp"
 
-class TextBox {
+class TextBox : public Util::GameObject{
 private:
     std::shared_ptr<Text> m_Text;
     std::shared_ptr<Image> m_BG;
@@ -38,6 +39,10 @@ public:
     void Next();
 
     void InputString();
+
+    void AddText(const std::string &str);
+
+    void Reload();
 };
 
 #endif //POKEMON_TEXTBOX_HPP

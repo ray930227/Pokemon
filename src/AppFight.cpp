@@ -76,13 +76,11 @@ void App::Fight() {
                 m_PlayerPokeName->SetText(
                         m_PlayerPokemon->GetName() + " LV:" + std::to_string(m_PlayerPokemon->GetLV()));
                 m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
-                if (m_PlayerPokemon->IsEvolution()) {
-                    m_PlayerPokemonImage->SetImage(
-                            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" + m_PlayerPokemon->GetID() + ".png");
+                if (m_PlayerPokemon->IsEvolution()){
+                    m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback"+m_PlayerPokemon->GetID()+".png");
                 }
-                if (m_EnemyPokemon->IsEvolution()) {
-                    m_PlayerPokemonImage->SetImage(
-                            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" + m_EnemyPokemon->GetID() + ".png");
+                if (m_EnemyPokemon->IsEvolution()){
+                    m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+m_EnemyPokemon->GetID()+".png");
                 }
                 if (m_PlayerPokemon->IsGetNewSkill()) {
                     m_TB->SetVisible(true);
@@ -100,7 +98,7 @@ void App::Fight() {
                     m_CurrentFighting = FightID::UPDATEINFO;
                 }
             }
-            if (Util::Input::IsKeyDown(Util::Keycode::H)) {
+            if (Util::Input::IsKeyDown(Util::Keycode::H)){
                 m_PlayerPokemon->PokemonHurt(1);
                 if (1.0 * m_PlayerPokemon->GetCurrentHP() / m_PlayerPokemon->GetHP() <= 0) {
                     m_PlayerHPimage->SetScale({0, 1});
@@ -247,7 +245,7 @@ void App::Fight() {
                 m_TB->SetText(tempStr);
             }
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                if (m_TB->GetVisibility()) {
+                if(m_TB->GetVisibility()){
                     if (m_TB->GetLineIndex() == 3) {
                         m_arrow->SetVisible(false);
                         m_arrow->SetZIndex(55);
@@ -272,7 +270,8 @@ void App::Fight() {
                     } else {
                         m_TB->Next();
                     }
-                } else {
+                }
+                else{
                     if (Util::Input::IsKeyDown(Util::Keycode::Z) && !m_TB->GetVisibility()) {
                         if (m_arrow->GetPosition().y == -190) {
                             SkillChoose = 0;

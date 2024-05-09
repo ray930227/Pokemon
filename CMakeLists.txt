@@ -23,8 +23,6 @@ add_executable(${PROJECT_NAME}
     src/PokemonBag.cpp
     include/EventManager.hpp
     src/EventManager.cpp
-    include/TFBox.hpp
-    src/TFBox.cpp
 )
 
 if(MSVC)

@@ -11,7 +11,6 @@
 #include "MapSystem.hpp"
 #include "Pokemon.hpp"
 #include "EventManager.hpp"
-#include "TFBox.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -128,7 +127,6 @@ private:
     std::shared_ptr<Character> NPC_Bromance;
     std::shared_ptr<Character> NPC_Oak;
     std::shared_ptr<TextBox> tempBox;
-    std::shared_ptr<TFBox> m_TFBox;
     glm::vec2 Displacement = {0, 0};
     int SkillChoose;
     bool IsPlayerRound;

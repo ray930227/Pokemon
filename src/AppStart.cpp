@@ -135,6 +135,14 @@ void App::Start() {
     m_PlayerPokemonImage->SetPosition({-210, -10});
     m_Root.AddChild(m_PlayerPokemonImage);
 
+    m_PokeBagUI = std::make_shared<PokeBagUI>();
+    for (size_t i = 0; i < 6; i++) {
+            m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
+    }
+
+    m_EvolutionUI = std::make_shared<EvolutionUI>();
+    m_Root.AddChildren(m_EvolutionUI->GetChildren());
+
     m_EnemyPokemon = std::make_shared<Pokemon>("007");
 
     m_EnemyPokemonImage = std::make_shared<Image>(
@@ -192,39 +200,9 @@ void App::Start() {
             Util::Color::FromName(Util::Colors::WHITE)));
     m_Root.AddChild(m_EnemyPokeInfo);
 
-    m_Skill1 = std::make_shared<Text>();
-    m_Skill2 = std::make_shared<Text>();
-    m_Skill3 = std::make_shared<Text>();
-    m_Skill4 = std::make_shared<Text>();
-
-    std::vector<std::shared_ptr<Text>> m_SkillAll;
-    m_SkillAll.push_back(m_Skill1);
-    m_SkillAll.push_back(m_Skill2);
-    m_SkillAll.push_back(m_Skill3);
-    m_SkillAll.push_back(m_Skill4);
-    if (!m_PlayerPokemon->GetSkill().empty()) {
-        m_Skill1->SetText(m_PlayerPokemon->GetSkill()[0]);
-    }
-    if (m_PlayerPokemon->GetSkill().size() >= 2) {
-        m_Skill2->SetText(m_PlayerPokemon->GetSkill()[1]);
-    }
-    if (m_PlayerPokemon->GetSkill().size() >= 3) {
-        m_Skill3->SetText(m_PlayerPokemon->GetSkill()[2]);
-    }
-    if (m_PlayerPokemon->IsSkillFull()) {
-        m_Skill4->SetText(m_PlayerPokemon->GetSkill()[3]);
-    }
-    int GetSkillIndex = 0;
-    int SkillOfY = -190;
-    for (const auto &skill: m_SkillAll) {
-        skill->SetZIndex(55);
-        skill->SetVisible(false);
-        skill->SetPosition({(m_PlayerPokemon->GetSkill()[GetSkillIndex].length() / 4 * 17), SkillOfY});
-        skill->SetPosition({skill->GetPosition().x - 120, SkillOfY});
-        GetSkillIndex++;
-        SkillOfY -= 40;
-        m_Root.AddChild(skill);
-    }
+    m_FightSkillUI = std::make_shared<FightSkillUI>();
+    m_FightSkillUI->SetText(m_PlayerPokemon->GetSkill());
+    m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
     m_SkillInfo = std::make_shared<Text>();
     m_SkillInfo->SetZIndex(55);
