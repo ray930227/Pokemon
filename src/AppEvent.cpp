@@ -115,13 +115,11 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
         if (encounterable && rand() % 100 < 20) {
+            m_CurrentPlayerPokemon = 0;
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
             m_LoadingUI->RandomMode();
-            m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
-            m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
-            m_tempImage->SetPosition({620, -10});
-            m_EnemyPokemonImage->SetPosition({-620, 230});
+            m_FightMainUI->ReSetWildPosition();
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;

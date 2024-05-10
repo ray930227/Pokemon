@@ -16,6 +16,7 @@
 #include "UI/PokeBagUI.hpp"
 #include "TFBox.hpp"
 #include "UI/LoadingUI.hpp"
+#include "UI/FightMainUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -106,24 +107,25 @@ private:
     std::shared_ptr<FightSkillUI> m_FightSkillUI;
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
     std::shared_ptr<LoadingUI> m_LoadingUI;
+    std::shared_ptr<FightMainUI> m_FightMainUI;
 
-    std::shared_ptr<Image> m_PlayerPokemonImage;
-    std::shared_ptr<Image> m_EnemyPokemonImage;
+//    std::shared_ptr<Image> m_PlayerPokemonImage;
+//    std::shared_ptr<Image> m_EnemyPokemonImage;
     std::shared_ptr<Image> m_arrow;
     std::shared_ptr<Image> m_Fightskill;
     std::shared_ptr<Image> m_Fightitem;
     std::shared_ptr<Image> m_FightPokemon;
-    std::shared_ptr<Image> m_PlayerHPimage;
-    std::shared_ptr<Image> m_EnemyHPimage;
-    std::shared_ptr<Image> m_PlayerHPUI;
-    std::shared_ptr<Image> m_EnemyHPUI;
-    std::shared_ptr<Image> m_PlayerBalls;
-    std::shared_ptr<GIF> m_BallAnimation;
-    std::shared_ptr<Pokemon> m_PlayerPokemon;
-    std::shared_ptr<Pokemon> m_EnemyPokemon;
-    std::shared_ptr<Text> m_PlayerHP;
-    std::shared_ptr<Text> m_PlayerPokeName;
-    std::shared_ptr<Text> m_EnemyPokeName;
+//    std::shared_ptr<Image> m_PlayerHPimage;
+//    std::shared_ptr<Image> m_EnemyHPimage;
+//    std::shared_ptr<Image> m_PlayerHPUI;
+//    std::shared_ptr<Image> m_EnemyHPUI;
+//    std::shared_ptr<Image> m_PlayerBalls;
+//    std::shared_ptr<GIF> m_BallAnimation;
+//    std::shared_ptr<Pokemon> m_PlayerPokemon;
+//    std::shared_ptr<Pokemon> m_EnemyPokemon;
+//    std::shared_ptr<Text> m_PlayerHP;
+//    std::shared_ptr<Text> m_PlayerPokeName;
+//    std::shared_ptr<Text> m_EnemyPokeName;
     std::shared_ptr<Text> m_SkillInfo;
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;

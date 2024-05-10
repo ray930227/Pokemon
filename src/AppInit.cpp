@@ -73,7 +73,7 @@ void App::Init() {
 
         std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("007");
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
-        Enemy=NPC_Bromance;
+        Enemy = NPC_Bromance;
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
         std::shared_ptr<Pokemon> SecondPokemon = std::make_shared<Pokemon>("143");

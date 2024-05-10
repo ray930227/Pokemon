@@ -19,9 +19,7 @@ void App::Start() {
 
     m_MapSystem = std::make_shared<MapSystem>("PlayerHouse2F");
     m_MapSystem->SetVisible(false);
-
     m_Root.AddChildren(m_MapSystem->GetChildren());
-
 
     m_WhiteBG = std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
     m_WhiteBG->SetZIndex(0);
@@ -47,6 +45,17 @@ void App::Start() {
     for (const auto &Child: m_LoadingUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
+
+    m_FightMainUI = std::make_shared<FightMainUI>();
+    m_Root.AddChildren(m_FightMainUI->GetChildren());
+
+    m_PokeBagUI = std::make_shared<PokeBagUI>();
+    for (size_t i = 0; i < 6; i++) {
+        m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
+    }
+
+    m_EvolutionUI = std::make_shared<EvolutionUI>();
+    m_Root.AddChildren(m_EvolutionUI->GetChildren());
 
     m_FightBG = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightselectbox.png");
     m_FightBG->SetZIndex(52);
@@ -77,132 +86,22 @@ void App::Start() {
     m_FightPokemon->SetVisible(false);
     m_Root.AddChild(m_FightPokemon);
 
-    m_PlayerHPimage = std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
-    m_PlayerHPimage->SetZIndex(52);
-    m_PlayerHPimage->SetVisible(false);
-    m_PlayerHPimage->SetPosition({63, -11});
-    m_Root.AddChild(m_PlayerHPimage);
-
-    m_EnemyHPimage = std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
-    m_EnemyHPimage->SetZIndex(52);
-    m_EnemyHPimage->SetVisible(false);
-    m_EnemyHPimage->SetPosition({-217, 257});
-    m_Root.AddChild(m_EnemyHPimage);
-
-    m_PlayerHPUI = std::make_shared<Image>(RESOURCE_DIR"/Fight/PlayerUI.png");
-    m_PlayerHPUI->SetZIndex(53);
-    m_PlayerHPUI->SetVisible(false);
-    m_PlayerHPUI->SetPosition({150, -55});
-    m_Root.AddChild(m_PlayerHPUI);
-
-    m_EnemyHPUI = std::make_shared<Image>(RESOURCE_DIR"/Fight/EnemyUI.png");
-    m_EnemyHPUI->SetZIndex(53);
-    m_EnemyHPUI->SetVisible(false);
-    m_EnemyHPUI->SetPosition({-140, 245});
-    m_Root.AddChild(m_EnemyHPUI);
-
-    m_PlayerBalls = std::make_shared<Image>(RESOURCE_DIR"/Fight/PlayerBall1.png");
-    m_PlayerBalls->SetZIndex(53);
-    m_PlayerBalls->SetVisible(false);
-    m_PlayerBalls->SetPosition({150, -55});
-    m_Root.AddChild(m_PlayerBalls);
-
-    std::vector<std::string> tempBallPath;
-    for (int i = 1; i < 6; i++) {
-        tempBallPath.push_back(RESOURCE_DIR"/Fight/BallEffect" + std::to_string(i) + ".png");
-    }
-    m_BallAnimation = std::make_shared<GIF>(tempBallPath);
-    m_BallAnimation->SetZIndex(52);
-    m_BallAnimation->SetScale({1.3, 1.3});
-    m_BallAnimation->SetInterval(400);
-    m_BallAnimation->SetVisible(false);
-    m_BallAnimation->SetPosition({-210, -10});
-    m_Root.AddChild(m_BallAnimation);
-
-    m_PlayerPokemon = std::make_shared<Pokemon>("151");
-
-    m_PlayerPokemonImage = std::make_shared<Image>(
-            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" + m_PlayerPokemon->GetID() + ".png");
-    m_PlayerPokemonImage->SetZIndex(52);
-    m_PlayerPokemonImage->SetVisible(false);
-    m_PlayerPokemonImage->SetPosition({-210, -10});
-    m_Root.AddChild(m_PlayerPokemonImage);
-
-    m_PokeBagUI = std::make_shared<PokeBagUI>();
-    for (size_t i = 0; i < 6; i++) {
-        m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
-    }
-
-    m_EvolutionUI = std::make_shared<EvolutionUI>();
-    m_Root.AddChildren(m_EvolutionUI->GetChildren());
-
-    m_EnemyPokemon = std::make_shared<Pokemon>("007");
-
-    m_EnemyPokemonImage = std::make_shared<Image>(
-            RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" + m_EnemyPokemon->GetID() + ".png");
-    m_EnemyPokemonImage->SetZIndex(52);
-    m_EnemyPokemonImage->SetVisible(false);
-    m_EnemyPokemonImage->SetPosition({210, 230});
-    m_Root.AddChild(m_EnemyPokemonImage);
-
-    m_PlayerHP = std::make_shared<Text>();
-    m_PlayerHP->SetZIndex(52);
-    m_PlayerHP->SetVisible(false);
-    m_PlayerHP->SetPosition({170, -60});
-    m_Root.AddChild(m_PlayerHP);
-
-    m_PlayerPokeName = std::make_shared<Text>();
-    m_PlayerPokeName->SetZIndex(52);
-    m_PlayerPokeName->SetVisible(false);
-    m_PlayerPokeName->SetPosition({175, 25});
-    m_Root.AddChild(m_PlayerPokeName);
-
-    m_EnemyPokeName = std::make_shared<Text>();
-    m_EnemyPokeName->SetZIndex(52);
-    m_EnemyPokeName->SetVisible(false);
-    m_EnemyPokeName->SetPosition({-110, 295});
-    m_Root.AddChild(m_EnemyPokeName);
-
     m_PlayerPokeInfo = std::make_shared<Text>();
     m_PlayerPokeInfo->SetZIndex(99);
     m_PlayerPokeInfo->SetVisible(false);
     m_PlayerPokeInfo->SetPosition({-500, -70});
-    m_PlayerPokeInfo->SetDrawable(std::make_unique<Util::Text>(
-            RESOURCE_DIR"/text.ttf", 30,
-            "IV:" + std::to_string(m_PlayerPokemon->GetIV()) + "\n" +
-            "HP:" + std::to_string(m_PlayerPokemon->GetHP()) + "\n" +
-            "Attack:" + std::to_string(m_PlayerPokemon->GetAttack()) + "\n" +
-            "Defence:" + std::to_string(m_PlayerPokemon->GetDefence()) + "\n" +
-            "Special:" + std::to_string(m_PlayerPokemon->GetSpecial()) + "\n" +
-            "Speed:" + std::to_string(m_PlayerPokemon->GetSpeed()),
-            Util::Color::FromName(Util::Colors::WHITE)));
     m_Root.AddChild(m_PlayerPokeInfo);
 
     m_EnemyPokeInfo = std::make_shared<Text>();
     m_EnemyPokeInfo->SetZIndex(99);
     m_EnemyPokeInfo->SetVisible(false);
     m_EnemyPokeInfo->SetPosition({500, 200});
-    m_EnemyPokeInfo->SetDrawable(std::make_unique<Util::Text>(
-            RESOURCE_DIR"/text.ttf", 30,
-            "IV:" + std::to_string(m_EnemyPokemon->GetIV()) + "\n" +
-            "HP:" + std::to_string(m_EnemyPokemon->GetHP()) + "\n" +
-            "Attack:" + std::to_string(m_EnemyPokemon->GetAttack()) + "\n" +
-            "Defence:" + std::to_string(m_EnemyPokemon->GetDefence()) + "\n" +
-            "Special:" + std::to_string(m_EnemyPokemon->GetSpecial()) + "\n" +
-            "Speed:" + std::to_string(m_EnemyPokemon->GetSpeed()),
-            Util::Color::FromName(Util::Colors::WHITE)));
     m_Root.AddChild(m_EnemyPokeInfo);
-
-    m_FightSkillUI = std::make_shared<FightSkillUI>();
-    m_FightSkillUI->SetText(m_PlayerPokemon->GetSkill());
-    m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
     m_SkillInfo = std::make_shared<Text>();
     m_SkillInfo->SetZIndex(55);
     m_SkillInfo->SetVisible(false);
     m_SkillInfo->SetPosition({-150, -60});
-//    m_SkillInfo->SetText("型態:" + m_PlayerPokemon->GetSkillType()[0] + "\n" +
-//    m_PlayerPokemon->GetSkillPP()[0] + " / " + m_PlayerPokemon->GetSkillPP()[0]);
     m_Root.AddChild(m_SkillInfo);
     //endregion
 
@@ -238,6 +137,8 @@ void App::Start() {
     Player->GetImage()->SetVisible(false);
     m_Root.AddChild(Player->GetImage());
 
+    m_FightSkillUI = std::make_shared<FightSkillUI>();
+    m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
     tempImagePathses.clear();
     tempImagePathses.resize(1);
