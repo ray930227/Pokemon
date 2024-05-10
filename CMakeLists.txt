@@ -33,6 +33,8 @@ add_executable(${PROJECT_NAME}
         src/FightUI/PokeBagUI.cpp
         include/TFBox.hpp
         src/TFBox.cpp
+    include/ItemBag.hpp
+    src/ItemBag.cpp
 )
 
 if(MSVC)

@@ -279,11 +279,11 @@ void App::Fight() {
                     }
                     break;
                 case 2:
-                    if (ButtonTrigger>=5){
+                    if (ButtonTrigger >= 5) {
                         m_EvolutionUI->StopEvolution();
                     }
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                        if (ButtonTrigger<5){
+                        if (ButtonTrigger < 5) {
                             Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->Evolution();
                             m_PlayerPokemonImage->SetImage(
                                     RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +

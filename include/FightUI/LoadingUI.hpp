@@ -3,7 +3,7 @@
 
 #include "Image.hpp"
 
-class LoadingUI{
+class LoadingUI {
 private:
     std::vector<std::vector<std::shared_ptr<Image>>> m_LoadingImages;
 public:
