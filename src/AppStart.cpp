@@ -137,7 +137,7 @@ void App::Start() {
 
     m_PokeBagUI = std::make_shared<PokeBagUI>();
     for (size_t i = 0; i < 6; i++) {
-            m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
+        m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
     }
 
     m_EvolutionUI = std::make_shared<EvolutionUI>();

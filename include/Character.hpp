@@ -3,12 +3,14 @@
 
 #include "GIF.hpp"
 #include "PokemonBag.hpp"
+#include "ItemBag.hpp"
 
 class Character {
 private:
     std::string m_Name;
     float m_Speed;
     std::shared_ptr<PokemonBag> m_PokemonBag;
+    std::shared_ptr<ItemBag> m_ItemBag;
     std::shared_ptr<GIF> m_Image;
     std::vector<std::vector<std::string>> m_ImagePathses;
     size_t m_CurrentImagePath;

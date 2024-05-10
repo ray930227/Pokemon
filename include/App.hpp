@@ -143,9 +143,9 @@ private:
     int SkillChoose;
     bool IsPlayerRound;
     int DisplacementCount;
-    int m_CurrentPlayerPokemon=0;
-    int ButtonTrigger=0;
-    int FightCounter=0;
+    int m_CurrentPlayerPokemon = 0;
+    int ButtonTrigger = 0;
+    int FightCounter = 0;
     bool encounterable = true;
     std::string currentDirection;
     EventManager m_EventManager;

@@ -243,10 +243,9 @@ void App::Event() {
                     } else {
 
                     }
-                    m_CurrentEvent = EventID::NONE;
-                    m_CurrentState = State::UPDATE;
                 }
-
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
             }
         } else {
             if (currnetMap == "OakLab") {

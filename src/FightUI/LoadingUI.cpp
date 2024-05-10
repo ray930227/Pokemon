@@ -10,7 +10,7 @@ LoadingUI::LoadingUI() {
 
 std::vector<std::vector<std::shared_ptr<Util::GameObject>>> LoadingUI::GetChildren() const {
     std::vector<std::vector<std::shared_ptr<Util::GameObject>>> Result;
-    for (const auto & m_LoadingImage : m_LoadingImages){
+    for (const auto &m_LoadingImage: m_LoadingImages) {
         std::vector<std::shared_ptr<Util::GameObject>> temp;
         temp.push_back(m_LoadingImage[0]);
         temp.push_back(m_LoadingImage[1]);
