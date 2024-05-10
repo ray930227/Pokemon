@@ -3,9 +3,8 @@
 void App::Loading() {
     switch (m_CurrentLoading) {
         case LoadingID::INTO:
-            if (m_FightLoad1_1->GetPosition().x != 720 && m_FightLoad1_1->GetVisibility()) {
-                m_FightLoad1_1->Move({15, 0});
-                m_FightLoad1_2->Move({-15, 0});
+            if (m_LoadingUI->GetVisibility()) {
+                m_LoadingUI->SelectMode();
             } else {
                 m_WhiteBG->SetVisible(true);
                 m_WhiteBG->SetZIndex(51);
@@ -17,11 +16,15 @@ void App::Loading() {
                     m_tempImage->Move({-10, 0});
                     m_EnemyPokemonImage->Move({10, 0});
                 } else {
+                    m_CurrentPlayerPokemon=0;
+                    m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
+                                                   Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID() +
+                                                   ".png");
+                    m_TB->Reload();
+                    m_TB->AddText(" ");
+                    m_TB->AddText("野生" + m_EnemyPokemon->GetName() + "出現了!");
+                    m_TB->AddText("上吧! " + Player->GetPokemonBag()->GetPokemons()[0]->GetName() + "!");
                     m_TB->Next();
-                    m_FightLoad1_1->SetPosition({-720, 0});
-                    m_FightLoad1_2->SetPosition({720, 0});
-                    m_FightLoad1_1->SetVisible(false);
-                    m_FightLoad1_2->SetVisible(false);
                     m_CurrentLoading = LoadingID::TEXT;
                 }
             }

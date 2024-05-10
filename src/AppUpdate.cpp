@@ -2,7 +2,6 @@
 
 void App::Update() {
     LOG_TRACE("Update");
-
     if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         Displacement = {0, -72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
@@ -68,16 +67,7 @@ void App::Update() {
     if (Util::Input::IsKeyPressed(Util::Keycode::F)) {
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
         m_BGM->Play();
-//        m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
-        m_TB->Reload();
-        m_TB->AddText(" ");
-        m_TB->AddText("野生" + m_EnemyPokemon->GetName() + "出現了!");
-        m_TB->AddText("上吧! " + Player->GetPokemonBag()->GetPokemons()[0]->GetName() + "!");
-        m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
-                                       Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID() +
-                                       ".png");
-        m_FightLoad1_1->SetVisible(true);
-        m_FightLoad1_2->SetVisible(true);
+        m_LoadingUI->RandomMode();
         m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
         m_tempImage->SetPosition({620, -10});
         m_EnemyPokemonImage->SetPosition({-620, 230});

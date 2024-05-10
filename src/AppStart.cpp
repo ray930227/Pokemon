@@ -43,17 +43,10 @@ void App::Start() {
     m_BGM->Play();
 
     //region Fight
-    m_FightLoad1_1 = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_1.png");
-    m_FightLoad1_1->SetZIndex(51);
-    m_FightLoad1_1->SetVisible(false);
-    m_FightLoad1_1->SetPosition({-720, 0});
-
-    m_Root.AddChild(m_FightLoad1_1);
-    m_FightLoad1_2 = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightloading1_2.png");
-    m_FightLoad1_2->SetZIndex(51);
-    m_FightLoad1_2->SetVisible(false);
-    m_FightLoad1_2->SetPosition({720, 0});
-    m_Root.AddChild(m_FightLoad1_2);
+    m_LoadingUI = std::make_shared<LoadingUI>();
+    for (const auto &Child: m_LoadingUI->GetChildren()) {
+        m_Root.AddChildren(Child);
+    }
 
     m_FightBG = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightselectbox.png");
     m_FightBG->SetZIndex(52);
@@ -126,7 +119,7 @@ void App::Start() {
     m_BallAnimation->SetPosition({-210, -10});
     m_Root.AddChild(m_BallAnimation);
 
-    m_PlayerPokemon = std::make_shared<Pokemon>("004");
+    m_PlayerPokemon = std::make_shared<Pokemon>("151");
 
     m_PlayerPokemonImage = std::make_shared<Image>(
             RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" + m_PlayerPokemon->GetID() + ".png");

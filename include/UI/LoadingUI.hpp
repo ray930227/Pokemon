@@ -6,11 +6,17 @@
 class LoadingUI {
 private:
     std::vector<std::vector<std::shared_ptr<Image>>> m_LoadingImages;
+    int m_Mode;
 public:
     LoadingUI();
 
+    void RandomMode();
+
     [[nodiscard]] std::vector<std::vector<std::shared_ptr<Util::GameObject>>> GetChildren() const;
 
+    void SelectMode();
+
+    [[nodiscard]] bool GetVisibility();
 
 };
 

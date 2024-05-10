@@ -1,4 +1,4 @@
-#include "FightUI/FightSkillUI.hpp"
+#include "UI/FightSkillUI.hpp"
 
 FightSkillUI::FightSkillUI() {
     for (size_t i = 0; i < 4; i++) {

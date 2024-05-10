@@ -66,8 +66,6 @@ void App::Fight() {
                 m_PlayerHPUI->SetVisible(false);
                 m_EnemyHPUI->SetVisible(false);
                 m_FightBG->SetVisible(false);
-                m_FightLoad1_1->SetVisible(false);
-                m_FightLoad1_2->SetVisible(false);
                 m_Fightskill->SetVisible(false);
                 m_arrow->SetVisible(false);
                 m_PlayerHPimage->SetVisible(false);
@@ -264,9 +262,7 @@ void App::Fight() {
                     } else if (FightCounter >= 420) {
                         m_EvolutionUI->Pause();
                         m_EvolutionUI->SetCurrentFrame(1);
-                        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                            m_EvolutionUI->Next();
-                        }
+                        m_EvolutionUI->Next();
                     } else {
                         FightCounter++;
                         if (FightCounter % 30 == 0 && FightCounter > 120) {

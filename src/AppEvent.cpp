@@ -117,9 +117,8 @@ void App::Event() {
         if (encounterable && rand() % 100 < 20) {
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
+            m_LoadingUI->RandomMode();
             m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
-            m_FightLoad1_1->SetVisible(true);
-            m_FightLoad1_2->SetVisible(true);
             m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
             m_tempImage->SetPosition({620, -10});
             m_EnemyPokemonImage->SetPosition({-620, 230});
