@@ -32,7 +32,7 @@ public:
         EVENT,
         LOADING,
         FIGHT,
-        END,
+        END
     };
 
     enum class EventID {
@@ -44,6 +44,7 @@ public:
         WEEKTREE,
         BALL,
         CHOOSE_POKEMON,
+        SHOP,
         NONE
     };
 
@@ -147,6 +148,7 @@ private:
     int ButtonTrigger = 0;
     int FightCounter = 0;
     bool encounterable = true;
+    bool isWildPokemon = false;
     std::string currentDirection;
     EventManager m_EventManager;
 };

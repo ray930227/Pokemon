@@ -1,5 +1,10 @@
 #include "Character.hpp"
 
+Character::Character() {
+    m_PokemonBag = std::make_shared<PokemonBag>();
+    m_ItemBag = std::make_shared<ItemBag>();
+}
+
 Character::Character(const std::vector<std::vector<std::string>> &ImagePathses) {
     m_Image = std::make_shared<GIF>(ImagePathses[0]);
     SetImagePathses(ImagePathses);

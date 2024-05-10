@@ -15,6 +15,8 @@ private:
     std::vector<std::vector<std::string>> m_ImagePathses;
     size_t m_CurrentImagePath;
 public:
+    Character();
+
     explicit Character(const std::vector<std::vector<std::string>> &ImagePathses);
 
     std::string &GetName();
