@@ -115,14 +115,11 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
         if (encounterable && rand() % 100 < 20) {
+            m_CurrentPlayerPokemon = 0;
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
-            m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
-            m_FightLoad1_1->SetVisible(true);
-            m_FightLoad1_2->SetVisible(true);
-            m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
-            m_tempImage->SetPosition({620, -10});
-            m_EnemyPokemonImage->SetPosition({-620, 230});
+            m_LoadingUI->RandomMode();
+            m_FightMainUI->ReSetWildPosition();
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;
@@ -215,16 +212,19 @@ void App::Event() {
                         if (BallPosition.x == 4 && BallPosition.y == 8) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
+                            Enemy=NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了小火龍");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
                         } else if (BallPosition.x == 4 && BallPosition.y == 9) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
+                            Enemy=NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了傑尼龜");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
                         } else if (BallPosition.x == 4 && BallPosition.y == 10) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
+                            Enemy=NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
                         }
