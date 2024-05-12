@@ -73,6 +73,16 @@ void App::Update() {
         m_CurrentLoading = LoadingID::INTO;
         m_CurrentState = State::LOADING;
     }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::G)){
+        LOG_DEBUG("GetPokemon!");
+        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
+        NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
+        Enemy = NPC_Bromance;
+        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
+        Player->GetPokemonBag()->addPomekon(FirstPokemon);
+    }
+
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
