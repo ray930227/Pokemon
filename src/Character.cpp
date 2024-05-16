@@ -30,6 +30,14 @@ std::shared_ptr<PokemonBag> Character::GetPokemonBag() {
     return m_PokemonBag;
 }
 
+std::shared_ptr<ItemBag> Character::GetItemBag() {
+    return m_ItemBag;
+}
+
+int Character::GetMoney() {
+    return m_Money;
+}
+
 void Character::SetName(const std::string &str) {
     m_Name = str;
 }
@@ -47,4 +55,8 @@ void Character::SetCurrentImagePath(size_t index) {
     m_CurrentImagePath = index;
     if (m_Image->IsPlaying() == false)
         m_Image->SetImagePaths(m_ImagePathses[m_CurrentImagePath]);
+}
+
+void Character::SetMoney(int money) {
+    m_Money=money;
 }

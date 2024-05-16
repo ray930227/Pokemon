@@ -41,9 +41,6 @@ void App::Start() {
     m_BGM->SetVolume(32);
     m_BGM->Play();
 
-    m_ShopUI=std::make_shared<ShopUI>();
-    m_Root.AddChildren(m_ShopUI->GetChildren());
-
     //region Fight
     m_LoadingUI = std::make_shared<LoadingUI>();
     for (const auto &Child: m_LoadingUI->GetChildren()) {
@@ -159,6 +156,9 @@ void App::Start() {
     NPC_Oak->GetImage()->SetZIndex(49);
     NPC_Oak->GetImage()->SetVisible(false);
     m_Root.AddChild(NPC_Oak->GetImage());
+
+    m_ShopUI=std::make_shared<ShopUI>(Player);
+    m_Root.AddChildren(m_ShopUI->GetChildren());
 
     m_CurrentState = State::HOME;
 }

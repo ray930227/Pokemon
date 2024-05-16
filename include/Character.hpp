@@ -14,6 +14,7 @@ private:
     std::shared_ptr<GIF> m_Image;
     std::vector<std::vector<std::string>> m_ImagePathses;
     size_t m_CurrentImagePath;
+    int m_Money=1000;
 public:
     Character();
 
@@ -27,6 +28,10 @@ public:
 
     std::shared_ptr<PokemonBag> GetPokemonBag();
 
+    std::shared_ptr<ItemBag> GetItemBag();
+
+    int GetMoney();
+
     void SetName(const std::string &str);
 
     void SetSpeed(float value);
@@ -34,6 +39,8 @@ public:
     void SetImagePathses(const std::vector<std::vector<std::string>> &ImagePathses);
 
     void SetCurrentImagePath(size_t index);
+
+    void SetMoney(int money);
 
 };
 
