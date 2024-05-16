@@ -20,7 +20,7 @@ void Text::SetText(const std::string &str) {
 void Text::SetPosition(const glm::vec2 &Position) { m_Transform.translation = Position; }
 
 void Text::SetSize(int size) {
-    m_Size=size;
+    m_Size = size;
     SetText(m_Text);
 }
 

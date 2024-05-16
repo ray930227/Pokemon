@@ -157,7 +157,7 @@ void App::Start() {
     NPC_Oak->GetImage()->SetVisible(false);
     m_Root.AddChild(NPC_Oak->GetImage());
 
-    m_ShopUI=std::make_shared<ShopUI>(Player);
+    m_ShopUI = std::make_shared<ShopUI>(Player);
     m_Root.AddChildren(m_ShopUI->GetChildren());
 
     m_CurrentState = State::HOME;

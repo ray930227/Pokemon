@@ -58,5 +58,5 @@ void Character::SetCurrentImagePath(size_t index) {
 }
 
 void Character::SetMoney(int money) {
-    m_Money=money;
+    m_Money = money;
 }

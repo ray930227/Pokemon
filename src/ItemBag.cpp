@@ -5,10 +5,10 @@ ItemBag::ItemBag() {
     m_Items.resize(256);
     std::ifstream file(RESOURCE_DIR"/Item/ItemName.txt", std::ios::in);
     std::string tempStr;
-    for(int i=0;i<256;i++){
+    for (int i = 0; i < 256; i++) {
         std::getline(file, tempStr);
-        m_Items[i].first=tempStr;
-        m_Items[i].second=0;
+        m_Items[i].first = tempStr;
+        m_Items[i].second = 0;
     }
     file.close();
 }

@@ -63,9 +63,9 @@ void App::Update() {
         encounterable = !encounterable;
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
-    if(Util::Input::IsKeyDown(Util::Keycode::D)){
-        m_CurrentEvent=EventID::SHOP;
-        m_CurrentState=State::EVENT;
+    if (Util::Input::IsKeyDown(Util::Keycode::D)) {
+        m_CurrentEvent = EventID::SHOP;
+        m_CurrentState = State::EVENT;
     }
 
 
@@ -79,7 +79,7 @@ void App::Update() {
         m_CurrentState = State::LOADING;
     }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::G)){
+    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
         LOG_DEBUG("GetPokemon!");
         std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);

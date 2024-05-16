@@ -7,7 +7,7 @@
 class Text : public Util::GameObject {
 private:
     std::string m_Text;
-    int m_Size=30;
+    int m_Size = 30;
 public:
     Text();
 

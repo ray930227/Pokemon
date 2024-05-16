@@ -23,20 +23,20 @@ add_executable(${PROJECT_NAME}
     src/PokemonBag.cpp
     include/EventManager.hpp
     src/EventManager.cpp
-        include/UI/EvolutionUI.hpp
-        include/UI/FightSkillUI.hpp
-        include/UI/LoadingUI.hpp
-        include/UI/PokeBagUI.hpp
-        src/UI/EvolutionUI.cpp
-        src/UI/FightSkillUI.cpp
-        src/UI/LoadingUI.cpp
-        src/UI/PokeBagUI.cpp
-        include/TFBox.hpp
-        src/TFBox.cpp
+    include/UI/EvolutionUI.hpp
+    include/UI/FightSkillUI.hpp
+    include/UI/LoadingUI.hpp
+    include/UI/PokeBagUI.hpp
+    src/UI/EvolutionUI.cpp
+    src/UI/FightSkillUI.cpp
+    src/UI/LoadingUI.cpp
+    src/UI/PokeBagUI.cpp
+    include/TFBox.hpp
+    src/TFBox.cpp
     include/ItemBag.hpp
     src/ItemBag.cpp
-        include/UI/FightMainUI.hpp
-        src/UI/FightMainUI.cpp
+    include/UI/FightMainUI.hpp
+    src/UI/FightMainUI.cpp
     include/UI/ShopUI.hpp
     src/UI/ShopUI.cpp
 )

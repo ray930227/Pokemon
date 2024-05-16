@@ -28,7 +28,7 @@ bool TFBox::GetTF() {
 void TFBox::SetVisibility(const bool visible) {
     m_Box->SetVisible(visible);
     m_Arrow->SetVisible(visible);
-    if(visible) m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Box->GetPosition().y + 37});
+    if (visible) m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Box->GetPosition().y + 37});
 }
 
 void TFBox::SetPosition(const glm::vec2 &Position) {
