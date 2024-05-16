@@ -38,7 +38,11 @@ void App::Start() {
     m_Root.AddChild(m_tempImage);
 
     m_BGM = std::make_shared<Util::BGM>(RESOURCE_DIR"/BGM/Opening.mp3");
+    m_BGM->SetVolume(32);
     m_BGM->Play();
+
+    m_ShopUI=std::make_shared<ShopUI>();
+    m_Root.AddChildren(m_ShopUI->GetChildren());
 
     //region Fight
     m_LoadingUI = std::make_shared<LoadingUI>();

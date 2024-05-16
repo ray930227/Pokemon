@@ -384,7 +384,15 @@ void App::Event() {
         }
         //endregion
     } else if(m_CurrentEvent == EventID::SHOP){
-
+        if(m_ShopUI->GetVisibile()){
+            m_ShopUI->Run();
+            if(!m_ShopUI->GetVisibile()){
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else{
+            m_ShopUI->Start();
+        }
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

@@ -37,6 +37,8 @@ add_executable(${PROJECT_NAME}
     src/ItemBag.cpp
         include/UI/FightMainUI.hpp
         src/UI/FightMainUI.cpp
+    include/UI/ShopUI.hpp
+    src/UI/ShopUI.cpp
 )
 
 if(MSVC)

@@ -63,6 +63,11 @@ void App::Update() {
         encounterable = !encounterable;
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
+    if(Util::Input::IsKeyDown(Util::Keycode::D)){
+        m_CurrentEvent=EventID::SHOP;
+        m_CurrentState=State::EVENT;
+    }
+
 
     if (Util::Input::IsKeyPressed(Util::Keycode::F)) {
         m_CurrentPlayerPokemon = 0;

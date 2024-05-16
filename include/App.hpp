@@ -17,6 +17,7 @@
 #include "TFBox.hpp"
 #include "UI/LoadingUI.hpp"
 #include "UI/FightMainUI.hpp"
+#include "UI/ShopUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -109,6 +110,7 @@ private:
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
     std::shared_ptr<LoadingUI> m_LoadingUI;
     std::shared_ptr<FightMainUI> m_FightMainUI;
+    std::shared_ptr<ShopUI> m_ShopUI;
 
 //    std::shared_ptr<Image> m_PlayerPokemonImage;
 //    std::shared_ptr<Image> m_EnemyPokemonImage;
