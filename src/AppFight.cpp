@@ -62,23 +62,14 @@ void App::Fight() {
                 m_arrow->SetPosition({-25, -200});
                 m_WhiteBG->SetVisible(false);
                 m_WhiteBG->SetZIndex(0);
+                m_FightMainUI->SetVisible(false);
                 m_tempImage->SetZIndex(1);
-                m_PlayerHPUI->SetVisible(false);
-                m_EnemyHPUI->SetVisible(false);
                 m_FightBG->SetVisible(false);
-                m_FightLoad1_1->SetVisible(false);
-                m_FightLoad1_2->SetVisible(false);
                 m_Fightskill->SetVisible(false);
                 m_arrow->SetVisible(false);
-                m_PlayerHPimage->SetVisible(false);
-                m_EnemyHPimage->SetVisible(false);
-                m_PlayerPokemonImage->SetVisible(false);
-                m_EnemyPokemonImage->SetVisible(false);
-                m_PlayerHP->SetVisible(false);
-                m_PlayerPokeName->SetVisible(false);
-                m_EnemyPokeName->SetVisible(false);
                 m_PlayerPokeInfo->SetVisible(false);
                 m_EnemyPokeInfo->SetVisible(false);
+                m_FightMainUI->SetVisible(false);
                 m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                 m_BGM->Play();
                 LOG_DEBUG("State:UPDATE");
@@ -86,7 +77,12 @@ void App::Fight() {
             }
             if (Util::Input::IsKeyDown(Util::Keycode::U)) {
                 Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->LevelUp();
-                m_EnemyPokemon->LevelUp();
+                Enemy->GetPokemonBag()->GetPokemons()[0]->LevelUp();
+                m_FightMainUI->SetTextPlayerPokeName(
+                        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName() + " LV:" +
+                        std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV()));
+                m_FightMainUI->SetTextEnemyPokeName(Enemy->GetPokemonBag()->GetPokemons()[0]->GetName() + " LV:" +
+                                                    std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetLV()));
                 if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsGetNewSkill()) {
                     m_TB->SetVisible(true);
                     if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsSkillFull()) {
@@ -113,9 +109,9 @@ void App::Fight() {
                 Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->PokemonHurt(1);
                 if (1.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP() /
                     Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP() <= 0) {
-                    m_PlayerHPimage->SetScale({0, 1});
+                    m_FightMainUI->SetPlayerHPScale({0, 1});
                 } else {
-                    m_PlayerHPimage->SetScale(
+                    m_FightMainUI->SetPlayerHPScale(
                             {(1.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP() /
                               Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()), 1});
                 }
@@ -207,24 +203,26 @@ void App::Fight() {
                 "變化") {
                 LOG_DEBUG("Status is not ready");
             } else {
-                m_EnemyPokemon->PokemonHurt(
+                Enemy->GetPokemonBag()->GetPokemons()[0]->PokemonHurt(
                         round((((2.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV() + 10) /
                                 250) *
                                (1.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetAttack() /
-                                m_EnemyPokemon->GetDefence()) *
+                                Enemy->GetPokemonBag()->GetPokemons()[0]->GetDefence()) *
                                std::stof(
                                        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkillDamge()[SkillChoose]) +
                                2) *
                               PokeFunction::TypeDamage(
                                       Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkillType()[SkillChoose],
-                                      m_EnemyPokemon->GetType())));
+                                      Enemy->GetPokemonBag()->GetPokemons()[0]->GetType())));
                 Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->ReducePP(SkillChoose);
             }
 
-            if (1.0 * m_EnemyPokemon->GetCurrentHP() / m_EnemyPokemon->GetHP() <= 0) {
-                m_EnemyHPimage->SetScale({0, 1});
+            if (1.0 * Enemy->GetPokemonBag()->GetPokemons()[0]->GetCurrentHP() /
+                Enemy->GetPokemonBag()->GetPokemons()[0]->GetHP() <= 0) {
+                m_FightMainUI->SetEnemyHPScale({0, 1});
             } else {
-                m_EnemyHPimage->SetScale({(1.0 * m_EnemyPokemon->GetCurrentHP() / m_EnemyPokemon->GetHP()), 1});
+                m_FightMainUI->SetEnemyHPScale({(1.0 * Enemy->GetPokemonBag()->GetPokemons()[0]->GetCurrentHP() /
+                                                 Enemy->GetPokemonBag()->GetPokemons()[0]->GetHP()), 1});
             }
             m_TB->SetVisible(true);
             m_SkillInfo->SetVisible(false);
@@ -236,11 +234,11 @@ void App::Fight() {
                               Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill()[SkillChoose]);
                 if (PokeFunction::TypeDamage(
                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkillType()[SkillChoose],
-                        m_EnemyPokemon->GetType()) >= 2.0) {
+                        Enemy->GetPokemonBag()->GetPokemons()[0]->GetType()) >= 2.0) {
                     m_TB->AddText("效果絕佳!");
                 } else if (PokeFunction::TypeDamage(
                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkillType()[SkillChoose],
-                        m_EnemyPokemon->GetType()) <= 0.5) {
+                        Enemy->GetPokemonBag()->GetPokemons()[0]->GetType()) <= 0.5) {
                     m_TB->AddText("效果不好!");
                 }
 
@@ -260,9 +258,7 @@ void App::Fight() {
                     } else if (FightCounter >= 420) {
                         m_EvolutionUI->Pause();
                         m_EvolutionUI->SetCurrentFrame(1);
-                        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                            m_EvolutionUI->Next();
-                        }
+                        m_EvolutionUI->Next();
                     } else {
                         FightCounter++;
                         if (FightCounter % 30 == 0 && FightCounter > 120) {
@@ -285,12 +281,13 @@ void App::Fight() {
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                         if (ButtonTrigger < 5) {
                             Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->Evolution();
-                            m_PlayerPokemonImage->SetImage(
+                            m_FightMainUI->SetPlayerPokeImage(
                                     RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
                                     Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID() + ".png");
-                            m_EnemyPokemon->Evolution();
-                            m_EnemyPokemonImage->SetImage(
-                                    RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" + m_EnemyPokemon->GetID() + ".png");
+                            Enemy->GetPokemonBag()->GetPokemons()[0]->Evolution();
+                            m_FightMainUI->SetEnemyPokeImage(
+                                    RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +
+                                    Enemy->GetPokemonBag()->GetPokemons()[0]->GetID() + ".png");
                         }
                         FightCounter = 0;
                         ButtonTrigger = 0;
@@ -460,10 +457,11 @@ void App::Fight() {
             break;
 
         case FightID::UPDATEINFO:
-            m_PlayerPokeName->SetText(
+            m_FightMainUI->SetTextHP(
                     Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName() + " LV:" +
                     std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV()));
-            m_EnemyPokeName->SetText(m_EnemyPokemon->GetName() + " LV:" + std::to_string(m_EnemyPokemon->GetLV()));
+            m_FightMainUI->SetTextEnemyPokeName(Enemy->GetPokemonBag()->GetPokemons()[0]->GetName() + " LV:" +
+                                                std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetLV()));
             m_PlayerPokeInfo->SetDrawable(std::make_unique<Util::Text>(
                     RESOURCE_DIR"/text.ttf", 30,
                     "IV:" + std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetIV()) +
@@ -483,14 +481,14 @@ void App::Fight() {
                     Util::Color::FromName(Util::Colors::WHITE)));
             m_EnemyPokeInfo->SetDrawable(std::make_unique<Util::Text>(
                     RESOURCE_DIR"/text.ttf", 30,
-                    "IV:" + std::to_string(m_EnemyPokemon->GetIV()) + "\n" +
-                    "HP:" + std::to_string(m_EnemyPokemon->GetHP()) + "\n" +
-                    "Attack:" + std::to_string(m_EnemyPokemon->GetAttack()) + "\n" +
-                    "Defence:" + std::to_string(m_EnemyPokemon->GetDefence()) + "\n" +
-                    "Special:" + std::to_string(m_EnemyPokemon->GetSpecial()) + "\n" +
-                    "Speed:" + std::to_string(m_EnemyPokemon->GetSpeed()),
+                    "IV:" + std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetIV()) + "\n" +
+                    "HP:" + std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetHP()) + "\n" +
+                    "Attack:" + std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetAttack()) + "\n" +
+                    "Defence:" + std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetDefence()) + "\n" +
+                    "Special:" + std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetSpecial()) + "\n" +
+                    "Speed:" + std::to_string(Enemy->GetPokemonBag()->GetPokemons()[0]->GetSpeed()),
                     Util::Color::FromName(Util::Colors::WHITE)));
-            m_PlayerHP->SetText(
+            m_FightMainUI->SetTextHP(
                     std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) +
                     " / " +
                     std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()));
@@ -521,17 +519,7 @@ void App::Fight() {
         LOG_DEBUG("Position:({},{})", Util::Input::GetCursorPosition().x, Util::Input::GetCursorPosition().y);
     }
 
-    if ((m_PlayerHPimage->GetScaledSize().x) <= 91.200005) {
-        m_PlayerHPimage->SetImage(RESOURCE_DIR"/Fight/RedHealth.png");
-    } else {
-        m_PlayerHPimage->SetImage(RESOURCE_DIR"/Fight/GreenHealth.png");
-    }
-
-    if ((m_EnemyHPimage->GetScaledSize().x) <= 91.200005) {
-        m_EnemyHPimage->SetImage(RESOURCE_DIR"/Fight/RedHealth.png");
-    } else {
-        m_EnemyHPimage->SetImage(RESOURCE_DIR"/Fight/GreenHealth.png");
-    }
+    m_FightMainUI->DetectBlood();
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;

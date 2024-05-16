@@ -1,4 +1,4 @@
-#include "FightUI/PokeBagUI.hpp"
+#include "UI/PokeBagUI.hpp"
 
 PokeBagUI::PokeBagUI() {
     int ImageY = 300;

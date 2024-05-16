@@ -2,7 +2,6 @@
 
 void App::Update() {
     LOG_TRACE("Update");
-
     if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         Displacement = {0, -72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
@@ -66,24 +65,24 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyPressed(Util::Keycode::F)) {
+        m_CurrentPlayerPokemon = 0;
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
         m_BGM->Play();
-//        m_TB->ReadLines(RESOURCE_DIR"/Lines/FightLoading.txt");
-        m_TB->Reload();
-        m_TB->AddText(" ");
-        m_TB->AddText("野生" + m_EnemyPokemon->GetName() + "出現了!");
-        m_TB->AddText("上吧! " + Player->GetPokemonBag()->GetPokemons()[0]->GetName() + "!");
-        m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
-                                       Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID() +
-                                       ".png");
-        m_FightLoad1_1->SetVisible(true);
-        m_FightLoad1_2->SetVisible(true);
-        m_tempImage->SetImage(RESOURCE_DIR"/Fight/Player.png");
-        m_tempImage->SetPosition({620, -10});
-        m_EnemyPokemonImage->SetPosition({-620, 230});
+        m_LoadingUI->RandomMode();
+        m_FightMainUI->ReSetWildPosition();
         m_CurrentLoading = LoadingID::INTO;
         m_CurrentState = State::LOADING;
     }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::G)){
+        LOG_DEBUG("GetPokemon!");
+        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
+        NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
+        Enemy = NPC_Bromance;
+        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
+        Player->GetPokemonBag()->addPomekon(FirstPokemon);
+    }
+
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;

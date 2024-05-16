@@ -70,14 +70,6 @@ void App::Init() {
         DisplacementCount = 0;
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
-
-        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("007");
-        NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
-        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
-        Player->GetPokemonBag()->addPomekon(FirstPokemon);
-        std::shared_ptr<Pokemon> SecondPokemon = std::make_shared<Pokemon>("143");
-        Player->GetPokemonBag()->addPomekon(SecondPokemon);
-
         m_CurrentState = State::UPDATE;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
