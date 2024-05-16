@@ -3,7 +3,7 @@
 TFBox::TFBox() {
     m_Box = std::make_shared<Image>(RESOURCE_DIR"/Background/TFBox.png");
     m_Arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
-    m_Box->SetZIndex(99);
+    m_Box->SetZIndex(98);
     m_Arrow->SetZIndex(99);
     SetVisibility(false);
     SetPosition({247.5, -27});
