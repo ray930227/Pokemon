@@ -309,3 +309,11 @@ bool Pokemon::IsGetNewSkill() {
     }
     return false;
 }
+
+int Pokemon::CaculateDamge(std::vector<std::string> SkillDamges) {
+    int MostPowerful;
+    for (auto Danage:SkillDamges){
+
+    }
+    return 0;
+}

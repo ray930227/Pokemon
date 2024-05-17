@@ -106,6 +106,7 @@ public:
 
     bool IsGetNewSkill();
 
+    int CaculateDamge(std::vector<std::string> SkillDamges);
 };
 
 #endif //POKEMON_POKEMON_HPP

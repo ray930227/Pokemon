@@ -74,7 +74,7 @@ void App::Update() {
         m_CurrentState = State::LOADING;
     }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::G)){
+    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
         LOG_DEBUG("GetPokemon!");
         std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
