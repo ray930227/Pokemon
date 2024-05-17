@@ -17,6 +17,7 @@
 #include "TFBox.hpp"
 #include "UI/LoadingUI.hpp"
 #include "UI/FightMainUI.hpp"
+#include "UI/ShopUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -34,7 +35,7 @@ public:
         EVENT,
         LOADING,
         FIGHT,
-        END,
+        END
     };
 
     enum class EventID {
@@ -46,6 +47,7 @@ public:
         WEEKTREE,
         BALL,
         CHOOSE_POKEMON,
+        SHOP,
         NONE
     };
 
@@ -108,6 +110,7 @@ private:
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
     std::shared_ptr<LoadingUI> m_LoadingUI;
     std::shared_ptr<FightMainUI> m_FightMainUI;
+    std::shared_ptr<ShopUI> m_ShopUI;
 
     std::shared_ptr<Image> m_arrow;
     std::shared_ptr<Image> m_Fightskill;
@@ -132,6 +135,7 @@ private:
     int ButtonTrigger = 0;
     int FightCounter = 0;
     bool encounterable = true;
+    bool isWildPokemon = false;
     std::string currentDirection;
     EventManager m_EventManager;
 };

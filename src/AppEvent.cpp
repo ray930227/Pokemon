@@ -86,6 +86,9 @@ void App::Event() {
                 } else if (PlayerPosition.x == 89 && PlayerPosition.y == 72) {
                     m_MapSystem->SetMap("OakLab");
                     m_MapSystem->SetPosition({72, 360});
+                } else if (PlayerPosition.x == 25 && PlayerPosition.y == 79) {
+                    m_MapSystem->SetMap("PokeMart");
+                    m_MapSystem->SetPosition({72, 216});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -103,6 +106,8 @@ void App::Event() {
             } else if (currnetMap == "OakLab") {
                 m_MapSystem->SetMap("MainMap");
                 m_MapSystem->SetPosition({-1728, 2952});
+            } else if (currnetMap == "PokeMart") {
+                m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
@@ -377,6 +382,16 @@ void App::Event() {
             m_CurrentEvent = EventID::DOOR;
         }
         //endregion
+    } else if (m_CurrentEvent == EventID::SHOP) {
+        if (m_ShopUI->GetVisibile()) {
+            m_ShopUI->Run();
+            if (!m_ShopUI->GetVisibile()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else {
+            m_ShopUI->Start();
+        }
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "UsefulFunctions.hpp"
 
 class ItemBag {
 private:

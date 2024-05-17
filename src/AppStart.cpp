@@ -38,6 +38,7 @@ void App::Start() {
     m_Root.AddChild(m_tempImage);
 
     m_BGM = std::make_shared<Util::BGM>(RESOURCE_DIR"/BGM/Opening.mp3");
+    m_BGM->SetVolume(32);
     m_BGM->Play();
 
     //region Fight
@@ -155,6 +156,9 @@ void App::Start() {
     NPC_Oak->GetImage()->SetZIndex(49);
     NPC_Oak->GetImage()->SetVisible(false);
     m_Root.AddChild(NPC_Oak->GetImage());
+
+    m_ShopUI = std::make_shared<ShopUI>(Player);
+    m_Root.AddChildren(m_ShopUI->GetChildren());
 
     m_CurrentState = State::HOME;
 }

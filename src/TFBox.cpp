@@ -3,7 +3,7 @@
 TFBox::TFBox() {
     m_Box = std::make_shared<Image>(RESOURCE_DIR"/Background/TFBox.png");
     m_Arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
-    m_Box->SetZIndex(99);
+    m_Box->SetZIndex(98);
     m_Arrow->SetZIndex(99);
     SetVisibility(false);
     SetPosition({247.5, -27});
@@ -28,6 +28,7 @@ bool TFBox::GetTF() {
 void TFBox::SetVisibility(const bool visible) {
     m_Box->SetVisible(visible);
     m_Arrow->SetVisible(visible);
+    if (visible) m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Box->GetPosition().y + 37});
 }
 
 void TFBox::SetPosition(const glm::vec2 &Position) {
