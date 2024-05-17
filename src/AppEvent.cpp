@@ -86,6 +86,9 @@ void App::Event() {
                 } else if (PlayerPosition.x == 89 && PlayerPosition.y == 72) {
                     m_MapSystem->SetMap("OakLab");
                     m_MapSystem->SetPosition({72, 360});
+                } else if (PlayerPosition.x == 25 && PlayerPosition.y == 79) {
+                    m_MapSystem->SetMap("PokeMart");
+                    m_MapSystem->SetPosition({72, 216});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -103,6 +106,8 @@ void App::Event() {
             } else if (currnetMap == "OakLab") {
                 m_MapSystem->SetMap("MainMap");
                 m_MapSystem->SetPosition({-1728, 2952});
+            } else if (currnetMap == "PokeMart") {
+                m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
@@ -212,19 +217,19 @@ void App::Event() {
                         if (BallPosition.x == 4 && BallPosition.y == 8) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
-                            Enemy=NPC_Bromance;
+                            Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了小火龍");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
                         } else if (BallPosition.x == 4 && BallPosition.y == 9) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
-                            Enemy=NPC_Bromance;
+                            Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了傑尼龜");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
                         } else if (BallPosition.x == 4 && BallPosition.y == 10) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
-                            Enemy=NPC_Bromance;
+                            Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
                         }
@@ -377,6 +382,16 @@ void App::Event() {
             m_CurrentEvent = EventID::DOOR;
         }
         //endregion
+    } else if (m_CurrentEvent == EventID::SHOP) {
+        if (m_ShopUI->GetVisibile()) {
+            m_ShopUI->Run();
+            if (!m_ShopUI->GetVisibile()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else {
+            m_ShopUI->Start();
+        }
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }
