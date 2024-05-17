@@ -18,8 +18,12 @@ private:
     std::vector<std::pair<std::shared_ptr<Text>, int>> m_ItemRow;
     std::shared_ptr<Character> m_Player;
     std::vector<std::pair<std::string, int>> m_BuyList;
+    std::vector<std::pair<std::string, int>> m_SellList;
+    std::vector<int> m_SellMoneyList;
     std::shared_ptr<Text> m_Money;
     size_t m_RowTopIndex = 0;
+
+
 public:
     ShopUI(std::shared_ptr<Character> &Player);
 

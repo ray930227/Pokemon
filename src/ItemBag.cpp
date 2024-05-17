@@ -52,3 +52,7 @@ int ItemBag::GetItemQuantity(const std::string &name) {
     }
     return -1;
 }
+
+std::string ItemBag::GetItemName(size_t ID) {
+    return m_Items[ID].first;
+}

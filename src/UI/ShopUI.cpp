@@ -43,6 +43,12 @@ ShopUI::ShopUI(std::shared_ptr<Character> &Player) {
     file1.close();
     file2.close();
 
+    std::ifstream file3(RESOURCE_DIR"/Item/SellMoneyList.txt", std::ios::in);
+    while (std::getline(file3, tempStr1)) {
+        m_SellMoneyList.push_back(std::stoi(tempStr1));
+    }
+    file3.close();
+
     m_Player = Player;
 
     m_Money = std::make_shared<Text>();
@@ -65,17 +71,28 @@ void ShopUI::Run() {
         if (m_TFBox->Choose()) {
             m_TFBox->SetVisibility(false);
             if (m_TFBox->GetTF()) {
-                if (m_Player->GetMoney() >=
-                    m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second) {
+                if(m_Arrows[0]->GetPosition().y==300) {
+                    if (m_Player->GetMoney() >=
+                        m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second) {
+                        m_TextBox->SetVisible(false);
+                        m_Player->SetMoney(m_Player->GetMoney() -
+                                           m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second);
+                        m_Money->SetText("$" + std::to_string(m_Player->GetMoney()));
+                        m_Player->GetItemBag()->AddItemQuantity(
+                                m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first, 1);
+                        m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
+                    } else {
+                        m_TextBox->SetText("金額不夠，無法購買！");
+                    }
+                } else{
                     m_TextBox->SetVisible(false);
-                    m_Player->SetMoney(m_Player->GetMoney() -
-                                       m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second);
+                    m_Player->SetMoney(m_Player->GetMoney() +
+                                       m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second);
                     m_Money->SetText("$" + std::to_string(m_Player->GetMoney()));
+                    std::string tempStr=m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;
                     m_Player->GetItemBag()->AddItemQuantity(
-                            m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first, 1);
+                            tempStr.substr(0,tempStr.find('X')), -1);
                     m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
-                } else {
-                    m_TextBox->SetText("金額不夠，無法購買！");
                 }
             } else {
                 m_TextBox->SetVisible(false);
@@ -90,9 +107,22 @@ void ShopUI::Run() {
         } else if (m_ShopInsideBG->GetVisibility()) {
             m_TFBox->SetVisibility(true);
             m_TextBox->SetVisible(true);
-            m_TextBox->SetText("這樣總共是" + std::to_string(
-                    m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second) + "元，您要購買嗎?");
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/WhiteArrow.png");
+            if(m_Arrows[0]->GetPosition().y==300) {
+                m_TextBox->SetText("這樣總共是" + std::to_string(
+                        m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second) +
+                                   "元，您要購買嗎?");
+            } else{
+                if(m_SellList.size()==0){
+                    m_TFBox->SetVisibility(false);
+                    m_TextBox->SetVisible(false);
+                    m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
+                } else {
+                    m_TextBox->SetText("這樣總共是" + std::to_string(
+                            m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second) +
+                                       "元，您要售出嗎?");
+                }
+            }
         } else {
             auto p = m_Arrows[0]->GetPosition();
             if (p.y == 150) {
@@ -141,7 +171,8 @@ void ShopUI::Run() {
             if (p.y != -90 && m_ItemRow[(180 - p.y) / 90 + 1].first->GetText() != " ") {
                 m_Arrows[1]->SetPosition({p.x, p.y - 90});
 
-            } else if (m_RowTopIndex + 4 < m_BuyList.size()) {
+            } else if ((m_RowTopIndex + 4 < m_BuyList.size() && m_Arrows[0]->GetPosition().y==300) ||
+                    (m_RowTopIndex + 4 < m_SellList.size() && m_Arrows[0]->GetPosition().y==225)) {
                 m_RowTopIndex++;
             }
         } else if (m_Arrows[0]->GetPosition().y != 150) {
@@ -151,6 +182,18 @@ void ShopUI::Run() {
     }
 
     if (m_ShopInsideBG->GetVisibility()) {
+        if (m_Arrows[0]->GetPosition().y == 225){
+            auto bag=m_Player->GetItemBag();
+            m_SellList.clear();
+            for(int i=0;i<256;i++){
+                if(bag->GetItemQuantity(i)!=0 &&m_SellMoneyList[i]!=-1){
+                    std::pair<std::string,int> tempPair;
+                    tempPair.first=bag->GetItemName(i)+"X"+std::to_string(bag->GetItemQuantity(i));
+                    tempPair.second=m_SellMoneyList[i];
+                    m_SellList.push_back(tempPair);
+                }
+            }
+        }
         for (int i = 0; i < 4; i++) {
             if (m_Arrows[0]->GetPosition().y == 300) {
                 if (m_RowTopIndex + i < m_BuyList.size()) {
@@ -160,9 +203,9 @@ void ShopUI::Run() {
                     m_ItemRow[i].first->SetText(" ");
                 }
             } else {
-                if (false) {
-                    m_ItemRow[i].first->SetText(m_BuyList[m_RowTopIndex + i].first + "  $" +
-                                                std::to_string(m_BuyList[m_RowTopIndex + i].second));
+                if (m_RowTopIndex + i < m_SellList.size()) {
+                    m_ItemRow[i].first->SetText(m_SellList[m_RowTopIndex + i].first + "  $" +
+                                                std::to_string(m_SellList[m_RowTopIndex + i].second));
                 } else {
                     m_ItemRow[i].first->SetText(" ");
                 }
