@@ -5,7 +5,7 @@
 #include "TFBox.hpp"
 #include "Util/Input.hpp"
 
-class ReplaceSkillUI{
+class ReplaceSkillUI {
 private:
     std::shared_ptr<TextBox> m_TextBox;
     std::shared_ptr<TFBox> m_TFBox;
@@ -16,7 +16,7 @@ public:
 
     void SetVisible(bool visible);
 
-    void SetText(const std::string& PlayerPokemon,const std::string& NewSkill);
+    void SetText(const std::string &PlayerPokemon, const std::string &NewSkill);
 
     void SetTextBoxVisible(bool visible);
 

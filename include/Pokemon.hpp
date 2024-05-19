@@ -106,7 +106,7 @@ public:
 
     bool IsGetNewSkill();
 
-    int CaculateDamge(const std::vector<std::string>& EnemyType);
+    int CaculateDamge(const std::vector<std::string> &EnemyType);
 };
 
 #endif //POKEMON_POKEMON_HPP

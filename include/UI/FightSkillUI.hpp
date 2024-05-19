@@ -27,7 +27,8 @@ public:
 
     int GetDecision();
 
-    void ShowSkillInfo(const std::vector<std::string>&SkillType,const std::vector<std::string>&CurrentPP,const std::vector<std::string>&PP);
+    void ShowSkillInfo(const std::vector<std::string> &SkillType, const std::vector<std::string> &CurrentPP,
+                       const std::vector<std::string> &PP);
 };
 
 #endif //POKEMON_FIGHTSKILLUI_HPP

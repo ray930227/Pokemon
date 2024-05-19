@@ -62,7 +62,7 @@ void App::Start() {
     m_Root.AddChildren(m_EvolutionUI->GetChildren());
 
     m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>();
-    for (const auto& Child:m_ReplaceSkillUI->GetChildren()){
+    for (const auto &Child: m_ReplaceSkillUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
 
