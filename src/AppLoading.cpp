@@ -15,8 +15,8 @@ void App::Loading() {
                                                   ".png");
                 m_LoadingUI->LoadText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName(),
                                       Enemy->GetPokemonBag()->GetPokemons()[0]->GetName());
-                m_FightMainUI->SetPlayer(true);
-                m_FightMainUI->SetEnemyPoke(true);
+                m_FightMainUI->SetPlayerVisible(true);
+                m_FightMainUI->SetEnemyPokeVisible(true);
                 if (m_FightMainUI->BeginMoving()) {
                     m_LoadingUI->Next();
                     m_CurrentLoading = LoadingID::TEXT;
@@ -26,11 +26,11 @@ void App::Loading() {
         case LoadingID::TEXT:
             switch (m_LoadingUI->GetCurrentIndex()) {
                 case 2:
-                    m_FightMainUI->SetPlayerBall(true);
+                    m_FightMainUI->SetPlayerBallVisible(true);
                     m_FightMainUI->SetBallsImage(
                             RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(Player->GetPokemonBag()->size()) + ".png");
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                        m_FightMainUI->SetBallAnimation(true);
+                        m_FightMainUI->SetBallAnimationVisible(true);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
                         m_LoadingUI->Next();
                     }
@@ -48,16 +48,16 @@ void App::Loading() {
                                                         std::to_string(
                                                                 Enemy->GetPokemonBag()->GetPokemons()[0]->GetLV()));
                     m_FightSkillUI->SetText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill());
-                    m_FightMainUI->SetPlayerBall(false);
-                    m_FightMainUI->SetEnemyHPUI(true);
-                    m_FightMainUI->SetEnemyPokeName(true);
+                    m_FightMainUI->SetPlayerBallVisible(false);
+                    m_FightMainUI->SetEnemyHPUIVisible(true);
+                    m_FightMainUI->SetEnemyPokeNameVisible(true);
                     if (m_FightMainUI->GetPlayerPokeScale().x < 1 && m_FightMainUI->EndMoving()) {
                         m_FightMainUI->ZoomPlayerImage();
-                        m_FightMainUI->SetBallAnimation(false);
-                        m_FightMainUI->SetPlayerPoke(true);
-                        m_FightMainUI->SetPlayerHPUI(true);
-                        m_FightMainUI->SetPlayerPokeName(true);
-                        m_FightMainUI->SetPlayerHPText(true);
+                        m_FightMainUI->SetBallAnimationVisible(false);
+                        m_FightMainUI->SetPlayerPokeVisible(true);
+                        m_FightMainUI->SetPlayerHPUIVisible(true);
+                        m_FightMainUI->SetPlayerPokeNameVisible(true);
+                        m_FightMainUI->SetPlayerHPTextVisible(true);
                     } else if (m_FightMainUI->GetPlayerPokeScale().x >= 1) {
                         m_FightMainUI->SetPlayerPokeScale({1.0, 1.0});
                         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -67,12 +67,11 @@ void App::Loading() {
                     break;
             }
             if (!m_LoadingUI->GetTBVisibility()) {
-                LOG_DEBUG("Finish");
                 m_FightMainUI->ReSetBallAnimation();
-                m_arrow->SetVisible(true);
+                m_FightMainUI->SetArrowVisible(true);
+                m_FightMainUI->SetFightBGVisible(true);
                 m_PlayerPokeInfo->SetVisible(true);
                 m_EnemyPokeInfo->SetVisible(true);
-                m_FightBG->SetVisible(true);
                 m_CurrentFighting = FightID::HOME;
                 m_CurrentState = State::FIGHT;
             }

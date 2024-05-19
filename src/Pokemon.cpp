@@ -8,7 +8,7 @@ Pokemon::Pokemon(const std::string &ID) {
     m_DefenceBP = 0;
     m_SpecialBP = 0;
     m_SpeedBP = 0;
-    m_LV = 15;
+    m_LV = 5;
     FindType();
     FindName();
     FindAbiltiy();
@@ -310,10 +310,16 @@ bool Pokemon::IsGetNewSkill() {
     return false;
 }
 
-int Pokemon::CaculateDamge(std::vector<std::string> SkillDamges) {
-    int MostPowerful;
-    for (auto Danage:SkillDamges){
-
+int Pokemon::CaculateDamge(const std::vector<std::string>& EnemyType) {
+    float MostPowerful=0;
+    float Damage;
+    int EnemySkillChoose=0;
+    for (size_t i=0;i<m_Skills.size();i++){
+        Damage=(std::stoi(m_SkillDamage[i])*PokeFunction::TypeDamage(m_SkillTypes[i],EnemyType));
+        if (Damage>MostPowerful){
+            MostPowerful=Damage;
+            EnemySkillChoose=i;
+        }
     }
-    return 0;
+    return EnemySkillChoose;
 }

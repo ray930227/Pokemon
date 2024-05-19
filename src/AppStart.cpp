@@ -50,6 +50,9 @@ void App::Start() {
     m_FightMainUI = std::make_shared<FightMainUI>();
     m_Root.AddChildren(m_FightMainUI->GetChildren());
 
+    m_FightSkillUI = std::make_shared<FightSkillUI>();
+    m_Root.AddChildren(m_FightSkillUI->GetChildren());
+
     m_PokeBagUI = std::make_shared<PokeBagUI>();
     for (size_t i = 0; i < 6; i++) {
         m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
@@ -58,11 +61,10 @@ void App::Start() {
     m_EvolutionUI = std::make_shared<EvolutionUI>();
     m_Root.AddChildren(m_EvolutionUI->GetChildren());
 
-    m_FightBG = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightselectbox.png");
-    m_FightBG->SetZIndex(52);
-    m_FightBG->SetVisible(false);
-    m_FightBG->SetPosition({0, -249});
-    m_Root.AddChild(m_FightBG);
+    m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>();
+    for (const auto& Child:m_ReplaceSkillUI->GetChildren()){
+        m_Root.AddChildren(Child);
+    }
 
     m_arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
     m_arrow->SetZIndex(55);
@@ -70,22 +72,11 @@ void App::Start() {
     m_arrow->SetPosition({-25, -200});
     m_Root.AddChild(m_arrow);
 
-    m_Fightskill = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightskillbox.png");
-    m_Fightskill->SetZIndex(54);
-    m_Fightskill->SetVisible(false);
-    m_Fightskill->SetPosition({0, -160});
-    m_Root.AddChild(m_Fightskill);
-
     m_Fightitem = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
     m_Fightitem->SetZIndex(54);
     m_Fightitem->SetVisible(false);
     m_Fightitem->SetPosition({0, -60});
     m_Root.AddChild(m_Fightitem);
-
-    m_FightPokemon = std::make_shared<Image>(RESOURCE_DIR"/Fight/FightPokemon.png");
-    m_FightPokemon->SetZIndex(54);
-    m_FightPokemon->SetVisible(false);
-    m_Root.AddChild(m_FightPokemon);
 
     m_PlayerPokeInfo = std::make_shared<Text>();
     m_PlayerPokeInfo->SetZIndex(99);
@@ -98,12 +89,6 @@ void App::Start() {
     m_EnemyPokeInfo->SetVisible(false);
     m_EnemyPokeInfo->SetPosition({500, 200});
     m_Root.AddChild(m_EnemyPokeInfo);
-
-    m_SkillInfo = std::make_shared<Text>();
-    m_SkillInfo->SetZIndex(55);
-    m_SkillInfo->SetVisible(false);
-    m_SkillInfo->SetPosition({-150, -60});
-    m_Root.AddChild(m_SkillInfo);
     //endregion
 
     m_TB = std::make_shared<TextBox>();
@@ -137,9 +122,6 @@ void App::Start() {
     Player->GetImage()->SetPosition({36, -36});
     Player->GetImage()->SetVisible(false);
     m_Root.AddChild(Player->GetImage());
-
-    m_FightSkillUI = std::make_shared<FightSkillUI>();
-    m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
     tempImagePathses.clear();
     tempImagePathses.resize(1);

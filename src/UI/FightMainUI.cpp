@@ -33,6 +33,13 @@ FightMainUI::FightMainUI() {
     m_PlayerBalls->SetZIndex(53);
     m_PlayerBalls->SetVisible(false);
     m_PlayerBalls->SetPosition({150, -55});
+    m_Arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
+    m_Arrow->SetZIndex(55);
+    m_Arrow->SetVisible(false);
+    m_Arrow->SetPosition({-25, -200});
+    m_FightBG = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightselectbox.png");
+    m_FightBG->SetZIndex(52);
+    m_FightBG->SetVisible(false);
     std::vector<std::string> tempBallPath;
     for (int i = 1; i < 6; i++) {
         tempBallPath.push_back(RESOURCE_DIR"/Fight/BallEffect" + std::to_string(i) + ".png");
@@ -59,7 +66,8 @@ FightMainUI::FightMainUI() {
 
 std::vector<std::shared_ptr<Util::GameObject>> FightMainUI::GetChildren() const {
     return {m_Player, m_PlayerPokemonImage, m_EnemyPokemonImage, m_PlayerHPImage, m_EnemyHPImage, m_PlayerHPUI,
-            m_EnemyHPUI, m_PlayerBalls, m_BallAnimation, m_PlayerHP, m_PlayerPokeName, m_EnemyPokeName};
+            m_EnemyHPUI, m_PlayerBalls, m_BallAnimation, m_PlayerHP, m_PlayerPokeName, m_EnemyPokeName, m_Arrow,
+            m_FightBG};
 }
 
 void FightMainUI::SetVisible(bool visible) {
@@ -75,49 +83,60 @@ void FightMainUI::SetVisible(bool visible) {
     m_PlayerHP->SetVisible(visible);
     m_PlayerPokeName->SetVisible(visible);
     m_EnemyPokeName->SetVisible(visible);
+    m_Arrow->SetVisible(visible);
+    m_FightBG->SetVisible(visible);
 }
 
-void FightMainUI::SetPlayer(bool visible) {
+void FightMainUI::SetFightBGVisible(bool visible) {
+    m_FightBG->SetVisible(visible);
+}
+
+void FightMainUI::SetArrowVisible(bool visible) {
+    m_Arrow->SetVisible(visible);
+    m_Arrow->SetPosition({-25, -200});
+}
+
+void FightMainUI::SetPlayerVisible(bool visible) {
     m_Player->SetVisible(visible);
 }
 
-void FightMainUI::SetPlayerHPUI(bool visible) {
+void FightMainUI::SetPlayerHPUIVisible(bool visible) {
     m_PlayerHPImage->SetVisible(visible);
     m_PlayerHPUI->SetVisible(visible);
 }
 
-void FightMainUI::SetEnemyHPUI(bool visible) {
+void FightMainUI::SetEnemyHPUIVisible(bool visible) {
     m_EnemyHPImage->SetVisible(visible);
     m_EnemyHPUI->SetVisible(visible);
 }
 
-void FightMainUI::SetPlayerPoke(bool visible) {
+void FightMainUI::SetPlayerPokeVisible(bool visible) {
     m_PlayerPokemonImage->SetVisible(visible);
 }
 
-void FightMainUI::SetEnemyPoke(bool visible) {
+void FightMainUI::SetEnemyPokeVisible(bool visible) {
     m_EnemyPokemonImage->SetVisible(visible);
 }
 
-void FightMainUI::SetPlayerBall(bool visible) {
+void FightMainUI::SetPlayerBallVisible(bool visible) {
     m_PlayerBalls->SetVisible(visible);
 }
 
-void FightMainUI::SetBallAnimation(bool visible) {
+void FightMainUI::SetBallAnimationVisible(bool visible) {
     m_BallAnimation->Reset();
     m_BallAnimation->SetVisible(visible);
     m_BallAnimation->Play();
 }
 
-void FightMainUI::SetPlayerHPText(bool visible) {
+void FightMainUI::SetPlayerHPTextVisible(bool visible) {
     m_PlayerHP->SetVisible(visible);
 }
 
-void FightMainUI::SetPlayerPokeName(bool visible) {
+void FightMainUI::SetPlayerPokeNameVisible(bool visible) {
     m_PlayerPokeName->SetVisible(visible);
 }
 
-void FightMainUI::SetEnemyPokeName(bool visible) {
+void FightMainUI::SetEnemyPokeNameVisible(bool visible) {
     m_EnemyPokeName->SetVisible(visible);
 }
 
@@ -204,4 +223,35 @@ void FightMainUI::DetectBlood() {
     } else {
         m_EnemyHPImage->SetImage(RESOURCE_DIR"/Fight/GreenHealth.png");
     }
+}
+
+bool FightMainUI::Choose() {
+    if (Util::Input::IsKeyDown(Util::Keycode::UP) && m_Arrow->GetPosition().y != -200) {
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Arrow->GetPosition().y + 100});
+    } else if (Util::Input::IsKeyDown(Util::Keycode::DOWN) && m_Arrow->GetPosition().y != -300) {
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Arrow->GetPosition().y - 100});
+    } else if (Util::Input::IsKeyDown(Util::Keycode::RIGHT) && m_Arrow->GetPosition().x != 135) {
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x + 160, m_Arrow->GetPosition().y});
+    } else if (Util::Input::IsKeyDown(Util::Keycode::LEFT) && m_Arrow->GetPosition().x != -25) {
+        m_Arrow->SetPosition({m_Arrow->GetPosition().x - 160, m_Arrow->GetPosition().y});
+    }
+    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+        return true;
+    }
+    return false;
+}
+
+std::string FightMainUI::GetDecision() {
+    //Fight select Skill(-25,-200) PokePack(135,-200)
+    //             BackPack(-25,-300) Run(135,-300)
+    if (m_Arrow->GetPosition().x == -25 && m_Arrow->GetPosition().y == -200) {
+        return "Skill";
+    } else if (m_Arrow->GetPosition().x == 135 && m_Arrow->GetPosition().y == -200) {
+        return "PokePack";
+    } else if (m_Arrow->GetPosition().x == -25 && m_Arrow->GetPosition().y == -300) {
+        return "BackPack";
+    } else if (m_Arrow->GetPosition().x == 135 && m_Arrow->GetPosition().y == -300) {
+        return "Run";
+    }
+    return "";
 }

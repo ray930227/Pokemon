@@ -5,7 +5,7 @@
 #include "Image.hpp"
 #include "Util/Input.hpp"
 
-class TFBox {
+class TFBox : public Util::GameObject{
 private:
     std::shared_ptr<Image> m_Box;
     std::shared_ptr<Image> m_Arrow;
