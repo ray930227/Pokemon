@@ -5,6 +5,7 @@
 #include "TFBox.hpp"
 #include "TextBox.hpp"
 #include "Character.hpp"
+#include "SFXSystem.hpp"
 #include "Util/Input.hpp"
 #include <memory>
 
