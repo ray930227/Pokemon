@@ -41,6 +41,8 @@ add_executable(${PROJECT_NAME}
     src/UI/ShopUI.cpp
         include/UI/ReplaceSkillUI.hpp
         src/UI/ReplaceSkillUI.cpp
+        include/UI/FightTextUI.hpp
+        src/UI/FightTextUI.cpp
 )
 
 if(MSVC)

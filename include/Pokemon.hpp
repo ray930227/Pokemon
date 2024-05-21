@@ -72,6 +72,8 @@ public:
 
     void PokemonHurt(int Damage);
 
+    void PokemonHurt(const std::shared_ptr<Pokemon>& EnemyPokemon,int SkillChoose);
+
     [[nodiscard]] int GetAttack() const;
 
     [[nodiscard]] int GetDefence() const;
@@ -107,6 +109,8 @@ public:
     bool IsGetNewSkill();
 
     int CaculateDamge(const std::vector<std::string> &EnemyType);
+
+    bool IsPokemonDying();
 };
 
 #endif //POKEMON_POKEMON_HPP

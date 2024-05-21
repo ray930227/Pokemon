@@ -8,7 +8,7 @@ Pokemon::Pokemon(const std::string &ID) {
     m_DefenceBP = 0;
     m_SpecialBP = 0;
     m_SpeedBP = 0;
-    m_LV = 5;
+    m_LV = 15;
     FindType();
     FindName();
     FindAbiltiy();
@@ -220,6 +220,19 @@ void Pokemon::PokemonHurt(int Damage) {
     m_CurrentHP -= Damage;
 }
 
+void Pokemon::PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose) {
+    int Damage;
+    Damage = round((((2.0 * EnemyPokemon->GetLV() + 10) / 250) * (1.0 * EnemyPokemon->GetAttack() / m_Defence) *
+                    std::stof(EnemyPokemon->GetSkillDamge()[SkillChoose]) + 2) *
+                   PokeFunction::TypeDamage(
+                           EnemyPokemon->GetSkillType()[SkillChoose],
+                           m_Type));
+    m_CurrentHP -= Damage;
+    if (m_CurrentHP<0){
+        m_CurrentHP=0;
+    }
+}
+
 int Pokemon::GetAttack() const {
     return m_Attack;
 }
@@ -311,15 +324,21 @@ bool Pokemon::IsGetNewSkill() {
 }
 
 int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
-    float MostPowerful = 0;
-    float Damage;
+    int MostPowerful = 0;
+    int Damage;
     int EnemySkillChoose = 0;
     for (size_t i = 0; i < m_Skills.size(); i++) {
-        Damage = (std::stoi(m_SkillDamage[i]) * PokeFunction::TypeDamage(m_SkillTypes[i], EnemyType));
-        if (Damage > MostPowerful) {
-            MostPowerful = Damage;
-            EnemySkillChoose = i;
+        if (m_SkillDamage[i] != "—") {
+            Damage = round(std::stof(m_SkillDamage[i]) * PokeFunction::TypeDamage(m_SkillTypes[i], EnemyType));
+            if (Damage > MostPowerful) {
+                MostPowerful = Damage;
+                EnemySkillChoose = i;
+            }
         }
     }
     return EnemySkillChoose;
+}
+
+bool Pokemon::IsPokemonDying() {
+    return m_HP <= 0;
 }

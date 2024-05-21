@@ -66,11 +66,10 @@ void App::Start() {
         m_Root.AddChildren(Child);
     }
 
-    m_arrow = std::make_shared<Image>(RESOURCE_DIR"/Fight/arrow.png");
-    m_arrow->SetZIndex(55);
-    m_arrow->SetVisible(false);
-    m_arrow->SetPosition({-25, -200});
-    m_Root.AddChild(m_arrow);
+    m_FightTextUI = std::make_shared<FightTextUI>();
+    for (const auto &Child: m_FightTextUI->GetChildren()) {
+        m_Root.AddChildren(Child);
+    }
 
     m_Fightitem = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
     m_Fightitem->SetZIndex(54);
