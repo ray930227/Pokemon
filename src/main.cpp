@@ -1,12 +1,17 @@
 #include "App.hpp"
+#include "SFXSystem.hpp"
 
 #include "Core/Context.hpp"
 
 int main(int, char **) {
     auto context = Core::Context::GetInstance();
     App app;
+    SFXSystem SFX;
 
     while (!context->GetExit()) {
+        if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+            SFX.Play("Click");
+        }
         switch (app.GetCurrentState()) {
             case App::State::START:
                 app.Start();

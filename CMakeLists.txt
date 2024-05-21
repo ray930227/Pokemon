@@ -39,10 +39,12 @@ add_executable(${PROJECT_NAME}
     src/UI/FightMainUI.cpp
     include/UI/ShopUI.hpp
     src/UI/ShopUI.cpp
-        include/UI/ReplaceSkillUI.hpp
-        src/UI/ReplaceSkillUI.cpp
-        include/UI/FightTextUI.hpp
-        src/UI/FightTextUI.cpp
+    include/UI/ReplaceSkillUI.hpp
+    src/UI/ReplaceSkillUI.cpp
+    include/UI/FightTextUI.hpp
+    src/UI/FightTextUI.cpp
+    include/SFXSystem.hpp
+    src/SFXSystem.cpp
 )
 
 if(MSVC)
