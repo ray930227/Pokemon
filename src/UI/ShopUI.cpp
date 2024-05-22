@@ -144,16 +144,18 @@ void ShopUI::Run() {
             m_AmountText->SetVisible(false);
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
         }
-        else if (m_ShopInsideBG->GetVisibility()) {
-            m_ShopInsideBG->SetVisible(false);
-            for (int i = 0; i < 4; i++)
-                m_ItemRow[i].first->SetVisible(false);
-            m_Arrows[1]->SetVisible(false);
-            m_Arrows[0]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
-        } else {
-            m_ShopBG->SetVisible(false);
-            m_Arrows[0]->SetVisible(false);
-            m_Money->SetVisible(false);
+        else if(!m_TextBox->GetVisibility()){
+            if (m_ShopInsideBG->GetVisibility()) {
+                m_ShopInsideBG->SetVisible(false);
+                for (int i = 0; i < 4; i++)
+                    m_ItemRow[i].first->SetVisible(false);
+                m_Arrows[1]->SetVisible(false);
+                m_Arrows[0]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
+            } else {
+                m_ShopBG->SetVisible(false);
+                m_Arrows[0]->SetVisible(false);
+                m_Money->SetVisible(false);
+            }
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::UP)) {
         if(m_ShopAmountBG->GetVisibility()){
