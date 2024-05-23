@@ -86,7 +86,8 @@ void App::Event() {
                 } else if (PlayerPosition.x == 89 && PlayerPosition.y == 72) {
                     m_MapSystem->SetMap("OakLab");
                     m_MapSystem->SetPosition({72, 360});
-                } else if (PlayerPosition.x == 25 && PlayerPosition.y == 79) {
+                } else if ((PlayerPosition.x == 25 && PlayerPosition.y == 79) ||
+                        (PlayerPosition.x == 21 && PlayerPosition.y == 33)) {
                     m_MapSystem->SetMap("PokeMart");
                     m_MapSystem->SetPosition({72, 216});
                 } else {
@@ -113,8 +114,16 @@ void App::Event() {
             }
             m_WhiteBG->SetVisible(false);
             m_WhiteBG->SetZIndex(0);
-            m_CurrentState = State::UPDATE;
-            m_CurrentEvent = EventID::NONE;
+            if(m_MapSystem->GetCurrnetMap()=="MainMap"){
+                Displacement = {0, 72.0 / Player->GetSpeed()};
+                DisplacementCount = Player->GetSpeed();
+                currentDirection = "DOWN";
+                Player->SetCurrentImagePath(1);
+                m_CurrentEvent = EventID::MOVE;
+            } else {
+                m_CurrentState = State::UPDATE;
+                m_CurrentEvent = EventID::NONE;
+            }
         }
         //endregion
     } else if (m_CurrentEvent == EventID::GRASS) {
