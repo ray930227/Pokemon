@@ -46,8 +46,11 @@ public:
         JUMP,
         WEEKTREE,
         BALL,
-        CHOOSE_POKEMON,
         SHOP,
+        NPC,
+        COMPUTER,
+        HEAL,
+        CHOOSE_POKEMON,
         NONE
     };
 

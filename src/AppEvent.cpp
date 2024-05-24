@@ -90,6 +90,10 @@ void App::Event() {
                         (PlayerPosition.x == 21 && PlayerPosition.y == 33)) {
                     m_MapSystem->SetMap("PokeMart");
                     m_MapSystem->SetPosition({72, 216});
+                } else if((PlayerPosition.x == 31 && PlayerPosition.y == 73) ||
+                          (PlayerPosition.x == 29 && PlayerPosition.y == 23)){
+                    m_MapSystem->SetMap("PokeCenter");
+                    m_MapSystem->SetPosition({288, 216});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -109,7 +113,10 @@ void App::Event() {
                 m_MapSystem->SetPosition({-1728, 2952});
             } else if (currnetMap == "PokeMart") {
                 m_MapSystem->SetMap("MainMap");
-            } else {
+            } else if(currnetMap=="PokeCenter"){
+                m_MapSystem->SetMap("MainMap");
+            }
+            else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
             m_WhiteBG->SetVisible(false);
@@ -392,6 +399,7 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::SHOP) {
+        //region
         if (m_ShopUI->GetVisibile()) {
             m_ShopUI->Run();
             if (!m_ShopUI->GetVisibile()) {
@@ -401,6 +409,15 @@ void App::Event() {
         } else {
             m_ShopUI->Start();
         }
+        //endregion
+    } else if(m_CurrentEvent==EventID::NPC){
+
+    } else if(m_CurrentEvent==EventID::COMPUTER){
+
+    } else if(m_CurrentEvent==EventID::HEAL){
+        //region
+
+        //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

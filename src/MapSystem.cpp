@@ -21,6 +21,7 @@ MapSystem::MapSystem(const std::string &MapName) {
                 std::shared_ptr<Block> tempBlock = std::make_shared<Block>((tempStr1[i] - '0') % 2 == 0,
                                                                            (tempStr1[i] - '0') / 2 % 2 == 1,
                                                                            tempStr2[i] - '0');
+
                 tempBlock->SetVisible(false);
                 tempBlock->SetZIndex(1);
                 tempBlock->SetPosition({i / 2 * 72, y * 72});
