@@ -81,10 +81,10 @@ void App::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::G)) {
         LOG_DEBUG("GetPokemon!");
-        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("004");
+        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
         Enemy = NPC_Bromance;
-        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("007");
+        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 

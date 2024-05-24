@@ -8,7 +8,8 @@ Pokemon::Pokemon(const std::string &ID) {
     m_DefenceBP = 0;
     m_SpecialBP = 0;
     m_SpeedBP = 0;
-    m_LV = 15;
+    m_CurrentEXP = 0;
+    m_LV = 5;
     FindType();
     FindName();
     FindAbiltiy();
@@ -206,6 +207,7 @@ void Pokemon::FindAbiltiy() {
     m_Defence = ((int(Value[m_ID - 1][2]) + m_IV + int(round(sqrt(m_DefenceBP) / 8))) * m_LV / 50) + 5;
     m_Special = ((int(Value[m_ID - 1][3]) + m_IV + int(round(sqrt(m_SpecialBP) / 8))) * m_LV / 50) + 5;
     m_Speed = ((int(Value[m_ID - 1][4]) + m_IV + int(round(sqrt(m_SpeedBP) / 8))) * m_LV / 50) + 5;
+    m_EXP = m_LV * m_LV * m_LV;
 }
 
 int Pokemon::GetHP() const {
@@ -228,8 +230,8 @@ void Pokemon::PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int Skil
                            EnemyPokemon->GetSkillType()[SkillChoose],
                            m_Type));
     m_CurrentHP -= Damage;
-    if (m_CurrentHP<0){
-        m_CurrentHP=0;
+    if (m_CurrentHP < 0) {
+        m_CurrentHP = 0;
     }
 }
 
@@ -255,6 +257,10 @@ int Pokemon::GetIV() const {
 
 int Pokemon::GetLV() const {
     return m_LV;
+}
+
+int Pokemon::GetCurrentEXP() const {
+    return m_CurrentEXP;
 }
 
 bool Pokemon::IsSkillFull() const {
@@ -341,4 +347,13 @@ int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
 
 bool Pokemon::IsPokemonDying() {
     return m_HP <= 0;
+}
+
+void Pokemon::GainExperince(int EnemyLV) {
+    int RandomEXP = (rand() % 50) + EnemyLV * 15;
+    m_CurrentEXP += round((RandomEXP * EnemyLV) / 7);
+    while (m_CurrentEXP > m_EXP) {
+        m_CurrentEXP -= m_EXP;
+        LevelUp();
+    }
 }

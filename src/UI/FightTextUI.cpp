@@ -1,6 +1,9 @@
 #include "UI/FightTextUI.hpp"
 
 FightTextUI::FightTextUI() {
+    m_FinishBox=std::make_shared<TextBox>();
+    m_FinishBox->SetZIndex(60);
+    m_FinishBox->SetVisible(false);
     m_PlayerTextBox=std::make_shared<TextBox>();
     m_PlayerTextBox->SetZIndex(60);
     m_PlayerTextBox->SetVisible(false);
@@ -10,7 +13,12 @@ FightTextUI::FightTextUI() {
 }
 
 std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChildren() const {
-    return {m_PlayerTextBox->GetChildren(),m_EnemyTextBox->GetChildren()};
+    return {m_PlayerTextBox->GetChildren(),m_EnemyTextBox->GetChildren(),m_FinishBox->GetChildren()};
+}
+
+void FightTextUI::SetFinish(const std::string &PlayerName, const std::string &EnemyName) {
+    m_FinishBox->SetVisible(true);
+    m_FinishBox->Reload();
 }
 
 void FightTextUI::SetPlayer(const std::string& PokeName, const std::string& UseSkill,float DamageRate) {

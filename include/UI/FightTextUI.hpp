@@ -5,13 +5,15 @@
 
 class FightTextUI {
 private:
-    std::shared_ptr<TextBox> m_TextBox;
+    std::shared_ptr<TextBox> m_FinishBox;
     std::shared_ptr<TextBox> m_PlayerTextBox;
     std::shared_ptr<TextBox> m_EnemyTextBox;
 public:
     FightTextUI();
 
     [[nodiscard]] std::vector<std::vector<std::shared_ptr<Util::GameObject>>> GetChildren() const;
+
+    void SetFinish(const std::string &PlayerName,const std::string &EnemyName);
 
     void SetPlayer(const std::string &PlayerName, const std::string &UseSkill, float DamageRate);
 

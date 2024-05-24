@@ -26,6 +26,7 @@
 #include "Util/Logger.hpp"
 #include "Util/BGM.hpp"
 #include "Core/Context.hpp"
+#include "SFXSystem.hpp"
 
 class App {
 public:
@@ -99,6 +100,7 @@ private:
 
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;
+    std::shared_ptr<SFXSystem> m_SFX;
     std::shared_ptr<GIF> m_AnimatedText;
     std::shared_ptr<MapSystem> m_MapSystem;
     std::shared_ptr<Image> m_WhiteBG;

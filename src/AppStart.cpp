@@ -41,6 +41,8 @@ void App::Start() {
     m_BGM->SetVolume(32);
     m_BGM->Play();
 
+    m_SFX = std::make_shared<SFXSystem>();
+
     //region Fight
     m_LoadingUI = std::make_shared<LoadingUI>();
     for (const auto &Child: m_LoadingUI->GetChildren()) {

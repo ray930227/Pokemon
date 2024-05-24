@@ -35,6 +35,8 @@ private:
     int m_SpecialBP;
     int m_SpeedBP;
     int m_ID;
+    int m_CurrentEXP;
+    int m_EXP;
 public:
     Pokemon(const std::string &ID);
 
@@ -86,6 +88,8 @@ public:
 
     [[nodiscard]] int GetLV() const;
 
+    [[nodiscard]] int GetCurrentEXP() const;
+
     [[nodiscard]] bool IsSkillFull() const;
 
     [[nodiscard]] std::vector<std::string> GetSkillType() const;
@@ -111,6 +115,8 @@ public:
     int CaculateDamge(const std::vector<std::string> &EnemyType);
 
     bool IsPokemonDying();
+
+    void GainExperince(int EnemyLV);
 };
 
 #endif //POKEMON_POKEMON_HPP
