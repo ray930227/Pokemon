@@ -10,15 +10,19 @@ FightTextUI::FightTextUI() {
     m_EnemyTextBox=std::make_shared<TextBox>();
     m_EnemyTextBox->SetZIndex(60);
     m_EnemyTextBox->SetVisible(false);
+    m_DefeatTextBox=std::make_shared<TextBox>();
+    m_DefeatTextBox->SetZIndex(60);
+    m_DefeatTextBox->SetVisible(false);
 }
 
 std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChildren() const {
-    return {m_PlayerTextBox->GetChildren(),m_EnemyTextBox->GetChildren(),m_FinishBox->GetChildren()};
+    return {m_PlayerTextBox->GetChildren(),m_EnemyTextBox->GetChildren(),m_FinishBox->GetChildren(),m_DefeatTextBox->GetChildren()};
 }
 
-void FightTextUI::SetFinish(const std::string &PlayerName, const std::string &EnemyName) {
+void FightTextUI::SetFinish(const std::string &Winner, const std::string &Loser) {
     m_FinishBox->SetVisible(true);
     m_FinishBox->Reload();
+    m_FinishBox->AddText(Winner +"擊敗了"+ Loser + "!");
 }
 
 void FightTextUI::SetPlayer(const std::string& PokeName, const std::string& UseSkill,float DamageRate) {

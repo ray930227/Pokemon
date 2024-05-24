@@ -116,7 +116,7 @@ public:
 
     bool IsPokemonDying();
 
-    void GainExperince(int EnemyLV);
+    bool GainExperince(int EnemyLV);
 };
 
 #endif //POKEMON_POKEMON_HPP
