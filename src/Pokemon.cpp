@@ -349,13 +349,16 @@ bool Pokemon::IsPokemonDying() {
     return m_HP <= 0;
 }
 
-void Pokemon::GainExperince(int EnemyLV) {
+bool Pokemon::GainExperince(int EnemyLV) {
     int RandomEXP = (rand() % 50) + EnemyLV * 15;
+    bool IsTrue = false;
     m_CurrentEXP += round((RandomEXP * EnemyLV) / 7);
     while (m_CurrentEXP > m_EXP) {
         m_CurrentEXP -= m_EXP;
         LevelUp();
+        IsTrue = true;
     }
+    return IsTrue;
 }
 
 void Pokemon::SetCurrentHP(int HP) {

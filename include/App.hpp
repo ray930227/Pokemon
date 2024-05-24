@@ -69,7 +69,6 @@ public:
         POKEPACK,
         BACKPACK,
         FIGHT,
-        DECISION,
         EVOLUTION,
         OBTAINSKILL,
         REPLACESKILL,
