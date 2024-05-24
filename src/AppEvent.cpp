@@ -86,9 +86,14 @@ void App::Event() {
                 } else if (PlayerPosition.x == 89 && PlayerPosition.y == 72) {
                     m_MapSystem->SetMap("OakLab");
                     m_MapSystem->SetPosition({72, 360});
-                } else if (PlayerPosition.x == 25 && PlayerPosition.y == 79) {
+                } else if ((PlayerPosition.x == 25 && PlayerPosition.y == 79) ||
+                           (PlayerPosition.x == 21 && PlayerPosition.y == 33)) {
                     m_MapSystem->SetMap("PokeMart");
                     m_MapSystem->SetPosition({72, 216});
+                } else if ((PlayerPosition.x == 31 && PlayerPosition.y == 73) ||
+                           (PlayerPosition.x == 29 && PlayerPosition.y == 23)) {
+                    m_MapSystem->SetMap("PokeCenter");
+                    m_MapSystem->SetPosition({288, 216});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -108,13 +113,23 @@ void App::Event() {
                 m_MapSystem->SetPosition({-1728, 2952});
             } else if (currnetMap == "PokeMart") {
                 m_MapSystem->SetMap("MainMap");
+            } else if (currnetMap == "PokeCenter") {
+                m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
             m_WhiteBG->SetVisible(false);
             m_WhiteBG->SetZIndex(0);
-            m_CurrentState = State::UPDATE;
-            m_CurrentEvent = EventID::NONE;
+            if (m_MapSystem->GetCurrnetMap() == "MainMap") {
+                Displacement = {0, 72.0 / Player->GetSpeed()};
+                DisplacementCount = Player->GetSpeed();
+                currentDirection = "DOWN";
+                Player->SetCurrentImagePath(1);
+                m_CurrentEvent = EventID::MOVE;
+            } else {
+                m_CurrentState = State::UPDATE;
+                m_CurrentEvent = EventID::NONE;
+            }
         }
         //endregion
     } else if (m_CurrentEvent == EventID::GRASS) {
@@ -383,6 +398,7 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::SHOP) {
+        //region
         if (m_ShopUI->GetVisibile()) {
             m_ShopUI->Run();
             if (!m_ShopUI->GetVisibile()) {
@@ -392,6 +408,20 @@ void App::Event() {
         } else {
             m_ShopUI->Start();
         }
+        //endregion
+    } else if (m_CurrentEvent == EventID::NPC) {
+
+    } else if (m_CurrentEvent == EventID::COMPUTER) {
+
+    } else if (m_CurrentEvent == EventID::HEAL) {
+        //region
+        m_SFX->Play("HealPokemon");
+        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+            i->SetCurrentHP(i->GetHP());
+        }
+        m_CurrentEvent = EventID::NONE;
+        m_CurrentState = State::UPDATE;
+        //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

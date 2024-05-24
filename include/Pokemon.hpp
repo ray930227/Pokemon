@@ -74,7 +74,7 @@ public:
 
     void PokemonHurt(int Damage);
 
-    void PokemonHurt(const std::shared_ptr<Pokemon>& EnemyPokemon,int SkillChoose);
+    void PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
 
     [[nodiscard]] int GetAttack() const;
 
@@ -117,6 +117,9 @@ public:
     bool IsPokemonDying();
 
     bool GainExperince(int EnemyLV);
+
+    void SetCurrentHP(int HP);
+
 };
 
 #endif //POKEMON_POKEMON_HPP

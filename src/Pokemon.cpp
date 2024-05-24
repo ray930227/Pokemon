@@ -346,17 +346,21 @@ int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
 }
 
 bool Pokemon::IsPokemonDying() {
-    return m_CurrentHP <= 0;
+    return m_HP <= 0;
 }
 
 bool Pokemon::GainExperince(int EnemyLV) {
-    bool IsTrue=false;
     int RandomEXP = (rand() % 50) + EnemyLV * 15;
+    bool IsTrue = false;
     m_CurrentEXP += round((RandomEXP * EnemyLV) / 7);
     while (m_CurrentEXP > m_EXP) {
         m_CurrentEXP -= m_EXP;
         LevelUp();
-        IsTrue= true;
+        IsTrue = true;
     }
     return IsTrue;
+}
+
+void Pokemon::SetCurrentHP(int HP) {
+    m_CurrentHP = HP;
 }
