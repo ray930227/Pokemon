@@ -104,7 +104,8 @@ private:
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;
     std::shared_ptr<SFXSystem> m_SFX;
-    std::shared_ptr<GIF> m_AnimatedText;
+    std::shared_ptr<Image> m_OpeningAnimation;
+    int m_OpeningAnimationCount=0;
     std::shared_ptr<MapSystem> m_MapSystem;
     std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;

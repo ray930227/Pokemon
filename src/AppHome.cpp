@@ -2,17 +2,26 @@
 
 void App::Home() {
     LOG_TRACE("Home");
+    if(m_OpeningAnimationCount==28){
+        m_BGM->Play();
+    }
+    if (m_OpeningAnimationCount < 635) {
+        m_OpeningAnimationCount++;
+        m_OpeningAnimation->SetDrawable(std::make_shared<Util::Image>(
+                RESOURCE_DIR"/OpeningAnimation/frame_" + std::to_string(m_OpeningAnimationCount) + ".jpg"));
+    }
+    if (m_OpeningAnimationCount == 286) {
+        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Opening.mp3");
+        m_BGM->Play();
+    }
     if (Util::Input::IsKeyPressed(Util::Keycode::F1)) {
-        m_AnimatedText->SetLooping(false);
-        m_AnimatedText->SetVisible(false);
+        m_OpeningAnimation->SetVisible(false);
         Player->SetName("Player");
-        NPC_Bromance->SetName("Gay");
+        NPC_Bromance->SetName("Bromance");
         m_CurrentState = State::INIT;
     }
-    if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER) || Util::Input::IsKeyPressed(Util::Keycode::RETURN)) {
-        m_AnimatedText->SetLooping(false);
-        m_AnimatedText->SetVisible(false);
-
+    if (m_OpeningAnimationCount==635 && Util::Input::IsKeyPressed(Util::Keycode::Z) ) {
+        m_OpeningAnimation->SetVisible(false);
         m_WhiteBG->SetVisible(true);
 
         m_TB->SetVisible(true);
