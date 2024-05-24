@@ -416,7 +416,12 @@ void App::Event() {
 
     } else if(m_CurrentEvent==EventID::HEAL){
         //region
-
+        m_SFX->Play("HealPokemon");
+        for(auto& i:Player->GetPokemonBag()->GetPokemons()){
+            i->SetCurrentHP(i->GetHP());
+        }
+        m_CurrentEvent=EventID::NONE;
+        m_CurrentState=State::UPDATE;
         //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
