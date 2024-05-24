@@ -4,6 +4,7 @@
 #include "Image.hpp"
 #include "GIF.hpp"
 #include "Text.hpp"
+#include "Util/Input.hpp"
 
 class FightMainUI {
 private:
@@ -15,6 +16,8 @@ private:
     std::shared_ptr<Image> m_PlayerHPUI;
     std::shared_ptr<Image> m_EnemyHPUI;
     std::shared_ptr<Image> m_PlayerBalls;
+    std::shared_ptr<Image> m_Arrow;
+    std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<GIF> m_BallAnimation;
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
@@ -26,25 +29,29 @@ public:
 
     void SetVisible(bool visible);
 
-    void SetPlayer(bool visible);
+    void SetFightBGVisible(bool visible);
 
-    void SetPlayerHPUI(bool visible);
+    void SetArrowVisible(bool visible);
 
-    void SetEnemyHPUI(bool visible);
+    void SetPlayerVisible(bool visible);
 
-    void SetPlayerPoke(bool visible);
+    void SetPlayerHPUIVisible(bool visible);
 
-    void SetEnemyPoke(bool visible);
+    void SetEnemyHPUIVisible(bool visible);
 
-    void SetPlayerBall(bool visible);
+    void SetPlayerPokeVisible(bool visible);
 
-    void SetBallAnimation(bool visible);
+    void SetEnemyPokeVisible(bool visible);
 
-    void SetPlayerHPText(bool visible);
+    void SetPlayerBallVisible(bool visible);
 
-    void SetPlayerPokeName(bool visible);
+    void SetBallAnimationVisible(bool visible);
 
-    void SetEnemyPokeName(bool visible);
+    void SetPlayerHPTextVisible(bool visible);
+
+    void SetPlayerPokeNameVisible(bool visible);
+
+    void SetEnemyPokeNameVisible(bool visible);
 
     void SetPlayerPokeScale(const glm::vec2 &scale);
 
@@ -77,6 +84,10 @@ public:
     void SetEnemyHPScale(const glm::vec2 &scale);
 
     void DetectBlood();
+
+    bool Choose();
+
+    std::string GetDecision();
 };
 
 #endif //POKEMON_FIGHTMAINUI_HPP

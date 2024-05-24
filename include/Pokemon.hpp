@@ -35,6 +35,8 @@ private:
     int m_SpecialBP;
     int m_SpeedBP;
     int m_ID;
+    int m_CurrentEXP;
+    int m_EXP;
 public:
     Pokemon(const std::string &ID);
 
@@ -72,6 +74,8 @@ public:
 
     void PokemonHurt(int Damage);
 
+    void PokemonHurt(const std::shared_ptr<Pokemon>& EnemyPokemon,int SkillChoose);
+
     [[nodiscard]] int GetAttack() const;
 
     [[nodiscard]] int GetDefence() const;
@@ -83,6 +87,8 @@ public:
     [[nodiscard]] int GetIV() const;
 
     [[nodiscard]] int GetLV() const;
+
+    [[nodiscard]] int GetCurrentEXP() const;
 
     [[nodiscard]] bool IsSkillFull() const;
 
@@ -106,6 +112,11 @@ public:
 
     bool IsGetNewSkill();
 
+    int CaculateDamge(const std::vector<std::string> &EnemyType);
+
+    bool IsPokemonDying();
+
+    void GainExperince(int EnemyLV);
 };
 
 #endif //POKEMON_POKEMON_HPP

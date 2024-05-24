@@ -18,12 +18,15 @@
 #include "UI/LoadingUI.hpp"
 #include "UI/FightMainUI.hpp"
 #include "UI/ShopUI.hpp"
+#include "UI/ReplaceSkillUI.hpp"
+#include "UI/FightTextUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 #include "Util/BGM.hpp"
 #include "Core/Context.hpp"
+#include "SFXSystem.hpp"
 
 class App {
 public:
@@ -63,9 +66,8 @@ public:
         POKEPACK,
         BACKPACK,
         FIGHT,
+        DECISION,
         EVOLUTION,
-        SHOWPLAYER,
-        SHOWENEMY,
         OBTAINSKILL,
         REPLACESKILL,
         UPDATEINFO,
@@ -98,11 +100,11 @@ private:
 
     Util::Root m_Root;
     std::shared_ptr<Util::BGM> m_BGM;
+    std::shared_ptr<SFXSystem> m_SFX;
     std::shared_ptr<GIF> m_AnimatedText;
     std::shared_ptr<MapSystem> m_MapSystem;
     std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;
-    std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<Image> m_tempImage;
 
     std::shared_ptr<EvolutionUI> m_EvolutionUI;
@@ -110,26 +112,11 @@ private:
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
     std::shared_ptr<LoadingUI> m_LoadingUI;
     std::shared_ptr<FightMainUI> m_FightMainUI;
+    std::shared_ptr<ReplaceSkillUI> m_ReplaceSkillUI;
     std::shared_ptr<ShopUI> m_ShopUI;
+    std::shared_ptr<FightTextUI> m_FightTextUI;
 
-//    std::shared_ptr<Image> m_PlayerPokemonImage;
-//    std::shared_ptr<Image> m_EnemyPokemonImage;
-    std::shared_ptr<Image> m_arrow;
-    std::shared_ptr<Image> m_Fightskill;
     std::shared_ptr<Image> m_Fightitem;
-    std::shared_ptr<Image> m_FightPokemon;
-//    std::shared_ptr<Image> m_PlayerHPimage;
-//    std::shared_ptr<Image> m_EnemyHPimage;
-//    std::shared_ptr<Image> m_PlayerHPUI;
-//    std::shared_ptr<Image> m_EnemyHPUI;
-//    std::shared_ptr<Image> m_PlayerBalls;
-//    std::shared_ptr<GIF> m_BallAnimation;
-//    std::shared_ptr<Pokemon> m_PlayerPokemon;
-//    std::shared_ptr<Pokemon> m_EnemyPokemon;
-//    std::shared_ptr<Text> m_PlayerHP;
-//    std::shared_ptr<Text> m_PlayerPokeName;
-//    std::shared_ptr<Text> m_EnemyPokeName;
-    std::shared_ptr<Text> m_SkillInfo;
     std::shared_ptr<Text> m_PlayerPokeInfo;
     std::shared_ptr<Text> m_EnemyPokeInfo;
 
@@ -141,7 +128,8 @@ private:
     std::shared_ptr<Character> NPC_Oak;
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
-    int SkillChoose;
+    int PlayerSkillChoose;
+    int EnemySkillChoose;
     bool IsPlayerRound;
     int DisplacementCount;
     int m_CurrentPlayerPokemon = 0;

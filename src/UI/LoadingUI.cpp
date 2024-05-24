@@ -4,7 +4,6 @@
 LoadingUI::LoadingUI() {
     m_TextBox = std::make_shared<TextBox>();
     m_TextBox->SetVisible(false);
-    m_TextBox->GetChildren()[0]->SetZIndex(51);
     std::vector<std::shared_ptr<Image>> Loading_1;
     Loading_1.push_back(std::make_shared<Image>(RESOURCE_DIR"/Fight/LoadingImage/Loading1_1.png"));
     Loading_1.push_back(std::make_shared<Image>(RESOURCE_DIR"/Fight/LoadingImage/Loading1_2.png"));
