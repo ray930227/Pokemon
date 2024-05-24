@@ -4,18 +4,11 @@ void App::Start() {
     LOG_TRACE("Start");
     srand(time(NULL));
     std::vector<std::string> tempText;
-    for (int i = 100; i >= 10; i -= 10) {
-        tempText.push_back(RESOURCE_DIR"/Start/press enter to start" + std::to_string(i) + "%.png");
-    }
-    for (int i = 20; i < 100; i += 10) {
-        tempText.push_back(RESOURCE_DIR"/Start/press enter to start" + std::to_string(i) + "%.png");
-    }
-    m_AnimatedText = std::make_shared<GIF>(tempText);
-    m_AnimatedText->SetZIndex(99);
-    m_AnimatedText->SetLooping(true);
-    m_AnimatedText->SetInterval(100);
-    m_AnimatedText->Play();
-    m_Root.AddChild(m_AnimatedText);
+
+    m_OpeningAnimation = std::make_shared<Image>(RESOURCE_DIR"/OpeningAnimation/frame_0.jpg");
+    m_OpeningAnimation->SetZIndex(99);
+    m_OpeningAnimation->SetVisible(true);
+    m_Root.AddChild(m_OpeningAnimation);
 
     m_MapSystem = std::make_shared<MapSystem>("PlayerHouse2F");
     m_MapSystem->SetVisible(false);
@@ -37,9 +30,8 @@ void App::Start() {
     m_tempImage->SetVisible(false);
     m_Root.AddChild(m_tempImage);
 
-    m_BGM = std::make_shared<Util::BGM>(RESOURCE_DIR"/BGM/Opening.mp3");
+    m_BGM = std::make_shared<Util::BGM>(RESOURCE_DIR"/OpeningAnimation/OpeningSound.mp3");
     m_BGM->SetVolume(32);
-    m_BGM->Play();
 
     m_SFX = std::make_shared<SFXSystem>();
 

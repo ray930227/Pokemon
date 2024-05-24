@@ -357,3 +357,7 @@ void Pokemon::GainExperince(int EnemyLV) {
         LevelUp();
     }
 }
+
+void Pokemon::SetCurrentHP(int HP) {
+    m_CurrentHP = HP;
+}

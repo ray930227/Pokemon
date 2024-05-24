@@ -9,7 +9,7 @@ int main(int, char **) {
     SFXSystem SFX;
 
     while (!context->GetExit()) {
-        if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             SFX.Play("Click");
         }
         switch (app.GetCurrentState()) {
