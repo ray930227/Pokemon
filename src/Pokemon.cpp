@@ -359,5 +359,5 @@ void Pokemon::GainExperince(int EnemyLV) {
 }
 
 void Pokemon::SetCurrentHP(int HP) {
-    m_CurrentHP=HP;
+    m_CurrentHP = HP;
 }

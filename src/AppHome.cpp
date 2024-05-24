@@ -2,7 +2,7 @@
 
 void App::Home() {
     LOG_TRACE("Home");
-    if(m_OpeningAnimationCount==28){
+    if (m_OpeningAnimationCount == 28) {
         m_BGM->Play();
     }
     if (m_OpeningAnimationCount < 635) {
@@ -20,7 +20,7 @@ void App::Home() {
         NPC_Bromance->SetName("Bromance");
         m_CurrentState = State::INIT;
     }
-    if (m_OpeningAnimationCount==635 && Util::Input::IsKeyPressed(Util::Keycode::Z) ) {
+    if (m_OpeningAnimationCount == 635 && Util::Input::IsKeyPressed(Util::Keycode::Z)) {
         m_OpeningAnimation->SetVisible(false);
         m_WhiteBG->SetVisible(true);
 

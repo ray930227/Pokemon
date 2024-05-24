@@ -62,7 +62,7 @@ ShopUI::ShopUI(std::shared_ptr<Character> &Player) {
     m_ShopAmountBG->SetZIndex(94);
     m_ShopAmountBG->SetVisible(false);
 
-    m_AmountText=std::make_shared<Text>();
+    m_AmountText = std::make_shared<Text>();
     m_AmountText->SetVisible(false);
     m_AmountText->SetZIndex(95);
     m_AmountText->SetPosition({0, -80});
@@ -81,9 +81,9 @@ void ShopUI::Run() {
         if (m_TFBox->Choose()) {
             m_TFBox->SetVisibility(false);
             if (m_TFBox->GetTF()) {
-                if(m_Arrows[0]->GetPosition().y==300) {
+                if (m_Arrows[0]->GetPosition().y == 300) {
                     Buy();
-                } else{
+                } else {
                     Sell();
                 }
                 m_AmountText->SetVisible(false);
@@ -97,12 +97,12 @@ void ShopUI::Run() {
         if (m_TextBox->GetVisibility()) {
             m_TextBox->SetVisible(false);
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
-        } else if(m_ShopAmountBG->GetVisibility()) {
+        } else if (m_ShopAmountBG->GetVisibility()) {
             m_TFBox->SetVisibility(true);
             m_TextBox->SetVisible(true);
             if (m_Arrows[0]->GetPosition().y == 300) {
                 m_TextBox->SetText("這樣總共是" + std::to_string(
-                        m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second*m_Amount) +
+                        m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount) +
                                    "元，您要購買嗎?");
             } else {
                 if (m_SellList.size() == 0) {
@@ -111,7 +111,7 @@ void ShopUI::Run() {
                     m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
                 } else {
                     m_TextBox->SetText("這樣總共是" + std::to_string(
-                            m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second*m_Amount) +
+                            m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount) +
                                        "元，您要售出嗎?");
                 }
             }
@@ -119,7 +119,7 @@ void ShopUI::Run() {
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/WhiteArrow.png");
             m_ShopAmountBG->SetVisible(true);
             m_AmountText->SetVisible(true);
-            m_Amount=1;
+            m_Amount = 1;
         } else {
             auto p = m_Arrows[0]->GetPosition();
             if (p.y == 150) {
@@ -139,12 +139,11 @@ void ShopUI::Run() {
             }
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::X)) {
-        if(m_ShopAmountBG->GetVisibility()){
+        if (m_ShopAmountBG->GetVisibility()) {
             m_ShopAmountBG->SetVisible(false);
             m_AmountText->SetVisible(false);
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
-        }
-        else if(!m_TextBox->GetVisibility()){
+        } else if (!m_TextBox->GetVisibility()) {
             if (m_ShopInsideBG->GetVisibility()) {
                 m_ShopInsideBG->SetVisible(false);
                 for (int i = 0; i < 4; i++)
@@ -158,12 +157,11 @@ void ShopUI::Run() {
             }
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::UP)) {
-        if(m_ShopAmountBG->GetVisibility()){
-            if(m_Amount<99){
+        if (m_ShopAmountBG->GetVisibility()) {
+            if (m_Amount < 99) {
                 m_Amount++;
             }
-        }
-        else if (m_ShopInsideBG->GetVisibility()) {
+        } else if (m_ShopInsideBG->GetVisibility()) {
             auto p = m_Arrows[1]->GetPosition();
             if (p.y != 180) {
                 m_Arrows[1]->SetPosition({p.x, p.y + 90});
@@ -175,18 +173,17 @@ void ShopUI::Run() {
             m_Arrows[0]->SetPosition({p.x, p.y + 75});
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-        if(m_ShopAmountBG->GetVisibility()){
-            if(m_Amount>1){
+        if (m_ShopAmountBG->GetVisibility()) {
+            if (m_Amount > 1) {
                 m_Amount--;
             }
-        }
-        else if (m_ShopInsideBG->GetVisibility()) {
+        } else if (m_ShopInsideBG->GetVisibility()) {
             auto p = m_Arrows[1]->GetPosition();
             if (p.y != -90 && m_ItemRow[(180 - p.y) / 90 + 1].first->GetText() != " ") {
                 m_Arrows[1]->SetPosition({p.x, p.y - 90});
 
-            } else if ((m_RowTopIndex + 4 < m_BuyList.size() && m_Arrows[0]->GetPosition().y==300) ||
-                    (m_RowTopIndex + 4 < m_SellList.size() && m_Arrows[0]->GetPosition().y==225)) {
+            } else if ((m_RowTopIndex + 4 < m_BuyList.size() && m_Arrows[0]->GetPosition().y == 300) ||
+                       (m_RowTopIndex + 4 < m_SellList.size() && m_Arrows[0]->GetPosition().y == 225)) {
                 m_RowTopIndex++;
             }
         } else if (m_Arrows[0]->GetPosition().y != 150) {
@@ -199,7 +196,7 @@ void ShopUI::Run() {
         ShopInsideBG_Update();
     }
 
-    if(m_ShopAmountBG->GetVisibility()){
+    if (m_ShopAmountBG->GetVisibility()) {
         ShopAmountBG_Update();
     }
 
@@ -234,14 +231,14 @@ bool ShopUI::GetVisibile() {
 }
 
 void ShopUI::ShopInsideBG_Update() {
-    if (m_Arrows[0]->GetPosition().y == 225){
-        auto bag=m_Player->GetItemBag();
+    if (m_Arrows[0]->GetPosition().y == 225) {
+        auto bag = m_Player->GetItemBag();
         m_SellList.clear();
-        for(int i=0;i<256;i++){
-            if(bag->GetItemQuantity(i)!=0 &&m_SellMoneyList[i]!=-1){
-                std::pair<std::string,int> tempPair;
-                tempPair.first=bag->GetItemName(i)+"X"+std::to_string(bag->GetItemQuantity(i));
-                tempPair.second=m_SellMoneyList[i];
+        for (int i = 0; i < 256; i++) {
+            if (bag->GetItemQuantity(i) != 0 && m_SellMoneyList[i] != -1) {
+                std::pair<std::string, int> tempPair;
+                tempPair.first = bag->GetItemName(i) + "X" + std::to_string(bag->GetItemQuantity(i));
+                tempPair.second = m_SellMoneyList[i];
                 m_SellList.push_back(tempPair);
             }
         }
@@ -266,18 +263,18 @@ void ShopUI::ShopInsideBG_Update() {
 }
 
 void ShopUI::ShopAmountBG_Update() {
-    if(m_Amount<10)
-        m_AmountText->SetText("X0"+std::to_string(m_Amount));
+    if (m_Amount < 10)
+        m_AmountText->SetText("X0" + std::to_string(m_Amount));
     else
-        m_AmountText->SetText("X"+std::to_string(m_Amount));
+        m_AmountText->SetText("X" + std::to_string(m_Amount));
 }
 
 void ShopUI::Buy() {
     if (m_Player->GetMoney() >=
-        m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second*m_Amount) {
+        m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount) {
         m_TextBox->SetVisible(false);
         m_Player->SetMoney(m_Player->GetMoney() -
-                           m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second*m_Amount);
+                           m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount);
         m_Money->SetText("$" + std::to_string(m_Player->GetMoney()));
         m_Player->GetItemBag()->AddItemQuantity(
                 m_BuyList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first, m_Amount);
@@ -288,16 +285,16 @@ void ShopUI::Buy() {
 }
 
 void ShopUI::Sell() {
-    std::string tempStr=m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;
-    if(m_Player->GetItemBag()->GetItemQuantity(tempStr.substr(0,tempStr.find('X')))>=m_Amount) {
+    std::string tempStr = m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;
+    if (m_Player->GetItemBag()->GetItemQuantity(tempStr.substr(0, tempStr.find('X'))) >= m_Amount) {
         m_TextBox->SetVisible(false);
         m_Player->SetMoney(m_Player->GetMoney() +
-                           m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second*m_Amount);
+                           m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount);
         m_Money->SetText("$" + std::to_string(m_Player->GetMoney()));
         m_Player->GetItemBag()->AddItemQuantity(
-                tempStr.substr(0, tempStr.find('X')), m_Amount*-1);
+                tempStr.substr(0, tempStr.find('X')), m_Amount * -1);
         m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
-    } else{
+    } else {
         m_TextBox->SetText("數量不夠，無法售出！");
     }
 
