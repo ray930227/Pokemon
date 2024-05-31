@@ -94,6 +94,12 @@ void App::Event() {
                            (PlayerPosition.x == 29 && PlayerPosition.y == 23)) {
                     m_MapSystem->SetMap("PokeCenter");
                     m_MapSystem->SetPosition({288, 216});
+                } else if(PlayerPosition.x == 13 && PlayerPosition.y == 82){
+                    m_MapSystem->SetMap("GYM1");
+                    m_MapSystem->SetPosition({72,432});
+                } else if(PlayerPosition.x == 21 && PlayerPosition.y == 26){
+                    m_MapSystem->SetMap("GYM2");
+                    m_MapSystem->SetPosition({72,432});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -111,9 +117,7 @@ void App::Event() {
             } else if (currnetMap == "OakLab") {
                 m_MapSystem->SetMap("MainMap");
                 m_MapSystem->SetPosition({-1728, 2952});
-            } else if (currnetMap == "PokeMart") {
-                m_MapSystem->SetMap("MainMap");
-            } else if (currnetMap == "PokeCenter") {
+            } else if (currnetMap == "PokeMart" || currnetMap == "PokeCenter" || currnetMap == "GYM1" || currnetMap == "GYM2") {
                 m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
