@@ -33,6 +33,8 @@ void App::Loading() {
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                         m_FightMainUI->SetBallAnimationVisible(true);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
+                        m_FightMainUI->SetPlayerHPScale({(1.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP() /
+                                                          Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()), 1});
                         m_LoadingUI->Next();
                     }
                     break;
