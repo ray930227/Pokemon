@@ -116,9 +116,11 @@ public:
 
     bool IsPokemonDying();
 
-    bool GainExperince(int EnemyLV);
+    std::pair<bool,int> GainExperince(int EnemyLV);
 
     void SetCurrentHP(int HP);
+
+    void SetLevel(int Level);
 
 };
 

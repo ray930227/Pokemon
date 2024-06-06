@@ -68,10 +68,12 @@ public:
         SKILL,
         POKEPACK,
         BACKPACK,
+        RUN,
         FIGHT,
         EVOLUTION,
         OBTAINSKILL,
         REPLACESKILL,
+        TEXT,
         UPDATEINFO,
         NONE
     };
@@ -138,6 +140,7 @@ private:
     int m_CurrentPlayerPokemon = 0;
     int ButtonTrigger = 0;
     int FightCounter = 0;
+    std::pair<bool,int> m_Experience;
     bool encounterable = true;
     bool isWildPokemon = false;
     std::string currentDirection;
