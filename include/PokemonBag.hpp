@@ -5,13 +5,15 @@
 
 class PokemonBag {
 private:
-    std::vector<std::shared_ptr<Pokemon>> Pokemons;
+    std::vector<std::shared_ptr<Pokemon>> m_Pokemons;
 public:
     PokemonBag();
 
     std::vector<std::shared_ptr<Pokemon>> GetPokemons();
 
     void addPomekon(const std::shared_ptr<Pokemon> &pokemon);
+
+    void SetPokemons(std::vector<std::shared_ptr<Pokemon>> Pokemons);
 
     int size();
 

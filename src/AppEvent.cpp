@@ -184,6 +184,8 @@ void App::Event() {
                 m_TB->SetText("真新鎮");
             } else if (BillboardPosition.x == 91 && BillboardPosition.y == 73) {
                 m_TB->SetText("大木博士的實驗室");
+            } else if (BillboardPosition.x == 13 && BillboardPosition.y == 77) {
+                m_TB->SetText("深灰市神奇寶貝道館館主：小剛\n如岩石般强大的男人。");
             } else {
                 m_TB->SetText("(" + std::to_string((int) BillboardPosition.x) + "," +
                               std::to_string((int) BillboardPosition.y) +
@@ -414,7 +416,32 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
+        auto currnetMap = m_MapSystem->GetCurrnetMap();
+        glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
+        if (currentDirection == "UP") TargetPosition.x--;
+        else if (currentDirection == "DOWN") TargetPosition.x++;
+        else if (currentDirection == "LEFT") TargetPosition.y--;
+        else TargetPosition.y++;
+        if(currnetMap=="GYM1") {
+            if (TargetPosition.x == 2 && TargetPosition.y == 7) {
+                Enemy=std::make_shared<Character>();
+                std::vector<std::shared_ptr<Pokemon>> Pokemons;
+                Pokemons.push_back(std::make_shared<Pokemon>("074"));
+                Pokemons.push_back(std::make_shared<Pokemon>("095"));
 
+
+
+                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+            } else{
+                LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
+                m_CurrentEvent=EventID::NONE;
+                m_CurrentState=State::UPDATE;
+            }
+        } else{
+            LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
+            m_CurrentEvent=EventID::NONE;
+            m_CurrentState=State::UPDATE;
+        }
     } else if (m_CurrentEvent == EventID::COMPUTER) {
 
     } else if (m_CurrentEvent == EventID::HEAL) {
