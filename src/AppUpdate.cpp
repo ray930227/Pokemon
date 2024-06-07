@@ -70,11 +70,6 @@ void App::Update() {
 
 
     if (Util::Input::IsKeyPressed(Util::Keycode::F)) {
-        m_CurrentPlayerPokemon = 0;
-        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
-        m_BGM->Play();
-        m_LoadingUI->RandomMode();
-        m_FightMainUI->ReSetWildPosition();
         m_CurrentLoading = LoadingID::INTO;
         m_CurrentState = State::LOADING;
     }

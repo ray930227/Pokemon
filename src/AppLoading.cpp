@@ -3,6 +3,14 @@
 void App::Loading() {
     switch (m_CurrentLoading) {
         case LoadingID::INTO:
+            if (FightCounter==0){
+                m_CurrentPlayerPokemon = 0;
+                m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
+                m_BGM->Play();
+                m_LoadingUI->RandomMode();
+                m_FightMainUI->ReSetWildPosition();
+                FightCounter++;
+            }
             if (m_LoadingUI->GetVisibility()) {
                 m_LoadingUI->StartLoading();
             } else {
@@ -79,6 +87,7 @@ void App::Loading() {
                 m_FightMainUI->SetFightBGVisible(true);
                 m_PlayerPokeInfo->SetVisible(true);
                 m_EnemyPokeInfo->SetVisible(true);
+                FightCounter=0;
                 m_CurrentFighting = FightID::HOME;
                 m_CurrentState = State::FIGHT;
             }
