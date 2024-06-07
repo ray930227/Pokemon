@@ -120,6 +120,8 @@ public:
 
     void SetCurrentHP(int HP);
 
+    void ReSetSkills();
+
     void SetLevel(int Level);
 
     void SetSkillByID(std::vector<int>SkillID);

@@ -307,7 +307,7 @@ bool Pokemon::IsEvolution() {
         Levels.push_back(std::stoi(text));
     }
     FileOfLevel.close();
-    if (m_LV == Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
+    if (m_LV >= Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
         return true;
     } else {
         return false;
@@ -368,8 +368,23 @@ void Pokemon::SetCurrentHP(int HP) {
     m_CurrentHP = HP;
 }
 
+void Pokemon::ReSetSkills() {
+    m_Skills.clear();
+    m_SkillTypes.clear();
+    m_SkillClass.clear();
+    m_SkillDamage.clear();
+    m_SkillHitRates.clear();
+    m_SkillPPs.clear();
+    m_CurrentSkillPPs.clear();
+}
+
 void Pokemon::SetLevel(int Level) {
     m_LV = Level;
+    while(IsEvolution()){
+        Evolution();
+    }
+    ReSetSkills();
+    FindSkill();
 }
 
 void Pokemon::SetSkillByID(std::vector<int> SkillID) {
@@ -385,13 +400,7 @@ void Pokemon::SetSkillByID(std::vector<int> SkillID) {
         }
         AllSkills.push_back(tokens);
     }
-    m_Skills.clear();
-    m_SkillTypes.clear();
-    m_SkillClass.clear();
-    m_SkillDamage.clear();
-    m_SkillHitRates.clear();
-    m_SkillPPs.clear();
-    m_CurrentSkillPPs.clear();
+    ReSetSkills();
     for (auto ID: SkillID) {
         m_Skills.push_back(AllSkills[ID - 1][0]);
         m_SkillTypes.push_back(AllSkills[ID - 1][1]);

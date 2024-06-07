@@ -68,8 +68,7 @@ void App::Update() {
         m_CurrentState = State::EVENT;
     }
 
-
-    if (Util::Input::IsKeyPressed(Util::Keycode::F)) {
+    if (Util::Input::IsKeyDown(Util::Keycode::F)) {
         m_CurrentLoading = LoadingID::INTO;
         m_CurrentState = State::LOADING;
     }
@@ -77,10 +76,18 @@ void App::Update() {
     if (Util::Input::IsKeyDown(Util::Keycode::G)) {
         LOG_DEBUG("GetPokemon!");
         std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
+        TempPokemon->SetLevel(23);
         NPC_Bromance->GetPokemonBag()->addPomekon(TempPokemon);
         Enemy = NPC_Bromance;
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
+        FirstPokemon->SetLevel(23);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
+    }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::H)) {
+        LOG_DEBUG("Enemy healing!");
+        Enemy->GetPokemonBag()->GetPokemons()[0]->SetCurrentHP(1);
+        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
