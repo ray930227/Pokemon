@@ -94,6 +94,12 @@ void App::Event() {
                            (PlayerPosition.x == 29 && PlayerPosition.y == 23)) {
                     m_MapSystem->SetMap("PokeCenter");
                     m_MapSystem->SetPosition({288, 216});
+                } else if(PlayerPosition.x == 13 && PlayerPosition.y == 82){
+                    m_MapSystem->SetMap("GYM1");
+                    m_MapSystem->SetPosition({72,432});
+                } else if(PlayerPosition.x == 21 && PlayerPosition.y == 26){
+                    m_MapSystem->SetMap("GYM2");
+                    m_MapSystem->SetPosition({72,432});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -111,9 +117,7 @@ void App::Event() {
             } else if (currnetMap == "OakLab") {
                 m_MapSystem->SetMap("MainMap");
                 m_MapSystem->SetPosition({-1728, 2952});
-            } else if (currnetMap == "PokeMart") {
-                m_MapSystem->SetMap("MainMap");
-            } else if (currnetMap == "PokeCenter") {
+            } else if (currnetMap == "PokeMart" || currnetMap == "PokeCenter" || currnetMap == "GYM1" || currnetMap == "GYM2") {
                 m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
@@ -135,11 +139,19 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
         if (encounterable && rand() % 100 < 20) {
-            m_CurrentPlayerPokemon = 0;
-            m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
-            m_BGM->Play();
-            m_LoadingUI->RandomMode();
-            m_FightMainUI->ReSetWildPosition();
+            isWildPokemon = true;
+            Enemy=std::make_shared<Character>();
+            std::vector<int> tempID={ 13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43, 45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84, 86, 88, 90, 91, 92, 94, 95, 96, 98, 100, 102, 103, 104, 106, 107, 108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127, 128, 129, 131, 132};
+            int r=rand()%tempID.size();
+            std::stringstream ToString;
+            ToString << std::setw(3) << std::setfill('0') << tempID[r];
+            std::string StringID = ToString.str();
+            auto temp=std::make_shared<Pokemon>(StringID);
+            int average=0;
+            for(auto &i:Player->GetPokemonBag()->GetPokemons())
+                average+=i->GetLV();
+            temp->SetLevel(average/Player->GetPokemonBag()->GetPokemons().size());
+            Enemy->GetPokemonBag()->addPomekon(temp);
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;
@@ -180,6 +192,8 @@ void App::Event() {
                 m_TB->SetText("真新鎮");
             } else if (BillboardPosition.x == 91 && BillboardPosition.y == 73) {
                 m_TB->SetText("大木博士的實驗室");
+            } else if (BillboardPosition.x == 13 && BillboardPosition.y == 77) {
+                m_TB->SetText("深灰市神奇寶貝道館館主：小剛\n如岩石般强大的男人。");
             } else {
                 m_TB->SetText("(" + std::to_string((int) BillboardPosition.x) + "," +
                               std::to_string((int) BillboardPosition.y) +
@@ -410,7 +424,53 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
+        //region
+        auto currnetMap = m_MapSystem->GetCurrnetMap();
+        glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
+        if (currentDirection == "UP") TargetPosition.x--;
+        else if (currentDirection == "DOWN") TargetPosition.x++;
+        else if (currentDirection == "LEFT") TargetPosition.y--;
+        else TargetPosition.y++;
+        if(m_TB->GetVisibility()){
+            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+                m_TB->Next();
+                if(!m_TB->GetVisibility()){
+                    if(Enemy== nullptr){
+                        m_CurrentState=State::UPDATE;
+                        m_CurrentEvent=EventID::NONE;
+                    } else{
+                        m_CurrentLoading=LoadingID::INTO;
+                        m_CurrentState=State::LOADING;
+                    }
 
+                }
+            }
+        } else if(currnetMap=="GYM1") {
+            if (TargetPosition.x == 2 && TargetPosition.y == 7) {
+                Enemy=std::make_shared<Character>();
+                std::vector<std::shared_ptr<Pokemon>> Pokemons;
+                Pokemons.push_back(std::make_shared<Pokemon>("074"));
+                Pokemons.push_back(std::make_shared<Pokemon>("095"));
+                Pokemons[0]->SetLevel(12);
+                Pokemons[1]->SetLevel(14);
+                Pokemons[0]->SetSkillByID({33,111});
+                Pokemons[1]->SetSkillByID({33,103,117});
+                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
+            } else{
+                LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
+                Enemy=nullptr;
+                m_TB->Reload();
+                m_TB->SetText("NPC has not implement");
+            }
+            m_TB->SetVisible(true);
+        } else{
+            LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
+            m_TB->Reload();
+            m_TB->SetText("NPC has not implement");
+            m_TB->SetVisible(true);
+        }
+        //endregion
     } else if (m_CurrentEvent == EventID::COMPUTER) {
 
     } else if (m_CurrentEvent == EventID::HEAL) {
