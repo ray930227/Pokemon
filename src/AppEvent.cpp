@@ -422,25 +422,38 @@ void App::Event() {
         else if (currentDirection == "DOWN") TargetPosition.x++;
         else if (currentDirection == "LEFT") TargetPosition.y--;
         else TargetPosition.y++;
-        if(currnetMap=="GYM1") {
+        if(m_TB->GetVisibility()){
+            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+                m_TB->Next();
+                if(!m_TB->GetVisibility()){
+                    m_CurrentState=Enemy==nullptr ? State::UPDATE:State::LOADING;
+                    m_CurrentEvent=Enemy==nullptr ? EventID::NONE:m_CurrentEvent;
+                }
+            }
+        } else if(currnetMap=="GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
                 Enemy=std::make_shared<Character>();
                 std::vector<std::shared_ptr<Pokemon>> Pokemons;
                 Pokemons.push_back(std::make_shared<Pokemon>("074"));
                 Pokemons.push_back(std::make_shared<Pokemon>("095"));
-
-
-
+                Pokemons[0]->SetLevel(12);
+                Pokemons[1]->SetLevel(14);
+                Pokemons[0]->SetSkillByID({33,111,-1,-1});
+                Pokemons[1]->SetSkillByID({33,103,117,-1});
                 Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
             } else{
                 LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
-                m_CurrentEvent=EventID::NONE;
-                m_CurrentState=State::UPDATE;
+                Enemy=nullptr;
+                m_TB->Reload();
+                m_TB->SetText("NPC has not implement");
             }
+            m_TB->SetVisible(true);
         } else{
             LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
-            m_CurrentEvent=EventID::NONE;
-            m_CurrentState=State::UPDATE;
+            m_TB->Reload();
+            m_TB->SetText("NPC has not implement");
+            m_TB->SetVisible(true);
         }
     } else if (m_CurrentEvent == EventID::COMPUTER) {
 
