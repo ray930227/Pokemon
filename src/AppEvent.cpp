@@ -426,8 +426,14 @@ void App::Event() {
             if(Util::Input::IsKeyDown(Util::Keycode::Z)){
                 m_TB->Next();
                 if(!m_TB->GetVisibility()){
-                    m_CurrentState=Enemy==nullptr ? State::UPDATE:State::LOADING;
-                    m_CurrentEvent=Enemy==nullptr ? EventID::NONE:m_CurrentEvent;
+                    if(Enemy== nullptr){
+                        m_CurrentState=State::UPDATE;
+                        m_CurrentEvent=EventID::NONE;
+                    } else{
+                        m_CurrentLoading=LoadingID::INTO;
+                        m_CurrentState=State::LOADING;
+                    }
+
                 }
             }
         } else if(currnetMap=="GYM1") {
@@ -438,8 +444,8 @@ void App::Event() {
                 Pokemons.push_back(std::make_shared<Pokemon>("095"));
                 Pokemons[0]->SetLevel(12);
                 Pokemons[1]->SetLevel(14);
-                Pokemons[0]->SetSkillByID({33,111,-1,-1});
-                Pokemons[1]->SetSkillByID({33,103,117,-1});
+                Pokemons[0]->SetSkillByID({33,111});
+                Pokemons[1]->SetSkillByID({33,103,117});
                 Enemy->GetPokemonBag()->SetPokemons(Pokemons);
                 m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
             } else{

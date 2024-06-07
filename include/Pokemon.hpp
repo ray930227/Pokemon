@@ -122,7 +122,7 @@ public:
 
     void SetLevel(int Level);
 
-    void SetSkillByID(std::vector<int> SkillID){};
+    void SetSkillByID(std::vector<int>SkillID);
 };
 
 #endif //POKEMON_POKEMON_HPP
