@@ -134,6 +134,7 @@ void Pokemon::GetNewSkill() {
             break;
         }
     }
+    FileOfMove.close();
 }
 
 void Pokemon::GetNewSkill(int SkillChange) {
@@ -360,7 +361,7 @@ std::pair<bool, int> Pokemon::GainExperince(int EnemyLV) {
         LevelUp();
         IsTrue = true;
     }
-    return std::make_pair(IsTrue,EXP);
+    return std::make_pair(IsTrue, EXP);
 }
 
 void Pokemon::SetCurrentHP(int HP) {
@@ -368,5 +369,37 @@ void Pokemon::SetCurrentHP(int HP) {
 }
 
 void Pokemon::SetLevel(int Level) {
-    m_LV=Level;
+    m_LV = Level;
+}
+
+void Pokemon::SetSkillByID(std::vector<int> SkillID) {
+    std::string Move;
+    std::ifstream FileOfMove(RESOURCE_DIR"/Pokemon/Move.txt");
+    std::vector<std::vector<std::string>> AllSkills;
+    while (std::getline(FileOfMove, Move)) {
+        std::vector<std::string> tokens;
+        std::stringstream ss(Move);
+        std::string token;
+        while (std::getline(ss, token, ' ')) {
+            tokens.push_back(token);
+        }
+        AllSkills.push_back(tokens);
+    }
+    m_Skills.clear();
+    m_SkillTypes.clear();
+    m_SkillClass.clear();
+    m_SkillDamage.clear();
+    m_SkillHitRates.clear();
+    m_SkillPPs.clear();
+    m_CurrentSkillPPs.clear();
+    for (auto ID: SkillID) {
+        m_Skills.push_back(AllSkills[ID - 1][0]);
+        m_SkillTypes.push_back(AllSkills[ID - 1][1]);
+        m_SkillClass.push_back(AllSkills[ID - 1][2]);
+        m_SkillDamage.push_back(AllSkills[ID - 1][3]);
+        m_SkillHitRates.push_back(AllSkills[ID - 1][4]);
+        m_SkillPPs.push_back(AllSkills[ID - 1][5]);
+        m_CurrentSkillPPs.push_back(AllSkills[ID - 1][5]);
+    }
+    FileOfMove.close();
 }

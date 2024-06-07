@@ -75,7 +75,7 @@ void FightTextUI::SetFinish(const std::string &Winner, const std::string &Loser)
 void FightTextUI::SetGainEXP(const std::string &PokeName, int EXP) {
     m_GainEXPTextBox->SetVisible(true);
     m_GainEXPTextBox->Reload();
-    m_GainEXPTextBox->AddText(PokeName+"獲得了"+std::to_string(EXP)+"經驗值, "+std::to_string(EXP)+"金錢.");
+    m_GainEXPTextBox->AddText(PokeName+"獲得了"+std::to_string(EXP)+"經驗值");
 }
 
 void FightTextUI::SetRun() {
