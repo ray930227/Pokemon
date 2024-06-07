@@ -43,6 +43,8 @@ void App::Loading() {
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
                         m_FightMainUI->SetPlayerHPScale({(1.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP() /
                                                           Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()), 1});
+                        m_FightMainUI->SetEnemyHPScale({(1.0 * Enemy->GetPokemonBag()->GetPokemons()[0]->GetCurrentHP() /
+                                                         Enemy->GetPokemonBag()->GetPokemons()[0]->GetHP()), 1});
                         m_LoadingUI->Next();
                     }
                     break;

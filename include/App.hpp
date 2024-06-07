@@ -106,7 +106,7 @@ private:
     std::shared_ptr<Util::BGM> m_BGM;
     std::shared_ptr<SFXSystem> m_SFX;
     std::shared_ptr<Image> m_OpeningAnimation;
-    int m_OpeningAnimationCount=0;
+    int m_OpeningAnimationCount = 0;
     std::shared_ptr<MapSystem> m_MapSystem;
     std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;
@@ -140,7 +140,8 @@ private:
     int m_CurrentPlayerPokemon = 0;
     int ButtonTrigger = 0;
     int FightCounter = 0;
-    std::pair<bool,int> m_Experience;
+    bool IsAllEnemyDead = false;
+    std::pair<bool, int> m_Experience;
     bool encounterable = true;
     bool isWildPokemon = false;
     std::string currentDirection;
