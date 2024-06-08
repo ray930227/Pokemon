@@ -81,6 +81,7 @@ void App::Update() {
         Enemy = NPC_Bromance;
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
         FirstPokemon->SetLevel(23);
+        FirstPokemon->SetSkillByID({15});
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 

@@ -1,6 +1,13 @@
 #include "App.hpp"
 
 void App::Event() {
+    auto PlayerPosition = m_MapSystem->GetPlayerPosition();
+    auto currnetMap = m_MapSystem->GetCurrnetMap();
+    glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
+    if (currentDirection == "UP") TargetPosition.x--;
+    else if (currentDirection == "DOWN") TargetPosition.x++;
+    else if (currentDirection == "LEFT") TargetPosition.y--;
+    else TargetPosition.y++;
 
     if (m_CurrentEvent == EventID::MOVE) {
         //region
@@ -70,8 +77,6 @@ void App::Event() {
         }//endregion
     } else if (m_CurrentEvent == EventID::DOOR) {
         //region
-        auto PlayerPosition = m_MapSystem->GetPlayerPosition();
-        auto currnetMap = m_MapSystem->GetCurrnetMap();
 
         if (m_WhiteBG->GetZIndex() == 0) {
             m_WhiteBG->SetVisible(true);
@@ -178,25 +183,20 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
         //region
         if (!m_TB->GetVisibility()) {
-            glm::vec2 BillboardPosition = m_MapSystem->GetPlayerPosition();
-            if (currentDirection == "UP") BillboardPosition.x--;
-            else if (currentDirection == "DOWN") BillboardPosition.x++;
-            else if (currentDirection == "LEFT") BillboardPosition.y--;
-            else BillboardPosition.y++;
 
-            if (BillboardPosition.x == 83 && BillboardPosition.y == 63) {
+            if (TargetPosition.x == 83 && TargetPosition.y == 63) {
                 m_TB->SetText(Player->GetName() + "的家");
-            } else if (BillboardPosition.x == 83 && BillboardPosition.y == 71) {
+            } else if (TargetPosition.x == 83 && TargetPosition.y == 71) {
                 m_TB->SetText(NPC_Bromance->GetName() + "的家");
-            } else if (BillboardPosition.x == 87 && BillboardPosition.y == 67) {
+            } else if (TargetPosition.x == 87 && TargetPosition.y == 67) {
                 m_TB->SetText("真新鎮");
-            } else if (BillboardPosition.x == 91 && BillboardPosition.y == 73) {
+            } else if (TargetPosition.x == 91 && TargetPosition.y == 73) {
                 m_TB->SetText("大木博士的實驗室");
-            } else if (BillboardPosition.x == 13 && BillboardPosition.y == 77) {
+            } else if (TargetPosition.x == 13 && TargetPosition.y == 77) {
                 m_TB->SetText("深灰市神奇寶貝道館館主：小剛\n如岩石般强大的男人。");
             } else {
-                m_TB->SetText("(" + std::to_string((int) BillboardPosition.x) + "," +
-                              std::to_string((int) BillboardPosition.y) +
+                m_TB->SetText("(" + std::to_string((int) TargetPosition.x) + "," +
+                              std::to_string((int) TargetPosition.y) +
                               ")'s billboard has not implement");
             }
             m_TB->SetVisible(true);
@@ -226,15 +226,45 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
-
+        //region
+        if(m_TB->GetVisibility()){
+            if(m_TFBox->GetVisibility()){
+                if(m_TFBox->Choose()){
+                    m_TFBox->SetVisibility(false);
+                    if(m_TFBox->GetTF()){
+                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
+                        m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetTraversable(true);
+                        m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetEvent(false);
+                        m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetEventID(0);
+                    }
+                    m_CurrentEvent=EventID::NONE;
+                    m_CurrentState=State::UPDATE;
+                    m_TB->SetVisible(false);
+                }
+            } else{
+                if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+                    m_TB->SetVisible(false);
+                    m_CurrentEvent=EventID::NONE;
+                    m_CurrentState=State::UPDATE;
+                }
+            }
+        } else {
+            m_TB->SetText("沒有神奇寶貝擁有居合斬\n因此無法破換小樹叢");
+            m_TB->SetVisible(true);
+            for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+                for (auto &j: i->GetSkill()) {
+                    if (j == "居合斬") {
+                        m_TB->SetText("是否要破壞小樹叢?");
+                        m_TFBox->SetVisibility(true);
+                        break;
+                    }
+                }
+                if (m_TFBox->GetVisibility()) break;
+            }
+        }
+        //endregion
     } else if (m_CurrentEvent == EventID::BALL) {
         //region
-        auto currnetMap = m_MapSystem->GetCurrnetMap();
-        glm::vec2 BallPosition = m_MapSystem->GetPlayerPosition();
-        if (currentDirection == "UP") BallPosition.x--;
-        else if (currentDirection == "DOWN") BallPosition.x++;
-        else if (currentDirection == "LEFT") BallPosition.y--;
-        else BallPosition.y++;
         if (m_TFBox->GetVisibility()) {
             if (m_TFBox->Choose()) {
                 m_TFBox->SetVisibility(false);
@@ -243,26 +273,26 @@ void App::Event() {
                     if (currnetMap == "OakLab") {
                         std::vector<std::string> Lines;
                         m_TB->SetVisible(true);
-                        if (BallPosition.x == 4 && BallPosition.y == 8) {
+                        if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了小火龍");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
-                        } else if (BallPosition.x == 4 && BallPosition.y == 9) {
+                        } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了傑尼龜");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
-                        } else if (BallPosition.x == 4 && BallPosition.y == 10) {
+                        } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
                         }
-                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[BallPosition.x][BallPosition.y]);
+                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
                         while (m_TB->GetVisibility()) {
                             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -273,7 +303,7 @@ void App::Event() {
                             context->Update();
                         }
                         m_Root.RemoveChild(
-                                m_MapSystem->GetBlocks()[BallPosition.x][((int) BallPosition.y - 8 + 1) % 3 + 8]);
+                                m_MapSystem->GetBlocks()[TargetPosition.x][((int) TargetPosition.y - 8 + 1) % 3 + 8]);
                     } else {
 
                     }
@@ -286,11 +316,11 @@ void App::Event() {
                 if (Player->GetPokemonBag()->size() == 0) {
                     m_TFBox->SetVisibility(true);
                     m_TB->SetVisible(true);
-                    if (BallPosition.x == 4 && BallPosition.y == 8) {
+                    if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                         m_TB->SetText("是否要選擇小火龍");
-                    } else if (BallPosition.x == 4 && BallPosition.y == 9) {
+                    } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
                         m_TB->SetText("是否要選擇傑尼龜");
-                    } else if (BallPosition.x == 4 && BallPosition.y == 10) {
+                    } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
                         m_TB->SetText("是否要選擇妙蛙種子");
                     }
                 } else {
@@ -425,12 +455,6 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
         //region
-        auto currnetMap = m_MapSystem->GetCurrnetMap();
-        glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
-        if (currentDirection == "UP") TargetPosition.x--;
-        else if (currentDirection == "DOWN") TargetPosition.x++;
-        else if (currentDirection == "LEFT") TargetPosition.y--;
-        else TargetPosition.y++;
         if(m_TB->GetVisibility()){
             if(Util::Input::IsKeyDown(Util::Keycode::Z)){
                 m_TB->Next();

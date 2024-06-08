@@ -9,7 +9,7 @@ private:
     bool m_Traversable;
     bool m_Event;
     bool m_Displayable;
-    int m_eventID;
+    int m_EventID;
 public:
     Block(bool traversable, bool event, int eventID);
 
@@ -30,6 +30,8 @@ public:
     void SetTraversable(bool traversable);
 
     void SetEvent(bool event);
+
+    void SetEventID(int EventID);
 
     bool isDisplayable();
 };

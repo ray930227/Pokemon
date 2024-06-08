@@ -3,10 +3,19 @@
 Block::Block(bool traversable, bool event, int eventID) {
     SetTraversable(traversable);
     SetEvent(event);
-    m_eventID = eventID;
-    m_Displayable = eventID == 6;
-    if (m_Displayable)
-        SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Blocks/ball.png"));
+    m_EventID = eventID;
+    m_Displayable = true;
+    switch (eventID) {
+        case 5:
+            SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Blocks/weektree.png"));
+            break;
+        case 6:
+            SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Blocks/ball.png"));
+            break;
+        default:
+            m_Displayable= false;
+    }
+
 }
 
 bool Block::GetVisibility() const {
@@ -26,7 +35,7 @@ bool Block::GetEvent() const {
 }
 
 int Block::GetEventID() const {
-    return m_eventID;
+    return m_EventID;
 }
 
 void Block::SetImage(const std::string &ImagePath) {
@@ -43,6 +52,10 @@ void Block::SetTraversable(bool traversable) {
 
 void Block::SetEvent(bool event) {
     m_Event = event;
+}
+
+void Block::SetEventID(int EventID) {
+    m_EventID=EventID;
 }
 
 bool Block::isDisplayable() {
