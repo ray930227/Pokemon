@@ -88,7 +88,8 @@ void App::Update() {
     if (Util::Input::IsKeyDown(Util::Keycode::H)) {
         LOG_DEBUG("Enemy healing!");
         Enemy->GetPokemonBag()->GetPokemons()[0]->SetCurrentHP(1);
-        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
+        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(
+                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

@@ -13,7 +13,7 @@ Block::Block(bool traversable, bool event, int eventID) {
             SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Blocks/ball.png"));
             break;
         default:
-            m_Displayable= false;
+            m_Displayable = false;
     }
 
 }
@@ -55,7 +55,7 @@ void Block::SetEvent(bool event) {
 }
 
 void Block::SetEventID(int EventID) {
-    m_EventID=EventID;
+    m_EventID = EventID;
 }
 
 bool Block::isDisplayable() {
