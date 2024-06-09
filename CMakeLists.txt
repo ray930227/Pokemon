@@ -45,6 +45,8 @@ add_executable(${PROJECT_NAME}
     src/UI/FightTextUI.cpp
     include/SFXSystem.hpp
     src/SFXSystem.cpp
+    src/UI/PokeFaintedUI.cpp
+    include/UI/PokeFaintedUI.hpp
     include/UI/SettingUI.hpp
     src/UI/SettingUI.cpp
 )

@@ -205,11 +205,20 @@ void FightMainUI::SetTextEnemyPokeName(const std::string &str) {
 }
 
 void FightMainUI::SetPlayerHPScale(const glm::vec2 &scale) {
-    m_PlayerHPImage->SetScale(scale);
+    if (m_PlayerHPImage->GetScale().x>scale.x){
+        m_PlayerHPImage->SetScale({m_PlayerHPImage->GetScale().x-0.01,1});
+    }else{
+        m_PlayerHPImage->SetScale(scale);
+    }
+
 }
 
 void FightMainUI::SetEnemyHPScale(const glm::vec2 &scale) {
-    m_EnemyHPImage->SetScale(scale);
+    if (m_EnemyHPImage->GetScale().x>scale.x){
+        m_EnemyHPImage->SetScale({m_EnemyHPImage->GetScale().x-0.01,1});
+    }else{
+        m_EnemyHPImage->SetScale(scale);
+    }
 }
 
 void FightMainUI::DetectBlood() {

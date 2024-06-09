@@ -38,7 +38,7 @@ void FightSkillUI::SetText(const std::vector<std::string> PokeSkill) {
     }
     int SkillOfY = -190;
     for (size_t i = 0; i < 4; i++) {
-        m_Skills[i]->SetPosition({(PokeSkill[i].length() / 4 * 17), SkillOfY});
+        m_Skills[i]->SetPosition({((PokeSkill[i].length() / 3 - 1) * 16), SkillOfY});
         m_Skills[i]->SetPosition({m_Skills[i]->GetPosition().x - 120, SkillOfY});
         SkillOfY -= 40;
     }

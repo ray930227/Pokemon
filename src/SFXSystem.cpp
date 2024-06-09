@@ -17,3 +17,7 @@ void SFXSystem::Play(const std::string &SFXName) {
     m_SFXs[SFXName]->SetVolume(50);
     m_SFXs[SFXName]->Play();
 }
+
+void SFXSystem::SetVolume(const std::string &SFXName,int Volume) {
+    m_SFXs[SFXName]->SetVolume(Volume);
+}

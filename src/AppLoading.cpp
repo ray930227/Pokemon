@@ -45,6 +45,7 @@ void App::Loading() {
                                                           Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()), 1});
                         m_FightMainUI->SetEnemyHPScale({(1.0 * Enemy->GetPokemonBag()->GetPokemons()[0]->GetCurrentHP() /
                                                          Enemy->GetPokemonBag()->GetPokemons()[0]->GetHP()), 1});
+                        m_FightMainUI->DetectBlood();
                         m_LoadingUI->Next();
                     }
                     break;
