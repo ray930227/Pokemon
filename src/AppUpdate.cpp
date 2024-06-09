@@ -42,6 +42,10 @@ void App::Update() {
             m_CurrentState = State::EVENT;
         }
     }
+    if (Util::Input::IsKeyDown(Util::Keycode::X)) {
+        m_CurrentEvent=EventID::SETTING;
+        m_CurrentState=State::EVENT;
+    }
 
 
     if (m_CurrentEvent != EventID::NONE) {

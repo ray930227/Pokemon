@@ -149,8 +149,8 @@ void App::Event() {
             Enemy = std::make_shared<Character>();
             std::vector<int> tempID = {13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43,
                                        45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76,
-                                       77, 79, 81, 83, 84, 86, 88, 90, 91, 92, 94, 95, 96, 98, 100, 102, 103, 104, 106,
-                                       107, 108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
+                                       77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
+                                       108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
                                        128, 129, 131, 132};
             int r = rand() % tempID.size();
             std::stringstream ToString;
@@ -511,6 +511,19 @@ void App::Event() {
         m_CurrentEvent = EventID::NONE;
         m_CurrentState = State::UPDATE;
         //endregion
+    } else if (m_CurrentEvent == EventID::SETTING) {
+        //region
+        if (m_SettingUI->GetVisibile()) {
+            m_SettingUI->Run();
+            if (!m_SettingUI->GetVisibile()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else {
+            m_SettingUI->Start();
+        }
+        //endregion
+
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

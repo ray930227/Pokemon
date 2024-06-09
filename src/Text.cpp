@@ -25,3 +25,7 @@ void Text::SetSize(int size) {
 }
 
 const glm::vec2 &Text::GetPosition() const { return m_Transform.translation; }
+
+bool Text::GetVisible() {
+    return m_Visible;
+}

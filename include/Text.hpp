@@ -20,6 +20,8 @@ public:
     void SetSize(int size);
 
     [[nodiscard]] const glm::vec2 &GetPosition() const;
+
+    bool GetVisible();
 };
 
 #endif //POKEMON_TEXT_HPP

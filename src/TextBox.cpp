@@ -51,6 +51,11 @@ void TextBox::SetPosition(const glm::vec2 &Position) {
     m_Text->SetPosition(Position);
 }
 
+void TextBox::SetZIndex(float index) {
+    m_BG->SetZIndex(index);
+    m_Text->SetZIndex(index+1);
+}
+
 void TextBox::ReadLines(const std::string &LinesPath) {
     std::ifstream ifs(LinesPath, std::ios::in);
     std::string s;

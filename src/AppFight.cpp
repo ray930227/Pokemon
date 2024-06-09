@@ -14,24 +14,7 @@ void App::Fight() {
                     m_CurrentFighting = FightID::SKILL;
                 } else if (m_FightMainUI->GetDecision() == "PokePack") {
                     m_FightMainUI->SetArrowVisible(false);
-                    m_PokeBagUI->GetArrowCount(Player->GetPokemonBag()->size());
-                    for (size_t i = 0; i < Player->GetPokemonBag()->size(); i++) {
-                        m_PokeBagUI->SetImage(i, RESOURCE_DIR"/Pokemon/Pokedex/Pokedex" +
-                                                 Player->GetPokemonBag()->GetPokemons()[i]->GetID() + ".png");
-                        m_PokeBagUI->SetLV(i,
-                                           "LV:" + std::to_string(Player->GetPokemonBag()->GetPokemons()[i]->GetLV()));
-                        m_PokeBagUI->SetName(i, Player->GetPokemonBag()->GetPokemons()[i]->GetName());
-                        m_PokeBagUI->SetHP(i,
-                                           std::to_string(Player->GetPokemonBag()->GetPokemons()[i]->GetCurrentHP()) +
-                                           "/" +
-                                           std::to_string(Player->GetPokemonBag()->GetPokemons()[i]->GetHP()));
-                        m_PokeBagUI->SetScale(i, {(1.0 * Player->GetPokemonBag()->GetPokemons()[i]->GetCurrentHP() /
-                                                   Player->GetPokemonBag()->GetPokemons()[i]->GetHP()), 1});
-                        m_PokeBagUI->IsHpLower(i);
-                    }
-                    for (size_t i = 0; i < Player->GetPokemonBag()->size(); i++) {
-                        m_PokeBagUI->SetVisible(i, true);
-                    }
+                    m_PokeBagUI->SetVisible(true);
                     LOG_DEBUG("State:Pokepack");
                     m_CurrentFighting = FightID::POKEPACK;
                 } else if (m_FightMainUI->GetDecision() == "BackPack") {
@@ -134,7 +117,9 @@ void App::Fight() {
             //endregion
             //region PokePack
         case FightID::POKEPACK:
-            if (m_PokeBagUI->Choose()) {
+            if (m_PokeBagUI->GetVisible()) {
+                m_PokeBagUI->Run(2);
+            }else{
                 m_CurrentPlayerPokemon = m_PokeBagUI->GetDecision();
                 m_PokeBagUI->SetVisible(false);
                 m_FightMainUI->SetArrowVisible(true);

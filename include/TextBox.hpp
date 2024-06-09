@@ -5,7 +5,7 @@
 #include "Image.hpp"
 #include "Text.hpp"
 
-class TextBox : public Util::GameObject {
+class TextBox{
 private:
     std::shared_ptr<Text> m_Text;
     std::shared_ptr<Image> m_BG;
@@ -31,6 +31,8 @@ public:
     void SetScale(const glm::vec2 &scale);
 
     void SetPosition(const glm::vec2 &Position);
+
+    void SetZIndex(float index);
 
     void ReadLines(const std::string &LinesPath);
 

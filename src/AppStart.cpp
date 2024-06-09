@@ -47,11 +47,6 @@ void App::Start() {
     m_FightSkillUI = std::make_shared<FightSkillUI>();
     m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
-    m_PokeBagUI = std::make_shared<PokeBagUI>();
-    for (size_t i = 0; i < 6; i++) {
-        m_Root.AddChildren(m_PokeBagUI->GetChildren()[i]);
-    }
-
     m_EvolutionUI = std::make_shared<EvolutionUI>();
     m_Root.AddChildren(m_EvolutionUI->GetChildren());
 
@@ -116,6 +111,9 @@ void App::Start() {
     Player->GetImage()->SetVisible(false);
     m_Root.AddChild(Player->GetImage());
 
+    m_PokeBagUI = std::make_shared<PokeBagUI>(Player);
+    m_Root.AddChildren(m_PokeBagUI->GetChildren());
+
     tempImagePathses.clear();
     tempImagePathses.resize(1);
     tempImagePathses.push_back({RESOURCE_DIR"/Charactor/enemyfront_1.png"});
@@ -134,6 +132,9 @@ void App::Start() {
 
     m_ShopUI = std::make_shared<ShopUI>(Player);
     m_Root.AddChildren(m_ShopUI->GetChildren());
+
+    m_SettingUI=std::make_shared<SettingUI>(Player);
+    m_Root.AddChildren(m_SettingUI->GetChildren());
 
     m_CurrentState = State::HOME;
 }
