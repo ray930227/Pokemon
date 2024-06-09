@@ -13,6 +13,8 @@ public:
     SFXSystem();
 
     void Play(const std::string& SFXName);
+
+    void SetVolume(const std::string& SFXName,int Volume);
 };
 
 #endif //POKEMON_SFXSYSTEM_HPP

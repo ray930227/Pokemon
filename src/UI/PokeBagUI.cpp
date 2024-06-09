@@ -59,7 +59,7 @@ PokeBagUI::PokeBagUI(const std::shared_ptr<Character> &Player) {
         m_ChooseBG[i] = std::make_shared<Image>(
                 RESOURCE_DIR"/Background/PokeBagChoose" + std::to_string(i + 1) + ".png");
         m_ChooseBG[i]->SetVisible(false);
-        m_ChooseBG[i]->SetZIndex(56+i);
+        m_ChooseBG[i]->SetZIndex(56 + i);
     }
 
     m_StatusBG = std::make_shared<Image>(RESOURCE_DIR"/Background/StatusBG1.png");
@@ -67,21 +67,26 @@ PokeBagUI::PokeBagUI(const std::shared_ptr<Character> &Player) {
     m_StatusBG->SetZIndex(60);
 
     std::vector<std::string> texts = {"Attack", "Defence", "Speed", "Special", "Name",
-                                      "ID", "Type1", "Type2","State","Skill1","Skill2","Skill3","Skill4",
-                                      "PP1","PP2","PP3","PP4","EXP"};
-    std::vector<glm::vec2> positions = {{-80, 0},{-80, -96},{-80, -192},
-                                        {-80, -288},{160, 300},
-                                        {-200, 80},{250, -96},
-                                        {250, -288},{250, 190},
-                                        {-200,-10},
-                                        {-200,-106},
-                                        {-200,-202},
-                                        {-200,-298},
-                                        {200,-10},
-                                        {200,-106},
-                                        {200,-202},
-                                        {200,-298},
-                                        {160, 190}};
+                                      "ID", "Type1", "Type2", "State", "Skill1", "Skill2", "Skill3", "Skill4",
+                                      "PP1", "PP2", "PP3", "PP4", "EXP"};
+    std::vector<glm::vec2> positions = {{-80,  0},
+                                        {-80,  -96},
+                                        {-80,  -192},
+                                        {-80,  -288},
+                                        {160,  300},
+                                        {-200, 80},
+                                        {250,  -96},
+                                        {250,  -288},
+                                        {250,  190},
+                                        {-200, -10},
+                                        {-200, -106},
+                                        {-200, -202},
+                                        {-200, -298},
+                                        {200,  -10},
+                                        {200,  -106},
+                                        {200,  -202},
+                                        {200,  -298},
+                                        {160,  190}};
     for (auto &i: texts) {
         m_Texts.insert(std::pair<std::string, std::shared_ptr<Text>>(i, std::make_shared<Text>()));
         m_Texts[i]->SetVisible(false);
@@ -95,12 +100,12 @@ PokeBagUI::PokeBagUI(const std::shared_ptr<Character> &Player) {
     m_PokemonImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront001.png");
     m_PokemonImage->SetVisible(false);
     m_PokemonImage->SetZIndex(61);
-    m_PokemonImage->SetPosition({-128,232});
+    m_PokemonImage->SetPosition({-128, 232});
 
     m_PokemonHPImage = std::make_shared<Image>(RESOURCE_DIR"/Fight/GreenHealth.png");
     m_PokemonHPImage->SetVisible(false);
     m_PokemonHPImage->SetZIndex(61);
-    m_PokemonHPImage->SetPosition({82,245});
+    m_PokemonHPImage->SetPosition({82, 245});
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> PokeBagUI::GetChildren() const {
@@ -118,7 +123,7 @@ std::vector<std::shared_ptr<Util::GameObject>> PokeBagUI::GetChildren() const {
         Result.push_back(i);
     }
 
-    for(auto &i:m_Texts) {
+    for (auto &i: m_Texts) {
         Result.push_back(i.second);
     }
 
@@ -185,9 +190,9 @@ void PokeBagUI::Run(unsigned int mode) {
                 }
                 break;
         }
-    } else if(m_StatusBG->GetVisibility()){
-        if(Util::Input::IsKeyDown(Util::Keycode::Z)){
-            if(m_Texts["Attack"]->GetVisible()){
+    } else if (m_StatusBG->GetVisibility()) {
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+            if (m_Texts["Attack"]->GetVisible()) {
                 m_StatusBG->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/StatusBG2.png"));
                 m_Texts["Attack"]->SetVisible(false);
                 m_Texts["Defence"]->SetVisible(false);
@@ -196,21 +201,21 @@ void PokeBagUI::Run(unsigned int mode) {
                 m_Texts["Type1"]->SetVisible(false);
                 m_Texts["Type2"]->SetVisible(false);
                 m_Texts["State"]->SetVisible(false);
-                for(int i=1;i<5;i++){
-                    m_Texts["Skill"+std::to_string(i)]->SetVisible(true);
-                    m_Texts["PP"+std::to_string(i)]->SetVisible(true);
+                for (int i = 1; i < 5; i++) {
+                    m_Texts["Skill" + std::to_string(i)]->SetVisible(true);
+                    m_Texts["PP" + std::to_string(i)]->SetVisible(true);
                 }
                 m_PokemonHPImage->SetVisible(false);
                 m_Texts["EXP"]->SetVisible(true);
-            } else{
+            } else {
                 m_Texts["ID"]->SetVisible(false);
                 m_Texts["Name"]->SetVisible(false);
                 m_Texts["EXP"]->SetVisible(false);
                 m_StatusBG->SetVisible(false);
                 m_PokemonImage->SetVisible(false);
-                for(int i=1;i<5;i++){
-                    m_Texts["Skill"+std::to_string(i)]->SetVisible(false);
-                    m_Texts["PP"+std::to_string(i)]->SetVisible(false);
+                for (int i = 1; i < 5; i++) {
+                    m_Texts["Skill" + std::to_string(i)]->SetVisible(false);
+                    m_Texts["PP" + std::to_string(i)]->SetVisible(false);
                 }
             }
         }
@@ -283,7 +288,7 @@ bool PokeBagUI::ChoosePokemon() {
     if (Util::Input::IsKeyDown(Util::Keycode::UP) && m_Arrow[0]->GetPosition().y < 300) {
         m_Arrow[0]->SetPosition({-320, m_Arrow[0]->GetPosition().y + 80});
     } else if (Util::Input::IsKeyDown(Util::Keycode::DOWN) &&
-               m_Arrow[0]->GetPosition().y > 380 - 80 * m_Player->GetPokemonBag()->GetPokemons().size()) {
+               m_Arrow[0]->GetPosition().y > (380 - (80 * (int) m_Player->GetPokemonBag()->GetPokemons().size()))) {
         m_Arrow[0]->SetPosition({-320, m_Arrow[0]->GetPosition().y - 80});
     }
     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -321,16 +326,17 @@ void PokeBagUI::Action(unsigned mode) {
         }
     } else if (m_Arrow[1]->GetPosition().y == 168) {
 
-        auto Pokemon=m_Player->GetPokemonBag()->GetPokemons()[GetDecision()];
+        auto Pokemon = m_Player->GetPokemonBag()->GetPokemons()[GetDecision()];
         m_StatusBG->SetVisible(true);
         m_StatusBG->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/StatusBG1.png"));
-        for(auto &i:m_Texts){
+        for (auto &i: m_Texts) {
             i.second->SetVisible(true);
         }
         m_PokemonImage->SetVisible(true);
-        m_PokemonImage->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront"+Pokemon->GetID()+".png"));
+        m_PokemonImage->SetDrawable(std::make_shared<Util::Image>(
+                RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" + Pokemon->GetID() + ".png"));
         m_PokemonHPImage->SetVisible(true);
-        m_PokemonHPImage->SetScale({1.0*Pokemon->GetCurrentHP() / Pokemon->GetHP(),1});
+        m_PokemonHPImage->SetScale({1.0 * Pokemon->GetCurrentHP() / Pokemon->GetHP(), 1});
         if (m_PokemonHPImage->GetScaledSize().x <= 91.200005)
             m_PokemonHPImage->SetImage(RESOURCE_DIR"/Fight/RedHealth.png");
         else
@@ -340,30 +346,30 @@ void PokeBagUI::Action(unsigned mode) {
         m_Texts["Defence"]->SetText(std::to_string(Pokemon->GetDefence()));
         m_Texts["Speed"]->SetText(std::to_string(Pokemon->GetSpeed()));
         m_Texts["Special"]->SetText(std::to_string(Pokemon->GetSpecial()));
-        m_Texts["Name"]->SetText(Pokemon->GetName()+" LV:"+std::to_string(Pokemon->GetLV()));
+        m_Texts["Name"]->SetText(Pokemon->GetName() + " LV:" + std::to_string(Pokemon->GetLV()));
         m_Texts["ID"]->SetText(Pokemon->GetID());
         m_Texts["Type1"]->SetText((Pokemon->GetType()[0]));
-        if(Pokemon->GetType().size()==2)
+        if (Pokemon->GetType().size() == 2)
             m_Texts["Type2"]->SetText((Pokemon->GetType()[1]));
         else
             m_Texts["Type2"]->SetText(" ");
         m_Texts["State"]->SetText("普通");
-        auto Skills=Pokemon->GetSkill();
-        auto SkillPP=Pokemon->GetSkillPP();
-        auto CurrentSkillPP=Pokemon->GetCurrentSkillPP();
-        for(int i=0;i<4;i++){
-            if(i<Skills.size()){
-                m_Texts["Skill"+std::to_string(i+1)]->SetText(Skills[i]);
-                m_Texts["PP"+std::to_string(i+1)]->SetText(CurrentSkillPP[i]+"/"+SkillPP[i]);
-            }
-            else {
+        auto Skills = Pokemon->GetSkill();
+        auto SkillPP = Pokemon->GetSkillPP();
+        auto CurrentSkillPP = Pokemon->GetCurrentSkillPP();
+        for (int i = 0; i < 4; i++) {
+            if (i < Skills.size()) {
+                m_Texts["Skill" + std::to_string(i + 1)]->SetText(Skills[i]);
+                m_Texts["PP" + std::to_string(i + 1)]->SetText(CurrentSkillPP[i] + "/" + SkillPP[i]);
+            } else {
                 m_Texts["Skill" + std::to_string(i + 1)]->SetText(" ");
                 m_Texts["PP" + std::to_string(i + 1)]->SetText(" ");
             }
             m_Texts["Skill" + std::to_string(i + 1)]->SetVisible(false);
             m_Texts["PP" + std::to_string(i + 1)]->SetVisible(false);
         }
-        m_Texts["EXP"]->SetText(std::to_string(Pokemon->GetCurrentEXP())+"/"+std::to_string(Pokemon->GetLV()*Pokemon->GetLV()*Pokemon->GetLV()));
+        m_Texts["EXP"]->SetText(std::to_string(Pokemon->GetCurrentEXP()) + "/" +
+                                std::to_string(Pokemon->GetLV() * Pokemon->GetLV() * Pokemon->GetLV()));
         m_Texts["EXP"]->SetVisible(false);
     }
 }

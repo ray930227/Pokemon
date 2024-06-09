@@ -60,6 +60,11 @@ void App::Start() {
         m_Root.AddChildren(Child);
     }
 
+    m_PokeFaintedUI = std::make_shared<PokeFaintedUI>();
+    for (const auto &Child: m_PokeFaintedUI->GetChildren()) {
+        m_Root.AddChildren(Child);
+    }
+
     m_Fightitem = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
     m_Fightitem->SetZIndex(54);
     m_Fightitem->SetVisible(false);

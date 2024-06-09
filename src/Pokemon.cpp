@@ -335,7 +335,7 @@ int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
     int Damage;
     int EnemySkillChoose = 0;
     for (size_t i = 0; i < m_Skills.size(); i++) {
-        if (m_SkillDamage[i] != "—") {
+        if (m_SkillDamage[i] != "—" && m_SkillDamage[i] != "變化") {
             Damage = round(std::stof(m_SkillDamage[i]) * PokeFunction::TypeDamage(m_SkillTypes[i], EnemyType));
             if (Damage > MostPowerful) {
                 MostPowerful = Damage;
@@ -384,6 +384,7 @@ void Pokemon::SetLevel(int Level) {
         Evolution();
     }
     ReSetSkills();
+    FindAbiltiy();
     FindSkill();
 }
 
@@ -411,4 +412,118 @@ void Pokemon::SetSkillByID(std::vector<int> SkillID) {
         m_CurrentSkillPPs.push_back(AllSkills[ID - 1][5]);
     }
     FileOfMove.close();
+}
+
+void Pokemon::GetSkillByCD(std::string CDofID) {
+    if(IsSkillLearnable(CDofID) && !IsSkillFull()){
+        int Counter=1;
+        std::string SkillName;
+        std::string Line;
+        std::ifstream FileOfCDLearn(RESOURCE_DIR"/Pokemon/CDLearn.txt");
+        while (getline(FileOfCDLearn, Line)){
+            if (Counter==std::stoi(CDofID)){
+                SkillName=Line;
+                break;
+            }
+        }
+        FileOfCDLearn.close();
+        std::string Move;
+        std::ifstream FileOfMove(RESOURCE_DIR"/Pokemon/Move.txt");
+        while (std::getline(FileOfMove, Move)) {
+            if (Move.find(SkillName) != std::string::npos) {
+                std::vector<std::string> tokens;
+                std::stringstream ss(Move);
+                std::string token;
+                while (std::getline(ss, token, ' ')) {
+                    tokens.push_back(token);
+                }
+                m_Skills.push_back(tokens[0]);
+                m_SkillTypes.push_back(tokens[1]);
+                m_SkillClass.push_back(tokens[2]);
+                m_SkillDamage.push_back(tokens[3]);
+                m_SkillHitRates.push_back(tokens[4]);
+                m_SkillPPs.push_back(tokens[5]);
+                m_CurrentSkillPPs.push_back(tokens[5]);
+                break;
+            }
+        }
+        FileOfMove.close();
+    }
+}
+
+void Pokemon::GetSkillByCD(std::string CDofID, int SkillChange) {
+    if(IsSkillLearnable(CDofID)){
+        int Counter=1;
+        std::string SkillName;
+        std::string Line;
+        std::ifstream FileOfCDLearn(RESOURCE_DIR"/Pokemon/CDLearn.txt");
+        while (getline(FileOfCDLearn, Line)){
+            if (Counter==std::stoi(CDofID)){
+                SkillName=Line;
+                break;
+            }
+            Counter++;
+        }
+        FileOfCDLearn.close();
+        std::string Move;
+        std::ifstream FileOfMove(RESOURCE_DIR"/Pokemon/Move.txt");
+        while (std::getline(FileOfMove, Move)) {
+            if (Move.find(SkillName) != std::string::npos) {
+                std::vector<std::string> tokens;
+                std::stringstream ss(Move);
+                std::string token;
+                while (std::getline(ss, token, ' ')) {
+                    tokens.push_back(token);
+                }
+                m_Skills[SkillChange] = tokens[0];
+                m_SkillTypes[SkillChange] = tokens[1];
+                m_SkillClass[SkillChange] = tokens[2];
+                m_SkillDamage[SkillChange] = tokens[3];
+                m_SkillHitRates[SkillChange] = tokens[4];
+                m_SkillPPs[SkillChange] = tokens[5];
+                m_CurrentSkillPPs[SkillChange] = tokens[5];
+                break;
+            }
+        }
+        FileOfMove.close();
+    }
+}
+
+
+bool Pokemon::IsSkillLearnable(std::string CDofID) {
+    int Counter=1;
+    std::string Line;
+    std::string TargetLine;
+    std::vector<std::string> AllCDs;
+    std::ifstream FileOfLearnSet(RESOURCE_DIR"/Pokemon/LearnSet.txt");
+    while (getline(FileOfLearnSet, Line)) {
+        if (Counter == m_ID) {
+            if (Line=="-"){
+                return false;
+            }
+            TargetLine=Line;
+            break;
+        }
+        Counter++;
+    }
+    FileOfLearnSet.close();
+    std::stringstream ss(TargetLine);
+    std::string token;
+    while (std::getline(ss, token, ' ')) {
+        AllCDs.push_back(token);
+    }
+    for (const auto& CD:AllCDs){
+        if(CD==CDofID){
+            return true;
+        }
+    }
+    return false;
+}
+
+void Pokemon::GainBasePoints(int Point) {
+    m_HPBP += Point;
+    m_AttackBP += Point;
+    m_DefenceBP += Point;
+    m_SpecialBP += Point;
+    m_SpeedBP += Point;
 }

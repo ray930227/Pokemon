@@ -20,6 +20,7 @@
 #include "UI/ShopUI.hpp"
 #include "UI/ReplaceSkillUI.hpp"
 #include "UI/FightTextUI.hpp"
+#include "UI/PokeFaintedUI.hpp"
 #include "UI/SettingUI.hpp"
 
 #include "Util/Input.hpp"
@@ -72,10 +73,13 @@ public:
         BACKPACK,
         RUN,
         FIGHT,
+        CHANGEPOKE,
+        FAILCHANGE,
+        POKEFAINTED,
         EVOLUTION,
         OBTAINSKILL,
         REPLACESKILL,
-        TEXT,
+        WILDFINISH,
         UPDATEINFO,
         NONE
     };
@@ -122,6 +126,7 @@ private:
     std::shared_ptr<ReplaceSkillUI> m_ReplaceSkillUI;
     std::shared_ptr<ShopUI> m_ShopUI;
     std::shared_ptr<FightTextUI> m_FightTextUI;
+    std::shared_ptr<PokeFaintedUI> m_PokeFaintedUI;
     std::shared_ptr<SettingUI> m_SettingUI;
 
     std::shared_ptr<Image> m_Fightitem;
@@ -137,13 +142,17 @@ private:
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
     int PlayerSkillChoose;
-    int EnemySkillChoose;
+    int EnemySkillChoose=0;
     bool IsPlayerRound;
     int DisplacementCount;
+    int m_PreviousPlayerPokemon = 0;
     int m_CurrentPlayerPokemon = 0;
     int ButtonTrigger = 0;
     int FightCounter = 0;
+    int Timer = 0;
     bool IsAllEnemyDead = false;
+    bool IsAllPlayerDead = false;
+    bool IsChangePokemon = false;
     std::pair<bool, int> m_Experience;
     bool encounterable = true;
     bool isWildPokemon = false;

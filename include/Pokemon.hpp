@@ -22,12 +22,12 @@ private:
     std::string m_Name;
     std::vector<std::string> m_Type;
     int m_LV;
-    int m_HP{};
+    int m_HP;
     int m_CurrentHP;
-    int m_Attack{};
-    int m_Defence{};
-    int m_Special{};
-    int m_Speed{};
+    int m_Attack;
+    int m_Defence;
+    int m_Special;
+    int m_Speed;
     int m_IV;
     int m_HPBP;
     int m_AttackBP;
@@ -116,7 +116,7 @@ public:
 
     bool IsPokemonDying();
 
-    std::pair<bool,int> GainExperince(int EnemyLV);
+    std::pair<bool, int> GainExperince(int EnemyLV);
 
     void SetCurrentHP(int HP);
 
@@ -124,7 +124,15 @@ public:
 
     void SetLevel(int Level);
 
-    void SetSkillByID(std::vector<int>SkillID);
+    void SetSkillByID(std::vector<int> SkillID);
+
+    void GetSkillByCD(std::string CDofID);
+
+    void GetSkillByCD(std::string CDofID, int SkillChange);
+
+    bool IsSkillLearnable(std::string CDofID);
+
+    void GainBasePoints(int Point);
 };
 
 #endif //POKEMON_POKEMON_HPP
