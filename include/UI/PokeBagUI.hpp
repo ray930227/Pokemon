@@ -3,23 +3,32 @@
 
 #include "Image.hpp"
 #include "Text.hpp"
+#include "Character.hpp"
+#include "TextBox.hpp"
 #include "Util/Input.hpp"
+#include <map>
 
 class PokeBagUI {
 private:
-    int m_ArrowCount;
     std::vector<std::shared_ptr<Text>> m_PokeLV;
     std::vector<std::shared_ptr<Text>> m_PokeName;
     std::vector<std::shared_ptr<Image>> m_PokedexImage;
     std::vector<std::shared_ptr<Image>> m_PokedexHPImage;
     std::vector<std::shared_ptr<Image>> m_PokedexCurrentHP;
     std::vector<std::shared_ptr<Text>> m_PokeHP;
-    std::shared_ptr<Image> m_Arrow;
+    std::vector<std::shared_ptr<Image>> m_Arrow;
     std::shared_ptr<Image> m_PokeBagBG;
+    std::shared_ptr<Character> m_Player;
+    std::shared_ptr<TextBox> m_TB;
+    std::vector<std::shared_ptr<Image>> m_ChooseBG;
+    std::shared_ptr<Image> m_StatusBG;
+    std::shared_ptr<Image> m_PokemonImage;
+    std::shared_ptr<Image> m_PokemonHPImage;
+    std::map<std::string,std::shared_ptr<Text>> m_Texts;
 public:
-    PokeBagUI();
+    PokeBagUI(const std::shared_ptr<Character>& Player);
 
-    [[nodiscard]] std::vector<std::vector<std::shared_ptr<Util::GameObject>>> GetChildren() const;
+    [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
 
     void SetLV(const int PokeIndex, const std::string &str);
 
@@ -33,15 +42,21 @@ public:
 
     void IsHpLower(const int PokeIndex);
 
-    void SetVisible(const int PokeIndex, bool visible);
-
     void SetVisible(bool visible);
 
-    void GetArrowCount(int PokePackSize);
+    void Run(unsigned mode);
 
-    bool Choose();
+    bool GetVisible();
 
     int GetDecision();
+protected:
+    void Updata();
+
+    bool ChoosePokemon();
+
+    bool ChooseAction();
+
+    void Action(unsigned mode);
 };
 
 #endif //POKEMON_POKEBAGUI_HPP

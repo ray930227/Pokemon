@@ -20,6 +20,7 @@
 #include "UI/ShopUI.hpp"
 #include "UI/ReplaceSkillUI.hpp"
 #include "UI/FightTextUI.hpp"
+#include "UI/SettingUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -54,6 +55,7 @@ public:
         COMPUTER,
         HEAL,
         CHOOSE_POKEMON,
+        SETTING,
         NONE
     };
 
@@ -120,6 +122,7 @@ private:
     std::shared_ptr<ReplaceSkillUI> m_ReplaceSkillUI;
     std::shared_ptr<ShopUI> m_ShopUI;
     std::shared_ptr<FightTextUI> m_FightTextUI;
+    std::shared_ptr<SettingUI> m_SettingUI;
 
     std::shared_ptr<Image> m_Fightitem;
     std::shared_ptr<Text> m_PlayerPokeInfo;

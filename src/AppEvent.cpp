@@ -1,6 +1,13 @@
 #include "App.hpp"
 
 void App::Event() {
+    auto PlayerPosition = m_MapSystem->GetPlayerPosition();
+    auto currnetMap = m_MapSystem->GetCurrnetMap();
+    glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
+    if (currentDirection == "UP") TargetPosition.x--;
+    else if (currentDirection == "DOWN") TargetPosition.x++;
+    else if (currentDirection == "LEFT") TargetPosition.y--;
+    else TargetPosition.y++;
 
     if (m_CurrentEvent == EventID::MOVE) {
         //region
@@ -70,8 +77,6 @@ void App::Event() {
         }//endregion
     } else if (m_CurrentEvent == EventID::DOOR) {
         //region
-        auto PlayerPosition = m_MapSystem->GetPlayerPosition();
-        auto currnetMap = m_MapSystem->GetCurrnetMap();
 
         if (m_WhiteBG->GetZIndex() == 0) {
             m_WhiteBG->SetVisible(true);
@@ -94,12 +99,12 @@ void App::Event() {
                            (PlayerPosition.x == 29 && PlayerPosition.y == 23)) {
                     m_MapSystem->SetMap("PokeCenter");
                     m_MapSystem->SetPosition({288, 216});
-                } else if(PlayerPosition.x == 13 && PlayerPosition.y == 82){
+                } else if (PlayerPosition.x == 13 && PlayerPosition.y == 82) {
                     m_MapSystem->SetMap("GYM1");
-                    m_MapSystem->SetPosition({72,432});
-                } else if(PlayerPosition.x == 21 && PlayerPosition.y == 26){
+                    m_MapSystem->SetPosition({72, 432});
+                } else if (PlayerPosition.x == 21 && PlayerPosition.y == 26) {
                     m_MapSystem->SetMap("GYM2");
-                    m_MapSystem->SetPosition({72,432});
+                    m_MapSystem->SetPosition({72, 432});
                 } else {
                     LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
@@ -117,7 +122,8 @@ void App::Event() {
             } else if (currnetMap == "OakLab") {
                 m_MapSystem->SetMap("MainMap");
                 m_MapSystem->SetPosition({-1728, 2952});
-            } else if (currnetMap == "PokeMart" || currnetMap == "PokeCenter" || currnetMap == "GYM1" || currnetMap == "GYM2") {
+            } else if (currnetMap == "PokeMart" || currnetMap == "PokeCenter" || currnetMap == "GYM1" ||
+                       currnetMap == "GYM2") {
                 m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
@@ -140,17 +146,21 @@ void App::Event() {
         //region
         if (encounterable && rand() % 100 < 20) {
             isWildPokemon = true;
-            Enemy=std::make_shared<Character>();
-            std::vector<int> tempID={ 13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43, 45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84, 86, 88, 90, 91, 92, 94, 95, 96, 98, 100, 102, 103, 104, 106, 107, 108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127, 128, 129, 131, 132};
-            int r=rand()%tempID.size();
+            Enemy = std::make_shared<Character>();
+            std::vector<int> tempID = {13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43,
+                                       45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76,
+                                       77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
+                                       108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
+                                       128, 129, 131, 132};
+            int r = rand() % tempID.size();
             std::stringstream ToString;
             ToString << std::setw(3) << std::setfill('0') << tempID[r];
             std::string StringID = ToString.str();
-            auto temp=std::make_shared<Pokemon>(StringID);
-            int average=0;
-            for(auto &i:Player->GetPokemonBag()->GetPokemons())
-                average+=i->GetLV();
-            temp->SetLevel(average/Player->GetPokemonBag()->GetPokemons().size());
+            auto temp = std::make_shared<Pokemon>(StringID);
+            int average = 0;
+            for (auto &i: Player->GetPokemonBag()->GetPokemons())
+                average += i->GetLV();
+            temp->SetLevel(average / Player->GetPokemonBag()->GetPokemons().size());
             Enemy->GetPokemonBag()->addPomekon(temp);
             m_CurrentLoading = LoadingID::INTO;
             m_CurrentState = State::LOADING;
@@ -178,25 +188,20 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
         //region
         if (!m_TB->GetVisibility()) {
-            glm::vec2 BillboardPosition = m_MapSystem->GetPlayerPosition();
-            if (currentDirection == "UP") BillboardPosition.x--;
-            else if (currentDirection == "DOWN") BillboardPosition.x++;
-            else if (currentDirection == "LEFT") BillboardPosition.y--;
-            else BillboardPosition.y++;
 
-            if (BillboardPosition.x == 83 && BillboardPosition.y == 63) {
+            if (TargetPosition.x == 83 && TargetPosition.y == 63) {
                 m_TB->SetText(Player->GetName() + "的家");
-            } else if (BillboardPosition.x == 83 && BillboardPosition.y == 71) {
+            } else if (TargetPosition.x == 83 && TargetPosition.y == 71) {
                 m_TB->SetText(NPC_Bromance->GetName() + "的家");
-            } else if (BillboardPosition.x == 87 && BillboardPosition.y == 67) {
+            } else if (TargetPosition.x == 87 && TargetPosition.y == 67) {
                 m_TB->SetText("真新鎮");
-            } else if (BillboardPosition.x == 91 && BillboardPosition.y == 73) {
+            } else if (TargetPosition.x == 91 && TargetPosition.y == 73) {
                 m_TB->SetText("大木博士的實驗室");
-            } else if (BillboardPosition.x == 13 && BillboardPosition.y == 77) {
+            } else if (TargetPosition.x == 13 && TargetPosition.y == 77) {
                 m_TB->SetText("深灰市神奇寶貝道館館主：小剛\n如岩石般强大的男人。");
             } else {
-                m_TB->SetText("(" + std::to_string((int) BillboardPosition.x) + "," +
-                              std::to_string((int) BillboardPosition.y) +
+                m_TB->SetText("(" + std::to_string((int) TargetPosition.x) + "," +
+                              std::to_string((int) TargetPosition.y) +
                               ")'s billboard has not implement");
             }
             m_TB->SetVisible(true);
@@ -226,15 +231,45 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
-
+        //region
+        if (m_TB->GetVisibility()) {
+            if (m_TFBox->GetVisibility()) {
+                if (m_TFBox->Choose()) {
+                    m_TFBox->SetVisibility(false);
+                    if (m_TFBox->GetTF()) {
+                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
+                        m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetTraversable(true);
+                        m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetEvent(false);
+                        m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetEventID(0);
+                    }
+                    m_CurrentEvent = EventID::NONE;
+                    m_CurrentState = State::UPDATE;
+                    m_TB->SetVisible(false);
+                }
+            } else {
+                if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                    m_TB->SetVisible(false);
+                    m_CurrentEvent = EventID::NONE;
+                    m_CurrentState = State::UPDATE;
+                }
+            }
+        } else {
+            m_TB->SetText("沒有神奇寶貝擁有居合斬\n因此無法破換小樹叢");
+            m_TB->SetVisible(true);
+            for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+                for (auto &j: i->GetSkill()) {
+                    if (j == "居合斬") {
+                        m_TB->SetText("是否要破壞小樹叢?");
+                        m_TFBox->SetVisibility(true);
+                        break;
+                    }
+                }
+                if (m_TFBox->GetVisibility()) break;
+            }
+        }
+        //endregion
     } else if (m_CurrentEvent == EventID::BALL) {
         //region
-        auto currnetMap = m_MapSystem->GetCurrnetMap();
-        glm::vec2 BallPosition = m_MapSystem->GetPlayerPosition();
-        if (currentDirection == "UP") BallPosition.x--;
-        else if (currentDirection == "DOWN") BallPosition.x++;
-        else if (currentDirection == "LEFT") BallPosition.y--;
-        else BallPosition.y++;
         if (m_TFBox->GetVisibility()) {
             if (m_TFBox->Choose()) {
                 m_TFBox->SetVisibility(false);
@@ -243,26 +278,26 @@ void App::Event() {
                     if (currnetMap == "OakLab") {
                         std::vector<std::string> Lines;
                         m_TB->SetVisible(true);
-                        if (BallPosition.x == 4 && BallPosition.y == 8) {
+                        if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了小火龍");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
-                        } else if (BallPosition.x == 4 && BallPosition.y == 9) {
+                        } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了傑尼龜");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
-                        } else if (BallPosition.x == 4 && BallPosition.y == 10) {
+                        } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             Enemy = NPC_Bromance;
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
                         }
-                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[BallPosition.x][BallPosition.y]);
+                        m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
                         while (m_TB->GetVisibility()) {
                             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -273,7 +308,7 @@ void App::Event() {
                             context->Update();
                         }
                         m_Root.RemoveChild(
-                                m_MapSystem->GetBlocks()[BallPosition.x][((int) BallPosition.y - 8 + 1) % 3 + 8]);
+                                m_MapSystem->GetBlocks()[TargetPosition.x][((int) TargetPosition.y - 8 + 1) % 3 + 8]);
                     } else {
 
                     }
@@ -286,11 +321,11 @@ void App::Event() {
                 if (Player->GetPokemonBag()->size() == 0) {
                     m_TFBox->SetVisibility(true);
                     m_TB->SetVisible(true);
-                    if (BallPosition.x == 4 && BallPosition.y == 8) {
+                    if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                         m_TB->SetText("是否要選擇小火龍");
-                    } else if (BallPosition.x == 4 && BallPosition.y == 9) {
+                    } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
                         m_TB->SetText("是否要選擇傑尼龜");
-                    } else if (BallPosition.x == 4 && BallPosition.y == 10) {
+                    } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
                         m_TB->SetText("是否要選擇妙蛙種子");
                     }
                 } else {
@@ -425,47 +460,41 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
         //region
-        auto currnetMap = m_MapSystem->GetCurrnetMap();
-        glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
-        if (currentDirection == "UP") TargetPosition.x--;
-        else if (currentDirection == "DOWN") TargetPosition.x++;
-        else if (currentDirection == "LEFT") TargetPosition.y--;
-        else TargetPosition.y++;
-        if(m_TB->GetVisibility()){
-            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+        if (m_TB->GetVisibility()) {
+            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
-                if(!m_TB->GetVisibility()){
-                    if(Enemy== nullptr){
-                        m_CurrentState=State::UPDATE;
-                        m_CurrentEvent=EventID::NONE;
-                    } else{
-                        m_CurrentLoading=LoadingID::INTO;
-                        m_CurrentState=State::LOADING;
+                if (!m_TB->GetVisibility()) {
+                    if (Enemy == nullptr) {
+                        m_CurrentState = State::UPDATE;
+                        m_CurrentEvent = EventID::NONE;
+                    } else {
+                        m_CurrentLoading = LoadingID::INTO;
+                        m_CurrentState = State::LOADING;
                     }
 
                 }
             }
-        } else if(currnetMap=="GYM1") {
+        } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-                Enemy=std::make_shared<Character>();
+                Enemy = std::make_shared<Character>();
                 std::vector<std::shared_ptr<Pokemon>> Pokemons;
                 Pokemons.push_back(std::make_shared<Pokemon>("074"));
                 Pokemons.push_back(std::make_shared<Pokemon>("095"));
                 Pokemons[0]->SetLevel(12);
                 Pokemons[1]->SetLevel(14);
-                Pokemons[0]->SetSkillByID({33,111});
-                Pokemons[1]->SetSkillByID({33,103,117});
+                Pokemons[0]->SetSkillByID({33, 111});
+                Pokemons[1]->SetSkillByID({33, 103, 117});
                 Enemy->GetPokemonBag()->SetPokemons(Pokemons);
                 m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
-            } else{
-                LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
-                Enemy=nullptr;
+            } else {
+                LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
+                Enemy = nullptr;
                 m_TB->Reload();
                 m_TB->SetText("NPC has not implement");
             }
             m_TB->SetVisible(true);
-        } else{
-            LOG_DEBUG("{}:({},{}) NPC has not implement",currnetMap,TargetPosition.x,TargetPosition.y);
+        } else {
+            LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
             m_TB->Reload();
             m_TB->SetText("NPC has not implement");
             m_TB->SetVisible(true);
@@ -482,6 +511,19 @@ void App::Event() {
         m_CurrentEvent = EventID::NONE;
         m_CurrentState = State::UPDATE;
         //endregion
+    } else if (m_CurrentEvent == EventID::SETTING) {
+        //region
+        if (m_SettingUI->GetVisibile()) {
+            m_SettingUI->Run();
+            if (!m_SettingUI->GetVisibile()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else {
+            m_SettingUI->Start();
+        }
+        //endregion
+
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }

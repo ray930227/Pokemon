@@ -42,6 +42,10 @@ void App::Update() {
             m_CurrentState = State::EVENT;
         }
     }
+    if (Util::Input::IsKeyDown(Util::Keycode::X)) {
+        m_CurrentEvent=EventID::SETTING;
+        m_CurrentState=State::EVENT;
+    }
 
 
     if (m_CurrentEvent != EventID::NONE) {
@@ -81,13 +85,15 @@ void App::Update() {
         Enemy = NPC_Bromance;
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
         FirstPokemon->SetLevel(23);
+        FirstPokemon->SetSkillByID({15});
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::H)) {
         LOG_DEBUG("Enemy healing!");
         Enemy->GetPokemonBag()->GetPokemons()[0]->SetCurrentHP(1);
-        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
+        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(
+                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
