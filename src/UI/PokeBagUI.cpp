@@ -59,7 +59,7 @@ PokeBagUI::PokeBagUI(const std::shared_ptr<Character> &Player) {
         m_ChooseBG[i] = std::make_shared<Image>(
                 RESOURCE_DIR"/Background/PokeBagChoose" + std::to_string(i + 1) + ".png");
         m_ChooseBG[i]->SetVisible(false);
-        m_ChooseBG[i]->SetZIndex(56 + i);
+        m_ChooseBG[i]->SetZIndex(57);
     }
 
     m_StatusBG = std::make_shared<Image>(RESOURCE_DIR"/Background/StatusBG1.png");
@@ -251,10 +251,10 @@ void PokeBagUI::Run(unsigned int mode) {
         } else {
             if (ChoosePokemon()) {
                 m_ChooseBG[mode - 2]->SetVisible(true);
-                m_Arrow[0]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/WhiteArrow.png"));
+                m_Arrow[0]->SetImage(RESOURCE_DIR"/Background/WhiteArrow.png");
                 m_Arrow[1]->SetVisible(true);
                 m_Arrow[1]->SetPosition({150, 240});
-                m_Arrow[1]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/BlockArrow.png"));
+                m_Arrow[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
             }
         }
         if (Util::Input::IsKeyDown(Util::Keycode::X)) {
