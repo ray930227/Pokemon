@@ -535,6 +535,7 @@ void App::Event() {
     } else if(m_CurrentEvent==EventID::NPC_END) {
 
     } else if(m_CurrentEvent==EventID::ALL_POKEMON_DIE){
+        //region
         int temp=m_MapSystem->GetCurrentArea();
         m_MapSystem->SetMap("MainMap");
         auto Position=m_MapSystem->GetPlayerPosition();
@@ -554,6 +555,7 @@ void App::Event() {
         }
         m_CurrentEvent=EventID::NONE;
         m_CurrentState=State::UPDATE;
+        //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }
