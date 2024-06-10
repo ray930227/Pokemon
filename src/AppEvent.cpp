@@ -146,7 +146,6 @@ void App::Event() {
         //region
         if (encounterable && rand() % 100 < 20) {
             isWildPokemon = true;
-            Enemy->GetPokemonBag()->SetPokemons({});
             std::vector<int> tempID = {13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43,
                                        45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76,
                                        77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
@@ -161,7 +160,7 @@ void App::Event() {
             for (auto &i: Player->GetPokemonBag()->GetPokemons())
                 average += i->GetLV();
             temp->SetLevel(average / Player->GetPokemonBag()->GetPokemons().size());
-            Enemy->GetPokemonBag()->addPomekon(temp);
+            Enemy->GetPokemonBag()->SetPokemons({temp});
             m_CurrentLoading = LoadingID::INIT;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;
@@ -476,7 +475,6 @@ void App::Event() {
             }
         } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-//                Enemy = std::make_shared<Character>();
                 std::vector<std::shared_ptr<Pokemon>> Pokemons;
                 Pokemons.push_back(std::make_shared<Pokemon>("074"));
                 Pokemons.push_back(std::make_shared<Pokemon>("095"));

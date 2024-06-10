@@ -29,12 +29,28 @@ void App::Fight() {
             if (Enemy->GetPokemonBag()->GetPokemons()[0]->IsPokemonDying() && isWildPokemon) {
                 m_CurrentFighting = FightID::WILDFINISH;
             } else if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
+                bool Check = false;
+                for (auto i: Player->GetPokemonBag()->GetPokemons()) {
+                    if (!i->IsPokemonDying()) {
+                        Check = true;
+                        break;
+                    }
+                }
                 m_FightMainUI->SetPlayerPokeVisible(false);
                 m_FightMainUI->SetPlayerHPUIVisible(false);
                 m_FightMainUI->SetPlayerHPTextVisible(false);
                 m_FightMainUI->SetPlayerPokeNameVisible(false);
                 m_PokeFaintedUI->SetText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName());
-                m_CurrentFighting = FightID::POKEFAINTED;
+                if (Check) {
+                    m_CurrentFighting = FightID::POKEFAINTED;
+                } else {
+                    m_PokeFaintedUI->SetVisible(false);
+                    m_FightTextUI->SetLose(Player->GetName());
+                    LOG_DEBUG("Run");
+                    m_CurrentEvent = EventID::ALL_POKEMON_DIE;
+                    m_CurrentFighting = FightID::RUN;
+                }
+
             }
             if (Util::Input::IsKeyDown(Util::Keycode::I)) {
                 Enemy->GetPokemonBag()->GetPokemons()[0]->LevelUp();
@@ -129,7 +145,7 @@ void App::Fight() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_FightTextUI->Next();
             }
-            if (!m_FightTextUI->GetRunVisibility()) {
+            if (!m_FightTextUI->GetRunVisibility() && !m_FightTextUI->GetLoseVisibility()) {
                 m_WhiteBG->SetVisible(false);
                 m_WhiteBG->SetZIndex(0);
                 m_FightMainUI->SetVisible(false);
@@ -254,19 +270,7 @@ void App::Fight() {
                 m_PokeFaintedUI->SetTFBoxVisible(true);
                 m_PokeFaintedUI->Next();
             } else if (m_PokeFaintedUI->GetCurrentIndex() == 2) {
-                if (IsAllPlayerDead) {
-                    Timer++;
-                    m_PokeFaintedUI->SetVisible(false);
-                    m_FightTextUI->SetLose(Player->GetName());
-                    if (Timer > 120) {
-                        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                            m_FightTextUI->Next();
-                            Timer = 0;
-                            LOG_DEBUG("Run");
-                            m_CurrentFighting = FightID::RUN;
-                        }
-                    }
-                } else if (m_PokeFaintedUI->TFBoxChoose()) {
+                if (m_PokeFaintedUI->TFBoxChoose()) {
                     m_FightMainUI->SetPlayerPokeVisible(true);
                     m_FightMainUI->SetPlayerHPUIVisible(true);
                     m_FightMainUI->SetPlayerHPTextVisible(true);
@@ -522,6 +526,9 @@ void App::Fight() {
                 m_FightMainUI->SetVisible(false);
                 m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                 m_BGM->Play();
+                if (m_CurrentEvent == EventID::NPC) {
+                    m_CurrentEvent = EventID::NPC_END;
+                }
                 LOG_DEBUG("State:UPDATE");
                 m_CurrentState = State::UPDATE;
             } else if (IsChangePokemon) {

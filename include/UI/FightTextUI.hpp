@@ -63,6 +63,8 @@ public:
 
     [[nodiscard]] bool GetChangeFailVisibility() const;
 
+    [[nodiscard]] bool GetLoseVisibility() const;
+
     void Next();
 };
 

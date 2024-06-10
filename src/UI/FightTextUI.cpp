@@ -134,6 +134,7 @@ void FightTextUI::SetLose(const std::string &PlayerName) {
     m_LoseTextBox->SetVisible(true);
     m_LoseTextBox->Reload();
     m_LoseTextBox->AddText(PlayerName + "沒有可使用的神奇寶貝!");
+    m_LoseTextBox->AddText(PlayerName +"的眼前一片漆黑!");
 }
 
 bool FightTextUI::GetPlayerVisibility() const {
@@ -166,6 +167,10 @@ bool FightTextUI::GetChangePokeVisibility() const {
 
 bool FightTextUI::GetChangeFailVisibility() const {
     return m_ChangeFailTextBox->GetVisibility();
+}
+
+bool FightTextUI::GetLoseVisibility() const {
+    return m_LoseTextBox->GetVisibility();
 }
 
 void FightTextUI::Next() {
