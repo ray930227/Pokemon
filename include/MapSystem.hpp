@@ -30,6 +30,8 @@ public:
 
     std::string &GetCurrnetMap();
 
+    int GetCurrentArea();
+
     void SetImage(const std::string &ImagePath);
 
     void SetPosition(const glm::vec2 &Position);

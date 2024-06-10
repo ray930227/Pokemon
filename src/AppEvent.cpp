@@ -532,6 +532,28 @@ void App::Event() {
         }
         //endregion
 
+    } else if(m_CurrentEvent==EventID::NPC_END) {
+
+    } else if(m_CurrentEvent==EventID::ALL_POKEMON_DIE){
+        int temp=m_MapSystem->GetCurrentArea();
+        m_MapSystem->SetMap("MainMap");
+        auto Position=m_MapSystem->GetPlayerPosition();
+        double distance1=sqrt(pow(Position.x-84,2)+pow(Position.y-65,2));
+        double distance2=sqrt(pow(Position.x-32,2)+pow(Position.y-73,2));
+        double distance3=sqrt(pow(Position.x-30,2)+pow(Position.y-23,2));
+        if(distance1<distance2 && distance1<distance3){
+            m_MapSystem->SetPosition({-1224,2592});
+        } else if(distance2<distance1 && distance2<distance3){
+            m_MapSystem->SetPosition({-1800,-1152});
+        } else{
+            m_MapSystem->SetPosition({1800,-1296});
+        }
+        Player->SetCurrentImagePath(1);
+        for(auto &i:Player->GetPokemonBag()->GetPokemons()){
+            i->SetCurrentHP(i->GetHP());
+        }
+        m_CurrentEvent=EventID::NONE;
+        m_CurrentState=State::UPDATE;
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }
