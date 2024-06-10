@@ -3,12 +3,13 @@
 
 #include "Image.hpp"
 #include "GIF.hpp"
-#include "Text.hpp"
+#include "TextBox.hpp"
+#include "Character.hpp"
 #include "Util/Input.hpp"
 
 class FightMainUI {
 private:
-    std::shared_ptr<Image> m_Player;
+    std::shared_ptr<Image> m_PlayerImage;
     std::shared_ptr<Image> m_PlayerPokemonImage;
     std::shared_ptr<Image> m_EnemyPokemonImage;
     std::shared_ptr<Image> m_PlayerHPImage;
@@ -22,8 +23,11 @@ private:
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
     std::shared_ptr<Text> m_EnemyPokeName;
+    std::shared_ptr<Character> m_Player;
+    std::shared_ptr<Character> m_Enemy;
+    int Counter = 0;
 public:
-    FightMainUI();
+    FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
 
@@ -65,23 +69,23 @@ public:
 
     bool EndMoving();
 
-    void SetEnemyPokeImage(const std::string &Path);
+    void SetEnemyPokeImage(int EnemyIndex);
 
-    void SetPlayerPokeImage(const std::string &Path);
+    void SetPlayerPokeImage(int PlayerIndex);
 
-    void SetBallsImage(const std::string &Path);
+    void SetBallsImage();
 
     void ReSetBallAnimation();
 
-    void SetTextHP(const std::string &str);
+    void SetTextHP(int PokeIndex);
 
-    void SetTextPlayerPokeName(const std::string &str);
+    void SetTextPlayerPokeName(int PokeIndex);
 
-    void SetTextEnemyPokeName(const std::string &str);
+    void SetTextEnemyPokeName(int PokeIndex);
 
-    void SetPlayerHPScale(const glm::vec2 &scale);
+    void SetPlayerHPScale(int PokeIndex);
 
-    void SetEnemyHPScale(const glm::vec2 &scale);
+    void SetEnemyHPScale(int PokeIndex);
 
     void DetectBlood();
 

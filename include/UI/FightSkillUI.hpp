@@ -3,32 +3,32 @@
 
 #include "Text.hpp"
 #include "Image.hpp"
+#include "Character.hpp"
 #include "Util/Input.hpp"
 
 class FightSkillUI {
 private:
-    int m_ArrowCount;
     std::vector<std::shared_ptr<Text>> m_Skills;
     std::shared_ptr<Text> m_SkillInfo;
     std::shared_ptr<Image> m_FightSkillBG;
     std::shared_ptr<Image> m_Arrow;
+    std::shared_ptr<Character> m_Player;
 public:
-    FightSkillUI();
+    FightSkillUI(const std::shared_ptr<Character> &Player);
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
 
-    void SetText(const std::vector<std::string> PokeSkill);
+    void SetText(unsigned long long int PokeIndex);
 
     void SetVisible(bool visible);
 
-    void GetArrowCount(int SkillSize);
-
-    bool Choose();
+    bool Choose(unsigned long long int PokeIndex);
 
     int GetDecision();
 
-    void ShowSkillInfo(const std::vector<std::string> &SkillType, const std::vector<std::string> &CurrentPP,
-                       const std::vector<std::string> &PP);
+    void ShowSkillInfo(unsigned long long int PokeIndex);
+
+    void ReSetArrow();
 };
 
 #endif //POKEMON_FIGHTSKILLUI_HPP

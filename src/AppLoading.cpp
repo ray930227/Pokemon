@@ -2,25 +2,26 @@
 
 void App::Loading() {
     switch (m_CurrentLoading) {
-        case LoadingID::INTO:
-            if (FightCounter==0){
-                m_CurrentPlayerPokemon = 0;
-                m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
-                m_BGM->Play();
-                m_LoadingUI->RandomMode();
-                m_FightMainUI->ReSetWildPosition();
-                FightCounter++;
-            }
+        //region INIT
+        case LoadingID::INIT:
+            m_CurrentPlayerPokemon = 0;
+            m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
+            m_BGM->Play();
+            m_LoadingUI->RandomMode();
+            m_FightMainUI->ReSetWildPosition();
+            m_FightSkillUI->ReSetArrow();
+            m_CurrentLoading = LoadingID::LOADING;
+            break;
+        //endregion
+        //region LOADING
+        case LoadingID::LOADING:
             if (m_LoadingUI->GetVisibility()) {
                 m_LoadingUI->StartLoading();
             } else {
                 m_WhiteBG->SetVisible(true);
                 m_WhiteBG->SetZIndex(51);
-                m_FightMainUI->SetEnemyPokeImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +
-                                                 Enemy->GetPokemonBag()->GetPokemons()[0]->GetID() + ".png");
-                m_FightMainUI->SetPlayerPokeImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
-                                                  Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID() +
-                                                  ".png");
+                m_FightMainUI->SetEnemyPokeImage(0);
+                m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
                 m_LoadingUI->LoadText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName(),
                                       Enemy->GetPokemonBag()->GetPokemons()[0]->GetName());
                 m_FightMainUI->SetPlayerVisible(true);
@@ -32,36 +33,27 @@ void App::Loading() {
                 }
             }
             break;
+        //endregion
+        //region TEXT
         case LoadingID::TEXT:
             switch (m_LoadingUI->GetCurrentIndex()) {
                 case 2:
                     m_FightMainUI->SetPlayerBallVisible(true);
-                    m_FightMainUI->SetBallsImage(
-                            RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(Player->GetPokemonBag()->size()) + ".png");
+                    m_FightMainUI->SetBallsImage();
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                         m_FightMainUI->SetBallAnimationVisible(true);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
-                        m_FightMainUI->SetPlayerHPScale({(1.0 * Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP() /
-                                                          Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()), 1});
-                        m_FightMainUI->SetEnemyHPScale({(1.0 * Enemy->GetPokemonBag()->GetPokemons()[0]->GetCurrentHP() /
-                                                         Enemy->GetPokemonBag()->GetPokemons()[0]->GetHP()), 1});
+                        m_FightMainUI->SetPlayerHPScale(m_CurrentPlayerPokemon);
+                        m_FightMainUI->SetEnemyHPScale(0);
                         m_FightMainUI->DetectBlood();
                         m_LoadingUI->Next();
                     }
                     break;
                 case 3:
-                    m_FightMainUI->SetTextHP(std::to_string(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) +
-                                             " / " +
-                                             std::to_string(
-                                                     Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP()));
-                    m_FightMainUI->SetTextPlayerPokeName(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName() + " LV:" +
-                            std::to_string(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV()));
-                    m_FightMainUI->SetTextEnemyPokeName(Enemy->GetPokemonBag()->GetPokemons()[0]->GetName() + " LV:" +
-                                                        std::to_string(
-                                                                Enemy->GetPokemonBag()->GetPokemons()[0]->GetLV()));
-                    m_FightSkillUI->SetText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill());
+                    m_FightMainUI->SetTextHP(m_CurrentPlayerPokemon);
+                    m_FightMainUI->SetTextPlayerPokeName(m_CurrentPlayerPokemon);
+                    m_FightMainUI->SetTextEnemyPokeName(0);
+                    m_FightSkillUI->SetText(m_CurrentPlayerPokemon);
                     m_FightMainUI->SetPlayerBallVisible(false);
                     m_FightMainUI->SetEnemyHPUIVisible(true);
                     m_FightMainUI->SetEnemyPokeNameVisible(true);
@@ -90,11 +82,12 @@ void App::Loading() {
                 m_FightMainUI->SetFightBGVisible(true);
                 m_PlayerPokeInfo->SetVisible(true);
                 m_EnemyPokeInfo->SetVisible(true);
-                FightCounter=0;
+                FightCounter = 0;
                 m_CurrentFighting = FightID::HOME;
                 m_CurrentState = State::FIGHT;
             }
             break;
+        //endregion
         case LoadingID::NONE:
             break;
     }

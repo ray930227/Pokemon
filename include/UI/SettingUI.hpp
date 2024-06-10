@@ -8,7 +8,7 @@
 #include "UI/PokeBagUI.hpp"
 #include "UI/ItemUI.hpp"
 
-class SettingUI{
+class SettingUI {
 private:
     std::shared_ptr<Image> m_SettingBG;
     std::shared_ptr<Image> m_Arrow;
@@ -17,7 +17,7 @@ private:
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> m_Player;
 public:
-    SettingUI(const std::shared_ptr<Character>& Player);
+    SettingUI(const std::shared_ptr<Character> &Player);
 
     void Start();
 

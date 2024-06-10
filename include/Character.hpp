@@ -41,7 +41,6 @@ public:
     void SetCurrentImagePath(size_t index);
 
     void SetMoney(int money);
-
 };
 
 #endif

@@ -106,6 +106,14 @@ PokeBagUI::PokeBagUI(const std::shared_ptr<Character> &Player) {
     m_PokemonHPImage->SetVisible(false);
     m_PokemonHPImage->SetZIndex(61);
     m_PokemonHPImage->SetPosition({82, 245});
+
+    for(auto &i:Player->GetPokemonBag()->GetPokemons()){
+        if(i->IsPokemonDying()){
+            m_CurrentPokemon++;
+        } else{
+            break;
+        }
+    }
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> PokeBagUI::GetChildren() const {
@@ -183,12 +191,8 @@ void PokeBagUI::SetVisible(bool visible) {
 
 void PokeBagUI::Run(unsigned int mode) {
     if (m_TB->GetVisibility()) {
-        switch (mode) {
-            case 1:
-                if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                    m_TB->SetVisible(false);
-                }
-                break;
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+            m_TB->SetVisible(false);
         }
     } else if (m_StatusBG->GetVisible()) {
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -219,7 +223,7 @@ void PokeBagUI::Run(unsigned int mode) {
                 }
             }
         }
-    } else if (mode>1 && m_ChooseBG[mode - 2]->GetVisible()) {
+    } else if (mode > 1 && m_ChooseBG[mode - 2]->GetVisible()) {
         if (ChooseAction()) {
             Action(mode);
         }
@@ -239,12 +243,11 @@ void PokeBagUI::Run(unsigned int mode) {
             m_Arrow[1]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/BlockArrow.png"));
         }
     } else {
-        if(mode == 0){
-            if(ChoosePokemon()){
+        if (mode == 0) {
+            if (ChoosePokemon()) {
                 SetVisible(false);
             }
-        }
-        else if (mode == 1) {
+        } else if (mode == 1) {
             if (ChoosePokemon()) {
                 if (m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetCurrentHP() == 0) {
                     m_TB->SetVisible(true);
@@ -321,7 +324,13 @@ void PokeBagUI::Action(unsigned mode) {
     if (m_Arrow[1]->GetPosition().y == 240) {
         m_Arrow[1]->SetVisible(false);
         if (mode == 2) {
-            SetVisible(false);
+            if(GetDecision()==m_CurrentPokemon){
+                m_TB->SetText("這隻神奇寶貝已經在場上!!!");
+                m_TB->SetVisible(true);
+            } else{
+                m_CurrentPokemon=GetDecision();
+                SetVisible(false);
+            }
         } else {
             m_Arrow[1]->SetPosition(m_Arrow[0]->GetPosition());
             m_Arrow[1]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/WhiteArrow.png"));

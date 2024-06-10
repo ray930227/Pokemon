@@ -2,6 +2,7 @@
 #define POKEMON_FIGHTTEXTUI_HPP
 
 #include "TextBox.hpp"
+#include "Character.hpp"
 #include <cmath>
 
 class FightTextUI {
@@ -17,26 +18,28 @@ private:
     std::shared_ptr<TextBox> m_ChangePokeTextBox;
     std::shared_ptr<TextBox> m_ChangeFailTextBox;
     std::shared_ptr<TextBox> m_LoseTextBox;
+    std::shared_ptr<Character> m_Player;
+    std::shared_ptr<Character> m_Enemy;
 public:
-    FightTextUI();
+    FightTextUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
     [[nodiscard]] std::vector<std::vector<std::shared_ptr<Util::GameObject>>> GetChildren() const;
 
-    void SetPlayer(const std::string &PlayerName, const std::string &UseSkill, float DamageRate);
+    void SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex);
 
-    void SetEnemy(const std::string &EnemyName, const std::string &UseSkill, float DamageRate);
+    void SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex);
 
     void SetDefeat(const std::string &PokeName);
 
     void SetPokePack();
 
-    void SetFinish(const std::string &Winner,const std::string &Loser);
+    void SetFinish(const std::string &Winner, const std::string &Loser);
 
-    void SetGainEXP(const std::string &PokeName,int EXP);
+    void SetGainEXP(const std::string &PokeName, int EXP);
 
     void SetRun();
 
-    void SetLevelUP(const std::string &PokeName,int NewLV);
+    void SetLevelUP(const std::string &PokeName, int NewLV);
 
     void SetChangePoke(const std::string &OldPokeName, const std::string &NewPokeName);
 
@@ -59,6 +62,9 @@ public:
     [[nodiscard]] bool GetChangePokeVisibility() const;
 
     [[nodiscard]] bool GetChangeFailVisibility() const;
+
+    [[nodiscard]] bool GetLoseVisibility() const;
+
     void Next();
 };
 

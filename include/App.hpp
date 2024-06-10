@@ -58,11 +58,14 @@ public:
         HEAL,
         CHOOSE_POKEMON,
         SETTING,
+        NPC_END,
+        ALL_POKEMON_DIE,
         NONE
     };
 
     enum class LoadingID {
-        INTO,
+        INIT,
+        LOADING,
         TEXT,
         NONE
     };

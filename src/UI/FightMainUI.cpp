@@ -1,10 +1,10 @@
 #include "UI/FightMainUI.hpp"
 
-FightMainUI::FightMainUI() {
-    m_Player = std::make_shared<Image>(RESOURCE_DIR"/Fight/Player.png");
-    m_Player->SetZIndex(52);
-    m_Player->SetVisible(false);
-    m_Player->SetPosition({630, -10});
+FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy) {
+    m_PlayerImage = std::make_shared<Image>(RESOURCE_DIR"/Fight/Player.png");
+    m_PlayerImage->SetZIndex(52);
+    m_PlayerImage->SetVisible(false);
+    m_PlayerImage->SetPosition({630, -10});
     m_PlayerPokemonImage = std::make_shared<Image>(RESOURCE_DIR"/transparent.png");
     m_PlayerPokemonImage->SetZIndex(52);
     m_PlayerPokemonImage->SetVisible(false);
@@ -62,16 +62,18 @@ FightMainUI::FightMainUI() {
     m_EnemyPokeName->SetZIndex(52);
     m_EnemyPokeName->SetVisible(false);
     m_EnemyPokeName->SetPosition({-110, 295});
+    m_Player = Player;
+    m_Enemy = Enemy;
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> FightMainUI::GetChildren() const {
-    return {m_Player, m_PlayerPokemonImage, m_EnemyPokemonImage, m_PlayerHPImage, m_EnemyHPImage, m_PlayerHPUI,
+    return {m_PlayerImage, m_PlayerPokemonImage, m_EnemyPokemonImage, m_PlayerHPImage, m_EnemyHPImage, m_PlayerHPUI,
             m_EnemyHPUI, m_PlayerBalls, m_BallAnimation, m_PlayerHP, m_PlayerPokeName, m_EnemyPokeName, m_Arrow,
             m_FightBG};
 }
 
 void FightMainUI::SetVisible(bool visible) {
-    m_Player->SetVisible(visible);
+    m_PlayerImage->SetVisible(visible);
     m_PlayerHPImage->SetVisible(visible);
     m_PlayerHPUI->SetVisible(visible);
     m_EnemyHPImage->SetVisible(visible);
@@ -97,7 +99,7 @@ void FightMainUI::SetArrowVisible(bool visible) {
 }
 
 void FightMainUI::SetPlayerVisible(bool visible) {
-    m_Player->SetVisible(visible);
+    m_PlayerImage->SetVisible(visible);
 }
 
 void FightMainUI::SetPlayerHPUIVisible(bool visible) {
@@ -155,13 +157,13 @@ void FightMainUI::ZoomPlayerImage() {
 }
 
 void FightMainUI::ReSetWildPosition() {
-    m_Player->SetPosition({630, -10});
+    m_PlayerImage->SetPosition({630, -10});
     m_EnemyPokemonImage->SetPosition({-630, 230});
 }
 
 bool FightMainUI::BeginMoving() {
-    if (m_Player->GetPosition().x != -210) {
-        m_Player->Move({-15, 0});
+    if (m_PlayerImage->GetPosition().x != -210) {
+        m_PlayerImage->Move({-15, 0});
         m_EnemyPokemonImage->Move({15, 0});
         return false;
     }
@@ -169,56 +171,68 @@ bool FightMainUI::BeginMoving() {
 }
 
 bool FightMainUI::EndMoving() {
-    if (m_Player->GetPosition().x != -750) {
-        m_Player->Move({-15, 0});
+    if (m_PlayerImage->GetPosition().x != -750) {
+        m_PlayerImage->Move({-15, 0});
         return false;
     }
     return true;
 }
 
-void FightMainUI::SetEnemyPokeImage(const std::string &Path) {
-    m_EnemyPokemonImage->SetImage(Path);
+void FightMainUI::SetEnemyPokeImage(int EnemyIndex) {
+    m_EnemyPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +
+                                  m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetID() + ".png");
 }
 
-void FightMainUI::SetPlayerPokeImage(const std::string &Path) {
-    m_PlayerPokemonImage->SetImage(Path);
+void FightMainUI::SetPlayerPokeImage(int PlayerIndex) {
+    m_PlayerPokemonImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonback" +
+                                   m_Player->GetPokemonBag()->GetPokemons()[PlayerIndex]->GetID() + ".png");
 }
 
-void FightMainUI::SetBallsImage(const std::string &Path) {
-    m_PlayerBalls->SetImage(Path);
+void FightMainUI::SetBallsImage() {
+    m_PlayerBalls->SetImage(
+            RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(m_Player->GetPokemonBag()->size()) + ".png");
 }
 
 void FightMainUI::ReSetBallAnimation() {
     m_BallAnimation->SetCurrentFrame(0);
 }
 
-void FightMainUI::SetTextHP(const std::string &str) {
-    m_PlayerHP->SetText(str);
+void FightMainUI::SetTextHP(int PokeIndex) {
+    int CurrentHP = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetCurrentHP();
+    int HP = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetHP();
+    m_PlayerHP->SetText(std::to_string(CurrentHP) + " / " + std::to_string(HP));
 }
 
-void FightMainUI::SetTextPlayerPokeName(const std::string &str) {
-    m_PlayerPokeName->SetText(str);
+void FightMainUI::SetTextPlayerPokeName(int PokeIndex) {
+    std::string PokeName = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetName();
+    std::string LV = std::to_string(m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetLV());
+    m_PlayerPokeName->SetText(PokeName + " LV:" + LV);
 }
 
-void FightMainUI::SetTextEnemyPokeName(const std::string &str) {
-    m_EnemyPokeName->SetText(str);
+void FightMainUI::SetTextEnemyPokeName(int PokeIndex) {
+    std::string PokeName = m_Enemy->GetPokemonBag()->GetPokemons()[PokeIndex]->GetName();
+    std::string LV = std::to_string(m_Enemy->GetPokemonBag()->GetPokemons()[PokeIndex]->GetLV());
+    m_EnemyPokeName->SetText(PokeName + " LV:" + LV);
 }
 
-void FightMainUI::SetPlayerHPScale(const glm::vec2 &scale) {
-    if (m_PlayerHPImage->GetScale().x>scale.x){
-        m_PlayerHPImage->SetScale({m_PlayerHPImage->GetScale().x-0.01,1});
-    }else{
-        m_PlayerHPImage->SetScale(scale);
+void FightMainUI::SetPlayerHPScale(int PokeIndex) {
+    int CurrentHP = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetCurrentHP();
+    int HP = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetHP();
+    float X = (1.0 * CurrentHP / HP);
+    if (X < 0) {
+        X = 0;
     }
-
+    m_PlayerHPImage->SetScale({X, 1});
 }
 
-void FightMainUI::SetEnemyHPScale(const glm::vec2 &scale) {
-    if (m_EnemyHPImage->GetScale().x>scale.x){
-        m_EnemyHPImage->SetScale({m_EnemyHPImage->GetScale().x-0.01,1});
-    }else{
-        m_EnemyHPImage->SetScale(scale);
+void FightMainUI::SetEnemyHPScale(int PokeIndex) {
+    int CurrentHP = m_Enemy->GetPokemonBag()->GetPokemons()[PokeIndex]->GetCurrentHP();
+    int HP = m_Enemy->GetPokemonBag()->GetPokemons()[PokeIndex]->GetHP();
+    float X = (1.0 * CurrentHP / HP);
+    if (X < 0) {
+        X = 0;
     }
+    m_EnemyHPImage->SetScale({X, 1});
 }
 
 void FightMainUI::DetectBlood() {
@@ -262,5 +276,4 @@ std::string FightMainUI::GetDecision() {
     } else if (m_Arrow->GetPosition().x == 135 && m_Arrow->GetPosition().y == -300) {
         return "Run";
     }
-    return "";
 }
