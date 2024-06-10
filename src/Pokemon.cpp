@@ -527,3 +527,34 @@ void Pokemon::GainBasePoints(int Point) {
     m_SpecialBP += Point;
     m_SpeedBP += Point;
 }
+
+void Pokemon::SetSkillByName(const std::vector<std::string>& SkillName) {
+    std::string Move;
+    std::vector<std::vector<std::string>> AllSkills;
+    for (const auto& Name:SkillName){
+        std::ifstream FileOfMove(RESOURCE_DIR"/Pokemon/Move.txt");
+        while (std::getline(FileOfMove, Move)) {
+            if (Move.find(Name) != std::string::npos) {
+                std::vector<std::string> tokens;
+                std::stringstream ss(Move);
+                std::string token;
+                while (std::getline(ss, token, ' ')) {
+                    tokens.push_back(token);
+                }
+                AllSkills.push_back(tokens);
+                break;
+            }
+        }
+        FileOfMove.close();
+    }
+    ReSetSkills();
+    for (auto Skill: AllSkills) {
+        m_Skills.push_back(Skill[0]);
+        m_SkillTypes.push_back(Skill[1]);
+        m_SkillClass.push_back(Skill[2]);
+        m_SkillDamage.push_back(Skill[3]);
+        m_SkillHitRates.push_back(Skill[4]);
+        m_SkillPPs.push_back(Skill[5]);
+        m_CurrentSkillPPs.push_back(Skill[5]);
+    }
+}

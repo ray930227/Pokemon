@@ -85,6 +85,7 @@ public:
         OBTAINSKILL,
         REPLACESKILL,
         WILDFINISH,
+        NPCCHANGE,
         UPDATEINFO,
         NONE
     };
@@ -147,17 +148,16 @@ private:
     std::shared_ptr<Character> NPC_Oak;
     std::shared_ptr<TextBox> tempBox;
     glm::vec2 Displacement = {0, 0};
-    int PlayerSkillChoose;
-    int EnemySkillChoose=0;
+    int PlayerSkillChoose = 0;
+    int EnemySkillChoose = 0;
     bool IsPlayerRound;
     int DisplacementCount;
     int m_PreviousPlayerPokemon = 0;
     int m_CurrentPlayerPokemon = 0;
+    int m_CurrentNPCPokemon = 0;
     int ButtonTrigger = 0;
     int FightCounter = 0;
     int Timer = 0;
-    bool IsAllEnemyDead = false;
-    bool IsAllPlayerDead = false;
     bool IsChangePokemon = false;
     std::pair<bool, int> m_Experience;
     bool encounterable = true;

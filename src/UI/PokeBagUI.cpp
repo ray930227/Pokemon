@@ -106,14 +106,6 @@ PokeBagUI::PokeBagUI(const std::shared_ptr<Character> &Player) {
     m_PokemonHPImage->SetVisible(false);
     m_PokemonHPImage->SetZIndex(61);
     m_PokemonHPImage->SetPosition({82, 245});
-
-    for(auto &i:Player->GetPokemonBag()->GetPokemons()){
-        if(i->IsPokemonDying()){
-            m_CurrentPokemon++;
-        } else{
-            break;
-        }
-    }
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> PokeBagUI::GetChildren() const {
@@ -249,9 +241,10 @@ void PokeBagUI::Run(unsigned int mode) {
             }
         } else if (mode == 1) {
             if (ChoosePokemon()) {
-                if (m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetCurrentHP() == 0) {
+                if (m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->IsPokemonDying()) {
                     m_TB->SetVisible(true);
-                    m_TB->SetText("這隻神奇寶貝已昏厥，無法上場!");
+                    m_TB->SetText(
+                            m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName() + "已昏厥，無法上場!");
                 } else {
                     SetVisible(false);
                 }
@@ -278,6 +271,18 @@ bool PokeBagUI::GetVisible() {
 
 int PokeBagUI::GetDecision() {
     return (int) (m_Arrow[0]->GetPosition().y - 300) / (-80);
+}
+
+void PokeBagUI::ReSetCurrentPokemon() {
+    m_CurrentPokemon = 0;
+    for (auto &i: m_Player->GetPokemonBag()->GetPokemons()) {
+        if (i->IsPokemonDying()) {
+            m_CurrentPokemon++;
+        } else {
+            break;
+        }
+    }
+    m_Arrow[1]->SetPosition({150, 240});
 }
 
 void PokeBagUI::Updata() {
@@ -324,11 +329,14 @@ void PokeBagUI::Action(unsigned mode) {
     if (m_Arrow[1]->GetPosition().y == 240) {
         m_Arrow[1]->SetVisible(false);
         if (mode == 2) {
-            if(GetDecision()==m_CurrentPokemon){
-                m_TB->SetText("這隻神奇寶貝已經在場上!!!");
+            if (m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->IsPokemonDying()) {
+                m_TB->SetText(m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName() + "已昏厥，無法上場!");
                 m_TB->SetVisible(true);
-            } else{
-                m_CurrentPokemon=GetDecision();
+            } else if (GetDecision() == m_CurrentPokemon) {
+                m_TB->SetText(m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName()+"已經在場上!");
+                m_TB->SetVisible(true);
+            } else {
+                m_CurrentPokemon = GetDecision();
                 SetVisible(false);
             }
         } else {
