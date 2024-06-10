@@ -233,7 +233,7 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
         //region
         if (m_TB->GetVisibility()) {
-            if (m_TFBox->GetVisibility()) {
+            if (m_TFBox->GetVisible()) {
                 if (m_TFBox->Choose()) {
                     m_TFBox->SetVisible(false);
                     if (m_TFBox->GetTF()) {
@@ -264,13 +264,13 @@ void App::Event() {
                         break;
                     }
                 }
-                if (m_TFBox->GetVisibility()) break;
+                if (m_TFBox->GetVisible()) break;
             }
         }
         //endregion
     } else if (m_CurrentEvent == EventID::BALL) {
         //region
-        if (m_TFBox->GetVisibility()) {
+        if (m_TFBox->GetVisible()) {
             if (m_TFBox->Choose()) {
                 m_TFBox->SetVisible(false);
                 m_TB->SetVisible(false);

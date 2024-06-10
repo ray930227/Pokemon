@@ -10,7 +10,7 @@ private:
 public:
     Image(const std::string &ImagePath);
 
-    [[nodiscard]] bool GetVisibility() const;
+    [[nodiscard]] bool GetVisible() const;
 
     [[nodiscard]] const glm::vec2 &GetPosition() const;
 

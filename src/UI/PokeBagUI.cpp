@@ -190,7 +190,7 @@ void PokeBagUI::Run(unsigned int mode) {
                 }
                 break;
         }
-    } else if (m_StatusBG->GetVisibility()) {
+    } else if (m_StatusBG->GetVisible()) {
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             if (m_Texts["Attack"]->GetVisible()) {
                 m_StatusBG->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/StatusBG2.png"));
@@ -219,11 +219,11 @@ void PokeBagUI::Run(unsigned int mode) {
                 }
             }
         }
-    } else if (m_ChooseBG[mode - 2]->GetVisibility()) {
+    } else if (m_ChooseBG[mode - 2]->GetVisible()) {
         if (ChooseAction()) {
             Action(mode);
         }
-    } else if (m_Arrow[1]->GetVisibility()) {
+    } else if (m_Arrow[1]->GetVisible()) {
         if (ChoosePokemon()) {
             auto PokemonBag = m_Player->GetPokemonBag();
             auto Pokemons = PokemonBag->GetPokemons();
@@ -265,7 +265,7 @@ void PokeBagUI::Run(unsigned int mode) {
 }
 
 bool PokeBagUI::GetVisible() {
-    return m_PokeBagBG->GetVisibility();
+    return m_PokeBagBG->GetVisible();
 }
 
 int PokeBagUI::GetDecision() {

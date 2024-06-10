@@ -9,8 +9,8 @@ TFBox::TFBox() {
     SetPosition({247.5, -27});
 }
 
-bool TFBox::GetVisibility() const {
-    return m_Box->GetVisibility();
+bool TFBox::GetVisible() const {
+    return m_Box->GetVisible();
 }
 
 const glm::vec2 &TFBox::GetPosition() const {

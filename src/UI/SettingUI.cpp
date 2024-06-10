@@ -84,7 +84,7 @@ std::vector<std::shared_ptr<Util::GameObject>> SettingUI::GetChildren() {
 }
 
 bool SettingUI::GetVisibile() {
-    return m_SettingBG->GetVisibility();
+    return m_SettingBG->GetVisible();
 }
 
 void SettingUI::SetVisibile(bool Visibile) {

@@ -67,7 +67,7 @@ void ComputerUI::Start() {
 }
 
 void ComputerUI::Run() {
-    if(m_TFBox->GetVisibility()){
+    if(m_TFBox->GetVisible()){
         if(m_TFBox->Choose()){
             if(m_TFBox->GetTF()){
                 Action();
@@ -80,7 +80,7 @@ void ComputerUI::Run() {
         if(Util::Input::IsKeyDown(Util::Keycode::Z)){
             m_TB->SetText("要做甚麼?");
         }
-    } else if(m_ComputerInsideBG->GetVisibility()){
+    } else if(m_ComputerInsideBG->GetVisible()){
         ChoosePokemon();
     } else{
         ChooseAction();
@@ -88,7 +88,7 @@ void ComputerUI::Run() {
 }
 
 bool ComputerUI::GetVisibile() {
-    return m_ComputerBG->GetVisibility();
+    return m_ComputerBG->GetVisible();
 }
 
 void ComputerUI::ChooseAction() {
