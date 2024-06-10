@@ -30,6 +30,7 @@
 #include "Util/BGM.hpp"
 #include "Core/Context.hpp"
 #include "SFXSystem.hpp"
+#include <cmath>
 
 class App {
 public:

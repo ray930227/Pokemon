@@ -86,17 +86,18 @@ void ItemUI::SetVisible(bool Visibile) {
 void ItemUI::Updata() {
     auto ItemBag=m_Player->GetItemBag();
 
-    for(auto &i:m_useItem){
+    for(int i=0;i<256;i++){
         int Quantity=ItemBag->GetItemQuantity(i);
+        std::string ItemName=ItemBag->GetItemName(i);
         if(Quantity>0){
             bool check=false;
             for(auto &j:m_Items){
-                if(j.first==i){
+                if(j.first==ItemName){
                     j.second=Quantity;
                     check=true;
                 }
             }
-            if(!check) m_Items.push_back({i,Quantity});
+            if(!check) m_Items.push_back({ItemName,Quantity});
         }
 
     }
@@ -135,7 +136,20 @@ void ItemUI::ChooseItem() {
 
     if(Util::Input::IsKeyDown(Util::Keycode::Z)){
         SetVisible(false);
-        m_PokeBagUI->SetVisible(true);
+        size_t index=m_RowTopIndex+3-(m_Arrow->GetPosition().y-2)/96;
+        int id=m_Player->GetItemBag()->GetItemID(m_Items[index].first);
+        if((id>=16 && id<=20) || id>=196){
+            m_PokeBagUI->SetVisible(true);
+        } else {
+            if (id <= 4) {
+                m_TB->SetText("捕捉球只能在戰鬥中使用");
+            } else{
+                m_TB->SetText("該道具無法使用");
+            }
+            m_TB->SetVisible(true);
+            SetVisible(true);
+        }
+
     }
 
     if(Util::Input::IsKeyDown(Util::Keycode::X)){
@@ -174,6 +188,15 @@ void ItemUI::Action(unsigned mode) {
         }
         m_TB->SetVisible(true);
         m_PokeBagUI->SetVisible(true);
+    } else if(id==234){
+        auto skills=tempPokemon->GetSkill();
+        if(skills.size()==4){
+            m_TB->SetText("該寶貝已經擁有4個技能\n請選擇一個做取代");
+            m_TB->SetVisible(true);
+            m_PokeBagUI->SetVisible(true);
+        } else{
+
+        }
     }
 }
 
