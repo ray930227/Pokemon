@@ -68,8 +68,10 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
-        m_CurrentEvent = EventID::COMPUTER;
+        m_CurrentEvent = EventID::SHOP;
         m_CurrentState = State::EVENT;
+        Player->GetItemBag()->AddItemQuantity("招式學習器３４（忍耐）",1);
+        Player->GetItemBag()->AddItemQuantity("灰色徽章",1);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::F)) {

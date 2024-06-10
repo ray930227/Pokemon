@@ -86,6 +86,32 @@ std::string &MapSystem::GetCurrnetMap() {
     return m_CurrentMapName;
 }
 
+int MapSystem::GetCurrentArea() {
+    auto currentMap=GetCurrnetMap();
+    SetMap("MainMap");
+    auto PlayerPosition=GetPlayerPosition();
+    SetMap(currentMap);
+    std::ifstream file(RESOURCE_DIR"/Map/MainMap/area.txt", std::ios::in);
+    std::string tempStr;
+    int count=0;
+    while (std::getline(file, tempStr)) {
+        if(count==PlayerPosition.x){
+            for (size_t i = 0; i < tempStr.size(); i += 2) {
+                if(i/2==PlayerPosition.y){
+                    file.close();
+                    return tempStr[i] - '0';
+                }
+            }
+        }else if(count<PlayerPosition.y){
+            count++;
+        } else{
+            break;
+        }
+    }
+    file.close();
+    return -1;
+}
+
 void MapSystem::SetImage(const std::string &ImagePath) {
     m_Maps[m_CurrentMapName].m_BackGround->SetImage(ImagePath);
 }

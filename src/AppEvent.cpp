@@ -531,7 +531,64 @@ void App::Event() {
             m_SettingUI->Start();
         }
         //endregion
-
+    } else if(m_CurrentEvent==EventID::NPC_END) {
+        if(m_TB->GetVisibility()){
+            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+                m_TB->Next();
+                if(!m_TB->GetVisibility()){
+                    m_CurrentState=State::UPDATE;
+                    m_CurrentEvent=EventID::NONE;
+                }
+            }
+        } else if (currnetMap == "GYM1") {
+            if (TargetPosition.x == 2 && TargetPosition.y == 7) {
+                m_TB->Reload();
+                m_TB->AddText("你戰勝了我!!!");
+                m_TB->AddText("給你神奇寶貝聯盟認證的灰色徽章");
+                m_TB->AddText("還有這個，給你");
+                m_TB->AddText("獲得了招式學習器３４（忍耐）");
+                m_TB->AddText("使用忍耐後，在２回合內忍受攻擊");
+                m_TB->AddText("受到的傷害會２倍返還給對手。");
+                m_TB->AddText("招式學習器只能給一個神奇寶貝學");
+                m_TB->AddText("所以要冷靜選擇，做出最好的選擇");
+                m_TB->SetVisible(true);
+                Player->GetItemBag()->AddItemQuantity("招式學習器３４（忍耐）",1);
+                Player->GetItemBag()->AddItemQuantity("灰色徽章",1);
+            } else {
+                LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
+                Enemy = nullptr;
+                m_TB->Reload();
+                m_TB->SetText("NPC has not implement");
+            }
+            m_TB->SetVisible(true);
+        } else {
+            LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
+            m_TB->Reload();
+            m_TB->SetText("NPC has not implement");
+            m_TB->SetVisible(true);
+        }
+    } else if(m_CurrentEvent==EventID::ALL_POKEMON_DIE){
+        //region
+        int temp=m_MapSystem->GetCurrentArea();
+        m_MapSystem->SetMap("MainMap");
+        auto Position=m_MapSystem->GetPlayerPosition();
+        double distance1=sqrt(pow(Position.x-84,2)+pow(Position.y-65,2));
+        double distance2=sqrt(pow(Position.x-32,2)+pow(Position.y-73,2));
+        double distance3=sqrt(pow(Position.x-30,2)+pow(Position.y-23,2));
+        if(distance1<distance2 && distance1<distance3){
+            m_MapSystem->SetPosition({-1224,2592});
+        } else if(distance2<distance1 && distance2<distance3){
+            m_MapSystem->SetPosition({-1800,-1152});
+        } else{
+            m_MapSystem->SetPosition({1800,-1296});
+        }
+        Player->SetCurrentImagePath(1);
+        for(auto &i:Player->GetPokemonBag()->GetPokemons()){
+            i->SetCurrentHP(i->GetHP());
+        }
+        m_CurrentEvent=EventID::NONE;
+        m_CurrentState=State::UPDATE;
+        //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
     }
