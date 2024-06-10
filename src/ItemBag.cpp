@@ -47,7 +47,6 @@ int ItemBag::GetItemQuantity(const std::string &name) {
     for (auto &i: m_Items) {
         if (i.first == name) {
             return i.second;
-            break;
         }
     }
     return -1;

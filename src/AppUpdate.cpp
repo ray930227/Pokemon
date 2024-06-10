@@ -68,7 +68,7 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
-        m_CurrentEvent = EventID::SHOP;
+        m_CurrentEvent = EventID::COMPUTER;
         m_CurrentState = State::EVENT;
     }
 

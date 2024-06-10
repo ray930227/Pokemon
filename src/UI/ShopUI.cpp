@@ -77,9 +77,9 @@ void ShopUI::Start() {
 }
 
 void ShopUI::Run() {
-    if (m_TFBox->GetVisibility()) {
+    if (m_TFBox->GetVisible()) {
         if (m_TFBox->Choose()) {
-            m_TFBox->SetVisibility(false);
+            m_TFBox->SetVisible(false);
             if (m_TFBox->GetTF()) {
                 if (m_Arrows[0]->GetPosition().y == 300) {
                     Buy();
@@ -97,8 +97,8 @@ void ShopUI::Run() {
         if (m_TextBox->GetVisibility()) {
             m_TextBox->SetVisible(false);
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
-        } else if (m_ShopAmountBG->GetVisibility()) {
-            m_TFBox->SetVisibility(true);
+        } else if (m_ShopAmountBG->GetVisible()) {
+            m_TFBox->SetVisible(true);
             m_TextBox->SetVisible(true);
             if (m_Arrows[0]->GetPosition().y == 300) {
                 m_TextBox->SetText("這樣總共是" + std::to_string(
@@ -106,7 +106,7 @@ void ShopUI::Run() {
                                    "元，您要購買嗎?");
             } else {
                 if (m_SellList.size() == 0) {
-                    m_TFBox->SetVisibility(false);
+                    m_TFBox->SetVisible(false);
                     m_TextBox->SetVisible(false);
                     m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
                 } else {
@@ -115,7 +115,7 @@ void ShopUI::Run() {
                                        "元，您要售出嗎?");
                 }
             }
-        } else if (m_ShopInsideBG->GetVisibility()) {
+        } else if (m_ShopInsideBG->GetVisible()) {
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/WhiteArrow.png");
             m_ShopAmountBG->SetVisible(true);
             m_AmountText->SetVisible(true);
@@ -139,12 +139,12 @@ void ShopUI::Run() {
             }
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::X)) {
-        if (m_ShopAmountBG->GetVisibility()) {
+        if (m_ShopAmountBG->GetVisible()) {
             m_ShopAmountBG->SetVisible(false);
             m_AmountText->SetVisible(false);
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
         } else if (!m_TextBox->GetVisibility()) {
-            if (m_ShopInsideBG->GetVisibility()) {
+            if (m_ShopInsideBG->GetVisible()) {
                 m_ShopInsideBG->SetVisible(false);
                 for (int i = 0; i < 4; i++)
                     m_ItemRow[i].first->SetVisible(false);
@@ -157,11 +157,11 @@ void ShopUI::Run() {
             }
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::UP)) {
-        if (m_ShopAmountBG->GetVisibility()) {
+        if (m_ShopAmountBG->GetVisible()) {
             if (m_Amount < 99) {
                 m_Amount++;
             }
-        } else if (m_ShopInsideBG->GetVisibility()) {
+        } else if (m_ShopInsideBG->GetVisible()) {
             auto p = m_Arrows[1]->GetPosition();
             if (p.y != 180) {
                 m_Arrows[1]->SetPosition({p.x, p.y + 90});
@@ -173,11 +173,11 @@ void ShopUI::Run() {
             m_Arrows[0]->SetPosition({p.x, p.y + 75});
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-        if (m_ShopAmountBG->GetVisibility()) {
+        if (m_ShopAmountBG->GetVisible()) {
             if (m_Amount > 1) {
                 m_Amount--;
             }
-        } else if (m_ShopInsideBG->GetVisibility()) {
+        } else if (m_ShopInsideBG->GetVisible()) {
             auto p = m_Arrows[1]->GetPosition();
             if (p.y != -90 && m_ItemRow[(180 - p.y) / 90 + 1].first->GetText() != " ") {
                 m_Arrows[1]->SetPosition({p.x, p.y - 90});
@@ -192,11 +192,11 @@ void ShopUI::Run() {
         }
     }
 
-    if (m_ShopInsideBG->GetVisibility()) {
+    if (m_ShopInsideBG->GetVisible()) {
         ShopInsideBG_Update();
     }
 
-    if (m_ShopAmountBG->GetVisibility()) {
+    if (m_ShopAmountBG->GetVisible()) {
         ShopAmountBG_Update();
     }
 
@@ -227,7 +227,7 @@ std::vector<std::shared_ptr<Util::GameObject>> ShopUI::GetChildren() {
 }
 
 bool ShopUI::GetVisibile() {
-    return m_ShopBG->GetVisibility();
+    return m_ShopBG->GetVisible();
 }
 
 void ShopUI::ShopInsideBG_Update() {

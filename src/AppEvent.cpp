@@ -233,9 +233,9 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
         //region
         if (m_TB->GetVisibility()) {
-            if (m_TFBox->GetVisibility()) {
+            if (m_TFBox->GetVisible()) {
                 if (m_TFBox->Choose()) {
-                    m_TFBox->SetVisibility(false);
+                    m_TFBox->SetVisible(false);
                     if (m_TFBox->GetTF()) {
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetTraversable(true);
@@ -260,19 +260,19 @@ void App::Event() {
                 for (auto &j: i->GetSkill()) {
                     if (j == "居合斬") {
                         m_TB->SetText("是否要破壞小樹叢?");
-                        m_TFBox->SetVisibility(true);
+                        m_TFBox->SetVisible(true);
                         break;
                     }
                 }
-                if (m_TFBox->GetVisibility()) break;
+                if (m_TFBox->GetVisible()) break;
             }
         }
         //endregion
     } else if (m_CurrentEvent == EventID::BALL) {
         //region
-        if (m_TFBox->GetVisibility()) {
+        if (m_TFBox->GetVisible()) {
             if (m_TFBox->Choose()) {
-                m_TFBox->SetVisibility(false);
+                m_TFBox->SetVisible(false);
                 m_TB->SetVisible(false);
                 if (m_TFBox->GetTF()) {
                     if (currnetMap == "OakLab") {
@@ -319,7 +319,7 @@ void App::Event() {
         } else {
             if (currnetMap == "OakLab") {
                 if (Player->GetPokemonBag()->size() == 0) {
-                    m_TFBox->SetVisibility(true);
+                    m_TFBox->SetVisible(true);
                     m_TB->SetVisible(true);
                     if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                         m_TB->SetText("是否要選擇小火龍");
@@ -501,7 +501,17 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::COMPUTER) {
-
+        //region
+        if (m_ComputerUI->GetVisibile()) {
+            m_ComputerUI->Run();
+            if (!m_ComputerUI->GetVisibile()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else {
+            m_ComputerUI->Start();
+        }
+        //endregion
     } else if (m_CurrentEvent == EventID::HEAL) {
         //region
         m_SFX->Play("HealPokemon");
