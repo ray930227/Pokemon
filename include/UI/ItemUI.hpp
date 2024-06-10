@@ -15,10 +15,6 @@ private:
     std::shared_ptr<TextBox> m_TB;
     int m_RowTopIndex;
     std::vector<std::pair<std::string, int>> m_Items;
-    std::vector<std::string> m_useItem = {"精靈球", "超級球", "高級球", "傷藥", "好傷藥",
-                                          "厲害傷藥", "全滿藥", "全複藥", "解毒藥",
-                                          "灼傷藥", "解凍藥", "解眠藥", "解麻藥"};
-
 public:
     ItemUI(const std::shared_ptr<Character> &Player);
 

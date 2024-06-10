@@ -68,8 +68,10 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
-        m_CurrentEvent = EventID::COMPUTER;
+        m_CurrentEvent = EventID::SHOP;
         m_CurrentState = State::EVENT;
+        Player->GetItemBag()->AddItemQuantity("招式學習器３４（忍耐）",1);
+        Player->GetItemBag()->AddItemQuantity("灰色徽章",1);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::F)) {
@@ -87,7 +89,7 @@ void App::Update() {
         ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
         std::string StringID = ToString.str();
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
-        FirstPokemon->SetLevel(5);
+        FirstPokemon->SetLevel(30);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 
