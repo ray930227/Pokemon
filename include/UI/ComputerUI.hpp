@@ -29,6 +29,8 @@ public:
     std::vector<std::shared_ptr<Util::GameObject>> GetChildren();
 
     bool GetVisibile();
+
+    void Keep(const std::shared_ptr<Pokemon>& Poke);
 protected:
     void ChooseAction();
 
