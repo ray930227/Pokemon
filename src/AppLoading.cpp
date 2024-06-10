@@ -4,16 +4,23 @@ void App::Loading() {
     switch (m_CurrentLoading) {
         //region INIT
         case LoadingID::INIT:
-            m_CurrentPlayerPokemon = 0;
+            for (size_t i=0; i < Player->GetPokemonBag()->size(); i++) {
+                if (!Player->GetPokemonBag()->GetPokemons()[i]->IsPokemonDying()) {
+                    m_CurrentPlayerPokemon = i;
+                    break;
+                }
+            }
+            IsChangePokemon = false;
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
             m_LoadingUI->RandomMode();
             m_FightMainUI->ReSetWildPosition();
             m_FightSkillUI->ReSetArrow();
+            m_PokeBagUI->ReSetCurrentPokemon();
             m_CurrentLoading = LoadingID::LOADING;
             break;
-        //endregion
-        //region LOADING
+            //endregion
+            //region LOADING
         case LoadingID::LOADING:
             if (m_LoadingUI->GetVisibility()) {
                 m_LoadingUI->StartLoading();
@@ -33,8 +40,8 @@ void App::Loading() {
                 }
             }
             break;
-        //endregion
-        //region TEXT
+            //endregion
+            //region TEXT
         case LoadingID::TEXT:
             switch (m_LoadingUI->GetCurrentIndex()) {
                 case 2:
@@ -87,7 +94,7 @@ void App::Loading() {
                 m_CurrentState = State::FIGHT;
             }
             break;
-        //endregion
+            //endregion
         case LoadingID::NONE:
             break;
     }

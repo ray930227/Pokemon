@@ -133,6 +133,8 @@ public:
     bool IsSkillLearnable(std::string CDofID);
 
     void GainBasePoints(int Point);
+
+    void SetSkillByName(const std::vector<std::string>& SkillName);
 };
 
 #endif //POKEMON_POKEMON_HPP

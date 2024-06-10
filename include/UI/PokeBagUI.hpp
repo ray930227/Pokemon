@@ -51,6 +51,7 @@ public:
 
     int GetDecision();
 
+    void ReSetCurrentPokemon();
 protected:
     void Updata();
 
