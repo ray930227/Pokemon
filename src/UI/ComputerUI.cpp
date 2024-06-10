@@ -91,6 +91,10 @@ bool ComputerUI::GetVisibile() {
     return m_ComputerBG->GetVisible();
 }
 
+void ComputerUI::Keep(const std::shared_ptr<Pokemon>& Poke) {
+    m_ComputerPokemons.push_back(Poke);
+}
+
 void ComputerUI::ChooseAction() {
     if(Util::Input::IsKeyDown(Util::Keycode::UP)){
         if(m_Arrows[0]->GetPosition().y==290)

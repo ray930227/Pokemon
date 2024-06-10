@@ -24,6 +24,8 @@ public:
     int GetItemQuantity(const std::string &name);
 
     std::string GetItemName(size_t ID);
+
+    int GetItemID(const std::string &name);
 };
 
 #endif //POKEMON_ITEMBAG_HPP
