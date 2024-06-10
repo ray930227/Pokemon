@@ -23,7 +23,7 @@ private:
     std::vector<int> m_SellMoneyList;
     std::shared_ptr<Text> m_Money;
     size_t m_RowTopIndex = 0;
-    int m_Amount=1;
+    int m_Amount = 1;
     std::shared_ptr<Image> m_ShopAmountBG;
     std::shared_ptr<Text> m_AmountText;
 public:
@@ -36,6 +36,7 @@ public:
     std::vector<std::shared_ptr<Util::GameObject>> GetChildren();
 
     bool GetVisibile();
+
 protected:
     void ShopInsideBG_Update();
 

@@ -25,9 +25,9 @@ private:
     std::shared_ptr<Text> m_EnemyPokeName;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
-    int Counter=0;
+    int Counter = 0;
 public:
-    FightMainUI(const std::shared_ptr<Character> &Player,const std::shared_ptr<Character> &Enemy);
+    FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
 

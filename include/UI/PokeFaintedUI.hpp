@@ -3,7 +3,8 @@
 
 #include "TextBox.hpp"
 #include "TFBox.hpp"
-class PokeFaintedUI{
+
+class PokeFaintedUI {
 private:
     std::shared_ptr<TextBox> m_TextBox;
     std::shared_ptr<TFBox> m_TFBox;
@@ -14,7 +15,7 @@ public:
 
     void SetVisible(bool visible);
 
-    void SetText(const std::string& PokeName);
+    void SetText(const std::string &PokeName);
 
     void SetTextBoxVisible(bool visible);
 
@@ -30,4 +31,5 @@ public:
 
     [[nodiscard]] bool GetVisibility() const;
 };
+
 #endif //POKEMON_POKEFAINTEDUI_HPP

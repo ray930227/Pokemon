@@ -49,10 +49,12 @@ add_executable(${PROJECT_NAME}
     include/UI/PokeFaintedUI.hpp
     include/UI/SettingUI.hpp
     src/UI/SettingUI.cpp
-        include/UI/FightSystemUI.hpp
-        src/UI/FightSystem.cpp
+    include/UI/FightSystemUI.hpp
+    src/UI/FightSystem.cpp
     include/UI/ComputerUI.hpp
     src/UI/ComputerUI.cpp
+    include/UI/ItemUI.hpp
+    src/UI/ItemUI.cpp
 )
 
 if(MSVC)

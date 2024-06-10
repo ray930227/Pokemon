@@ -33,13 +33,13 @@ public:
 
     void SetPokePack();
 
-    void SetFinish(const std::string &Winner,const std::string &Loser);
+    void SetFinish(const std::string &Winner, const std::string &Loser);
 
-    void SetGainEXP(const std::string &PokeName,int EXP);
+    void SetGainEXP(const std::string &PokeName, int EXP);
 
     void SetRun();
 
-    void SetLevelUP(const std::string &PokeName,int NewLV);
+    void SetLevelUP(const std::string &PokeName, int NewLV);
 
     void SetChangePoke(const std::string &OldPokeName, const std::string &NewPokeName);
 
@@ -62,6 +62,7 @@ public:
     [[nodiscard]] bool GetChangePokeVisibility() const;
 
     [[nodiscard]] bool GetChangeFailVisibility() const;
+
     void Next();
 };
 

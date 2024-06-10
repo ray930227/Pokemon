@@ -8,7 +8,7 @@
 #include "Character.hpp"
 #include "Util/Input.hpp"
 
-class ComputerUI{
+class ComputerUI {
 private:
     std::shared_ptr<Image> m_ComputerBG;
     std::shared_ptr<Image> m_ComputerInsideBG;
@@ -20,7 +20,7 @@ private:
     std::shared_ptr<TFBox> m_TFBox;
     int m_RowTopIndex;
 public:
-    ComputerUI(const std::shared_ptr<Character>& Player);
+    ComputerUI(const std::shared_ptr<Character> &Player);
 
     void Start();
 
@@ -29,6 +29,9 @@ public:
     std::vector<std::shared_ptr<Util::GameObject>> GetChildren();
 
     bool GetVisibile();
+
+    void Keep(const std::shared_ptr<Pokemon> &Poke);
+
 protected:
     void ChooseAction();
 

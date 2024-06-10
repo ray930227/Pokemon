@@ -24,9 +24,10 @@ private:
     std::shared_ptr<Image> m_StatusBG;
     std::shared_ptr<Image> m_PokemonImage;
     std::shared_ptr<Image> m_PokemonHPImage;
-    std::map<std::string,std::shared_ptr<Text>> m_Texts;
+    std::map<std::string, std::shared_ptr<Text>> m_Texts;
+    size_t m_CurrentPokemon=0;
 public:
-    PokeBagUI(const std::shared_ptr<Character>& Player);
+    PokeBagUI(const std::shared_ptr<Character> &Player);
 
     [[nodiscard]] std::vector<std::shared_ptr<Util::GameObject>> GetChildren() const;
 
@@ -49,6 +50,7 @@ public:
     bool GetVisible();
 
     int GetDecision();
+
 protected:
     void Updata();
 
