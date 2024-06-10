@@ -146,7 +146,7 @@ void App::Event() {
         //region
         if (encounterable && rand() % 100 < 20) {
             isWildPokemon = true;
-            Enemy = std::make_shared<Character>();
+            Enemy->GetPokemonBag()->SetPokemons({});
             std::vector<int> tempID = {13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43,
                                        45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76,
                                        77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
@@ -162,7 +162,7 @@ void App::Event() {
                 average += i->GetLV();
             temp->SetLevel(average / Player->GetPokemonBag()->GetPokemons().size());
             Enemy->GetPokemonBag()->addPomekon(temp);
-            m_CurrentLoading = LoadingID::INTO;
+            m_CurrentLoading = LoadingID::INIT;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;
 
@@ -233,9 +233,9 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::WEEKTREE) {
         //region
         if (m_TB->GetVisibility()) {
-            if (m_TFBox->GetVisibility()) {
+            if (m_TFBox->GetVisible()) {
                 if (m_TFBox->Choose()) {
-                    m_TFBox->SetVisibility(false);
+                    m_TFBox->SetVisible(false);
                     if (m_TFBox->GetTF()) {
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]->SetTraversable(true);
@@ -260,19 +260,19 @@ void App::Event() {
                 for (auto &j: i->GetSkill()) {
                     if (j == "居合斬") {
                         m_TB->SetText("是否要破壞小樹叢?");
-                        m_TFBox->SetVisibility(true);
+                        m_TFBox->SetVisible(true);
                         break;
                     }
                 }
-                if (m_TFBox->GetVisibility()) break;
+                if (m_TFBox->GetVisible()) break;
             }
         }
         //endregion
     } else if (m_CurrentEvent == EventID::BALL) {
         //region
-        if (m_TFBox->GetVisibility()) {
+        if (m_TFBox->GetVisible()) {
             if (m_TFBox->Choose()) {
-                m_TFBox->SetVisibility(false);
+                m_TFBox->SetVisible(false);
                 m_TB->SetVisible(false);
                 if (m_TFBox->GetTF()) {
                     if (currnetMap == "OakLab") {
@@ -319,7 +319,7 @@ void App::Event() {
         } else {
             if (currnetMap == "OakLab") {
                 if (Player->GetPokemonBag()->size() == 0) {
-                    m_TFBox->SetVisibility(true);
+                    m_TFBox->SetVisible(true);
                     m_TB->SetVisible(true);
                     if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                         m_TB->SetText("是否要選擇小火龍");
@@ -468,7 +468,7 @@ void App::Event() {
                         m_CurrentState = State::UPDATE;
                         m_CurrentEvent = EventID::NONE;
                     } else {
-                        m_CurrentLoading = LoadingID::INTO;
+                        m_CurrentLoading = LoadingID::INIT;
                         m_CurrentState = State::LOADING;
                     }
 
@@ -476,7 +476,7 @@ void App::Event() {
             }
         } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-                Enemy = std::make_shared<Character>();
+//                Enemy = std::make_shared<Character>();
                 std::vector<std::shared_ptr<Pokemon>> Pokemons;
                 Pokemons.push_back(std::make_shared<Pokemon>("074"));
                 Pokemons.push_back(std::make_shared<Pokemon>("095"));
@@ -501,7 +501,17 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::COMPUTER) {
-
+        //region
+        if (m_ComputerUI->GetVisibile()) {
+            m_ComputerUI->Run();
+            if (!m_ComputerUI->GetVisibile()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
+        } else {
+            m_ComputerUI->Start();
+        }
+        //endregion
     } else if (m_CurrentEvent == EventID::HEAL) {
         //region
         m_SFX->Play("HealPokemon");

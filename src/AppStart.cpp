@@ -41,22 +41,11 @@ void App::Start() {
         m_Root.AddChildren(Child);
     }
 
-    m_FightMainUI = std::make_shared<FightMainUI>();
-    m_Root.AddChildren(m_FightMainUI->GetChildren());
-
-    m_FightSkillUI = std::make_shared<FightSkillUI>();
-    m_Root.AddChildren(m_FightSkillUI->GetChildren());
-
     m_EvolutionUI = std::make_shared<EvolutionUI>();
     m_Root.AddChildren(m_EvolutionUI->GetChildren());
 
     m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>();
     for (const auto &Child: m_ReplaceSkillUI->GetChildren()) {
-        m_Root.AddChildren(Child);
-    }
-
-    m_FightTextUI = std::make_shared<FightTextUI>();
-    for (const auto &Child: m_FightTextUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
 
@@ -116,8 +105,21 @@ void App::Start() {
     Player->GetImage()->SetVisible(false);
     m_Root.AddChild(Player->GetImage());
 
+    Enemy=std::make_shared<Character>();
+
     m_PokeBagUI = std::make_shared<PokeBagUI>(Player);
     m_Root.AddChildren(m_PokeBagUI->GetChildren());
+
+    m_FightSkillUI = std::make_shared<FightSkillUI>(Player);
+    m_Root.AddChildren(m_FightSkillUI->GetChildren());
+
+    m_FightMainUI = std::make_shared<FightMainUI>(Player,Enemy);
+    m_Root.AddChildren(m_FightMainUI->GetChildren());
+
+    m_FightTextUI = std::make_shared<FightTextUI>(Player,Enemy);
+    for (const auto &Child: m_FightTextUI->GetChildren()) {
+        m_Root.AddChildren(Child);
+    }
 
     tempImagePathses.clear();
     tempImagePathses.resize(1);
@@ -140,6 +142,9 @@ void App::Start() {
 
     m_SettingUI=std::make_shared<SettingUI>(Player);
     m_Root.AddChildren(m_SettingUI->GetChildren());
+
+    m_ComputerUI = std::make_shared<ComputerUI>(Player);
+    m_Root.AddChildren(m_ComputerUI->GetChildren());
 
     m_CurrentState = State::HOME;
 }

@@ -5,7 +5,7 @@ Image::Image(const std::string &ImagePath) {
     m_Transform.translation = {0, 0};
 }
 
-bool Image::GetVisibility() const { return m_Visible; }
+bool Image::GetVisible() const { return m_Visible; }
 
 const glm::vec2 &Image::GetPosition() const { return m_Transform.translation; }
 

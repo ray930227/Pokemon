@@ -37,7 +37,7 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> LoadingUI::GetChildr
 void LoadingUI::StartLoading() {
     switch (m_Mode) {
         case 0:
-            if (m_LoadingImages[0][0]->GetPosition().x != 720 && m_LoadingImages[0][0]->GetVisibility()) {
+            if (m_LoadingImages[0][0]->GetPosition().x != 720 && m_LoadingImages[0][0]->GetVisible()) {
                 m_LoadingImages[0][0]->Move({15, 0});
                 m_LoadingImages[0][1]->Move({-15, 0});
             } else {
@@ -52,7 +52,7 @@ void LoadingUI::StartLoading() {
 
 bool LoadingUI::GetVisibility() {
     if (m_Mode == 0) {
-        return m_LoadingImages[0][0]->GetVisibility();
+        return m_LoadingImages[0][0]->GetVisible();
     }
     return false;
 }

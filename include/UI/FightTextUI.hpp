@@ -2,6 +2,7 @@
 #define POKEMON_FIGHTTEXTUI_HPP
 
 #include "TextBox.hpp"
+#include "Character.hpp"
 #include <cmath>
 
 class FightTextUI {
@@ -17,14 +18,16 @@ private:
     std::shared_ptr<TextBox> m_ChangePokeTextBox;
     std::shared_ptr<TextBox> m_ChangeFailTextBox;
     std::shared_ptr<TextBox> m_LoseTextBox;
+    std::shared_ptr<Character> m_Player;
+    std::shared_ptr<Character> m_Enemy;
 public:
-    FightTextUI();
+    FightTextUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
     [[nodiscard]] std::vector<std::vector<std::shared_ptr<Util::GameObject>>> GetChildren() const;
 
-    void SetPlayer(const std::string &PlayerName, const std::string &UseSkill, float DamageRate);
+    void SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex);
 
-    void SetEnemy(const std::string &EnemyName, const std::string &UseSkill, float DamageRate);
+    void SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex);
 
     void SetDefeat(const std::string &PokeName);
 

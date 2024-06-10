@@ -1,6 +1,6 @@
 #include "UI/FightTextUI.hpp"
 
-FightTextUI::FightTextUI() {
+FightTextUI::FightTextUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy) {
     m_PlayerTextBox = std::make_shared<TextBox>();
     m_PlayerTextBox->SetZIndex(60);
     m_PlayerTextBox->SetVisible(false);
@@ -34,6 +34,8 @@ FightTextUI::FightTextUI() {
     m_LoseTextBox = std::make_shared<TextBox>();
     m_LoseTextBox->SetZIndex(60);
     m_LoseTextBox->SetVisible(false);
+    m_Player = Player;
+    m_Enemy = Enemy;
 }
 
 std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChildren() const {
@@ -43,7 +45,12 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChil
             m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren()};
 }
 
-void FightTextUI::SetPlayer(const std::string &PokeName, const std::string &UseSkill, float DamageRate) {
+void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
+    std::vector<std::shared_ptr<Pokemon>> PlayerPokemons = m_Player->GetPokemonBag()->GetPokemons();
+    std::string PokeName = PlayerPokemons[PokeIndex]->GetName();
+    std::string UseSkill = PlayerPokemons[PokeIndex]->GetSkill()[SkillIndex];
+    std::vector<std::string> EnemyType = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetType();
+    float DamageRate = PokeFunction::TypeDamage(PlayerPokemons[PokeIndex]->GetSkillType()[SkillIndex],EnemyType) ;
     m_PlayerTextBox->SetVisible(true);
     m_PlayerTextBox->Reload();
     m_PlayerTextBox->AddText(PokeName + "使出了" + UseSkill);
@@ -56,10 +63,15 @@ void FightTextUI::SetPlayer(const std::string &PokeName, const std::string &UseS
     }
 }
 
-void FightTextUI::SetEnemy(const std::string &EnemyName, const std::string &UseSkill, float DamageRate) {
+void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
+    std::vector<std::shared_ptr<Pokemon>> EnemyPokemons = m_Enemy->GetPokemonBag()->GetPokemons();
+    std::string PokeName = EnemyPokemons[EnemyIndex]->GetName();
+    std::string UseSkill = EnemyPokemons[EnemyIndex]->GetSkill()[SkillIndex];
+    std::vector<std::string> PlayerType = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetType();
+    float DamageRate = PokeFunction::TypeDamage(EnemyPokemons[EnemyIndex]->GetSkillType()[SkillIndex],PlayerType); ;
     m_EnemyTextBox->SetVisible(true);
     m_EnemyTextBox->Reload();
-    m_EnemyTextBox->AddText(EnemyName + "使出了" + UseSkill);
+    m_EnemyTextBox->AddText(PokeName + "使出了" + UseSkill);
     if (DamageRate == 0) {
         m_EnemyTextBox->AddText("沒有效果!");
     } else if (DamageRate >= 2.0) {

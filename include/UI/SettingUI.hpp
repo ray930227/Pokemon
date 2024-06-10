@@ -3,6 +3,7 @@
 
 #include "Image.hpp"
 #include "Character.hpp"
+#include "TextBox.hpp"
 #include "Util/Input.hpp"
 #include "UI/PokeBagUI.hpp"
 
@@ -11,7 +12,7 @@ private:
     std::shared_ptr<Image> m_SettingBG;
     std::shared_ptr<Image> m_Arrow;
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
-
+    std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> m_Player;
 public:
     SettingUI(const std::shared_ptr<Character>& Player);

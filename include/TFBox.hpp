@@ -5,14 +5,14 @@
 #include "Image.hpp"
 #include "Util/Input.hpp"
 
-class TFBox : public Util::GameObject {
+class TFBox{
 private:
     std::shared_ptr<Image> m_Box;
     std::shared_ptr<Image> m_Arrow;
 public:
     TFBox();
 
-    [[nodiscard]] bool GetVisibility() const;
+    [[nodiscard]] bool GetVisible() const;
 
     [[nodiscard]] const glm::vec2 &GetPosition() const;
 
@@ -20,9 +20,11 @@ public:
 
     bool GetTF();
 
-    void SetVisibility(const bool visible);
+    void SetVisible(const bool visible);
 
     void SetPosition(const glm::vec2 &Position);
+
+    void SetZIndex(int index);
 
     bool Choose();
 };

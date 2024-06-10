@@ -26,7 +26,7 @@ std::string TextBox::GetText() {
 }
 
 bool TextBox::GetVisibility() const {
-    return m_BG->GetVisibility();
+    return m_BG->GetVisible();
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> TextBox::GetChildren() const {
