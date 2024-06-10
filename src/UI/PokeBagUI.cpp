@@ -219,7 +219,7 @@ void PokeBagUI::Run(unsigned int mode) {
                 }
             }
         }
-    } else if (m_ChooseBG[mode - 2]->GetVisible()) {
+    } else if (mode>1 && m_ChooseBG[mode - 2]->GetVisible()) {
         if (ChooseAction()) {
             Action(mode);
         }
@@ -239,7 +239,12 @@ void PokeBagUI::Run(unsigned int mode) {
             m_Arrow[1]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/BlockArrow.png"));
         }
     } else {
-        if (mode == 1) {
+        if(mode == 0){
+            if(ChoosePokemon()){
+                SetVisible(false);
+            }
+        }
+        else if (mode == 1) {
             if (ChoosePokemon()) {
                 if (m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetCurrentHP() == 0) {
                     m_TB->SetVisible(true);

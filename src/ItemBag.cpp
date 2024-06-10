@@ -55,3 +55,11 @@ int ItemBag::GetItemQuantity(const std::string &name) {
 std::string ItemBag::GetItemName(size_t ID) {
     return m_Items[ID].first;
 }
+
+int ItemBag::GetItemID(const std::string &name) {
+    for (int i=0;i<m_Items.size();i++) {
+        if(m_Items[i].first==name)
+            return i;
+    }
+    return -1;
+}

@@ -51,6 +51,8 @@ add_executable(${PROJECT_NAME}
     src/UI/SettingUI.cpp
     include/UI/ComputerUI.hpp
     src/UI/ComputerUI.cpp
+    include/UI/ItemUI.hpp
+    src/UI/ItemUI.cpp
 )
 
 if(MSVC)
