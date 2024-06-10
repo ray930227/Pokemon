@@ -15,7 +15,7 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> PokeFaintedUI::GetCh
 
 void PokeFaintedUI::SetVisible(bool visible) {
     m_TextBox->SetVisible(visible);
-    m_TFBox->SetVisibility(visible);
+    m_TFBox->SetVisible(visible);
 }
 
 void PokeFaintedUI::SetText(const std::string& PokeName) {
@@ -30,7 +30,7 @@ void PokeFaintedUI::SetTextBoxVisible(bool visible) {
 }
 
 void PokeFaintedUI::SetTFBoxVisible(bool visible) {
-    m_TFBox->SetVisibility(visible);
+    m_TFBox->SetVisible(visible);
 }
 
 void PokeFaintedUI::Next() {

@@ -79,7 +79,7 @@ void ShopUI::Start() {
 void ShopUI::Run() {
     if (m_TFBox->GetVisibility()) {
         if (m_TFBox->Choose()) {
-            m_TFBox->SetVisibility(false);
+            m_TFBox->SetVisible(false);
             if (m_TFBox->GetTF()) {
                 if (m_Arrows[0]->GetPosition().y == 300) {
                     Buy();
@@ -98,7 +98,7 @@ void ShopUI::Run() {
             m_TextBox->SetVisible(false);
             m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
         } else if (m_ShopAmountBG->GetVisibility()) {
-            m_TFBox->SetVisibility(true);
+            m_TFBox->SetVisible(true);
             m_TextBox->SetVisible(true);
             if (m_Arrows[0]->GetPosition().y == 300) {
                 m_TextBox->SetText("這樣總共是" + std::to_string(
@@ -106,7 +106,7 @@ void ShopUI::Run() {
                                    "元，您要購買嗎?");
             } else {
                 if (m_SellList.size() == 0) {
-                    m_TFBox->SetVisibility(false);
+                    m_TFBox->SetVisible(false);
                     m_TextBox->SetVisible(false);
                     m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
                 } else {

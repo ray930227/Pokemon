@@ -22,6 +22,7 @@
 #include "UI/FightTextUI.hpp"
 #include "UI/PokeFaintedUI.hpp"
 #include "UI/SettingUI.hpp"
+#include "UI/ComputerUI.hpp"
 
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -128,6 +129,7 @@ private:
     std::shared_ptr<FightTextUI> m_FightTextUI;
     std::shared_ptr<PokeFaintedUI> m_PokeFaintedUI;
     std::shared_ptr<SettingUI> m_SettingUI;
+    std::shared_ptr<ComputerUI> m_ComputerUI;
 
     std::shared_ptr<Image> m_Fightitem;
     std::shared_ptr<Text> m_PlayerPokeInfo;

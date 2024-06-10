@@ -16,7 +16,7 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> ReplaceSkillUI::GetC
 
 void ReplaceSkillUI::SetVisible(bool visible) {
     m_TextBox->SetVisible(visible);
-    m_TFBox->SetVisibility(visible);
+    m_TFBox->SetVisible(visible);
 }
 
 void ReplaceSkillUI::SetText(const std::string &PlayerPokemon, const std::string &NewSkill) {
@@ -33,7 +33,7 @@ void ReplaceSkillUI::SetTextBoxVisible(bool visible) {
 }
 
 void ReplaceSkillUI::SetTFBoxVisible(bool visible) {
-    m_TFBox->SetVisibility(visible);
+    m_TFBox->SetVisible(visible);
 }
 
 void ReplaceSkillUI::Next() {

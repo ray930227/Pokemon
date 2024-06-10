@@ -141,5 +141,8 @@ void App::Start() {
     m_SettingUI=std::make_shared<SettingUI>(Player);
     m_Root.AddChildren(m_SettingUI->GetChildren());
 
+    m_ComputerUI = std::make_shared<ComputerUI>(Player);
+    m_Root.AddChildren(m_ComputerUI->GetChildren());
+
     m_CurrentState = State::HOME;
 }
