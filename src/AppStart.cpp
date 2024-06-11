@@ -35,19 +35,8 @@ void App::Start() {
 
     m_SFX = std::make_shared<SFXSystem>();
 
-    //region Fight
-    m_LoadingUI = std::make_shared<LoadingUI>();
-    for (const auto &Child: m_LoadingUI->GetChildren()) {
-        m_Root.AddChildren(Child);
-    }
-
     m_EvolutionUI = std::make_shared<EvolutionUI>();
     m_Root.AddChildren(m_EvolutionUI->GetChildren());
-
-    m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>();
-    for (const auto &Child: m_ReplaceSkillUI->GetChildren()) {
-        m_Root.AddChildren(Child);
-    }
 
     m_PokeFaintedUI = std::make_shared<PokeFaintedUI>();
     for (const auto &Child: m_PokeFaintedUI->GetChildren()) {
@@ -118,6 +107,16 @@ void App::Start() {
 
     m_FightTextUI = std::make_shared<FightTextUI>(Player,Enemy);
     for (const auto &Child: m_FightTextUI->GetChildren()) {
+        m_Root.AddChildren(Child);
+    }
+
+    m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>(Player);
+    for (const auto &Child: m_ReplaceSkillUI->GetChildren()) {
+        m_Root.AddChildren(Child);
+    }
+
+    m_LoadingUI = std::make_shared<LoadingUI>(Player,Enemy);
+    for (const auto &Child: m_LoadingUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
 

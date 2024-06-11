@@ -4,7 +4,7 @@ void App::Loading() {
     switch (m_CurrentLoading) {
         //region INIT
         case LoadingID::INIT:
-            for (size_t i=0; i < Player->GetPokemonBag()->size(); i++) {
+            for (size_t i = 0; i < Player->GetPokemonBag()->size(); i++) {
                 if (!Player->GetPokemonBag()->GetPokemons()[i]->IsPokemonDying()) {
                     m_CurrentPlayerPokemon = i;
                     break;
@@ -29,8 +29,7 @@ void App::Loading() {
                 m_WhiteBG->SetZIndex(51);
                 m_FightMainUI->SetEnemyPokeImage(0);
                 m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
-                m_LoadingUI->LoadText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName(),
-                                      Enemy->GetPokemonBag()->GetPokemons()[0]->GetName());
+                m_LoadingUI->LoadText(m_CurrentPlayerPokemon, 0, isWildPokemon);
                 m_FightMainUI->SetPlayerVisible(true);
                 m_FightMainUI->SetEnemyPokeVisible(true);
                 if (m_FightMainUI->BeginMoving()) {
@@ -65,7 +64,7 @@ void App::Loading() {
                     m_FightMainUI->SetEnemyHPUIVisible(true);
                     m_FightMainUI->SetEnemyPokeNameVisible(true);
                     if (m_FightMainUI->GetPlayerPokeScale().x < 1 && m_FightMainUI->EndMoving()) {
-                        if (m_FightMainUI->GetPlayerPokeScale().x > 0.95) {
+                        if (m_FightMainUI->GetPlayerPokeScale().x > 0.9) {
                             m_SFX->Play("PokeSound" +
                                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                         }
