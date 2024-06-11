@@ -116,12 +116,12 @@ void App::Fight() {
                     m_PokeBagUI->Run(2);
                 }
             } else {
-                m_PreviousPlayerPokemon = m_CurrentPlayerPokemon;
-                m_CurrentPlayerPokemon = m_PokeBagUI->GetCurrentPokemon();
-                if (m_PreviousPlayerPokemon == m_CurrentPlayerPokemon) {
+                if (m_PokeBagUI->GetDecision() == -1) {
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::HOME;
                 } else {
+                    m_PreviousPlayerPokemon = m_CurrentPlayerPokemon;
+                    m_CurrentPlayerPokemon = m_PokeBagUI->GetDecision();
                     IsChangePokemon = true;
                     IsPlayerRound = false;
                     m_FightTextUI->SetChangePoke(
@@ -135,8 +135,8 @@ void App::Fight() {
                     m_FightMainUI->SetArrowVisible(true);
                     m_FightSkillUI->ReSetArrow();
                     m_CurrentFighting = FightID::CHANGEPOKE;
-
                 }
+
             }
             break;
             //endregion
@@ -275,9 +275,6 @@ void App::Fight() {
             }
             break;
             //endregion
-            //region FailChange
-            break;
-            //endregion
             //region PokeFainted
         case FightID::POKEFAINTED:
             if (m_PokeFaintedUI->GetCurrentIndex() == 1 && Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -385,7 +382,6 @@ void App::Fight() {
             //endregion
             //region WildFinish
         case FightID::WILDFINISH:
-            Timer++;
             m_FightMainUI->SetEnemyPokeVisible(false);
             m_FightMainUI->SetEnemyHPUIVisible(false);
             m_FightMainUI->SetEnemyPokeNameVisible(false);
@@ -423,25 +419,8 @@ void App::Fight() {
                     m_CurrentFighting = FightID::UPDATEINFO;
                 }
             }
-            switch (FightCounter) {
-                case 1:
-                    if (Util::Input::IsKeyDown(Util::Keycode::Z) && Timer >= 60) {
-                        m_FightTextUI->Next();
-                        Timer = 0;
-                    }
-                    break;
-                case 2:
-                    if (Util::Input::IsKeyDown(Util::Keycode::Z) && Timer >= 60) {
-                        m_FightTextUI->Next();
-                        Timer = 0;
-                    }
-                    break;
-                case 3:
-                    if (Util::Input::IsKeyDown(Util::Keycode::Z) && Timer >= 120) {
-                        m_FightTextUI->Next();
-                        Timer = 0;
-                    }
-                    break;
+            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                m_FightTextUI->Next();
             }
             if (!m_FightTextUI->GetDefeatVisibility() && !m_FightTextUI->GetGainEXPVisibility() &&
                 !m_Experience.first && FightCounter == 2) {

@@ -286,19 +286,19 @@ void App::Event() {
                         if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
-                            Enemy = NPC_Bromance;
+
                             Lines.push_back(Player->GetName() + "選擇了小火龍");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
                         } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
-                            Enemy = NPC_Bromance;
+
                             Lines.push_back(Player->GetName() + "選擇了傑尼龜");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
                         } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
-                            Enemy = NPC_Bromance;
+
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
                             Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
                         }
@@ -465,6 +465,7 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
         //region
+        isWildPokemon= false;
         if (m_TB->GetVisibility()) {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
