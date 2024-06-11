@@ -546,9 +546,9 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::SETTING) {
         //region
-        if (m_SettingUI->GetVisibile()) {
+        if (m_SettingUI->GetVisible()) {
             m_SettingUI->Run();
-            if (!m_SettingUI->GetVisibile()) {
+            if (!m_SettingUI->GetVisible()) {
                 m_CurrentEvent = EventID::NONE;
                 m_CurrentState = State::UPDATE;
             }

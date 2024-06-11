@@ -7,6 +7,7 @@
 #include "Util/Input.hpp"
 #include "UI/PokeBagUI.hpp"
 #include "UI/ItemUI.hpp"
+#include "UI/PokedexUI.hpp"
 
 class SettingUI {
 private:
@@ -16,8 +17,9 @@ private:
     std::shared_ptr<ItemUI> m_ItemUI;
     std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> m_Player;
+    std::shared_ptr<PokedexUI> m_PokedexUI;
 public:
-    SettingUI(const std::shared_ptr<Character> &Player);
+    SettingUI(const std::shared_ptr<Character> &Player,std::shared_ptr<ComputerUI> ComputerUI);
 
     void Start();
 
@@ -25,9 +27,9 @@ public:
 
     std::vector<std::shared_ptr<Util::GameObject>> GetChildren();
 
-    bool GetVisibile();
+    bool GetVisible();
 
-    void SetVisibile(bool Visibile);
+    void SetVisible(bool Visible);
 };
 
 #endif //POKEMON_SETTINGUI_HPP
