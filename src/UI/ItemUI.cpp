@@ -12,6 +12,10 @@ ItemUI::ItemUI(const std::shared_ptr<Character>& Player) {
     m_Arrow->SetVisible(false);
     m_Arrow->SetZIndex(61);
 
+    m_Arrow2=std::make_shared<Image>(RESOURCE_DIR"/Background/BlockArrow.png");
+    m_Arrow2->SetVisible(false);
+    m_Arrow2->SetZIndex(61);
+
     m_Texts.resize(4);
     for(int i=0;i<4;i++){
         m_Texts[i]=std::make_shared<Text>();
@@ -33,6 +37,7 @@ std::vector<std::shared_ptr<Util::GameObject>> ItemUI::GetChildren() {
 
     result.push_back(m_ItemBG);
     result.push_back(m_Arrow);
+    result.push_back(m_Arrow2);
 
     for(auto &i:m_PokeBagUI->GetChildren())
         result.push_back(i);
@@ -57,7 +62,9 @@ void ItemUI::Start() {
 }
 
 void ItemUI::Run(unsigned mode) {
-    if(m_TB->GetVisibility()){
+    if(m_PokeBagUI->GetVisible() && m_ItemBG->GetVisible()){
+        ChangeSkill();
+    } else if(m_TB->GetVisibility()){
         if(Util::Input::IsKeyDown(Util::Keycode::Z)){
             m_TB->Next();
             m_PokeBagUI->SetVisible(false);
@@ -65,7 +72,23 @@ void ItemUI::Run(unsigned mode) {
     } else if(m_PokeBagUI->GetVisible()){
         m_PokeBagUI->Run(0);
         if(!m_PokeBagUI->GetVisible()){
-            Action(mode);
+            size_t index=m_RowTopIndex+3-(m_Arrow->GetPosition().y-2)/96;
+            int id=m_Player->GetItemBag()->GetItemID(m_Items[index].first);
+            auto tempPokemon=m_Player->GetPokemonBag()->GetPokemons()[m_PokeBagUI->GetDecision()];
+            if(id>=196 && tempPokemon->GetSkill().size()==4){
+                m_ItemBG->SetVisible(true);
+                for(int i=0;i<4;i++){
+                    m_Texts[i]->SetText(tempPokemon->GetSkill()[i]);
+                    m_Texts[i]->SetVisible(true);
+                }
+                m_TB->SetText(tempPokemon->GetName()+"已經擁有4個技能\n請選擇一個做取代");
+                m_TB->SetVisible(true);
+                m_Arrow2->SetVisible(true);
+                m_Arrow2->SetPosition({-200, 290});
+            } else{
+                Action();
+            }
+            m_PokeBagUI->SetVisible(true);
         }
     } else if(m_ItemBG->GetVisible()){
         ChooseItem();
@@ -85,21 +108,13 @@ void ItemUI::SetVisible(bool Visibile) {
 
 void ItemUI::Updata() {
     auto ItemBag=m_Player->GetItemBag();
-
+    m_Items.clear();
     for(int i=0;i<256;i++){
         int Quantity=ItemBag->GetItemQuantity(i);
         std::string ItemName=ItemBag->GetItemName(i);
         if(Quantity>0){
-            bool check=false;
-            for(auto &j:m_Items){
-                if(j.first==ItemName){
-                    j.second=Quantity;
-                    check=true;
-                }
-            }
-            if(!check) m_Items.push_back({ItemName,Quantity});
+            m_Items.push_back({ItemName,Quantity});
         }
-
     }
     if(m_RowTopIndex<0) m_RowTopIndex=0;
     if(m_RowTopIndex!=0 && m_RowTopIndex+4>m_Items.size()) m_RowTopIndex--;
@@ -158,9 +173,30 @@ void ItemUI::ChooseItem() {
 
 }
 
-void ItemUI::Action(unsigned mode) {
+void ItemUI::ChangeSkill() {
+    if(Util::Input::IsKeyDown(Util::Keycode::UP) && m_Arrow2->GetPosition().y<290){
+        m_Arrow2->SetPosition({-200,m_Arrow2->GetPosition().y+96});
+    } else if(Util::Input::IsKeyDown(Util::Keycode::DOWN) && m_Arrow2->GetPosition().y>2){
+        m_Arrow2->SetPosition({-200,m_Arrow2->GetPosition().y-96});
+    }
+
+    if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+        m_Arrow2->SetVisible(false);
+        m_ItemBG->SetVisible(false);
+        for(auto &i:m_Texts)
+            i->SetVisible(false);
+        Action();
+    }
+
+    if(Util::Input::IsKeyDown(Util::Keycode::X)){
+        m_PokeBagUI->SetVisible(false);
+    }
+}
+
+void ItemUI::Action() {
     size_t index=m_RowTopIndex+3-(m_Arrow->GetPosition().y-2)/96;
     int id=m_Player->GetItemBag()->GetItemID(m_Items[index].first);
+    m_Player->GetItemBag()->AddItemQuantity(id,-1);
     auto tempPokemon=m_Player->GetPokemonBag()->GetPokemons()[m_PokeBagUI->GetDecision()];
     if(id>=16 && id<=20){
         int CurrentHP=tempPokemon->GetCurrentHP();
@@ -188,15 +224,26 @@ void ItemUI::Action(unsigned mode) {
         }
         m_TB->SetVisible(true);
         m_PokeBagUI->SetVisible(true);
-    } else if(id==234){
+    } else if(id>=196){
+        std::ifstream file(RESOURCE_DIR"/Pokemon/SkillLearn.txt", std::ios::in);
+        std::string skillName;
+        for(int i=196;i<=id;i++)
+            std::getline(file, skillName);
+
         auto skills=tempPokemon->GetSkill();
         if(skills.size()==4){
-            m_TB->SetText("該寶貝已經擁有4個技能\n請選擇一個做取代");
-            m_TB->SetVisible(true);
-            m_PokeBagUI->SetVisible(true);
-        } else{
+            LOG_DEBUG(3-((m_Arrow2->GetPosition().y-2)/96));
+            m_TB->SetText(tempPokemon->GetName()+"忘記了"+ skills[3-((m_Arrow2->GetPosition().y-2)/96)] + "\n學會了" + skillName);
+            skills[3-((m_Arrow2->GetPosition().y-2)/96)]=skillName;
 
+        } else{
+            skills.push_back(skillName);
+            m_TB->SetText(tempPokemon->GetName() + "會學了" + skillName);
         }
+        m_TB->SetVisible(true);
+
+        Updata();
+        tempPokemon->SetSkillByName(skills);
     }
 }
 

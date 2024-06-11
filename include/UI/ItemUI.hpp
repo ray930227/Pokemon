@@ -11,6 +11,7 @@ private:
     std::shared_ptr<PokeBagUI> m_PokeBagUI;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Image> m_Arrow;
+    std::shared_ptr<Image> m_Arrow2;
     std::vector<std::shared_ptr<Text>> m_Texts;
     std::shared_ptr<TextBox> m_TB;
     int m_RowTopIndex;
@@ -35,7 +36,9 @@ protected:
 
     void ChooseItem();
 
-    void Action(unsigned mode);
+    void ChangeSkill();
+
+    void Action();
 };
 
 #endif //POKEMON_ITEMUI_HPP
