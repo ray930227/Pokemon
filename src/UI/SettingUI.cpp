@@ -163,6 +163,46 @@ void SettingUI::Save(const std::shared_ptr<Character> &player, const std::shared
     file.close();
 }
 
+void SettingUI::Read(const std::shared_ptr<Character> &player, const std::shared_ptr<Character> &Bromance,
+                     const std::shared_ptr<ComputerUI> &ComputerUI, const std::shared_ptr<MapSystem> &mapSystem) {
+    player->GetPokemonBag()->SetPokemons(ReadPokemons(RESOURCE_DIR"/Save/PokeBag.txt"));
+    ComputerUI->SetKeepPokemons(ReadPokemons(RESOURCE_DIR"/Save/Computer.txt"));
+    Bromance->GetPokemonBag()->SetPokemons(ReadPokemons(RESOURCE_DIR"/Save/BromancePokeBag.txt"));
+
+    std::ifstream file(RESOURCE_DIR"/Save/Items.txt", std::ios::in);
+    std::string tempStr;
+    for(int i=0;i<256;i++){
+        std::getline(file,tempStr);
+        player->GetItemBag()->AddItemQuantity(i,std::stoi(tempStr));
+    }
+    file.close();
+
+    file.open(RESOURCE_DIR"/Save/CharacterData.txt", std::ios::in);
+
+
+    std::getline(file,tempStr);
+    mapSystem->SetMap(tempStr);
+    auto CurrentMap=tempStr;
+
+    std::getline(file,tempStr);
+    mapSystem->SetPosition({std::stoi(tempStr.substr(0,tempStr.find(' '))),
+                            std::stoi(tempStr.substr(tempStr.find(' '),tempStr.length()))});
+
+    std::getline(file,tempStr);
+    mapSystem->SetMap("MainMap");
+    mapSystem->SetPosition({std::stoi(tempStr.substr(0,tempStr.find(' '))),
+                            std::stoi(tempStr.substr(tempStr.find(' '),tempStr.length()))});
+    mapSystem->SetMap(CurrentMap);
+
+    std::getline(file,tempStr);
+    player->SetName(tempStr);
+
+    std::getline(file,tempStr);
+    Bromance->SetName(tempStr);
+
+    file.close();
+}
+
 bool SettingUI::IsSave() {
     return m_isSave;
 }
@@ -184,4 +224,38 @@ void SettingUI::SavePokemons(const std::string &path, const std::vector<std::sha
         file<<(std::to_string(Ability["CurrentEXP"])+"\n");
     }
     file.close();
+}
+
+std::vector<std::shared_ptr<Pokemon>> SettingUI::ReadPokemons(const std::string &path) {
+    std::ifstream file(path, std::ios::in);
+    std::string tempStr;
+    std::vector<std::string> data={"IV","LV","AttackBP","DefenseBP","SpeedBP","SpecialBP","HPBP","CurrentHP","CurrentEXP"};
+
+    std::vector<std::shared_ptr<Pokemon>> pokemons;
+    while(std::getline(file,tempStr)){
+        std::map<std::string, int>  Abilit;
+        Abilit.insert({"ID", std::stoi(tempStr)});
+        for(auto &i:data){
+            std::getline(file,tempStr);
+            Abilit.insert({i, std::stoi(tempStr)});
+        }
+        int CurrentHP=Abilit["CurrentHP"];
+        Abilit.insert({"HP", 0});
+        Abilit.insert({"Attack", 0});
+        Abilit.insert({"Defence", 0});
+        Abilit.insert({"Special", 0});
+        Abilit.insert({"Speed", 0});
+        Abilit.insert({"EXP", 0});
+
+        std::stringstream ToString;
+        ToString << std::setw(3) << std::setfill('0') <<Abilit["ID"];
+        std::string StringID = ToString.str();
+        std::shared_ptr<Pokemon> pokemon=std::make_shared<Pokemon>(StringID);
+        pokemon->SetAbility(Abilit);
+        pokemon->SetCurrentHP(CurrentHP);
+        pokemons.push_back(pokemon);
+    }
+    file.close();
+
+    return pokemons;
 }

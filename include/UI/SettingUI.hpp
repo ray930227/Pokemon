@@ -37,10 +37,15 @@ public:
     void Save(const std::shared_ptr<Character> &player, const std::shared_ptr<Character> &Bromance,
               const std::shared_ptr<ComputerUI> &ComputerUI, const std::shared_ptr<MapSystem> &mapSystem);
 
+    void Read(const std::shared_ptr<Character> &player, const std::shared_ptr<Character> &Bromance,
+              const std::shared_ptr<ComputerUI> &ComputerUI, const std::shared_ptr<MapSystem> &mapSystem);
+
     bool IsSave();
 
 protected:
     void SavePokemons(const std::string &path, const std::vector<std::shared_ptr<Pokemon>> &pokemons);
+
+    std::vector<std::shared_ptr<Pokemon>> ReadPokemons(const std::string &path);
 };
 
 #endif //POKEMON_SETTINGUI_HPP

@@ -30,6 +30,18 @@ void App::Start() {
     m_tempImage->SetVisible(false);
     m_Root.AddChild(m_tempImage);
 
+    m_ReadSaveBG=std::make_shared<Image>(RESOURCE_DIR"/Background/ReadSaveBG.png");
+    m_ReadSaveBG->SetVisible(false);
+    m_ReadSaveBG->SetZIndex(50);
+    m_Root.AddChild(m_ReadSaveBG);
+
+    m_Arrow=std::make_shared<Image>(RESOURCE_DIR"/Background/BlockArrow.png");
+    m_Arrow->SetVisible(false);
+    m_Arrow->SetZIndex(51);
+    m_Arrow->SetPosition({-300, 290});
+    m_Root.AddChild(m_Arrow);
+
+
     m_BGM = std::make_shared<Util::BGM>(RESOURCE_DIR"/OpeningAnimation/OpeningSound.mp3");
     m_BGM->SetVolume(32);
 

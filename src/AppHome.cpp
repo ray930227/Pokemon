@@ -15,21 +15,18 @@ void App::Home() {
         m_BGM->Play();
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::F1)) {
+
         m_OpeningAnimation->SetVisible(false);
         Player->SetName("Player");
         NPC_Bromance->SetName("Bromance");
         m_CurrentState = State::INIT;
     }
-    if (m_OpeningAnimationCount == 635 && Util::Input::IsKeyPressed(Util::Keycode::Z)) {
+    if ((m_OpeningAnimationCount == 635 && Util::Input::IsKeyPressed(Util::Keycode::Z)) || Util::Input::IsKeyDown(Util::Keycode::F2)) {
         m_OpeningAnimation->SetVisible(false);
-        m_WhiteBG->SetVisible(true);
 
-        m_TB->SetVisible(true);
-        m_TB->ReadLines(RESOURCE_DIR"/Lines/OpeningLine.txt");
-
-        m_tempImage->SetVisible(true);
-
-        m_CurrentState = State::INIT;
+        m_Arrow->SetVisible(true);
+        m_ReadSaveBG->SetVisible(true);
+        m_CurrentState = State::READ_SAVE;
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
