@@ -554,6 +554,9 @@ void App::Event() {
         //region
         if (m_SettingUI->GetVisible()) {
             m_SettingUI->Run();
+            if(m_SettingUI->IsSave()){
+                m_SettingUI->Save(Player,NPC_Bromance,m_ComputerUI,m_MapSystem);
+            }
             if (!m_SettingUI->GetVisible()) {
                 m_CurrentEvent = EventID::NONE;
                 m_CurrentState = State::UPDATE;
