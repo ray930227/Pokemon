@@ -36,6 +36,7 @@ public:
     enum class State {
         START,
         HOME,
+        READ_SAVE,
         INIT,
         UPDATE,
         EVENT,
@@ -93,6 +94,8 @@ public:
 
     void Home();
 
+    void ReadSave();
+
     void Init();
 
     void Update();
@@ -120,6 +123,8 @@ private:
     std::shared_ptr<Image> m_WhiteBG;
     std::shared_ptr<Image> m_BlackBG;
     std::shared_ptr<Image> m_tempImage;
+    std::shared_ptr<Image> m_ReadSaveBG;
+    std::shared_ptr<Image> m_Arrow;
 
     std::shared_ptr<EvolutionUI> m_EvolutionUI;
     std::shared_ptr<FightSkillUI> m_FightSkillUI;

@@ -34,6 +34,7 @@ public:
 
     void Keep(const std::shared_ptr<Pokemon> &Poke);
 
+    void SetKeepPokemons(std::vector<std::shared_ptr<Pokemon>> Pokemons);
 protected:
     void ChooseAction();
 

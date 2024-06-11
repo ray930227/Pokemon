@@ -68,8 +68,7 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
-        Player->GetItemBag()->AddItemQuantity(9,1);
-        m_CurrentEvent = EventID::COMPUTER;
+        m_CurrentEvent = EventID::SHOP;
         m_CurrentState = State::EVENT;
     }
 
