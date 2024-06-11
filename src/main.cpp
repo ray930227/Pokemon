@@ -21,6 +21,10 @@ int main(int, char **) {
                 app.Home();
                 break;
 
+            case App::State::READ_SAVE:
+                app.ReadSave();
+                break;
+
             case App::State::INIT:
                 app.Init();
                 break;

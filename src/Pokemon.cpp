@@ -16,7 +16,7 @@ Pokemon::Pokemon(const std::string &ID) {
     m_Ability.insert({"SpeedBP", 0});
     m_Ability.insert({"ID", std::stoi(ID)});
     m_Ability.insert({"EXP", 0});
-    m_Ability.insert({"m_CurrentEXP", 0});
+    m_Ability.insert({"CurrentEXP", 0});
     FindType();
     FindName();
     FindAbiltiy();

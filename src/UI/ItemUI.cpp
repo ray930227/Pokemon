@@ -215,8 +215,10 @@ void ItemUI::Action() {
 
         if(CurrentHP+heal>HP) heal=HP-CurrentHP;
 
-        if(heal==0)
-            m_TB->SetText(tempPokemon->GetName()+"血量已滿!");
+        if(heal==0) {
+            m_TB->SetText(tempPokemon->GetName() + "血量已滿!");
+            m_Player->GetItemBag()->AddItemQuantity(id,1);
+        }
         else {
             m_TB->SetText(tempPokemon->GetName() + "恢复了" + std::to_string(heal) + "HP!");
             m_Player->GetItemBag()->AddItemQuantity(id,-1);

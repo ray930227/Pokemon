@@ -304,6 +304,10 @@ void App::Event() {
                         }
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
+                        auto poke=Player->GetPokemonBag()->GetPokemons()[0];
+                        auto Ability=poke->GetAbility();
+                        Ability["IV"]=31;
+                        poke->SetAbility(Ability);
                         while (m_TB->GetVisibility()) {
                             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                                 m_TB->Next();
@@ -490,6 +494,7 @@ void App::Event() {
                 Pokemons[0]->SetSkillByID({33, 111});
                 Pokemons[1]->SetSkillByID({33, 103, 117});
                 Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                Enemy->SetName("小剛");
                 m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
             } else {
                 LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
@@ -549,6 +554,9 @@ void App::Event() {
         //region
         if (m_SettingUI->GetVisible()) {
             m_SettingUI->Run();
+            if(m_SettingUI->IsSave()){
+                m_SettingUI->Save(Player,NPC_Bromance,m_ComputerUI,m_MapSystem);
+            }
             if (!m_SettingUI->GetVisible()) {
                 m_CurrentEvent = EventID::NONE;
                 m_CurrentState = State::UPDATE;
@@ -558,6 +566,7 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::NPC_END) {
+        //region
         if (m_TB->GetVisibility()) {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
@@ -593,6 +602,7 @@ void App::Event() {
             m_TB->SetText("NPC has not implement");
             m_TB->SetVisible(true);
         }
+        //endregion
     } else if (m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
         //region
         int temp = m_MapSystem->GetCurrentArea();
