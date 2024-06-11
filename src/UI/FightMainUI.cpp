@@ -293,3 +293,7 @@ std::string FightMainUI::GetDecision() {
         return "Run";
     }
 }
+
+int FightMainUI::GetBallAnimationIndex() {
+    return m_BallAnimation->GetCurrentFrameIndex();
+}

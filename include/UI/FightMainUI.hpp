@@ -96,6 +96,8 @@ public:
     bool Choose();
 
     std::string GetDecision();
+
+    int GetBallAnimationIndex();
 };
 
 #endif //POKEMON_FIGHTMAINUI_HPP

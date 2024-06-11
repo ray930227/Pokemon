@@ -29,13 +29,13 @@ void App::Loading() {
             } else {
                 m_WhiteBG->SetVisible(true);
                 m_WhiteBG->SetZIndex(51);
-                m_FightMainUI->SetEnemyPokeImage(0);
+                m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
                 m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
                 m_LoadingUI->LoadText(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, isWildPokemon);
                 m_FightMainUI->SetPlayerVisible(true);
                 m_FightMainUI->SetEnemyPokeVisible(true);
                 if (m_FightMainUI->BeginMoving()) {
-                    m_SFX->Play("PokeSound" + Enemy->GetPokemonBag()->GetPokemons()[0]->GetID());
+                    m_SFX->Play("PokeSound" + Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
                     m_LoadingUI->Next();
                     m_CurrentLoading = LoadingID::TEXT;
                 }
@@ -52,7 +52,7 @@ void App::Loading() {
                         m_FightMainUI->SetBallAnimationVisible(true);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
                         m_FightMainUI->SetPlayerHPScale(m_CurrentPlayerPokemon);
-                        m_FightMainUI->SetEnemyHPScale(0);
+                        m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
                         m_FightMainUI->DetectBlood();
                         m_LoadingUI->Next();
                     }

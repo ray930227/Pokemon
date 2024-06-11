@@ -439,8 +439,12 @@ void App::Fight() {
 
         case FightID::NPCCHANGE:
             //region NPCChange
-            if (m_FightMainUI->GetEnemyPokeScale().x < 1) {
+            if (m_FightMainUI->GetEnemyPokeScale().x < 1 && m_FightMainUI->GetBallAnimationIndex() >=2) {
                 m_FightMainUI->ZoomImage(false);
+            } else {
+                m_FightMainUI->SetEnemyPokeScale({1,1});
+                m_FightMainUI->SetEnemyHPUIVisible(true);
+                m_FightMainUI->SetEnemyPokeNameVisible(true);
             }
             //endregion
             break;
@@ -448,11 +452,8 @@ void App::Fight() {
         case FightID::UPDATEINFO:
             //region UpdateInfo
             m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
-            m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
             m_FightMainUI->SetTextPlayerPokeName(m_CurrentPlayerPokemon);
-            m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
             m_FightMainUI->SetPlayerHPScale(m_CurrentPlayerPokemon);
-            m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
             m_FightMainUI->SetTextHP(m_CurrentPlayerPokemon);
             m_FightSkillUI->SetText(m_CurrentPlayerPokemon);
             if (Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying()) {
@@ -475,10 +476,13 @@ void App::Fight() {
                             break;
                         }
                     }
+                    m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
+                    m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
+                    m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
+                    m_FightMainUI->ReSetBallAnimation();
                     m_FightMainUI->SetEnemyPokeVisible(true);
                     m_FightMainUI->SetBallAnimationVisible(true);
                     m_FightMainUI->SetEnemyPokeScale({0.5,0.5});
-                    m_FightMainUI->ReSetBallAnimation();
                     LOG_DEBUG("State:NPCCHANGE");
                     m_CurrentFighting = FightID::NPCCHANGE;
                 }
