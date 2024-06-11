@@ -1,7 +1,7 @@
 #include "UI/LoadingUI.hpp"
 
 
-LoadingUI::LoadingUI() {
+LoadingUI::LoadingUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy) {
     m_TextBox = std::make_shared<TextBox>();
     m_TextBox->SetVisible(false);
     std::vector<std::shared_ptr<Image>> Loading_1;
@@ -14,6 +14,8 @@ LoadingUI::LoadingUI() {
     m_LoadingImages[0][1]->SetVisible(false);
     m_LoadingImages[0][0]->SetZIndex(100);
     m_LoadingImages[0][1]->SetZIndex(100);
+    m_Player = Player;
+    m_Enemy = Enemy;
 }
 
 void LoadingUI::RandomMode() {
@@ -57,12 +59,18 @@ bool LoadingUI::GetVisibility() {
     return false;
 }
 
-void LoadingUI::LoadText(const std::string &MyPokeName, const std::string &EnemyPokeName) {
+void LoadingUI::LoadText(int PokeIndex, int EnemyIndex, bool IsWildPokemon) {
+    std::string PlayPokeName = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetName();
+    std::string EnemyPokeName = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetName();
     m_TextBox->SetVisible(true);
     m_TextBox->Reload();
     m_TextBox->AddText(" ");
-    m_TextBox->AddText("野生" + EnemyPokeName + "出現了!");
-    m_TextBox->AddText("上吧! " + MyPokeName + "!");
+    if (IsWildPokemon) {
+        m_TextBox->AddText("野生" + EnemyPokeName + "出現了!");
+    } else {
+        m_TextBox->AddText(m_Enemy->GetName() + "派出了" + EnemyPokeName + "!");
+    }
+    m_TextBox->AddText("上吧! " + PlayPokeName + "!");
 }
 
 void LoadingUI::Next() {

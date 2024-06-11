@@ -47,7 +47,7 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
     m_BallAnimation = std::make_shared<GIF>(tempBallPath);
     m_BallAnimation->SetZIndex(52);
     m_BallAnimation->SetScale({1.3, 1.3});
-    m_BallAnimation->SetInterval(400);
+    m_BallAnimation->SetInterval(200);
     m_BallAnimation->SetVisible(false);
     m_BallAnimation->SetPosition({-210, -10});
     m_PlayerHP = std::make_shared<Text>();
@@ -152,8 +152,8 @@ const glm::vec2 &FightMainUI::GetPlayerPokeScale() const {
 
 void FightMainUI::ZoomPlayerImage() {
     m_PlayerPokemonImage->SetScale(
-            {m_PlayerPokemonImage->GetScale().x + 0.05,
-             m_PlayerPokemonImage->GetScale().y + 0.05});
+            {m_PlayerPokemonImage->GetScale().x + 0.1,
+             m_PlayerPokemonImage->GetScale().y + 0.1});
 }
 
 void FightMainUI::ReSetWildPosition() {
@@ -163,8 +163,8 @@ void FightMainUI::ReSetWildPosition() {
 
 bool FightMainUI::BeginMoving() {
     if (m_PlayerImage->GetPosition().x != -210) {
-        m_PlayerImage->Move({-15, 0});
-        m_EnemyPokemonImage->Move({15, 0});
+        m_PlayerImage->Move({-20, 0});
+        m_EnemyPokemonImage->Move({20, 0});
         return false;
     }
     return true;
@@ -172,7 +172,7 @@ bool FightMainUI::BeginMoving() {
 
 bool FightMainUI::EndMoving() {
     if (m_PlayerImage->GetPosition().x != -750) {
-        m_PlayerImage->Move({-15, 0});
+        m_PlayerImage->Move({-20, 0});
         return false;
     }
     return true;

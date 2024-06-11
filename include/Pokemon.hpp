@@ -3,6 +3,8 @@
 
 #include "Util/GameObject.hpp"
 #include "UsefulFunctions.hpp"
+#include <map>
+
 #include <string>
 #include <fstream>
 #include <vector>
@@ -21,26 +23,17 @@ private:
 
     std::string m_Name;
     std::vector<std::string> m_Type;
-    int m_LV;
-    int m_HP;
-    int m_CurrentHP;
-    int m_Attack;
-    int m_Defence;
-    int m_Special;
-    int m_Speed;
-    int m_IV;
-    int m_HPBP;
-    int m_AttackBP;
-    int m_DefenceBP;
-    int m_SpecialBP;
-    int m_SpeedBP;
-    int m_ID;
-    int m_CurrentEXP;
-    int m_EXP;
+    std::map<std::string, int> m_Ability;
 public:
     Pokemon(const std::string &ID);
 
     std::string GetID();
+
+    void SetIV(int IV);
+
+    void SetBPs();
+
+    std::vector<int> GetBPs();
 
     int GetIDByInt();
 
@@ -68,27 +61,27 @@ public:
 
     void FindAbiltiy();
 
-    [[nodiscard]] int GetHP() const;
+    [[nodiscard]] int GetHP() ;
 
-    [[nodiscard]] int GetCurrentHP() const;
+    [[nodiscard]] int GetCurrentHP() ;
 
     void PokemonHurt(int Damage);
 
     void PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
 
-    [[nodiscard]] int GetAttack() const;
+    [[nodiscard]] int GetAttack() ;
 
-    [[nodiscard]] int GetDefence() const;
+    [[nodiscard]] int GetDefence() ;
 
-    [[nodiscard]] int GetSpecial() const;
+    [[nodiscard]] int GetSpecial() ;
 
-    [[nodiscard]] int GetSpeed() const;
+    [[nodiscard]] int GetSpeed() ;
 
-    [[nodiscard]] int GetIV() const;
+    [[nodiscard]] int GetIV() ;
 
-    [[nodiscard]] int GetLV() const;
+    [[nodiscard]] int GetLV() ;
 
-    [[nodiscard]] int GetCurrentEXP() const;
+    [[nodiscard]] int GetCurrentEXP() ;
 
     [[nodiscard]] bool IsSkillFull() const;
 

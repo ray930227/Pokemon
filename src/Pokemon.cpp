@@ -1,36 +1,48 @@
 #include "Pokemon.hpp"
 
 Pokemon::Pokemon(const std::string &ID) {
-    m_ID = std::stoi(ID);
-    m_IV = rand() % 32;
-    m_HPBP = 0;
-    m_AttackBP = 0;
-    m_DefenceBP = 0;
-    m_SpecialBP = 0;
-    m_SpeedBP = 0;
-    m_CurrentEXP = 0;
-    m_LV = 5;
+    m_Ability.insert({"LV", 5});
+    m_Ability.insert({"IV", rand() % 32});
+    m_Ability.insert({"HP", 0});
+    m_Ability.insert({"CurrentHP", 0});
+    m_Ability.insert({"Attack", 0});
+    m_Ability.insert({"Defence", 0});
+    m_Ability.insert({"Special", 0});
+    m_Ability.insert({"Speed", 0});
+    m_Ability.insert({"HPBP", 0});
+    m_Ability.insert({"AttackBP", 0});
+    m_Ability.insert({"DefenceBP", 0});
+    m_Ability.insert({"SpecialBP", 0});
+    m_Ability.insert({"SpeedBP", 0});
+    m_Ability.insert({"ID", std::stoi(ID)});
+    m_Ability.insert({"EXP", 0});
+    m_Ability.insert({"m_CurrentEXP", 0});
     FindType();
     FindName();
     FindAbiltiy();
     FindSkill();
-    m_CurrentHP = m_HP;
+    m_Ability["CurrentHP"] = m_Ability["HP"];
 }
 
 std::string Pokemon::GetID() {
     std::stringstream ToString;
-    ToString << std::setw(3) << std::setfill('0') << m_ID;
+    ToString << std::setw(3) << std::setfill('0') << m_Ability["ID"];
     std::string StringID = ToString.str();
     return StringID;
 }
 
+void Pokemon::SetIV(int IV) {
+    m_Ability["IV"] = IV;
+}
+
+
 int Pokemon::GetIDByInt() {
-    return m_ID;
+    return m_Ability["ID"];
 }
 
 void Pokemon::LevelUp() {
-    if (m_LV != 100) {
-        m_LV++;
+    if (m_Ability["IV"] != 100) {
+        m_Ability["IV"]++;
         FindAbiltiy();
     }
 }
@@ -43,7 +55,7 @@ void Pokemon::FindName() {
         Name.push_back(text);
     }
     file.close();
-    m_Name = Name[m_ID - 1];
+    m_Name = Name[m_Ability["ID"] - 1];
 }
 
 std::string Pokemon::GetName() const {
@@ -52,7 +64,7 @@ std::string Pokemon::GetName() const {
 
 std::pair<std::vector<std::string>, std::vector<std::string>> Pokemon::GetSkillInfo() {
     std::stringstream ToString;
-    ToString << std::setw(3) << std::setfill('0') << m_ID;
+    ToString << std::setw(3) << std::setfill('0') << m_Ability["ID"];
     std::string StringID = ToString.str();
     std::ifstream FileOfSkill(RESOURCE_DIR"/Pokemon/PokeSkill/Poke" + StringID + ".txt");
     std::vector<std::string> Skills;
@@ -61,7 +73,7 @@ std::pair<std::vector<std::string>, std::vector<std::string>> Pokemon::GetSkillI
     std::string LearnSkill;
     while (FileOfSkill >> NeedLV >> LearnSkill) {
         if (NeedLV != "—") {
-            if (std::stoi(NeedLV) > m_LV) {
+            if (std::stoi(NeedLV) > m_Ability["LV"]) {
                 break;
             }
         }
@@ -180,7 +192,7 @@ void Pokemon::FindType() {
         Types.push_back(text);
     }
     FileOfType.close();
-    std::istringstream SpliteOfType(Types[m_ID - 1]);
+    std::istringstream SpliteOfType(Types[m_Ability["ID"] - 1]);
     std::vector<std::string> Type;
     while (SpliteOfType >> text) {
         Type.push_back(text);
@@ -201,67 +213,78 @@ void Pokemon::FindAbiltiy() {
         }
     }
     FileOfAbility.close();
-    int PreviousHP = m_HP;
-    m_HP = ((int(Value[m_ID - 1][0]) + m_IV + int(round(sqrt(m_HPBP) / 8))) * m_LV / 50) + 10 + m_LV;
-    m_CurrentHP += m_HP - PreviousHP;
-    m_Attack = ((int(Value[m_ID - 1][1]) + m_IV + int(round(sqrt(m_AttackBP) / 8))) * m_LV / 50) + 5;
-    m_Defence = ((int(Value[m_ID - 1][2]) + m_IV + int(round(sqrt(m_DefenceBP) / 8))) * m_LV / 50) + 5;
-    m_Special = ((int(Value[m_ID - 1][3]) + m_IV + int(round(sqrt(m_SpecialBP) / 8))) * m_LV / 50) + 5;
-    m_Speed = ((int(Value[m_ID - 1][4]) + m_IV + int(round(sqrt(m_SpeedBP) / 8))) * m_LV / 50) + 5;
-    m_EXP = m_LV * m_LV * m_LV;
+    int PreviousHP = m_Ability["HP"];
+    m_Ability["HP"] =
+            ((int(Value[m_Ability["ID"] - 1][0]) + m_Ability["IV"] + int(round(sqrt(m_Ability["HPBP"]) / 8))) *
+             m_Ability["LV"] / 50) + 10 + m_Ability["LV"];
+    m_Ability["CurrentHP"] += m_Ability["HP"] - PreviousHP;
+
+    m_Ability["Attack"] =
+            ((int(Value[m_Ability["ID"] - 1][1]) + m_Ability["IV"] + int(round(sqrt(m_Ability["AttackBP"]) / 8))) *
+             m_Ability["LV"] / 50) + 5;
+    m_Ability["Defence"] =
+            ((int(Value[m_Ability["ID"] - 1][2]) + m_Ability["IV"] + int(round(sqrt(m_Ability["DefenceBP"]) / 8))) *
+             m_Ability["LV"] / 50) + 5;
+    m_Ability["Special"] =
+            ((int(Value[m_Ability["ID"] - 1][3]) + m_Ability["IV"] + int(round(sqrt(m_Ability["SpecialBP"]) / 8))) *
+             m_Ability["LV"] / 50) + 5;
+    m_Ability["Speed"] =
+            ((int(Value[m_Ability["ID"] - 1][4]) + m_Ability["IV"] + int(round(sqrt(m_Ability["SpeedBP"]) / 8))) *
+             m_Ability["LV"] / 50) + 5;
+    m_Ability["EXP"] = m_Ability["LV"] * m_Ability["LV"] * m_Ability["LV"];
 }
 
-int Pokemon::GetHP() const {
-    return m_HP;
+int Pokemon::GetHP()  {
+    return m_Ability["HP"];
 }
 
-int Pokemon::GetCurrentHP() const {
-    return m_CurrentHP;
+int Pokemon::GetCurrentHP()  {
+    return m_Ability["CurrentHP"];
 }
 
 void Pokemon::PokemonHurt(int Damage) {
-    m_CurrentHP -= Damage;
+    m_Ability["CurrentHP"] -= Damage;
 }
 
 void Pokemon::PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose) {
     int Damage;
-    Damage = round((((2.0 * EnemyPokemon->GetLV() + 10) / 250) * (1.0 * EnemyPokemon->GetAttack() / m_Defence) *
+    Damage = round((((2.0 * EnemyPokemon->GetLV() + 10) / 250) * (1.0 * EnemyPokemon->GetAttack() / m_Ability["Defence"]) *
                     std::stof(EnemyPokemon->GetSkillDamge()[SkillChoose]) + 2) *
                    PokeFunction::TypeDamage(
                            EnemyPokemon->GetSkillType()[SkillChoose],
                            m_Type));
-    m_CurrentHP -= Damage;
-    if (m_CurrentHP < 0) {
-        m_CurrentHP = 0;
+    m_Ability["CurrentHP"] -= Damage;
+    if (m_Ability["CurrentHP"] < 0) {
+        m_Ability["CurrentHP"] = 0;
     }
 }
 
-int Pokemon::GetAttack() const {
-    return m_Attack;
+int Pokemon::GetAttack()  {
+    return m_Ability["Attack"];
 }
 
-int Pokemon::GetDefence() const {
-    return m_Defence;
+int Pokemon::GetDefence()  {
+    return m_Ability["Defence"];
 }
 
-int Pokemon::GetSpecial() const {
-    return m_Special;
+int Pokemon::GetSpecial()  {
+    return m_Ability["Special"];
 }
 
-int Pokemon::GetSpeed() const {
-    return m_Speed;
+int Pokemon::GetSpeed()  {
+    return m_Ability["Speed"];
 }
 
-int Pokemon::GetIV() const {
-    return m_IV;
+int Pokemon::GetIV()  {
+    return m_Ability["IV"];
 }
 
-int Pokemon::GetLV() const {
-    return m_LV;
+int Pokemon::GetLV()  {
+    return m_Ability["LV"];
 }
 
-int Pokemon::GetCurrentEXP() const {
-    return m_CurrentEXP;
+int Pokemon::GetCurrentEXP()  {
+    return m_Ability["CurrentEXP"];
 }
 
 bool Pokemon::IsSkillFull() const {
@@ -307,7 +330,7 @@ bool Pokemon::IsEvolution() {
         Levels.push_back(std::stoi(text));
     }
     FileOfLevel.close();
-    if (m_LV >= Levels[m_ID - 1] && Levels[m_ID - 1] != 0) {
+    if (m_Ability["LV"] >= Levels[m_Ability["ID"] - 1] && Levels[m_Ability["ID"] - 1] != 0) {
         return true;
     } else {
         return false;
@@ -315,7 +338,7 @@ bool Pokemon::IsEvolution() {
 }
 
 void Pokemon::Evolution() {
-    m_ID++;
+    m_Ability["ID"]++;
     FindName();
     FindAbiltiy();
     FindType();
@@ -325,7 +348,7 @@ bool Pokemon::IsGetNewSkill() {
     std::vector<std::string> Skills = GetSkillInfo().first;
     std::vector<std::string> LVs = GetSkillInfo().second;
     if (LVs[LVs.size() - 1] != "—") {
-        return (std::stoi(LVs[LVs.size() - 1]) == m_LV);
+        return (std::stoi(LVs[LVs.size() - 1]) == m_Ability["LV"]);
     }
     return false;
 }
@@ -347,7 +370,7 @@ int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
 }
 
 bool Pokemon::IsPokemonDying() {
-    return m_CurrentHP <= 0;
+    return m_Ability["CurrentHP"] <= 0;
 }
 
 std::pair<bool, int> Pokemon::GainExperince(int EnemyLV) {
@@ -355,9 +378,9 @@ std::pair<bool, int> Pokemon::GainExperince(int EnemyLV) {
     int EXP;
     bool IsTrue = false;
     EXP = round((RandomEXP * EnemyLV) / 7);
-    m_CurrentEXP += EXP;
-    while (m_CurrentEXP > m_EXP) {
-        m_CurrentEXP -= m_EXP;
+    m_Ability["CurrentEXP"] += EXP;
+    while (m_Ability["CurrentEXP"] > m_Ability["EXP"]) {
+        m_Ability["CurrentEXP"] -= m_Ability["EXP"];
         LevelUp();
         IsTrue = true;
     }
@@ -365,7 +388,7 @@ std::pair<bool, int> Pokemon::GainExperince(int EnemyLV) {
 }
 
 void Pokemon::SetCurrentHP(int HP) {
-    m_CurrentHP = HP;
+    m_Ability["CurrentHP"] = HP;
 }
 
 void Pokemon::ReSetSkills() {
@@ -379,8 +402,8 @@ void Pokemon::ReSetSkills() {
 }
 
 void Pokemon::SetLevel(int Level) {
-    m_LV = Level;
-    while(IsEvolution()){
+    m_Ability["LV"] = Level;
+    while (IsEvolution()) {
         Evolution();
     }
     ReSetSkills();
@@ -415,14 +438,14 @@ void Pokemon::SetSkillByID(std::vector<int> SkillID) {
 }
 
 void Pokemon::GetSkillByCD(std::string CDofID) {
-    if(IsSkillLearnable(CDofID) && !IsSkillFull()){
-        int Counter=1;
+    if (IsSkillLearnable(CDofID) && !IsSkillFull()) {
+        int Counter = 1;
         std::string SkillName;
         std::string Line;
         std::ifstream FileOfCDLearn(RESOURCE_DIR"/Pokemon/CDLearn.txt");
-        while (getline(FileOfCDLearn, Line)){
-            if (Counter==std::stoi(CDofID)){
-                SkillName=Line;
+        while (getline(FileOfCDLearn, Line)) {
+            if (Counter == std::stoi(CDofID)) {
+                SkillName = Line;
                 break;
             }
         }
@@ -452,14 +475,14 @@ void Pokemon::GetSkillByCD(std::string CDofID) {
 }
 
 void Pokemon::GetSkillByCD(std::string CDofID, int SkillChange) {
-    if(IsSkillLearnable(CDofID)){
-        int Counter=1;
+    if (IsSkillLearnable(CDofID)) {
+        int Counter = 1;
         std::string SkillName;
         std::string Line;
         std::ifstream FileOfCDLearn(RESOURCE_DIR"/Pokemon/CDLearn.txt");
-        while (getline(FileOfCDLearn, Line)){
-            if (Counter==std::stoi(CDofID)){
-                SkillName=Line;
+        while (getline(FileOfCDLearn, Line)) {
+            if (Counter == std::stoi(CDofID)) {
+                SkillName = Line;
                 break;
             }
             Counter++;
@@ -491,17 +514,17 @@ void Pokemon::GetSkillByCD(std::string CDofID, int SkillChange) {
 
 
 bool Pokemon::IsSkillLearnable(std::string CDofID) {
-    int Counter=1;
+    int Counter = 1;
     std::string Line;
     std::string TargetLine;
     std::vector<std::string> AllCDs;
     std::ifstream FileOfLearnSet(RESOURCE_DIR"/Pokemon/LearnSet.txt");
     while (getline(FileOfLearnSet, Line)) {
-        if (Counter == m_ID) {
-            if (Line=="-"){
+        if (Counter == m_Ability["ID"]) {
+            if (Line == "-") {
                 return false;
             }
-            TargetLine=Line;
+            TargetLine = Line;
             break;
         }
         Counter++;
@@ -512,8 +535,8 @@ bool Pokemon::IsSkillLearnable(std::string CDofID) {
     while (std::getline(ss, token, ' ')) {
         AllCDs.push_back(token);
     }
-    for (const auto& CD:AllCDs){
-        if(CD==CDofID){
+    for (const auto &CD: AllCDs) {
+        if (CD == CDofID) {
             return true;
         }
     }
@@ -521,17 +544,17 @@ bool Pokemon::IsSkillLearnable(std::string CDofID) {
 }
 
 void Pokemon::GainBasePoints(int Point) {
-    m_HPBP += Point;
-    m_AttackBP += Point;
-    m_DefenceBP += Point;
-    m_SpecialBP += Point;
-    m_SpeedBP += Point;
+    m_Ability["HPBP"] += Point;
+    m_Ability["AttackBP"] += Point;
+    m_Ability["DefenceBP"] += Point;
+    m_Ability["SpecialBP"] += Point;
+    m_Ability["SpeedBP"] += Point;
 }
 
-void Pokemon::SetSkillByName(const std::vector<std::string>& SkillName) {
+void Pokemon::SetSkillByName(const std::vector<std::string> &SkillName) {
     std::string Move;
     std::vector<std::vector<std::string>> AllSkills;
-    for (const auto& Name:SkillName){
+    for (const auto &Name: SkillName) {
         std::ifstream FileOfMove(RESOURCE_DIR"/Pokemon/Move.txt");
         while (std::getline(FileOfMove, Move)) {
             if (Move.find(Name) != std::string::npos) {

@@ -10,7 +10,6 @@
 #include "Character.hpp"
 #include "MapSystem.hpp"
 #include "Pokemon.hpp"
-#include "EventManager.hpp"
 #include "UI/EvolutionUI.hpp"
 #include "UI/FightSkillUI.hpp"
 #include "UI/PokeBagUI.hpp"
@@ -82,8 +81,7 @@ public:
         FAILCHANGE,
         POKEFAINTED,
         EVOLUTION,
-        OBTAINSKILL,
-        REPLACESKILL,
+        GETSKILL,
         WILDFINISH,
         NPCCHANGE,
         UPDATEINFO,
@@ -163,7 +161,6 @@ private:
     bool encounterable = true;
     bool isWildPokemon = false;
     std::string currentDirection;
-    EventManager m_EventManager;
 };
 
 #endif

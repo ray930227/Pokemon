@@ -68,6 +68,7 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
+        Player->GetItemBag()->AddItemQuantity(9,1);
         m_CurrentEvent = EventID::COMPUTER;
         m_CurrentState = State::EVENT;
     }
@@ -86,9 +87,24 @@ void App::Update() {
         std::stringstream ToString;
         ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
         std::string StringID = ToString.str();
-        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>(StringID);
-        FirstPokemon->SetLevel(23);
+        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
+        FirstPokemon->SetLevel(5);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
+    }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::O)){
+        LOG_DEBUG("It's so powerful!!!!!!!!");
+        std::vector<std::shared_ptr<Pokemon>> Pokemons;
+        Pokemons.push_back(std::make_shared<Pokemon>("150"));
+        Pokemons.push_back(std::make_shared<Pokemon>("146"));
+        Pokemons.push_back(std::make_shared<Pokemon>("145"));
+        Pokemons.push_back(std::make_shared<Pokemon>("144"));
+        Pokemons.push_back(std::make_shared<Pokemon>("149"));
+        Pokemons.push_back(std::make_shared<Pokemon>("006"));
+        for (auto Poke:Pokemons){
+            Poke->SetLevel(100);
+        }
+        Player->GetPokemonBag()->SetPokemons(Pokemons);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::H)) {
