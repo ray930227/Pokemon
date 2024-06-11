@@ -304,6 +304,8 @@ void App::Event() {
                         }
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
+                        auto poke=Player->GetPokemonBag()->GetPokemons()[0];
+
                         while (m_TB->GetVisibility()) {
                             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                                 m_TB->Next();
