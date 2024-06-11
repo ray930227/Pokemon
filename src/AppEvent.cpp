@@ -557,6 +557,7 @@ void App::Event() {
         }
         //endregion
     } else if (m_CurrentEvent == EventID::NPC_END) {
+        //region
         if (m_TB->GetVisibility()) {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
@@ -592,6 +593,7 @@ void App::Event() {
             m_TB->SetText("NPC has not implement");
             m_TB->SetVisible(true);
         }
+        //endregion
     } else if (m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
         //region
         int temp = m_MapSystem->GetCurrentArea();
