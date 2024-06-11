@@ -99,6 +99,8 @@ void App::Event() {
                            (PlayerPosition.x == 29 && PlayerPosition.y == 23)) {
                     m_MapSystem->SetMap("PokeCenter");
                     m_MapSystem->SetPosition({288, 216});
+                    m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PokeCenter.mp3");
+                    m_BGM->Play();
                 } else if (PlayerPosition.x == 13 && PlayerPosition.y == 82) {
                     m_MapSystem->SetMap("GYM1");
                     m_MapSystem->SetPosition({72, 432});
@@ -124,6 +126,10 @@ void App::Event() {
                 m_MapSystem->SetPosition({-1728, 2952});
             } else if (currnetMap == "PokeMart" || currnetMap == "PokeCenter" || currnetMap == "GYM1" ||
                        currnetMap == "GYM2") {
+                if(currnetMap=="PokeCenter"){
+                    m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
+                    m_BGM->Play();
+                }
                 m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
@@ -512,12 +518,33 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::HEAL) {
         //region
-        m_SFX->Play("HealPokemon");
-        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
-            i->SetCurrentHP(i->GetHP());
+        if(m_TB->GetVisibility()){
+            if(m_TFBox->GetVisible()) {
+                LOG_DEBUG("123");
+                if (m_TFBox->Choose()) {
+                    if (m_TFBox->GetTF()) {
+                        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/HealPokemon.mp3");
+                        m_BGM->Play();
+                        for(auto &i:Player->GetPokemonBag()->GetPokemons()){
+                            i->SetCurrentHP(i->GetHP());
+                        }
+                        LOG_DEBUG("321");
+                        SDL_Delay(2000);
+                        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PokeCenter.mp3");
+                        m_BGM->Play();
+
+                    }
+                    m_TFBox->SetVisible(false);
+                    m_TB->SetVisible(false);
+                    m_CurrentEvent=EventID::NONE;
+                    m_CurrentState=State::UPDATE;
+                }
+            }
+        } else{
+            m_TB->SetText("是否要恢復背包內所有寶可夢的HP?");
+            m_TB->SetVisible(true);
+            m_TFBox->SetVisible(true);
         }
-        m_CurrentEvent = EventID::NONE;
-        m_CurrentState = State::UPDATE;
         //endregion
     } else if (m_CurrentEvent == EventID::SETTING) {
         //region
