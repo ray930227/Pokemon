@@ -1,6 +1,6 @@
 #include "UI/SettingUI.hpp"
 
-SettingUI::SettingUI(const std::shared_ptr<Character> &Player,std::shared_ptr<ComputerUI> ComputerUI) {
+SettingUI::SettingUI(const std::shared_ptr<Character> &Player, std::shared_ptr<ComputerUI> ComputerUI) {
     m_SettingBG = std::make_shared<Image>(RESOURCE_DIR"/Background/SettingBG.png");
     m_SettingBG->SetZIndex(51);
     m_SettingBG->SetVisible(false);
@@ -15,7 +15,7 @@ SettingUI::SettingUI(const std::shared_ptr<Character> &Player,std::shared_ptr<Co
     m_ItemUI = std::make_shared<ItemUI>(Player);
     m_ItemUI->SetVisible(false);
 
-    m_PokedexUI=std::make_shared<PokedexUI>(Player,ComputerUI);
+    m_PokedexUI = std::make_shared<PokedexUI>(Player, ComputerUI);
     m_PokedexUI->SetVisible(false);
 
     m_TB = std::make_shared<TextBox>();
@@ -23,8 +23,6 @@ SettingUI::SettingUI(const std::shared_ptr<Character> &Player,std::shared_ptr<Co
     m_TB->SetVisible(false);
 
     m_Player = Player;
-
-    Player->GetItemBag()->AddItemQuantity(9,1);
 }
 
 void SettingUI::Start() {
@@ -38,7 +36,7 @@ void SettingUI::Run() {
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             m_TB->Next();
         }
-    } else if(m_PokedexUI->GetVisible()){
+    } else if (m_PokedexUI->GetVisible()) {
         m_PokedexUI->Run();
     } else if (m_PokeBagUI->GetVisible()) {
         m_PokeBagUI->Run(3);
@@ -95,7 +93,7 @@ std::vector<std::shared_ptr<Util::GameObject>> SettingUI::GetChildren() {
         result.push_back(i);
     }
 
-    for(auto &i:m_PokedexUI->GetChildren()){
+    for (auto &i: m_PokedexUI->GetChildren()) {
         result.push_back(i);
     }
 

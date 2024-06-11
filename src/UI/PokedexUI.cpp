@@ -1,6 +1,6 @@
 #include "UI/PokedexUI.hpp"
 
-PokedexUI::PokedexUI(const std::shared_ptr<Character> &Player,std::shared_ptr<ComputerUI> computerUI) {
+PokedexUI::PokedexUI(const std::shared_ptr<Character> &Player, std::shared_ptr<ComputerUI> computerUI) {
     m_PokedexBG = std::make_shared<Image>(RESOURCE_DIR"/Background/PokedexBG.png");
     m_PokedexBG->SetZIndex(60);
     m_PokedexBG->SetVisible(false);
@@ -12,7 +12,7 @@ PokedexUI::PokedexUI(const std::shared_ptr<Character> &Player,std::shared_ptr<Co
     m_PokeImage = std::make_shared<Image>(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront001.png");
     m_PokeImage->SetZIndex(61);
     m_PokeImage->SetVisible(false);
-    m_PokeImage->SetPosition({232,-232});
+    m_PokeImage->SetPosition({232, -232});
 
     m_NameTexts.resize(8);
     m_IDTexts.resize(8);
@@ -34,21 +34,21 @@ PokedexUI::PokedexUI(const std::shared_ptr<Character> &Player,std::shared_ptr<Co
     m_GetText->SetVisible(false);
     m_GetText->SetZIndex(61);
     m_GetText->SetSize(48);
-    m_GetText->SetPosition({280,240});
+    m_GetText->SetPosition({280, 240});
 
     std::ifstream file(RESOURCE_DIR"/Pokemon/Name.txt", std::ios::in);
     std::string tempStr;
     for (int i = 0; i < 151; i++) {
         std::stringstream ToString;
-        ToString << std::setw(3) << std::setfill('0') << i+1;
+        ToString << std::setw(3) << std::setfill('0') << i + 1;
         std::string StringID = ToString.str();
         std::getline(file, tempStr);
         m_PokeNames.push_back(StringID + " " + tempStr);
     }
     file.close();
 
-    m_Player=Player;
-    m_ComputerUI=computerUI;
+    m_Player = Player;
+    m_ComputerUI = computerUI;
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> PokedexUI::GetChildren() {
@@ -85,15 +85,15 @@ void PokedexUI::Run() {
         } else {
             m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Arrow->GetPosition().y - 72});
         }
-    } else if(Util::Input::IsKeyDown(Util::Keycode::LEFT)) {
-        m_RowTopIndex-=8;
-    } else if(Util::Input::IsKeyDown(Util::Keycode::RIGHT)) {
-        m_RowTopIndex+=8;
+    } else if (Util::Input::IsKeyDown(Util::Keycode::LEFT)) {
+        m_RowTopIndex -= 8;
+    } else if (Util::Input::IsKeyDown(Util::Keycode::RIGHT)) {
+        m_RowTopIndex += 8;
     }
     Update();
 
     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-        m_SFXSystem.Play("PokeSound"+m_IDTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText());
+        m_SFXSystem.Play("PokeSound" + m_IDTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText());
     }
     if (Util::Input::IsKeyDown(Util::Keycode::X)) {
         SetVisible(false);
@@ -118,8 +118,7 @@ void PokedexUI::SetVisible(bool Visible) {
 
 void PokedexUI::Update() {
     if (m_RowTopIndex < 0) m_RowTopIndex = 0;
-    if (m_RowTopIndex + 8 >= 151) m_RowTopIndex=143;
-    LOG_DEBUG(m_RowTopIndex);
+    if (m_RowTopIndex + 8 >= 151) m_RowTopIndex = 143;
     for (size_t i = 0; i < 8; i++) {
         m_IDTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(0, m_PokeNames[m_RowTopIndex + i].find(' ')));
         m_NameTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(m_PokeNames[m_RowTopIndex + i].find(' '),
@@ -129,16 +128,16 @@ void PokedexUI::Update() {
     m_PokeImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +
                           m_IDTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText() + ".png");
 
-    for(auto &i:m_Player->GetPokemonBag()->GetPokemons()){
-        m_PokeGet[std::stoi(i->GetID())-1]=true;
+    for (auto &i: m_Player->GetPokemonBag()->GetPokemons()) {
+        m_PokeGet[std::stoi(i->GetID()) - 1] = true;
     }
-    for(auto &i:m_ComputerUI->GetKeepPokemons()){
-        m_PokeGet[std::stoi(i->GetID())-1]=true;
+    for (auto &i: m_ComputerUI->GetKeepPokemons()) {
+        m_PokeGet[std::stoi(i->GetID()) - 1] = true;
     }
 
-    int count=0;
-    for(bool i : m_PokeGet){
-        if(i) count++;
+    int count = 0;
+    for (bool i: m_PokeGet) {
+        if (i) count++;
     }
     m_GetText->SetText(std::to_string(count));
 
