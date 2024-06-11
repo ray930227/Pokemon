@@ -210,3 +210,7 @@ void TextBox::Reload() {
     m_AllText.clear();
     m_LineIndex = 0;
 }
+
+int TextBox::GetSize() {
+    return m_AllText.size();
+}

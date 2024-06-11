@@ -45,6 +45,8 @@ public:
     void AddText(const std::string &str);
 
     void Reload();
+
+    int GetSize();
 };
 
 #endif //POKEMON_TEXTBOX_HPP

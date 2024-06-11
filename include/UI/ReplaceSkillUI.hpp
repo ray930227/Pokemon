@@ -3,20 +3,24 @@
 
 #include "TextBox.hpp"
 #include "TFBox.hpp"
+#include "Character.hpp"
 #include "Util/Input.hpp"
 
 class ReplaceSkillUI {
 private:
     std::shared_ptr<TextBox> m_TextBox;
     std::shared_ptr<TFBox> m_TFBox;
+    std::shared_ptr<Character> m_Player;
 public:
-    ReplaceSkillUI();
+    ReplaceSkillUI(const std::shared_ptr<Character> &Player);
 
     [[nodiscard]] std::vector<std::vector<std::shared_ptr<Util::GameObject>>> GetChildren() const;
 
+    void Run();
+
     void SetVisible(bool visible);
 
-    void SetText(const std::string &PlayerPokemon, const std::string &NewSkill);
+    void SetText(int PokeIndex);
 
     void SetTextBoxVisible(bool visible);
 

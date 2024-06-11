@@ -65,7 +65,7 @@ void App::Loading() {
                     m_FightMainUI->SetEnemyHPUIVisible(true);
                     m_FightMainUI->SetEnemyPokeNameVisible(true);
                     if (m_FightMainUI->GetPlayerPokeScale().x < 1 && m_FightMainUI->EndMoving()) {
-                        if (m_FightMainUI->GetPlayerPokeScale().x > 0.95) {
+                        if (m_FightMainUI->GetPlayerPokeScale().x > 0.9) {
                             m_SFX->Play("PokeSound" +
                                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                         }

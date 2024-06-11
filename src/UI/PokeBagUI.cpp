@@ -285,6 +285,10 @@ void PokeBagUI::ReSetCurrentPokemon() {
     m_Arrow[1]->SetPosition({150, 240});
 }
 
+int PokeBagUI::GetCurrentPokemon() {
+    return m_CurrentPokemon;
+}
+
 void PokeBagUI::Updata() {
     auto Pokemons = m_Player->GetPokemonBag()->GetPokemons();
     for (int i = 0; i < Pokemons.size(); i++) {
