@@ -146,14 +146,30 @@ void FightMainUI::SetPlayerPokeScale(const glm::vec2 &scale) {
     m_PlayerPokemonImage->SetScale(scale);
 }
 
+
+void FightMainUI::SetEnemyPokeScale(const glm::vec2 &scale) {
+    m_EnemyPokemonImage->SetScale(scale);
+}
+
 const glm::vec2 &FightMainUI::GetPlayerPokeScale() const {
     return m_PlayerPokemonImage->GetScale();
 }
 
-void FightMainUI::ZoomPlayerImage() {
-    m_PlayerPokemonImage->SetScale(
-            {m_PlayerPokemonImage->GetScale().x + 0.1,
-             m_PlayerPokemonImage->GetScale().y + 0.1});
+const glm::vec2 &FightMainUI::GetEnemyPokeScale() const {
+    return m_EnemyPokemonImage->GetScale();
+}
+
+void FightMainUI::ZoomImage(bool isPlayer) {
+    if (isPlayer) {
+        m_PlayerPokemonImage->SetScale(
+                {m_PlayerPokemonImage->GetScale().x + 0.1,
+                 m_PlayerPokemonImage->GetScale().y + 0.1});
+    } else {
+        m_EnemyPokemonImage->SetScale(
+                {m_EnemyPokemonImage->GetScale().x + 0.1,
+                 m_EnemyPokemonImage->GetScale().y + 0.1});
+    }
+
 }
 
 void FightMainUI::ReSetWildPosition() {

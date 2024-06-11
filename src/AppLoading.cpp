@@ -10,11 +10,13 @@ void App::Loading() {
                     break;
                 }
             }
+            m_CurrentNPCPokemon = 0;
             IsChangePokemon = false;
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
             m_LoadingUI->RandomMode();
             m_FightMainUI->ReSetWildPosition();
+            m_FightMainUI->ReSetBallAnimation();
             m_FightSkillUI->ReSetArrow();
             m_PokeBagUI->ReSetCurrentPokemon();
             m_CurrentLoading = LoadingID::LOADING;
@@ -29,7 +31,7 @@ void App::Loading() {
                 m_WhiteBG->SetZIndex(51);
                 m_FightMainUI->SetEnemyPokeImage(0);
                 m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
-                m_LoadingUI->LoadText(m_CurrentPlayerPokemon, 0, isWildPokemon);
+                m_LoadingUI->LoadText(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, isWildPokemon);
                 m_FightMainUI->SetPlayerVisible(true);
                 m_FightMainUI->SetEnemyPokeVisible(true);
                 if (m_FightMainUI->BeginMoving()) {
@@ -58,7 +60,7 @@ void App::Loading() {
                 case 3:
                     m_FightMainUI->SetTextHP(m_CurrentPlayerPokemon);
                     m_FightMainUI->SetTextPlayerPokeName(m_CurrentPlayerPokemon);
-                    m_FightMainUI->SetTextEnemyPokeName(0);
+                    m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
                     m_FightSkillUI->SetText(m_CurrentPlayerPokemon);
                     m_FightMainUI->SetPlayerBallVisible(false);
                     m_FightMainUI->SetEnemyHPUIVisible(true);
@@ -68,7 +70,7 @@ void App::Loading() {
                             m_SFX->Play("PokeSound" +
                                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                         }
-                        m_FightMainUI->ZoomPlayerImage();
+                        m_FightMainUI->ZoomImage(true);
                         m_FightMainUI->SetBallAnimationVisible(false);
                         m_FightMainUI->SetPlayerPokeVisible(true);
                         m_FightMainUI->SetPlayerHPUIVisible(true);
@@ -83,7 +85,6 @@ void App::Loading() {
                     break;
             }
             if (!m_LoadingUI->GetTBVisibility()) {
-                m_FightMainUI->ReSetBallAnimation();
                 m_FightMainUI->SetArrowVisible(true);
                 m_FightMainUI->SetFightBGVisible(true);
                 m_PlayerPokeInfo->SetVisible(true);

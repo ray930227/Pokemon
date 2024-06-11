@@ -59,9 +59,13 @@ public:
 
     void SetPlayerPokeScale(const glm::vec2 &scale);
 
+    void SetEnemyPokeScale(const glm::vec2 &scale);
+
     [[nodiscard]] const glm::vec2 &GetPlayerPokeScale() const;
 
-    void ZoomPlayerImage();
+    [[nodiscard]] const glm::vec2 &GetEnemyPokeScale() const;
+
+    void ZoomImage(bool isPlayer);
 
     void ReSetWildPosition();
 

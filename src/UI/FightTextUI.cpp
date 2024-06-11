@@ -36,13 +36,17 @@ FightTextUI::FightTextUI(const std::shared_ptr<Character> &Player, const std::sh
     m_LoseTextBox->SetVisible(false);
     m_Player = Player;
     m_Enemy = Enemy;
+    m_DefeatWildTextBox = std::make_shared<TextBox>();
+    m_DefeatWildTextBox->SetZIndex(60);
+    m_DefeatWildTextBox->SetVisible(false);
+
 }
 
 std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChildren() const {
     return {m_PlayerTextBox->GetChildren(), m_EnemyTextBox->GetChildren(), m_FinishTextBox->GetChildren(),
             m_DefeatTextBox->GetChildren(), m_PokePackTextBox->GetChildren(), m_GainEXPTextBox->GetChildren(),
             m_RunTextBox->GetChildren(), m_LevelUPTextBox->GetChildren(), m_ChangePokeTextBox->GetChildren(),
-            m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren()};
+            m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren(),m_DefeatWildTextBox->GetChildren()};
 }
 
 void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
@@ -80,6 +84,24 @@ void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
         m_EnemyTextBox->AddText("效果不好!");
     }
 }
+
+void FightTextUI::SetDefeatWild(int PokeIndex, int EnemyIndex, int EXP) {
+    std::string PlayerPokeName = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetName();
+    std::string EnemyPokeName = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetName();
+    m_DefeatWildTextBox->SetVisible(true);
+    m_DefeatWildTextBox->Reload();
+    m_DefeatWildTextBox->AddText("敵方" + EnemyPokeName + "被擊倒了!");
+    m_DefeatWildTextBox->AddText(PlayerPokeName + "獲得了" + std::to_string(EXP) + "經驗值及基礎點數!");
+}
+
+bool FightTextUI::GetDefeatWildVisibility() const {
+    return m_DefeatWildTextBox->GetVisibility();
+}
+
+
+
+
+
 
 void FightTextUI::SetDefeat(const std::string &PokeName) {
     m_DefeatTextBox->SetVisible(true);
@@ -194,5 +216,7 @@ void FightTextUI::Next() {
         m_PokePackTextBox->Next();
     } else if (m_LoseTextBox->GetVisibility()) {
         m_LoseTextBox->Next();
+    } else if (m_DefeatWildTextBox->GetVisibility()){
+        m_DefeatWildTextBox->Next();
     }
 }

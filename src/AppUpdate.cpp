@@ -74,7 +74,7 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::F)) {
-        isWildPokemon = true;
+        isWildPokemon= false;
         m_CurrentLoading = LoadingID::INIT;
         m_CurrentState = State::LOADING;
     }
@@ -82,14 +82,16 @@ void App::Update() {
     if (Util::Input::IsKeyDown(Util::Keycode::G)) {
         LOG_DEBUG("GetPokemon!");
         std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
+        std::shared_ptr<Pokemon> TempPokemon2 = std::make_shared<Pokemon>("007");
         TempPokemon->SetLevel(23);
-        Enemy->GetPokemonBag()->addPomekon(TempPokemon);
+        TempPokemon2->SetLevel(23);
+        Enemy->GetPokemonBag()->SetPokemons({TempPokemon, TempPokemon2});
         std::stringstream ToString;
         ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
         std::string StringID = ToString.str();
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
-        FirstPokemon->SetLevel(15);
-        FirstPokemon->SetCurrentEXP(FirstPokemon->GetAbility()["EXP"]-1);
+        FirstPokemon->SetLevel(23);
+//        FirstPokemon->SetCurrentEXP(FirstPokemon->GetAbility()["EXP"]-1);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 
