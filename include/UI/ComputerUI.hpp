@@ -30,6 +30,8 @@ public:
 
     bool GetVisibile();
 
+    std::vector<std::shared_ptr<Pokemon>> GetKeepPokemons();
+
     void Keep(const std::shared_ptr<Pokemon> &Poke);
 
 protected:

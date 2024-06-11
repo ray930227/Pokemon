@@ -91,6 +91,10 @@ bool ComputerUI::GetVisibile() {
     return m_ComputerBG->GetVisible();
 }
 
+std::vector<std::shared_ptr<Pokemon>> ComputerUI::GetKeepPokemons() {
+    return m_ComputerPokemons;
+}
+
 void ComputerUI::Keep(const std::shared_ptr<Pokemon> &Poke) {
     m_ComputerPokemons.push_back(Poke);
 }
@@ -205,8 +209,17 @@ void ComputerUI::Action() {
     } else if (m_Arrows[0]->GetPosition().y == 194) {
         m_ComputerPokemons.push_back(PlayerPokemons[index]);
         PlayerPokemons.erase(PlayerPokemons.begin() + index);
+
     } else {
         m_ComputerPokemons.erase(m_ComputerPokemons.begin() + index);
+    }
+    if((m_Arrows[0]->GetPosition().y == 194 && PlayerPokemons.size()==1) ||
+    (m_Arrows[0]->GetPosition().y != 194 && m_ComputerPokemons.size()==0)){
+        m_Arrows[1]->SetVisible(false);
+        m_ComputerInsideBG->SetVisible(false);
+        for (auto &i: m_Texts)
+            i->SetVisible(false);
+        m_Arrows[0]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
     }
     m_Player->GetPokemonBag()->SetPokemons(PlayerPokemons);
 }

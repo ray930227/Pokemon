@@ -140,11 +140,11 @@ void App::Start() {
     m_ShopUI = std::make_shared<ShopUI>(Player);
     m_Root.AddChildren(m_ShopUI->GetChildren());
 
-    m_SettingUI=std::make_shared<SettingUI>(Player);
-    m_Root.AddChildren(m_SettingUI->GetChildren());
-
     m_ComputerUI = std::make_shared<ComputerUI>(Player);
     m_Root.AddChildren(m_ComputerUI->GetChildren());
+
+    m_SettingUI=std::make_shared<SettingUI>(Player,m_ComputerUI);
+    m_Root.AddChildren(m_SettingUI->GetChildren());
 
     m_CurrentState = State::HOME;
 }

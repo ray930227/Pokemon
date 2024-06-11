@@ -55,6 +55,8 @@ add_executable(${PROJECT_NAME}
     src/UI/ComputerUI.cpp
     include/UI/ItemUI.hpp
     src/UI/ItemUI.cpp
+    include/UI/PokedexUI.hpp
+    src/UI/PokedexUI.cpp
 )
 
 if(MSVC)
