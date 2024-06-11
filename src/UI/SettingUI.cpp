@@ -1,6 +1,6 @@
 #include "UI/SettingUI.hpp"
 
-SettingUI::SettingUI(const std::shared_ptr<Character> &Player) {
+SettingUI::SettingUI(const std::shared_ptr<Character> &Player, std::shared_ptr<ComputerUI> ComputerUI) {
     m_SettingBG = std::make_shared<Image>(RESOURCE_DIR"/Background/SettingBG.png");
     m_SettingBG->SetZIndex(51);
     m_SettingBG->SetVisible(false);
@@ -14,6 +14,9 @@ SettingUI::SettingUI(const std::shared_ptr<Character> &Player) {
 
     m_ItemUI = std::make_shared<ItemUI>(Player);
     m_ItemUI->SetVisible(false);
+
+    m_PokedexUI = std::make_shared<PokedexUI>(Player, ComputerUI);
+    m_PokedexUI->SetVisible(false);
 
     m_TB = std::make_shared<TextBox>();
     m_TB->SetZIndex(53);
@@ -33,6 +36,8 @@ void SettingUI::Run() {
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             m_TB->Next();
         }
+    } else if (m_PokedexUI->GetVisible()) {
+        m_PokedexUI->Run();
     } else if (m_PokeBagUI->GetVisible()) {
         m_PokeBagUI->Run(3);
     } else if (m_ItemUI->GetVisible()) {
@@ -44,7 +49,7 @@ void SettingUI::Run() {
                     m_TB->SetVisible(true);
                     m_TB->SetText("尚無神奇寶貝圖鑑!");
                 } else {
-                    //實作圖鑑UI
+                    m_PokedexUI->SetVisible(true);
                 }
                 break;
             case 178:
@@ -61,7 +66,7 @@ void SettingUI::Run() {
             case 34:
                 break;
             case -38:
-                SetVisibile(false);
+                SetVisible(false);
         }
     } else if (Util::Input::IsKeyDown(Util::Keycode::UP) && m_Arrow->GetPosition().y < 250) {
         m_Arrow->SetPosition({m_Arrow->GetPosition().x, m_Arrow->GetPosition().y + 72});
@@ -88,14 +93,18 @@ std::vector<std::shared_ptr<Util::GameObject>> SettingUI::GetChildren() {
         result.push_back(i);
     }
 
+    for (auto &i: m_PokedexUI->GetChildren()) {
+        result.push_back(i);
+    }
+
     return result;
 }
 
-bool SettingUI::GetVisibile() {
+bool SettingUI::GetVisible() {
     return m_SettingBG->GetVisible();
 }
 
-void SettingUI::SetVisibile(bool Visibile) {
-    m_SettingBG->SetVisible(Visibile);
-    m_Arrow->SetVisible(Visibile);
+void SettingUI::SetVisible(bool Visible) {
+    m_SettingBG->SetVisible(Visible);
+    m_Arrow->SetVisible(Visible);
 }

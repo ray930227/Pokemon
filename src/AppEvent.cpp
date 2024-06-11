@@ -99,6 +99,8 @@ void App::Event() {
                            (PlayerPosition.x == 29 && PlayerPosition.y == 23)) {
                     m_MapSystem->SetMap("PokeCenter");
                     m_MapSystem->SetPosition({288, 216});
+                    m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PokeCenter.mp3");
+                    m_BGM->Play();
                 } else if (PlayerPosition.x == 13 && PlayerPosition.y == 82) {
                     m_MapSystem->SetMap("GYM1");
                     m_MapSystem->SetPosition({72, 432});
@@ -124,6 +126,10 @@ void App::Event() {
                 m_MapSystem->SetPosition({-1728, 2952});
             } else if (currnetMap == "PokeMart" || currnetMap == "PokeCenter" || currnetMap == "GYM1" ||
                        currnetMap == "GYM2") {
+                if (currnetMap == "PokeCenter") {
+                    m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
+                    m_BGM->Play();
+                }
                 m_MapSystem->SetMap("MainMap");
             } else {
                 LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
@@ -512,18 +518,37 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::HEAL) {
         //region
-        m_SFX->Play("HealPokemon");
-        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
-            i->SetCurrentHP(i->GetHP());
+        if (m_TB->GetVisibility()) {
+            if (m_TFBox->GetVisible()) {
+                if (m_TFBox->Choose()) {
+                    if (m_TFBox->GetTF()) {
+                        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/HealPokemon.mp3");
+                        m_BGM->Play();
+                        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+                            i->SetCurrentHP(i->GetHP());
+                        }
+                        SDL_Delay(2000);
+                        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PokeCenter.mp3");
+                        m_BGM->Play();
+
+                    }
+                    m_TFBox->SetVisible(false);
+                    m_TB->SetVisible(false);
+                    m_CurrentEvent = EventID::NONE;
+                    m_CurrentState = State::UPDATE;
+                }
+            }
+        } else {
+            m_TB->SetText("是否要恢復背包內所有寶可夢的HP?");
+            m_TB->SetVisible(true);
+            m_TFBox->SetVisible(true);
         }
-        m_CurrentEvent = EventID::NONE;
-        m_CurrentState = State::UPDATE;
         //endregion
     } else if (m_CurrentEvent == EventID::SETTING) {
         //region
-        if (m_SettingUI->GetVisibile()) {
+        if (m_SettingUI->GetVisible()) {
             m_SettingUI->Run();
-            if (!m_SettingUI->GetVisibile()) {
+            if (!m_SettingUI->GetVisible()) {
                 m_CurrentEvent = EventID::NONE;
                 m_CurrentState = State::UPDATE;
             }
@@ -531,13 +556,13 @@ void App::Event() {
             m_SettingUI->Start();
         }
         //endregion
-    } else if(m_CurrentEvent==EventID::NPC_END) {
-        if(m_TB->GetVisibility()){
-            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+    } else if (m_CurrentEvent == EventID::NPC_END) {
+        if (m_TB->GetVisibility()) {
+            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
-                if(!m_TB->GetVisibility()){
-                    m_CurrentState=State::UPDATE;
-                    m_CurrentEvent=EventID::NONE;
+                if (!m_TB->GetVisibility()) {
+                    m_CurrentState = State::UPDATE;
+                    m_CurrentEvent = EventID::NONE;
                 }
             }
         } else if (currnetMap == "GYM1") {
@@ -552,8 +577,8 @@ void App::Event() {
                 m_TB->AddText("招式學習器只能給一個神奇寶貝學");
                 m_TB->AddText("所以要冷靜選擇，做出最好的選擇");
                 m_TB->SetVisible(true);
-                Player->GetItemBag()->AddItemQuantity("招式學習器３４（忍耐）",1);
-                Player->GetItemBag()->AddItemQuantity("灰色徽章",1);
+                Player->GetItemBag()->AddItemQuantity("招式學習器３４（忍耐）", 1);
+                Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
             } else {
                 LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
                 Enemy = nullptr;
@@ -567,27 +592,27 @@ void App::Event() {
             m_TB->SetText("NPC has not implement");
             m_TB->SetVisible(true);
         }
-    } else if(m_CurrentEvent==EventID::ALL_POKEMON_DIE){
+    } else if (m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
         //region
-        int temp=m_MapSystem->GetCurrentArea();
+        int temp = m_MapSystem->GetCurrentArea();
         m_MapSystem->SetMap("MainMap");
-        auto Position=m_MapSystem->GetPlayerPosition();
-        double distance1=sqrt(pow(Position.x-84,2)+pow(Position.y-65,2));
-        double distance2=sqrt(pow(Position.x-32,2)+pow(Position.y-73,2));
-        double distance3=sqrt(pow(Position.x-30,2)+pow(Position.y-23,2));
-        if(distance1<distance2 && distance1<distance3){
-            m_MapSystem->SetPosition({-1224,2592});
-        } else if(distance2<distance1 && distance2<distance3){
-            m_MapSystem->SetPosition({-1800,-1152});
-        } else{
-            m_MapSystem->SetPosition({1800,-1296});
+        auto Position = m_MapSystem->GetPlayerPosition();
+        double distance1 = sqrt(pow(Position.x - 84, 2) + pow(Position.y - 65, 2));
+        double distance2 = sqrt(pow(Position.x - 32, 2) + pow(Position.y - 73, 2));
+        double distance3 = sqrt(pow(Position.x - 30, 2) + pow(Position.y - 23, 2));
+        if (distance1 < distance2 && distance1 < distance3) {
+            m_MapSystem->SetPosition({-1224, 2592});
+        } else if (distance2 < distance1 && distance2 < distance3) {
+            m_MapSystem->SetPosition({-1800, -1152});
+        } else {
+            m_MapSystem->SetPosition({1800, -1296});
         }
         Player->SetCurrentImagePath(1);
-        for(auto &i:Player->GetPokemonBag()->GetPokemons()){
+        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
             i->SetCurrentHP(i->GetHP());
         }
-        m_CurrentEvent=EventID::NONE;
-        m_CurrentState=State::UPDATE;
+        m_CurrentEvent = EventID::NONE;
+        m_CurrentState = State::UPDATE;
         //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
