@@ -27,13 +27,17 @@ private:
 public:
     Pokemon(const std::string &ID);
 
+    std::map<std::string, int> GetAbility();
+
+    void SetAbility(std::map<std::string, int> Ability);
+
     std::string GetID();
 
     void SetIV(int IV);
 
-    void SetBPs();
+    void SetCurrentEXP(int EXP);
 
-    std::vector<int> GetBPs();
+    void SetBPs(std::vector<int> BPs);
 
     int GetIDByInt();
 

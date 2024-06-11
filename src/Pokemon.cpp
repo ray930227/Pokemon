@@ -24,6 +24,15 @@ Pokemon::Pokemon(const std::string &ID) {
     m_Ability["CurrentHP"] = m_Ability["HP"];
 }
 
+std::map<std::string, int> Pokemon::GetAbility() {
+    return m_Ability;
+}
+
+void Pokemon::SetAbility(std::map<std::string, int> Ability) {
+    m_Ability = Ability;
+    FindAbiltiy();
+}
+
 std::string Pokemon::GetID() {
     std::stringstream ToString;
     ToString << std::setw(3) << std::setfill('0') << m_Ability["ID"];
@@ -35,14 +44,25 @@ void Pokemon::SetIV(int IV) {
     m_Ability["IV"] = IV;
 }
 
+void Pokemon::SetCurrentEXP(int EXP) {
+    m_Ability["CurrentEXP"] = EXP;
+}
+
+void Pokemon::SetBPs(std::vector<int> BPs) {
+    m_Ability["HPBP"] = BPs[0];
+    m_Ability["AttackBP"] = BPs[1];
+    m_Ability["DefenceBP"] = BPs[2];
+    m_Ability["SpecialBP"] = BPs[3];
+    m_Ability["SpeedBP"] = BPs[4];
+}
 
 int Pokemon::GetIDByInt() {
     return m_Ability["ID"];
 }
 
 void Pokemon::LevelUp() {
-    if (m_Ability["IV"] != 100) {
-        m_Ability["IV"]++;
+    if (m_Ability["LV"] != 100) {
+        m_Ability["LV"]++;
         FindAbiltiy();
     }
 }
