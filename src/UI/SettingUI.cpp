@@ -61,7 +61,13 @@ void SettingUI::Run() {
                 }
                 break;
             case 106:
-                m_ItemUI->Start();
+                if(m_Player->GetItemBag()->isEmpty()){
+                    m_TB->SetVisible(true);
+                    m_TB->SetText("尚無任何道具!");
+                } else {
+                    m_ItemUI->Start();
+                }
+
                 break;
             case 34:
                 break;

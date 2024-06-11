@@ -26,6 +26,8 @@ public:
     std::string GetItemName(size_t ID);
 
     int GetItemID(const std::string &name);
+
+    bool isEmpty();
 };
 
 #endif //POKEMON_ITEMBAG_HPP

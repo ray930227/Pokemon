@@ -490,6 +490,7 @@ void App::Event() {
                 Pokemons[0]->SetSkillByID({33, 111});
                 Pokemons[1]->SetSkillByID({33, 103, 117});
                 Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                Enemy->SetName("小剛");
                 m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
             } else {
                 LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
