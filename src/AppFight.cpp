@@ -22,7 +22,7 @@ void App::Fight() {
                     m_CurrentFighting = FightID::BACKPACK;
                 } else if (m_FightMainUI->GetDecision() == "Run") {
                     LOG_DEBUG("Run");
-                    m_FightTextUI->SetRun();
+                    m_FightTextUI->SetRun(isWildPokemon);
                     m_CurrentFighting = FightID::RUN;
                 }
             }
@@ -112,12 +112,14 @@ void App::Fight() {
         case FightID::POKEPACK:
             //region PokePack
             if (m_PokeBagUI->GetVisible()) {
+                m_FightTextUI->SetPokePack();
                 if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
                     m_PokeBagUI->Run(1);
                 } else {
                     m_PokeBagUI->Run(2);
                 }
             } else {
+                m_FightTextUI->Next();
                 if (m_PokeBagUI->GetDecision() == -1) {
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::HOME;
@@ -154,20 +156,25 @@ void App::Fight() {
 
         case FightID::RUN:
             //region Run
+            if (!m_FightTextUI->GetLoseVisibility() && !m_FightTextUI->GetRunVisibility()) {
+                if (isWildPokemon || m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
+                    m_WhiteBG->SetVisible(false);
+                    m_WhiteBG->SetZIndex(0);
+                    m_FightMainUI->SetVisible(false);
+                    m_PlayerPokeInfo->SetVisible(false);
+                    m_EnemyPokeInfo->SetVisible(false);
+                    m_FightMainUI->SetVisible(false);
+                    m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
+                    m_BGM->Play();
+                    LOG_DEBUG("State:UPDATE");
+                    m_CurrentState = State::UPDATE;
+                } else {
+                    m_FightMainUI->SetArrowVisible(true);
+                    m_CurrentFighting = FightID::HOME;
+                }
+            }
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_FightTextUI->Next();
-            }
-            if (!m_FightTextUI->GetRunVisibility() && !m_FightTextUI->GetLoseVisibility()) {
-                m_WhiteBG->SetVisible(false);
-                m_WhiteBG->SetZIndex(0);
-                m_FightMainUI->SetVisible(false);
-                m_PlayerPokeInfo->SetVisible(false);
-                m_EnemyPokeInfo->SetVisible(false);
-                m_FightMainUI->SetVisible(false);
-                m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
-                m_BGM->Play();
-                LOG_DEBUG("State:UPDATE");
-                m_CurrentState = State::UPDATE;
             }
             break;
             //endregion
@@ -439,12 +446,21 @@ void App::Fight() {
 
         case FightID::NPCCHANGE:
             //region NPCChange
-            if (m_FightMainUI->GetEnemyPokeScale().x < 1 && m_FightMainUI->GetBallAnimationIndex() >=2) {
-                m_FightMainUI->ZoomImage(false);
-            } else {
-                m_FightMainUI->SetEnemyPokeScale({1,1});
-                m_FightMainUI->SetEnemyHPUIVisible(true);
-                m_FightMainUI->SetEnemyPokeNameVisible(true);
+            if (m_FightMainUI->GetBallAnimationIndex() == 4) {
+                m_FightMainUI->SetEnemyPokeVisible(true);
+                m_FightMainUI->SetBallAnimationVisible(false, false);
+                if (m_FightMainUI->GetEnemyPokeScale().x < 1) {
+                    m_FightMainUI->ZoomImage(false);
+                } else {
+                    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                        m_FightMainUI->SetBallAnimationVisible(false, false);
+                        m_FightMainUI->SetEnemyPokeScale({1, 1});
+                        m_FightMainUI->SetEnemyHPUIVisible(true);
+                        m_FightMainUI->SetEnemyPokeNameVisible(true);
+                        m_LoadingUI->SetTBVisible(false);
+                        m_CurrentFighting = FightID::HOME;
+                    }
+                }
             }
             //endregion
             break;
@@ -469,22 +485,37 @@ void App::Fight() {
                     LOG_DEBUG("State:UPDATE");
                     m_CurrentState = State::UPDATE;
                 } else {
+                    bool AllNPCPokemonDie = true;
                     for (auto EnemyPokemon: Enemy->GetPokemonBag()->GetPokemons()) {
                         if (EnemyPokemon->IsPokemonDying()) {
                             m_CurrentNPCPokemon++;
                         } else {
+                            AllNPCPokemonDie = false;
                             break;
                         }
                     }
-                    m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
-                    m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
-                    m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
-                    m_FightMainUI->ReSetBallAnimation();
-                    m_FightMainUI->SetEnemyPokeVisible(true);
-                    m_FightMainUI->SetBallAnimationVisible(true);
-                    m_FightMainUI->SetEnemyPokeScale({0.5,0.5});
-                    LOG_DEBUG("State:NPCCHANGE");
-                    m_CurrentFighting = FightID::NPCCHANGE;
+                    if (AllNPCPokemonDie) {
+                        m_WhiteBG->SetVisible(false);
+                        m_WhiteBG->SetZIndex(0);
+                        m_FightMainUI->SetVisible(false);
+                        m_PlayerPokeInfo->SetVisible(false);
+                        m_EnemyPokeInfo->SetVisible(false);
+                        m_FightMainUI->SetVisible(false);
+                        m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
+                        m_BGM->Play();
+                        LOG_DEBUG("State:UPDATE");
+                        m_CurrentState = State::UPDATE;
+                    } else {
+                        m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
+                        m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
+                        m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
+                        m_FightMainUI->SetBallAnimationVisible(true, false);
+                        m_FightMainUI->SetEnemyPokeScale({0.5, 0.5});
+                        m_LoadingUI->LoadText(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, isWildPokemon);
+                        m_LoadingUI->Next();
+                        LOG_DEBUG("State:NPCCHANGE");
+                        m_CurrentFighting = FightID::NPCCHANGE;
+                    }
                 }
                 if (m_CurrentEvent == EventID::NPC) {
                     m_CurrentEvent = EventID::NPC_END;

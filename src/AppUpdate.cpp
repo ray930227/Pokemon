@@ -89,7 +89,7 @@ void App::Update() {
         ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
         std::string StringID = ToString.str();
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
-        FirstPokemon->SetLevel(23);
+        FirstPokemon->SetLevel(50);
 //        FirstPokemon->SetCurrentEXP(FirstPokemon->GetAbility()["EXP"]-1);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }

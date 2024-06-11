@@ -84,3 +84,7 @@ size_t LoadingUI::GetCurrentIndex() {
 bool LoadingUI::GetTBVisibility() {
     return m_TextBox->GetVisibility();
 }
+
+void LoadingUI::SetTBVisible(bool Visible) {
+    m_TextBox->SetVisible(Visible);
+}

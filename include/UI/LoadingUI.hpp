@@ -30,6 +30,8 @@ public:
     size_t GetCurrentIndex();
 
     [[nodiscard]] bool GetTBVisibility();
+
+    void SetTBVisible(bool Visible);
 };
 
 #endif //POKEMON_LOADINGUI_HPP

@@ -49,7 +49,7 @@ public:
 
     void SetPlayerBallVisible(bool visible);
 
-    void SetBallAnimationVisible(bool visible);
+    void SetBallAnimationVisible(bool visible, bool isPlayer);
 
     void SetPlayerHPTextVisible(bool visible);
 
@@ -78,8 +78,6 @@ public:
     void SetPlayerPokeImage(int PlayerIndex);
 
     void SetBallsImage();
-
-    void ReSetBallAnimation();
 
     void SetTextHP(int PokeIndex);
 

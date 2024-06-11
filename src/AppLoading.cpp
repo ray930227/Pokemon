@@ -16,7 +16,6 @@ void App::Loading() {
             m_BGM->Play();
             m_LoadingUI->RandomMode();
             m_FightMainUI->ReSetWildPosition();
-            m_FightMainUI->ReSetBallAnimation();
             m_FightSkillUI->ReSetArrow();
             m_PokeBagUI->ReSetCurrentPokemon();
             m_CurrentLoading = LoadingID::LOADING;
@@ -49,7 +48,7 @@ void App::Loading() {
                     m_FightMainUI->SetPlayerBallVisible(true);
                     m_FightMainUI->SetBallsImage();
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                        m_FightMainUI->SetBallAnimationVisible(true);
+                        m_FightMainUI->SetBallAnimationVisible(true, true);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
                         m_FightMainUI->SetPlayerHPScale(m_CurrentPlayerPokemon);
                         m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
@@ -71,7 +70,7 @@ void App::Loading() {
                                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                         }
                         m_FightMainUI->ZoomImage(true);
-                        m_FightMainUI->SetBallAnimationVisible(false);
+                        m_FightMainUI->SetBallAnimationVisible(false,true);
                         m_FightMainUI->SetPlayerPokeVisible(true);
                         m_FightMainUI->SetPlayerHPUIVisible(true);
                         m_FightMainUI->SetPlayerPokeNameVisible(true);

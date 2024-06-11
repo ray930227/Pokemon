@@ -11,7 +11,7 @@ FightTextUI::FightTextUI(const std::shared_ptr<Character> &Player, const std::sh
     m_DefeatTextBox->SetZIndex(60);
     m_DefeatTextBox->SetVisible(false);
     m_PokePackTextBox = std::make_shared<TextBox>();
-    m_PokePackTextBox->SetZIndex(60);
+    m_PokePackTextBox->SetZIndex(58);
     m_PokePackTextBox->SetVisible(false);
     m_FinishTextBox = std::make_shared<TextBox>();
     m_FinishTextBox->SetZIndex(60);
@@ -127,10 +127,15 @@ void FightTextUI::SetGainEXP(const std::string &PokeName, int EXP) {
     m_GainEXPTextBox->AddText(PokeName + "獲得了" + std::to_string(EXP) + "經驗值及基礎點數!");
 }
 
-void FightTextUI::SetRun() {
+void FightTextUI::SetRun(bool isWildPokemon) {
     m_RunTextBox->SetVisible(true);
     m_RunTextBox->Reload();
-    m_RunTextBox->AddText("安全地逃跑了!");
+    if (isWildPokemon) {
+        m_RunTextBox->AddText("安全地逃跑了!");
+    } else {
+        m_RunTextBox->AddText("與訓練家的戰鬥不能逃離!");
+    }
+
 }
 
 void FightTextUI::SetLevelUP(const std::string &PokeName, int NewLV) {

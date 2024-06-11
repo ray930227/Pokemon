@@ -45,7 +45,7 @@ public:
 
     void SetGainEXP(const std::string &PokeName, int EXP);
 
-    void SetRun();
+    void SetRun(bool isWildPokemon);
 
     void SetLevelUP(const std::string &PokeName, int NewLV);
 
