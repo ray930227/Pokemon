@@ -222,6 +222,15 @@ void SettingUI::SavePokemons(const std::string &path, const std::vector<std::sha
         file<<(std::to_string(Ability["HPBP"])+"\n");
         file<<(std::to_string(Ability["CurrentHP"])+"\n");
         file<<(std::to_string(Ability["CurrentEXP"])+"\n");
+        auto skills=i->GetSkill();
+        auto PPs=i->GetCurrentSkillPP();
+        for(int i=0;i<4;i++){
+            if(i<skills.size()){
+                file<<skills[i]+" "+PPs[i]+"\n";
+            } else {
+                file<<"\n";
+            }
+        }
     }
     file.close();
 }
@@ -239,6 +248,17 @@ std::vector<std::shared_ptr<Pokemon>> SettingUI::ReadPokemons(const std::string 
             std::getline(file,tempStr);
             Abilit.insert({i, std::stoi(tempStr)});
         }
+        std::vector<std::string> skills;
+        std::vector<std::string> PPs;
+        for(int i=0;i<4;i++){
+            std::getline(file,tempStr);
+            if(tempStr!=""){
+                skills.push_back(tempStr.substr(0,tempStr.find(' ')));
+                PPs.push_back(tempStr.substr(tempStr.find(' ')+1,tempStr.length()));
+            }
+        }
+
+
         int CurrentHP=Abilit["CurrentHP"];
         Abilit.insert({"HP", 0});
         Abilit.insert({"Attack", 0});
@@ -253,6 +273,13 @@ std::vector<std::shared_ptr<Pokemon>> SettingUI::ReadPokemons(const std::string 
         std::shared_ptr<Pokemon> pokemon=std::make_shared<Pokemon>(StringID);
         pokemon->SetAbility(Abilit);
         pokemon->SetCurrentHP(CurrentHP);
+        pokemon->SetSkillByName(skills);
+        for(int i=0;i<PPs.size();i++){
+            int pp=std::stoi(PPs[i]);
+            for(int j=pp;j<std::stoi(pokemon->GetSkillPP()[i]);j++){
+                pokemon->ReducePP(i);
+            }
+        }
         pokemons.push_back(pokemon);
     }
     file.close();
