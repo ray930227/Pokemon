@@ -220,7 +220,6 @@ void ItemUI::Action() {
             m_Player->GetItemBag()->AddItemQuantity(id, 1);
         } else {
             m_TB->SetText(tempPokemon->GetName() + "恢复了" + std::to_string(heal) + "HP!");
-            m_Player->GetItemBag()->AddItemQuantity(id, -1);
             tempPokemon->SetCurrentHP(CurrentHP + heal);
         }
         m_TB->SetVisible(true);
