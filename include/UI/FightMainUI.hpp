@@ -25,6 +25,7 @@ private:
     std::shared_ptr<Text> m_EnemyPokeName;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
+    std::shared_ptr<TextBox> m_FightTB;
     int Counter = 0;
 public:
     FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
@@ -98,6 +99,9 @@ public:
     std::string GetDecision();
 
     int GetBallAnimationIndex();
+
+    void RunFightSystem(bool IsPlayerRound, bool IsChangePoke, int PlayerIndex, int EnemyIndex, int PlayerSkillIndex,
+                        int EnemySkillIndex);
 };
 
 #endif //POKEMON_FIGHTMAINUI_HPP

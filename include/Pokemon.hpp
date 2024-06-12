@@ -132,6 +132,8 @@ public:
     void GainBasePoints(int Point);
 
     void SetSkillByName(const std::vector<std::string> &SkillName);
+
+    int FightDamge(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
 };
 
 #endif //POKEMON_POKEMON_HPP
