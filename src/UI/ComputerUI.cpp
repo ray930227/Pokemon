@@ -217,8 +217,8 @@ void ComputerUI::Action() {
     } else {
         m_ComputerPokemons.erase(m_ComputerPokemons.begin() + index);
     }
-    if((m_Arrows[0]->GetPosition().y == 194 && PlayerPokemons.size()==1) ||
-    (m_Arrows[0]->GetPosition().y != 194 && m_ComputerPokemons.size()==0)){
+    if ((m_Arrows[0]->GetPosition().y == 194 && PlayerPokemons.size() == 1) ||
+        (m_Arrows[0]->GetPosition().y != 194 && m_ComputerPokemons.size() == 0)) {
         m_Arrows[1]->SetVisible(false);
         m_ComputerInsideBG->SetVisible(false);
         for (auto &i: m_Texts)

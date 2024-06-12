@@ -49,7 +49,7 @@ public:
 
     void SetPlayerBallVisible(bool visible);
 
-    void SetBallAnimationVisible(bool visible);
+    void SetBallAnimationVisible(bool visible, bool isPlayer);
 
     void SetPlayerHPTextVisible(bool visible);
 
@@ -59,9 +59,15 @@ public:
 
     void SetPlayerPokeScale(const glm::vec2 &scale);
 
+    void SetEnemyPokeScale(const glm::vec2 &scale);
+
     [[nodiscard]] const glm::vec2 &GetPlayerPokeScale() const;
 
-    void ZoomPlayerImage();
+    [[nodiscard]] const glm::vec2 &GetEnemyPokeScale() const;
+
+    void ZoomImage(bool isPlayer);
+
+    void ReduceImage(bool isPlayer);
 
     void ReSetWildPosition();
 
@@ -74,8 +80,6 @@ public:
     void SetPlayerPokeImage(int PlayerIndex);
 
     void SetBallsImage();
-
-    void ReSetBallAnimation();
 
     void SetTextHP(int PokeIndex);
 
@@ -92,6 +96,8 @@ public:
     bool Choose();
 
     std::string GetDecision();
+
+    int GetBallAnimationIndex();
 };
 
 #endif //POKEMON_FIGHTMAINUI_HPP

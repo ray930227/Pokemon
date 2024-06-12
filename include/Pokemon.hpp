@@ -65,27 +65,27 @@ public:
 
     void FindAbiltiy();
 
-    [[nodiscard]] int GetHP() ;
+    [[nodiscard]] int GetHP();
 
-    [[nodiscard]] int GetCurrentHP() ;
+    [[nodiscard]] int GetCurrentHP();
 
     void PokemonHurt(int Damage);
 
     void PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
 
-    [[nodiscard]] int GetAttack() ;
+    [[nodiscard]] int GetAttack();
 
-    [[nodiscard]] int GetDefence() ;
+    [[nodiscard]] int GetDefence();
 
-    [[nodiscard]] int GetSpecial() ;
+    [[nodiscard]] int GetSpecial();
 
-    [[nodiscard]] int GetSpeed() ;
+    [[nodiscard]] int GetSpeed();
 
-    [[nodiscard]] int GetIV() ;
+    [[nodiscard]] int GetIV();
 
-    [[nodiscard]] int GetLV() ;
+    [[nodiscard]] int GetLV();
 
-    [[nodiscard]] int GetCurrentEXP() ;
+    [[nodiscard]] int GetCurrentEXP();
 
     [[nodiscard]] bool IsSkillFull() const;
 
@@ -131,7 +131,7 @@ public:
 
     void GainBasePoints(int Point);
 
-    void SetSkillByName(const std::vector<std::string>& SkillName);
+    void SetSkillByName(const std::vector<std::string> &SkillName);
 };
 
 #endif //POKEMON_POKEMON_HPP

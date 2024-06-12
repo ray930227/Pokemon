@@ -20,6 +20,7 @@ private:
     std::shared_ptr<TextBox> m_LoseTextBox;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
+    std::shared_ptr<TextBox> m_DefeatWildTextBox;
 public:
     FightTextUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
@@ -29,6 +30,11 @@ public:
 
     void SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex);
 
+    void SetDefeatWild(int PokeIndex, int EnemyIndex, int EXP);
+
+    bool GetDefeatWildVisibility() const;
+
+
     void SetDefeat(const std::string &PokeName);
 
     void SetPokePack();
@@ -37,7 +43,7 @@ public:
 
     void SetGainEXP(const std::string &PokeName, int EXP);
 
-    void SetRun();
+    void SetRun(bool isWildPokemon);
 
     void SetLevelUP(const std::string &PokeName, int NewLV);
 

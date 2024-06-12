@@ -79,7 +79,6 @@ public:
         RUN,
         FIGHT,
         CHANGEPOKE,
-        FAILCHANGE,
         POKEFAINTED,
         EVOLUTION,
         GETSKILL,

@@ -18,10 +18,10 @@ void PokeFaintedUI::SetVisible(bool visible) {
     m_TFBox->SetVisible(visible);
 }
 
-void PokeFaintedUI::SetText(const std::string& PokeName) {
+void PokeFaintedUI::SetText(const std::string &PokeName) {
     m_TextBox->SetVisible(true);
     m_TextBox->Reload();
-    m_TextBox->AddText(PokeName+"昏厥了!");
+    m_TextBox->AddText(PokeName + "昏厥了!");
     m_TextBox->AddText("使用下一隻神奇寶貝?");
 }
 

@@ -5,7 +5,7 @@
 #include "Image.hpp"
 #include "Text.hpp"
 
-class TextBox{
+class TextBox {
 private:
     std::shared_ptr<Text> m_Text;
     std::shared_ptr<Image> m_BG;

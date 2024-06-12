@@ -45,7 +45,7 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
         tempBallPath.push_back(RESOURCE_DIR"/Fight/BallEffect" + std::to_string(i) + ".png");
     }
     m_BallAnimation = std::make_shared<GIF>(tempBallPath);
-    m_BallAnimation->SetZIndex(52);
+    m_BallAnimation->SetZIndex(60);
     m_BallAnimation->SetScale({1.3, 1.3});
     m_BallAnimation->SetInterval(200);
     m_BallAnimation->SetVisible(false);
@@ -124,10 +124,17 @@ void FightMainUI::SetPlayerBallVisible(bool visible) {
     m_PlayerBalls->SetVisible(visible);
 }
 
-void FightMainUI::SetBallAnimationVisible(bool visible) {
-    m_BallAnimation->Reset();
+void FightMainUI::SetBallAnimationVisible(bool visible, bool isPlayer) {
+    if (isPlayer) {
+        m_BallAnimation->SetPosition({-210, -10});
+    } else {
+        m_BallAnimation->SetPosition({210, 230});
+    }
     m_BallAnimation->SetVisible(visible);
-    m_BallAnimation->Play();
+    if (visible) {
+        m_BallAnimation->Reset();
+        m_BallAnimation->Play();
+    }
 }
 
 void FightMainUI::SetPlayerHPTextVisible(bool visible) {
@@ -146,14 +153,42 @@ void FightMainUI::SetPlayerPokeScale(const glm::vec2 &scale) {
     m_PlayerPokemonImage->SetScale(scale);
 }
 
+
+void FightMainUI::SetEnemyPokeScale(const glm::vec2 &scale) {
+    m_EnemyPokemonImage->SetScale(scale);
+}
+
 const glm::vec2 &FightMainUI::GetPlayerPokeScale() const {
     return m_PlayerPokemonImage->GetScale();
 }
 
-void FightMainUI::ZoomPlayerImage() {
-    m_PlayerPokemonImage->SetScale(
-            {m_PlayerPokemonImage->GetScale().x + 0.1,
-             m_PlayerPokemonImage->GetScale().y + 0.1});
+const glm::vec2 &FightMainUI::GetEnemyPokeScale() const {
+    return m_EnemyPokemonImage->GetScale();
+}
+
+void FightMainUI::ZoomImage(bool isPlayer) {
+    if (isPlayer) {
+        m_PlayerPokemonImage->SetScale(
+                {m_PlayerPokemonImage->GetScale().x + 0.1,
+                 m_PlayerPokemonImage->GetScale().y + 0.1});
+    } else {
+        m_EnemyPokemonImage->SetScale(
+                {m_EnemyPokemonImage->GetScale().x + 0.1,
+                 m_EnemyPokemonImage->GetScale().y + 0.1});
+    }
+
+}
+
+void FightMainUI::ReduceImage(bool isPlayer) {
+    if (isPlayer) {
+        m_PlayerPokemonImage->SetScale(
+                {m_PlayerPokemonImage->GetScale().x - 0.1,
+                 m_PlayerPokemonImage->GetScale().y - 0.1});
+    } else {
+        m_EnemyPokemonImage->SetScale(
+                {m_EnemyPokemonImage->GetScale().x - 0.1,
+                 m_EnemyPokemonImage->GetScale().y - 0.1});
+    }
 }
 
 void FightMainUI::ReSetWildPosition() {
@@ -191,10 +226,6 @@ void FightMainUI::SetPlayerPokeImage(int PlayerIndex) {
 void FightMainUI::SetBallsImage() {
     m_PlayerBalls->SetImage(
             RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(m_Player->GetPokemonBag()->size()) + ".png");
-}
-
-void FightMainUI::ReSetBallAnimation() {
-    m_BallAnimation->SetCurrentFrame(0);
 }
 
 void FightMainUI::SetTextHP(int PokeIndex) {
@@ -276,4 +307,8 @@ std::string FightMainUI::GetDecision() {
     } else if (m_Arrow->GetPosition().x == 135 && m_Arrow->GetPosition().y == -300) {
         return "Run";
     }
+}
+
+int FightMainUI::GetBallAnimationIndex() {
+    return m_BallAnimation->GetCurrentFrameIndex();
 }

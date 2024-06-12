@@ -6,15 +6,15 @@
 #include <string>
 #include <filesystem>
 
-class SFXSystem{
+class SFXSystem {
 private:
-    std::map<std::string,std::shared_ptr<Util::SFX>> m_SFXs;
+    std::map<std::string, std::shared_ptr<Util::SFX>> m_SFXs;
 public:
     SFXSystem();
 
-    void Play(const std::string& SFXName);
+    void Play(const std::string &SFXName);
 
-    void SetVolume(const std::string& SFXName,int Volume);
+    void SetVolume(const std::string &SFXName, int Volume);
 };
 
 #endif //POKEMON_SFXSYSTEM_HPP
