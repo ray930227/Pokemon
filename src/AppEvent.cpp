@@ -353,18 +353,18 @@ void App::Event() {
                 m_TB->Next();
                 if (m_TB->GetLineIndex() == 2) {
                     Player->SetCurrentImagePath(1);
-//                    NPC_Oak->SetCurrentImagePath(0);
-                    NPC_Oak->GetImage()->SetDrawable(
-                            std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakBack.png"));
+                    NPC_Oak->SetCurrentImagePath(0);
+//                    NPC_Oak->GetImage()->SetDrawable(
+//                            std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakBack.png"));
                     NPC_Oak->GetImage()->SetVisible(true);
                     NPC_Oak->GetImage()->SetPosition({36, -180});
                     for (int i = 0; i < Player->GetSpeed(); i++) {
                         NPC_Oak->GetImage()->Move({0, 72.0 / Player->GetSpeed()});
-//                        if (i == Player->GetSpeed() / 4 || i == Player->GetSpeed() / 3 * 2) {
-//                            size_t FrameCount = NPC_Oak->GetImage()->GetFrameCount();
-//                            size_t CurrentFrameIndex = NPC_Oak->GetImage()->GetCurrentFrameIndex();
-//                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
-//                        }
+                        if (i == Player->GetSpeed() / 4 || i == Player->GetSpeed() / 3 * 2) {
+                            size_t FrameCount = NPC_Oak->GetImage()->GetFrameCount();
+                            size_t CurrentFrameIndex = NPC_Oak->GetImage()->GetCurrentFrameIndex();
+                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+                        }
 
                         m_Root.Update();
                         auto context = Core::Context::GetInstance();
@@ -416,25 +416,24 @@ void App::Event() {
                                 NPC_Oak->GetImage()->Move({temp[i].second.x, 0 - temp[i + 1].second.y});
 
                             if (temp[i + 1].second.y < 0)
-                                NPC_Oak->GetImage()->SetDrawable(
-                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakBack.png"));
+                                NPC_Oak->SetCurrentImagePath(0);
                             else if (temp[i + 1].second.y > 0)
-                                NPC_Oak->GetImage()->SetDrawable(
-                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakFront.png"));
+                                NPC_Oak->SetCurrentImagePath(1);
                             else if (temp[i + 1].second.x > 0)
-                                NPC_Oak->GetImage()->SetDrawable(
-                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakLeft.png"));
+                                NPC_Oak->SetCurrentImagePath(2);
                             else
-                                NPC_Oak->GetImage()->SetDrawable(
-                                        std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakRight.png"));
+                                NPC_Oak->SetCurrentImagePath(3);
 
 
                         }
+
                         if (count == Player->GetSpeed() / 4 || count == Player->GetSpeed() / 3 * 2) {
                             size_t FrameCount = Player->GetImage()->GetFrameCount();
                             size_t CurrentFrameIndex = Player->GetImage()->GetCurrentFrameIndex();
                             Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
-//                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+                            FrameCount = NPC_Oak->GetImage()->GetFrameCount();
+                            CurrentFrameIndex = NPC_Oak->GetImage()->GetCurrentFrameIndex();
+                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
                         }
 
                         m_Root.Update();
@@ -447,9 +446,6 @@ void App::Event() {
                     NPC_OakImage->SetPosition(
                             {round(NPC_OakImage->GetPosition().x), round(NPC_OakImage->GetPosition().y)});
                 }
-                LOG_DEBUG("({},{})", m_MapSystem->GetPosition().x, m_MapSystem->GetPosition().y);
-
-
             }
 
             m_CurrentEvent = EventID::DOOR;
