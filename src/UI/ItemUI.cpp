@@ -51,17 +51,18 @@ std::vector<std::shared_ptr<Util::GameObject>> ItemUI::GetChildren() {
     return result;
 }
 
-void ItemUI::Start() {
+void ItemUI::Start(unsigned mode) {
     m_ItemBG->SetVisible(true);
     m_Arrow->SetVisible(true);
     m_Arrow->SetPosition({-200, 290});
     m_RowTopIndex = 0;
     for (auto &i: m_Texts)
         i->SetVisible(true);
+    m_mode=mode;
     Updata();
 }
 
-void ItemUI::Run(unsigned mode) {
+void ItemUI::Run() {
     if (m_PokeBagUI->GetVisible() && m_ItemBG->GetVisible()) {
         ChangeSkill();
     } else if (m_TB->GetVisibility()) {
@@ -112,7 +113,7 @@ void ItemUI::Updata() {
     for (int i = 0; i < 256; i++) {
         int Quantity = ItemBag->GetItemQuantity(i);
         std::string ItemName = ItemBag->GetItemName(i);
-        if (Quantity > 0) {
+        if (Quantity > 0 && (m_mode==0 || (m_mode==1 && ((i>=1 && i<=4) || (i>=11 && i<=20))))) {
             m_Items.push_back({ItemName, Quantity});
         }
     }
@@ -148,7 +149,7 @@ void ItemUI::ChooseItem() {
 
     Updata();
 
-    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+    if (Util::Input::IsKeyDown(Util::Keycode::Z) && !m_Items.empty()) {
         SetVisible(false);
         size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
         int id = m_Player->GetItemBag()->GetItemID(m_Items[index].first);
