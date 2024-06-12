@@ -35,8 +35,6 @@ public:
     bool GetDefeatWildVisibility() const;
 
 
-
-
     void SetDefeat(const std::string &PokeName);
 
     void SetPokePack();

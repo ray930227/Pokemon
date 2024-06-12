@@ -179,6 +179,18 @@ void FightMainUI::ZoomImage(bool isPlayer) {
 
 }
 
+void FightMainUI::ReduceImage(bool isPlayer) {
+    if (isPlayer) {
+        m_PlayerPokemonImage->SetScale(
+                {m_PlayerPokemonImage->GetScale().x - 0.1,
+                 m_PlayerPokemonImage->GetScale().y - 0.1});
+    } else {
+        m_EnemyPokemonImage->SetScale(
+                {m_EnemyPokemonImage->GetScale().x - 0.1,
+                 m_EnemyPokemonImage->GetScale().y - 0.1});
+    }
+}
+
 void FightMainUI::ReSetWildPosition() {
     m_PlayerImage->SetPosition({630, -10});
     m_EnemyPokemonImage->SetPosition({-630, 230});

@@ -46,7 +46,7 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChil
     return {m_PlayerTextBox->GetChildren(), m_EnemyTextBox->GetChildren(), m_FinishTextBox->GetChildren(),
             m_DefeatTextBox->GetChildren(), m_PokePackTextBox->GetChildren(), m_GainEXPTextBox->GetChildren(),
             m_RunTextBox->GetChildren(), m_LevelUPTextBox->GetChildren(), m_ChangePokeTextBox->GetChildren(),
-            m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren(),m_DefeatWildTextBox->GetChildren()};
+            m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren(), m_DefeatWildTextBox->GetChildren()};
 }
 
 void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
@@ -54,7 +54,7 @@ void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
     std::string PokeName = PlayerPokemons[PokeIndex]->GetName();
     std::string UseSkill = PlayerPokemons[PokeIndex]->GetSkill()[SkillIndex];
     std::vector<std::string> EnemyType = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetType();
-    float DamageRate = PokeFunction::TypeDamage(PlayerPokemons[PokeIndex]->GetSkillType()[SkillIndex],EnemyType) ;
+    float DamageRate = PokeFunction::TypeDamage(PlayerPokemons[PokeIndex]->GetSkillType()[SkillIndex], EnemyType);
     m_PlayerTextBox->SetVisible(true);
     m_PlayerTextBox->Reload();
     m_PlayerTextBox->AddText(PokeName + "使出了" + UseSkill);
@@ -72,7 +72,7 @@ void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
     std::string PokeName = EnemyPokemons[EnemyIndex]->GetName();
     std::string UseSkill = EnemyPokemons[EnemyIndex]->GetSkill()[SkillIndex];
     std::vector<std::string> PlayerType = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetType();
-    float DamageRate = PokeFunction::TypeDamage(EnemyPokemons[EnemyIndex]->GetSkillType()[SkillIndex],PlayerType); ;
+    float DamageRate = PokeFunction::TypeDamage(EnemyPokemons[EnemyIndex]->GetSkillType()[SkillIndex], PlayerType);;
     m_EnemyTextBox->SetVisible(true);
     m_EnemyTextBox->Reload();
     m_EnemyTextBox->AddText(PokeName + "使出了" + UseSkill);
@@ -97,10 +97,6 @@ void FightTextUI::SetDefeatWild(int PokeIndex, int EnemyIndex, int EXP) {
 bool FightTextUI::GetDefeatWildVisibility() const {
     return m_DefeatWildTextBox->GetVisibility();
 }
-
-
-
-
 
 
 void FightTextUI::SetDefeat(const std::string &PokeName) {
@@ -161,7 +157,7 @@ void FightTextUI::SetLose(const std::string &PlayerName) {
     m_LoseTextBox->SetVisible(true);
     m_LoseTextBox->Reload();
     m_LoseTextBox->AddText(PlayerName + "沒有可使用的神奇寶貝!");
-    m_LoseTextBox->AddText(PlayerName +"的眼前一片漆黑!");
+    m_LoseTextBox->AddText(PlayerName + "的眼前一片漆黑!");
 }
 
 bool FightTextUI::GetPlayerVisibility() const {
@@ -217,11 +213,11 @@ void FightTextUI::Next() {
         m_ChangePokeTextBox->Next();
     } else if (m_ChangeFailTextBox->GetVisibility()) {
         m_ChangeFailTextBox->Next();
-    } else if (m_PokePackTextBox->GetVisibility()){
+    } else if (m_PokePackTextBox->GetVisibility()) {
         m_PokePackTextBox->Next();
     } else if (m_LoseTextBox->GetVisibility()) {
         m_LoseTextBox->Next();
-    } else if (m_DefeatWildTextBox->GetVisibility()){
+    } else if (m_DefeatWildTextBox->GetVisibility()) {
         m_DefeatWildTextBox->Next();
     }
 }

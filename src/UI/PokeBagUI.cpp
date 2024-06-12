@@ -179,7 +179,7 @@ void PokeBagUI::SetVisible(bool visible) {
     m_Arrow[0]->SetVisible(visible);
     m_Arrow[0]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/BlockArrow.png"));
     m_PokeBagBG->SetVisible(visible);
-    if(isXleave && visible) isXleave= false;
+    if (isXleave && visible) isXleave = false;
 }
 
 void PokeBagUI::Run(unsigned int mode) {
@@ -260,7 +260,7 @@ void PokeBagUI::Run(unsigned int mode) {
             }
         }
         if (Util::Input::IsKeyDown(Util::Keycode::X)) {
-            isXleave= true;
+            isXleave = true;
             SetVisible(false);
         }
     }
@@ -272,7 +272,7 @@ bool PokeBagUI::GetVisible() {
 }
 
 int PokeBagUI::GetDecision() {
-    if(isXleave) return -1;
+    if (isXleave) return -1;
     return (int) (m_Arrow[0]->GetPosition().y - 300) / (-80);
 }
 
@@ -340,7 +340,7 @@ void PokeBagUI::Action(unsigned mode) {
                 m_TB->SetText(m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName() + "已昏厥，無法上場!");
                 m_TB->SetVisible(true);
             } else if (GetDecision() == m_CurrentPokemon) {
-                m_TB->SetText(m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName()+"已經在場上!");
+                m_TB->SetText(m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName() + "已經在場上!");
                 m_TB->SetVisible(true);
             } else {
                 m_CurrentPokemon = GetDecision();

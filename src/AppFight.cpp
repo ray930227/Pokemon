@@ -138,6 +138,16 @@ void App::Fight() {
                     m_PokeBagUI->SetVisible(false);
                     m_FightMainUI->SetArrowVisible(true);
                     m_FightSkillUI->ReSetArrow();
+                    if (!IsChangePokemon) {
+                        m_FightMainUI->SetPlayerPokeVisible(false);
+                        m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
+                        m_FightMainUI->SetBallAnimationVisible(true, true);
+                    }
+                    if (!IsChangePokemon) {
+                        Timer=101;
+                    } else {
+                        Timer = 0;
+                    }
                     m_CurrentFighting = FightID::CHANGEPOKE;
                 }
             }
@@ -277,15 +287,42 @@ void App::Fight() {
 
         case FightID::CHANGEPOKE:
             //region ChangePoke
-            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                m_FightMainUI->SetPlayerPokeVisible(true);
-                m_FightMainUI->SetPlayerHPUIVisible(true);
-                m_FightMainUI->SetPlayerHPTextVisible(true);
-                m_FightMainUI->SetPlayerPokeNameVisible(true);
-                m_FightTextUI->Next();
+            Timer++;
+            if (m_FightMainUI->GetPlayerPokeScale().x > 0.5 && Timer < 100) {
+                if (Timer > 80) {
+                    m_FightMainUI->ReduceImage(true);
+                }
+            } else if (m_FightMainUI->GetPlayerPokeScale().x <= 0.5 && Timer <= 100) {
+                m_FightMainUI->SetPlayerPokeVisible(false);
+                if (Timer == 100) {
+                    m_FightTextUI->Next();
+                    m_FightMainUI->SetBallAnimationVisible(true, true);
+                }
+            } else{
+                if (m_FightMainUI->GetBallAnimationIndex() == 4) {
+                    m_CurrentFighting = FightID::UPDATEINFO;
+                    m_FightMainUI->SetPlayerPokeVisible(true);
+                    m_FightMainUI->SetBallAnimationVisible(false, true);
+                    if (m_FightMainUI->GetPlayerPokeScale().x < 1) {
+                        m_FightMainUI->ZoomImage(true);
+                    } else {
+                        if (Timer == 155) {
+                            m_SFX->Play("PokeSound" + Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
+                        }
+                        if (Timer == 180) {
+                            m_FightMainUI->SetPlayerPokeScale({1, 1});
+                            m_FightMainUI->SetPlayerHPUIVisible(true);
+                            m_FightMainUI->SetPlayerHPTextVisible(true);
+                            m_FightMainUI->SetPlayerPokeNameVisible(true);
+                            m_FightTextUI->Next();
+                        }
+                    }
+                }
             }
             if (!m_FightTextUI->GetChangePokeVisibility()) {
-                m_CurrentFighting = FightID::UPDATEINFO;
+                Timer=0;
+                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
+                m_CurrentFighting = FightID::FIGHT;
             }
             break;
             //endregion
@@ -452,13 +489,20 @@ void App::Fight() {
                 if (m_FightMainUI->GetEnemyPokeScale().x < 1) {
                     m_FightMainUI->ZoomImage(false);
                 } else {
-                    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-                        m_FightMainUI->SetBallAnimationVisible(false, false);
+                    Timer++;
+                    if (Timer == 1) {
+                        m_SFX->Play("PokeSound" + Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
+                    }
+                    else if (Timer == 60) {
                         m_FightMainUI->SetEnemyPokeScale({1, 1});
                         m_FightMainUI->SetEnemyHPUIVisible(true);
                         m_FightMainUI->SetEnemyPokeNameVisible(true);
                         m_LoadingUI->SetTBVisible(false);
+                        Timer = 0;
                         m_CurrentFighting = FightID::HOME;
+                    }
+                    if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+
                     }
                 }
             }
@@ -521,8 +565,7 @@ void App::Fight() {
                     m_CurrentEvent = EventID::NPC_END;
                 }
             } else if (IsChangePokemon) {
-                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
-                m_CurrentFighting = FightID::FIGHT;
+                m_CurrentFighting = FightID::CHANGEPOKE;
             } else if (m_Experience.first) {
                 m_CurrentFighting = FightID::WILDFINISH;
             } else {

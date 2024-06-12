@@ -8,7 +8,7 @@ ReplaceSkillUI::ReplaceSkillUI(const std::shared_ptr<Character> &Player) {
     m_TFBox = std::make_shared<TFBox>();
     m_TFBox->SetZIndex(60);
     m_TFBox->SetVisible(false);
-    m_Player=Player;
+    m_Player = Player;
 }
 
 std::vector<std::vector<std::shared_ptr<Util::GameObject>>> ReplaceSkillUI::GetChildren() const {
@@ -16,30 +16,29 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> ReplaceSkillUI::GetC
 }
 
 void ReplaceSkillUI::Run() {
-    if (m_TextBox->GetSize()>1){
-        if (!m_TFBox->GetVisible()){
-            if (Util::Input::IsKeyDown(Util::Keycode::Z)){
-                if (m_TextBox->GetLineIndex()==2){
+    if (m_TextBox->GetSize() > 1) {
+        if (!m_TFBox->GetVisible()) {
+            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                if (m_TextBox->GetLineIndex() == 2) {
                     m_TFBox->SetVisible(true);
                 }
                 m_TextBox->Next();
             }
-        } else{
-            if (m_TFBox->Choose()){
+        } else {
+            if (m_TFBox->Choose()) {
                 m_TFBox->SetVisible(false);
-                if (m_TFBox->GetTF()){
+                if (m_TFBox->GetTF()) {
                     m_TextBox->Next();
-                }
-                else{
+                } else {
                     SetVisible(false);
                 }
             }
         }
-    } else{
-        if (Util::Input::IsKeyDown(Util::Keycode::Z)){
+    } else {
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             m_TextBox->Next();
         }
-        if (!m_TextBox->GetVisibility()){
+        if (!m_TextBox->GetVisibility()) {
             SetVisible(false);
         }
     }
@@ -51,13 +50,13 @@ void ReplaceSkillUI::SetVisible(bool visible) {
 }
 
 void ReplaceSkillUI::SetText(int PokeIndex) {
-    std::shared_ptr<Pokemon> PlayerPokemon=m_Player->GetPokemonBag()->GetPokemons()[PokeIndex];
+    std::shared_ptr<Pokemon> PlayerPokemon = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex];
     std::string PokeName = PlayerPokemon->GetName();
-    std::string NewSkill=PlayerPokemon->NewSkill();
+    std::string NewSkill = PlayerPokemon->NewSkill();
     m_TextBox->SetVisible(true);
     m_TextBox->Reload();
     m_TextBox->AddText(PokeName + "學習到了" + NewSkill + "!");
-    if (PlayerPokemon->IsSkillFull()){
+    if (PlayerPokemon->IsSkillFull()) {
         m_TextBox->AddText("但" + PokeName + "不能學習超過四個技能");
         m_TextBox->AddText("你要讓" + PokeName + "學習新技能並取代舊技能嗎?");
         m_TextBox->AddText("你要移除掉哪個技能?");

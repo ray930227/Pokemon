@@ -67,6 +67,8 @@ public:
 
     void ZoomImage(bool isPlayer);
 
+    void ReduceImage(bool isPlayer);
+
     void ReSetWildPosition();
 
     bool BeginMoving();

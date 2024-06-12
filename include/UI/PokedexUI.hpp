@@ -9,7 +9,7 @@
 #include "UI/ComputerUI.hpp"
 #include <fstream>
 
-class PokedexUI{
+class PokedexUI {
 private:
     std::shared_ptr<Image> m_PokedexBG;
     std::shared_ptr<Image> m_Arrow;
@@ -19,12 +19,12 @@ private:
     std::shared_ptr<Text> m_GetText;
     bool m_PokeGet[151] = {false};
     std::vector<std::string> m_PokeNames;
-    int m_RowTopIndex=0;
+    int m_RowTopIndex = 0;
     SFXSystem m_SFXSystem;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<ComputerUI> m_ComputerUI;
 public:
-    PokedexUI(const std::shared_ptr<Character> &Player,std::shared_ptr<ComputerUI> ComputerUI);
+    PokedexUI(const std::shared_ptr<Character> &Player, std::shared_ptr<ComputerUI> ComputerUI);
 
     void Start();
 
@@ -35,6 +35,7 @@ public:
     bool GetVisible();
 
     void SetVisible(bool Visible);
+
 protected:
     void Update();
 };

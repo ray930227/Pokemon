@@ -76,8 +76,9 @@ void App::Loading() {
                         m_FightMainUI->SetPlayerPokeNameVisible(true);
                         m_FightMainUI->SetPlayerHPTextVisible(true);
                     } else if (m_FightMainUI->GetPlayerPokeScale().x >= 1) {
+                        Timer ++;
                         m_FightMainUI->SetPlayerPokeScale({1.0, 1.0});
-                        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+                        if (Timer == 40) {
                             m_LoadingUI->Next();
                         }
                     }
@@ -88,6 +89,7 @@ void App::Loading() {
                 m_FightMainUI->SetFightBGVisible(true);
                 m_PlayerPokeInfo->SetVisible(true);
                 m_EnemyPokeInfo->SetVisible(true);
+                Timer = 0;
                 FightCounter = 0;
                 m_CurrentFighting = FightID::HOME;
                 m_CurrentState = State::FIGHT;
