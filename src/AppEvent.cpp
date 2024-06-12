@@ -165,7 +165,7 @@ void App::Event() {
             int average = 0;
             for (auto &i: Player->GetPokemonBag()->GetPokemons())
                 average += i->GetLV();
-            temp->SetLevel(average / Player->GetPokemonBag()->GetPokemons().size());
+            temp->SetLevel(average / Player->GetPokemonBag()->GetPokemons().size()-2+rand()%5);
             Enemy->GetPokemonBag()->SetPokemons({temp});
             m_CurrentLoading = LoadingID::INIT;
             m_CurrentState = State::LOADING;
@@ -532,6 +532,7 @@ void App::Event() {
                         m_BGM->Play();
                         for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
                             i->SetCurrentHP(i->GetHP());
+                            i->SetCurrentSkillPP(i->GetSkillPP());
                         }
                         SDL_Delay(2000);
                         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PokeCenter.mp3");
@@ -545,7 +546,7 @@ void App::Event() {
                 }
             }
         } else {
-            m_TB->SetText("是否要恢復背包內所有寶可夢的HP?");
+            m_TB->SetText("是否要恢復背包內所有神奇寶貝的狀態?");
             m_TB->SetVisible(true);
             m_TFBox->SetVisible(true);
         }
@@ -621,6 +622,7 @@ void App::Event() {
         Player->SetCurrentImagePath(1);
         for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
             i->SetCurrentHP(i->GetHP());
+            i->SetCurrentSkillPP(i->GetSkillPP());
         }
         m_CurrentEvent = EventID::NONE;
         m_CurrentState = State::UPDATE;

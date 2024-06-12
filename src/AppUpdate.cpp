@@ -2,7 +2,9 @@
 
 void App::Update() {
     LOG_TRACE("Update");
-    if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+    if (m_CurrentEvent != EventID::NONE) {
+        m_CurrentState = State::EVENT;
+    } else if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         Displacement = {0, -72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
         currentDirection = "UP";
