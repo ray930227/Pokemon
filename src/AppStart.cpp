@@ -139,10 +139,18 @@ void App::Start() {
 
     tempImagePathses.clear();
     tempImagePathses.resize(4);
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakBack.png"});
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakFront.png"});
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakLeft.png"});
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakRight.png"});
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_1.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_2.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_1.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_3.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_2.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_3.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/OakLeft_1.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/OakLeft_2.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/OakRight_1.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/OakRight_2.png");
     NPC_Oak = std::make_shared<Character>(tempImagePathses);
     NPC_Oak->GetImage()->SetZIndex(49);
     NPC_Oak->GetImage()->SetVisible(false);

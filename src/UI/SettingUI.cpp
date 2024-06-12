@@ -54,7 +54,7 @@ void SettingUI::Run() {
     } else if (m_PokeBagUI->GetVisible()) {
         m_PokeBagUI->Run(3);
     } else if (m_ItemUI->GetVisible()) {
-        m_ItemUI->Run(0);
+        m_ItemUI->Run();
     } else if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
         switch ((int) m_Arrow->GetPosition().y) {
             case 250:
@@ -78,7 +78,7 @@ void SettingUI::Run() {
                     m_TB->SetVisible(true);
                     m_TB->SetText("尚無任何道具!");
                 } else {
-                    m_ItemUI->Start();
+                    m_ItemUI->Start(1);
                 }
 
                 break;

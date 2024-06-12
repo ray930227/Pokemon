@@ -601,3 +601,7 @@ void Pokemon::SetSkillByName(const std::vector<std::string> &SkillName) {
         m_CurrentSkillPPs.push_back(Skill[5]);
     }
 }
+
+void Pokemon::SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP) {
+    m_CurrentSkillPPs=CurrentSkillPP;
+}

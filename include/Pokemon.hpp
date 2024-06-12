@@ -132,6 +132,8 @@ public:
     void GainBasePoints(int Point);
 
     void SetSkillByName(const std::vector<std::string> &SkillName);
+
+    void SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP);
 };
 
 #endif //POKEMON_POKEMON_HPP
