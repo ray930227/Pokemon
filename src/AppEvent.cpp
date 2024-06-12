@@ -481,21 +481,25 @@ void App::Event() {
                         m_CurrentLoading = LoadingID::INIT;
                         m_CurrentState = State::LOADING;
                     }
-
                 }
             }
         } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-                std::vector<std::shared_ptr<Pokemon>> Pokemons;
-                Pokemons.push_back(std::make_shared<Pokemon>("074"));
-                Pokemons.push_back(std::make_shared<Pokemon>("095"));
-                Pokemons[0]->SetLevel(12);
-                Pokemons[1]->SetLevel(14);
-                Pokemons[0]->SetSkillByID({33, 111});
-                Pokemons[1]->SetSkillByID({33, 103, 117});
-                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
-                Enemy->SetName("小剛");
-                m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
+                if(Player->GetItemBag()->GetItemQuantity(21) > 0) {
+                    Enemy = nullptr;
+                    m_TB->ReadLines(RESOURCE_DIR"/Lines/Brock.txt");
+                } else {
+                    std::vector<std::shared_ptr<Pokemon>> Pokemons;
+                    Pokemons.push_back(std::make_shared<Pokemon>("074"));
+                    Pokemons.push_back(std::make_shared<Pokemon>("095"));
+                    Pokemons[0]->SetLevel(12);
+                    Pokemons[1]->SetLevel(14);
+                    Pokemons[0]->SetSkillByID({33, 111});
+                    Pokemons[1]->SetSkillByID({33, 103, 117});
+                    Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                    Enemy->SetName("小剛");
+                    m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
+                }
             } else {
                 LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
                 Enemy = nullptr;
