@@ -53,6 +53,21 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
     m_BallAnimation->SetInterval(200);
     m_BallAnimation->SetVisible(false);
     m_BallAnimation->SetPosition({-210, -10});
+    tempBallPath.clear();
+    for (int i = 0; i < 4; i++) {
+        tempBallPath.push_back(RESOURCE_DIR"/Fight/Pokeball2.png");
+        for (int j = 1; j < 4; j++) {
+            tempBallPath.push_back(RESOURCE_DIR"/Fight/Pokeball" + std::to_string(j) + ".png");
+        }
+        tempBallPath.push_back(RESOURCE_DIR"/Fight/Pokeball2.png");
+    }
+    tempBallPath.push_back(RESOURCE_DIR"/Fight/Pokeball2.png");
+    m_CatchBallAnimation = std::make_shared<GIF>(tempBallPath);
+    m_CatchBallAnimation->SetZIndex(60);
+//    m_CatchBallAnimation->SetScale({1, 1});
+    m_CatchBallAnimation->SetInterval(300);
+    m_CatchBallAnimation->SetVisible(false);
+    m_CatchBallAnimation->SetPosition({-210, -10});
     m_PlayerHP = std::make_shared<Text>();
     m_PlayerHP->SetZIndex(52);
     m_PlayerHP->SetVisible(false);
@@ -73,7 +88,7 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
 std::vector<std::shared_ptr<Util::GameObject>> FightMainUI::GetChildren() const {
     return {m_PlayerImage, m_PlayerPokemonImage, m_EnemyPokemonImage, m_PlayerHPImage, m_EnemyHPImage, m_PlayerHPUI,
             m_EnemyHPUI, m_PlayerBalls, m_BallAnimation, m_PlayerHP, m_PlayerPokeName, m_EnemyPokeName, m_Arrow,
-            m_FightBG, m_FightTB->GetChildren()[0], m_FightTB->GetChildren()[1]};
+            m_FightBG, m_FightTB->GetChildren()[0], m_FightTB->GetChildren()[1], m_CatchBallAnimation};
 }
 
 void FightMainUI::SetVisible(bool visible) {
@@ -91,6 +106,7 @@ void FightMainUI::SetVisible(bool visible) {
     m_EnemyPokeName->SetVisible(visible);
     m_Arrow->SetVisible(visible);
     m_FightBG->SetVisible(visible);
+    m_CatchBallAnimation->SetVisible(visible);
 }
 
 void FightMainUI::SetFightBGVisible(bool visible) {
@@ -140,6 +156,16 @@ void FightMainUI::SetBallAnimationVisible(bool visible, bool isPlayer) {
         m_BallAnimation->Play();
     }
 }
+
+void FightMainUI::SetCatchBallAnimationVisible(bool visible) {
+    isCatching= 0;
+    m_CatchBallAnimation->SetVisible(visible);
+    if (visible) {
+        m_CatchBallAnimation->Reset();
+        m_CatchBallAnimation->Play();
+    }
+}
+
 
 void FightMainUI::SetPlayerHPTextVisible(bool visible) {
     m_PlayerHP->SetVisible(visible);
@@ -315,4 +341,68 @@ std::string FightMainUI::GetDecision() {
 
 int FightMainUI::GetBallAnimationIndex() {
     return m_BallAnimation->GetCurrentFrameIndex();
+}
+
+void FightMainUI::RunCatchPokemon(bool SuccessCatch, int EnemyIndex) {
+    if (Counter == 0) {
+        m_FightTB->SetVisible(true);
+        m_FightTB->Reload();
+        m_FightTB->AddText(m_Player->GetName()+"使用了精靈球!");
+        m_CatchBallAnimation->SetPosition({-210, -10});
+        Counter++;
+    }
+    if (m_CatchBallAnimation->GetPosition().x != 210) {
+        m_CatchBallAnimation->SetVisible(true);
+        m_CatchBallAnimation->SetPosition(
+                {m_CatchBallAnimation->GetPosition().x + 10, m_CatchBallAnimation->GetPosition().y + 5});
+    } else {
+        if (Counter == 1) {
+            m_CatchBallAnimation->SetVisible(false);
+            SetBallAnimationVisible(true, false);
+            Counter++;
+        }
+        if (GetBallAnimationIndex() == 4 && Counter == 2) {
+            m_EnemyPokemonImage->SetVisible(false);
+            m_BallAnimation->SetVisible(false);
+            m_CatchBallAnimation->SetVisible(true);
+            Counter++;
+        }
+    }
+    if (m_CatchBallAnimation->IsPlaying()) {
+        if (SuccessCatch) {
+            if (m_CatchBallAnimation->GetCurrentFrameIndex() == 19) {
+                m_CatchBallAnimation->Pause();
+                m_FightTB->Reload();
+                m_FightTB->AddText(
+                        "好耶!" + m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetName() + "被捕獲了!");
+            }
+        } else {
+            if (m_CatchBallAnimation->GetCurrentFrameIndex() == 15) {
+                m_EnemyPokemonImage->SetVisible(true);
+                m_CatchBallAnimation->Pause();
+                m_CatchBallAnimation->SetVisible(false);
+                m_FightTB->Reload();
+                m_FightTB->AddText("噢!差一點就捕獲到了!");
+            }
+        }
+    } else {
+        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
+            if (SuccessCatch) {
+                isCatching = 2;
+            } else {
+                isCatching = 1;
+            }
+            Counter=0;
+            m_FightTB->Next();
+        }
+    }
+
+}
+
+bool FightMainUI::IsCatching() {
+    return isCatching==0;
+}
+
+bool FightMainUI::SuccessCatch() {
+    return isCatching==2;
 }

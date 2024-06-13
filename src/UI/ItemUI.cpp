@@ -59,6 +59,7 @@ void ItemUI::Start(unsigned mode) {
     for (auto &i: m_Texts)
         i->SetVisible(true);
     m_mode=mode;
+    m_IsXLeave= false;
     Updata();
 }
 
@@ -176,6 +177,7 @@ void ItemUI::ChooseItem() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::X)) {
         SetVisible(false);
+        m_IsXLeave= true;
     }
 
 }
@@ -258,4 +260,8 @@ void ItemUI::Action() {
 int ItemUI::GetDecision() {
     size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
     return m_Player->GetItemBag()->GetItemID(m_Items[index].first);
+}
+
+bool ItemUI::IsXLeave() {
+    return m_IsXLeave;
 }

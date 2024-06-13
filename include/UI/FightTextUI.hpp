@@ -7,21 +7,9 @@
 
 class FightTextUI {
 private:
-    std::shared_ptr<TextBox> m_PlayerTextBox;
-    std::shared_ptr<TextBox> m_EnemyTextBox;
-    std::shared_ptr<TextBox> m_DefeatTextBox;
-    std::shared_ptr<TextBox> m_PokePackTextBox;
-    std::shared_ptr<TextBox> m_FinishTextBox;
-    std::shared_ptr<TextBox> m_GainEXPTextBox;
-    std::shared_ptr<TextBox> m_RunTextBox;
-    std::shared_ptr<TextBox> m_LevelUPTextBox;
-    std::shared_ptr<TextBox> m_ChangePokeTextBox;
-    std::shared_ptr<TextBox> m_ChangeFailTextBox;
-    std::shared_ptr<TextBox> m_LoseTextBox;
+    std::shared_ptr<TextBox> m_TB;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
-    std::shared_ptr<TextBox> m_DefeatWildTextBox;
-    std::shared_ptr<TextBox> m_NoHitTextBox;
 public:
     FightTextUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
@@ -32,9 +20,6 @@ public:
     void SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex);
 
     void SetDefeatWild(int PokeIndex, int EnemyIndex, int EXP);
-
-    bool GetDefeatWildVisibility() const;
-
 
     void SetDefeat(const std::string &PokeName);
 
@@ -56,25 +41,11 @@ public:
 
     void SetNoHit(const std::string &PokeName);
 
-    [[nodiscard]] bool GetPlayerVisibility() const;
+    void SetCatch();
 
-    [[nodiscard]] bool GetEnemyVisibility() const;
+    void SetPPRunOut(int PokeIndex ,int SkillIndex);
 
-    [[nodiscard]] bool GetDefeatVisibility() const;
-
-    [[nodiscard]] bool GetGainEXPVisibility() const;
-
-    [[nodiscard]] bool GetRunVisibility() const;
-
-    [[nodiscard]] bool GetLevelUPVisibility() const;
-
-    [[nodiscard]] bool GetChangePokeVisibility() const;
-
-    [[nodiscard]] bool GetChangeFailVisibility() const;
-
-    [[nodiscard]] bool GetLoseVisibility() const;
-
-    [[nodiscard]] bool GetNoHitVisibility() const;
+    [[nodiscard]] bool GetTBVisibility() const;
 
     void Next();
 };

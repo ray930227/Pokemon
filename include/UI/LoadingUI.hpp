@@ -11,6 +11,7 @@ private:
     std::shared_ptr<TextBox> m_TextBox;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
+    std::shared_ptr<Image> m_WhiteBG;
     int m_Mode;
 public:
     LoadingUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);

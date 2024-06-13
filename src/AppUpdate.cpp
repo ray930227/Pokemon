@@ -75,7 +75,7 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::F)) {
-        isWildPokemon= false;
+        isWildPokemon = false;
         m_CurrentLoading = LoadingID::INIT;
         m_CurrentState = State::LOADING;
     }
@@ -89,11 +89,12 @@ void App::Update() {
         ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
         std::string StringID = ToString.str();
         std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
+        FirstPokemon->SetCurrentSkillPP({"1","0"});
 //        FirstPokemon->SetCurrentEXP(FirstPokemon->GetAbility()["EXP"]-1);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::O)){
+    if (Util::Input::IsKeyDown(Util::Keycode::O)) {
         LOG_DEBUG("It's so powerful!!!!!!!!");
         std::vector<std::shared_ptr<Pokemon>> Pokemons;
         Pokemons.push_back(std::make_shared<Pokemon>("150"));
@@ -102,7 +103,7 @@ void App::Update() {
         Pokemons.push_back(std::make_shared<Pokemon>("144"));
         Pokemons.push_back(std::make_shared<Pokemon>("149"));
         Pokemons.push_back(std::make_shared<Pokemon>("006"));
-        for (auto Poke:Pokemons){
+        for (auto Poke: Pokemons) {
             Poke->SetLevel(100);
         }
         Player->GetPokemonBag()->SetPokemons(Pokemons);
@@ -113,6 +114,8 @@ void App::Update() {
         Enemy->GetPokemonBag()->GetPokemons()[0]->SetCurrentHP(1);
         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(
                 Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
+        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentEXP(
+                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetAbility()["EXP"] - 1);
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

@@ -328,7 +328,9 @@ std::vector<std::string> Pokemon::GetCurrentSkillPP() const {
 void Pokemon::ReducePP(int skill) {
     int tempstr;
     tempstr = std::stoi(m_CurrentSkillPPs[skill]);
-    tempstr -= 1;
+    if (tempstr > 0) {
+        tempstr -= 1;
+    }
     m_CurrentSkillPPs[skill] = std::to_string(tempstr);
 }
 
@@ -637,4 +639,13 @@ void Pokemon::ReduceCurrentHP(int Damage) {
     if (m_Ability["CurrentHP"] < 0) {
         m_Ability["CurrentHP"] = 0;
     }
+}
+
+bool Pokemon::IsPPAllZero() {
+    for (const auto& PP: m_CurrentSkillPPs) {
+        if (std::stoi(PP) != 0) {
+            return false;
+        }
+    }
+    return true;
 }

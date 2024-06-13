@@ -75,6 +75,7 @@ public:
         HOME,
         SKILL,
         POKEPACK,
+        CATCHPOKE,
         BACKPACK,
         RUN,
         FIGHT,
@@ -170,6 +171,7 @@ private:
     int FightCounter = 0;
     int Timer = 0;
     bool IsChangePokemon = false;
+    bool m_SuccessCatch = false;
     std::pair<bool, int> m_Experience;
     bool encounterable = true;
     bool isWildPokemon = false;

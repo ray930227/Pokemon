@@ -137,6 +137,8 @@ public:
     void SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP);
 
     void ReduceCurrentHP(int Damage);
+
+    bool IsPPAllZero();
 };
 
 #endif //POKEMON_POKEMON_HPP

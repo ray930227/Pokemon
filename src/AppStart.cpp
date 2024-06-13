@@ -162,8 +162,14 @@ void App::Start() {
     m_SettingUI=std::make_shared<SettingUI>(Player,m_ComputerUI);
     m_Root.AddChildren(m_SettingUI->GetChildren());
 
-    m_PlayerBuff.insert({"Attack",1});
-    m_EnemyBuff.insert({"Attack",1});
+
+    std::vector<std::pair<std::string,float>> tempPairs={{"攻擊",1.0},{"命中率",1.0},{"閃避率",1.0},
+                                                         {"防禦",1.0},{"特殊",1.0},{"速度",1.0},};
+
+    for(auto &i:tempPairs){
+        m_PlayerBuff.insert(i);
+        m_EnemyBuff.insert(i);
+    }
 
     m_CurrentState = State::HOME;
 }
