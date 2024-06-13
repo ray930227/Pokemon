@@ -539,7 +539,34 @@ void App::Event() {
             }
             m_TB->SetVisible(true);
         } else if (currnetMap == "GYM2") {
-
+            m_TB->Reload();
+            m_TB->SetVisible(true);
+            if(TargetPosition.x == 3 && TargetPosition.y == 7){
+                if(Player->GetItemBag()->GetItemQuantity(21) == 0) {
+                    m_TB->AddText("你連深灰市道館館主都還沒打贏就想挑戰我?");
+                } else if(Player->GetItemBag()->GetItemQuantity(22) > 0){
+                    m_TB->ReadLines(RESOURCE_DIR"/Lines/Misty.txt");
+                } else {
+                    std::vector<std::shared_ptr<Pokemon>> Pokemons;
+                    Pokemons.push_back(std::make_shared<Pokemon>("120"));
+                    Pokemons.push_back(std::make_shared<Pokemon>("121"));
+                    Pokemons[0]->SetLevel(18);
+                    Pokemons[1]->SetLevel(21);
+                    Pokemons[0]->SetSkillByName({"撞擊","水槍"});
+                    Pokemons[1]->SetSkillByName({"撞擊","水槍","泡沫光線"});
+                    Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                    Enemy->SetName("小霞");
+                    m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM2.txt");
+                }
+            } else{
+                std::vector<std::shared_ptr<Pokemon>> Pokemons;
+                Pokemons.push_back(std::make_shared<Pokemon>("118"));
+                Pokemons[0]->SetLevel(19);
+                Pokemons[0]->SetSkillByName({"搖尾巴","啄","超音波"});
+                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                Enemy->SetName("女童軍");
+                m_TB->AddText("我比你想像中還要厲害!來對決吧!!");
+            }
         } else {
             LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
             m_TB->Reload();
@@ -609,22 +636,37 @@ void App::Event() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
                 if (!m_TB->GetVisibility()) {
-                    m_CurrentState = State::UPDATE;
-                    m_CurrentEvent = EventID::NONE;
+                    if(Player->GetItemBag()->GetItemQuantity("灰色徽章") > 0 &&
+                        Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0) {
+                        m_CurrentEvent = EventID::GAME_COMPLETED;
+                    } else {
+                        m_CurrentState = State::UPDATE;
+                        m_CurrentEvent = EventID::NONE;
+                    }
                 }
             }
         } else if (currnetMap == "GYM1") {
+            m_TB->Reload();
+            m_TB->SetVisible(true);
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-                m_TB->Reload();
                 m_TB->AddText("你戰勝了我!!!");
                 m_TB->AddText("給你神奇寶貝聯盟認證的灰色徽章");
-                m_TB->SetVisible(true);
                 Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
             } else {
-                m_TB->Reload();
                 m_TB->SetText("可惡，居然輸了!");
             }
+        } else if (currnetMap == "GYM2") {
+            m_TB->Reload();
             m_TB->SetVisible(true);
+            if(TargetPosition.x == 3 && TargetPosition.y == 7){
+                m_TB->AddText("哇！你太厲害了!");
+                m_TB->AddText("好吧!");
+                m_TB->AddText("你可以拿到藍色徽章來證明你打敗了我！");
+                Player->GetItemBag()->AddItemQuantity("藍色徽章", 1);
+
+            } else{
+                m_TB->AddText("你比我想像中還要厲害!");
+            }
         } else {
             LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
             m_TB->Reload();
@@ -654,6 +696,24 @@ void App::Event() {
         }
         m_CurrentEvent = EventID::NONE;
         m_CurrentState = State::UPDATE;
+        //endregion
+    } else if (m_CurrentEvent == EventID::GAME_COMPLETED) {
+        //region
+        if(m_TB->GetVisibility()){
+            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+                m_TB->Next();
+                if(!m_TB->GetVisibility()){
+                    m_WhiteBG->SetVisible(false);
+                    m_CurrentState = State::UPDATE;
+                    m_CurrentEvent = EventID::NONE;
+                }
+            }
+        } else{
+            m_WhiteBG->SetVisible(true);
+            m_TB->Reload();
+            m_TB->ReadLines(RESOURCE_DIR"/Lines/GameCompleted.txt");
+            m_TB->SetVisible(true);
+        }
         //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
         LOG_WARN("CurrentEvent is NONE");
