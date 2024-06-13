@@ -644,25 +644,29 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
             } else if(Skill=="睡覺"){
                 A_Ability["CurrentHP"] += A_Ability["HP"];
                 A->SetCurrentHP(A_Ability["CurrentHP"]);
-                std::vector<std::pair<std::string, float>> tempPairs = {{"攻擊",   1.0},
-                                                                        {"命中率", 1.0},
-                                                                        {"閃避率", 1.0},
-                                                                        {"防禦",   1.0},
-                                                                        {"特殊",   1.0},
-                                                                        {"速度",   1.0},};
-
-                for (auto &i: tempPairs) {
-                    Abuff[i.first] = i.second;
-                }
-                type="ALL";
+                type="HP";
             }
             if(type==""){
-
+                m_FightTextUI->AddText("沒有發生任何效果");
+            } else if(type=="HP") {
+                m_FightTextUI->AddText(A->GetName()+"的血量恢復了");
+            } else if(type=="State") {
+                m_FightTextUI->AddText("所有神奇寶貝的正負面效果都消除了");
             } else {
-                if (rate > 1)
-                    Abuff[type] *= rate;
-                else
-                    Bbuff[type] *= rate;
+                    if (rate > 1) {
+                        Abuff[type] *= rate;
+                        if(rate<=1.5)
+                            m_FightTextUI->AddText(A->GetName()+"的"+type+"提升了");
+                        else
+                            m_FightTextUI->AddText(A->GetName()+"的"+type+"大幅提升了");
+                    }
+                    else {
+                        Bbuff[type] *= rate;
+                        if(rate>=0.66)
+                            m_FightTextUI->AddText(B->GetName()+"的"+type+"下降了");
+                        else
+                            m_FightTextUI->AddText(B->GetName()+"的"+type+"大幅下降了");
+                    }
             }
         }
         else {

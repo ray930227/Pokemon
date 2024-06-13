@@ -133,6 +133,10 @@ void FightTextUI::SetNoHit(const std::string &PokeName) {
     m_TB->AddText("技能沒有命中!");
 }
 
+void FightTextUI::AddText(const std::string &Text) {
+    m_TB->AddText(Text);
+}
+
 bool FightTextUI::GetTBVisibility() const {
     return m_TB->GetVisibility();
 }
