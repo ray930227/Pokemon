@@ -71,8 +71,10 @@ void TextBox::ReadLines(const std::string &LinesPath) {
 
 void TextBox::ReadLines(std::vector<std::string> &Lines) {
     m_AllText.clear();
-    for (auto &i: Lines)
+    for (auto &i: Lines) {
+        if (i.size() > 60) i.insert(i.begin() + (i.size() / 2 / 3 * 3), '\n');
         m_AllText.push_back(i);
+    }
     SetText(m_AllText[0]);
     m_LineIndex = 1;
 }
@@ -201,7 +203,9 @@ void TextBox::InputString() {
 }
 
 void TextBox::AddText(const std::string &str) {
-    m_AllText.push_back(str);
+    auto s=str;
+    if (s.size() > 60) s.insert(s.begin() + (s.size() / 2 / 3 * 3), '\n');
+    m_AllText.push_back(s);
     SetText(m_AllText[0]);
     m_LineIndex = 1;
 }

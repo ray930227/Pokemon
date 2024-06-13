@@ -61,6 +61,7 @@ public:
         SETTING,
         NPC_END,
         ALL_POKEMON_DIE,
+        GAME_COMPLETED,
         NONE
     };
 

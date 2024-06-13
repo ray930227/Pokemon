@@ -41,6 +41,8 @@ public:
 
     void SetNoHit(const std::string &PokeName);
 
+    void AddText(const std::string &Text);
+
     [[nodiscard]] bool GetTBVisibility() const;
 
     void Next();

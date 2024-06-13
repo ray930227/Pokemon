@@ -182,6 +182,7 @@ void App::Fight() {
                     m_FightMainUI->SetVisible(false);
                     m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                     m_BGM->Play();
+                    Enemy->GetPokemonBag()->SetPokemons({});
                     LOG_DEBUG("State:UPDATE");
                     m_CurrentState = State::UPDATE;
                 } else {
@@ -555,8 +556,14 @@ void App::Fight() {
 
 void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Pokemon> &B, std::map<std::string, float> &Abuff,
               std::map<std::string, float> &Bbuff, int useSkill) {
-    auto SkillClass = A->GetSkillClass()[useSkill];
-    auto Skill = A->GetSkill()[useSkill];
+    std::string SkillClass,Skill;
+    if(useSkill==4){
+        SkillClass= "一般";
+        Skill= "挣扎";
+    } else{
+        SkillClass= A->GetSkillClass()[useSkill];
+        Skill= A->GetSkill()[useSkill];
+    }
     int Damage = 0;
     auto A_Ability = A->GetAbility();
     auto B_Ability = B->GetAbility();
@@ -565,6 +572,8 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
     bool isHit;
     if (Skill == "斷頭鉗" || Skill == "角鑽" || Skill == "地裂")
         isHit=(rand() % 254 + 1) <= (int)(30+A->GetLV()-B->GetLV())*2.55;
+    else if(Skill=="挣扎")
+        isHit= true;
     else
         isHit=(rand() % 254 + 1) <= (int)(std::stof(A->GetSkillHitRate()[useSkill])*2.55*Abuff["命中率"]*Bbuff["閃避率"]);
 
@@ -572,7 +581,6 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
 
     if (isHit) {
         if (SkillClass == "變化") {
-
             std::string type = "";
             float rate = 0;
             if (Skill == "劍舞") {
@@ -622,7 +630,7 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
             } else if (Skill == "變小") {
                 type = "閃避率";
                 rate = 2.0;
-            } else if (Skill == "自我再生" || Skill == "替身") {
+            } else if (Skill == "自我再生" || Skill == "替身" || Skill == "生蛋") {
                 A_Ability["CurrentHP"] += A_Ability["HP"] / 2;
                 if (A_Ability["CurrentHP"] > A_Ability["HP"]) {
                     A_Ability["CurrentHP"] = A_Ability["HP"];
@@ -644,29 +652,31 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
             } else if(Skill=="睡覺"){
                 A_Ability["CurrentHP"] += A_Ability["HP"];
                 A->SetCurrentHP(A_Ability["CurrentHP"]);
-                std::vector<std::pair<std::string, float>> tempPairs = {{"攻擊",   1.0},
-                                                                        {"命中率", 1.0},
-                                                                        {"閃避率", 1.0},
-                                                                        {"防禦",   1.0},
-                                                                        {"特殊",   1.0},
-                                                                        {"速度",   1.0},};
-
-                for (auto &i: tempPairs) {
-                    Abuff[i.first] = i.second;
-                }
-                type="ALL";
+                type="HP";
             }
             if(type==""){
-
+                m_FightTextUI->AddText("沒有發生任何效果");
+            } else if(type=="HP") {
+                m_FightTextUI->AddText(A->GetName()+"的血量恢復了");
+            } else if(type=="State") {
+                m_FightTextUI->AddText("所有神奇寶貝的正負面效果都消除了");
             } else {
-                if (rate > 1)
-                    Abuff[type] *= rate;
-                else
-                    Bbuff[type] *= rate;
+                    if (rate > 1) {
+                        Abuff[type] *= rate;
+                        if(rate<=1.5)
+                            m_FightTextUI->AddText(A->GetName()+"的"+type+"提升了");
+                        else
+                            m_FightTextUI->AddText(A->GetName()+"的"+type+"大幅提升了");
+                    }
+                    else {
+                        Bbuff[type] *= rate;
+                        if(rate>=0.66)
+                            m_FightTextUI->AddText(B->GetName()+"的"+type+"下降了");
+                        else
+                            m_FightTextUI->AddText(B->GetName()+"的"+type+"大幅下降了");
+                    }
             }
-        }
-        else {
-
+        } else {
             if (Skill == "斷頭鉗" || Skill == "角鑽" || Skill == "地裂") {
                 Damage = 999999;
             } else if(Skill == "地球上投" || Skill=="黑夜魔影") {
@@ -677,6 +687,9 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                 Damage=A->GetLV()*(rand()%10+5)/10.0;
             } else if(Skill=="憤怒門牙"){
                 Damage=B_Ability["CurrentHP"]/2;
+            } else if(Skill=="挣扎"){
+                Damage=round(
+                        (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) * 50 + 2)) ;;
             } else{
                     Damage = round(
                             (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) *
@@ -701,13 +714,19 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                 A_Ability["CurrentHP"] += Damage/2;
             } else if(Skill=="自爆" || Skill=="大爆炸") {
                 A_Ability["CurrentHP"] = 0;
+            } else if(Skill=="挣扎") {
+                A_Ability["CurrentHP"] -= A_Ability["HP"]/4;
             }
 
-            B_Ability["CurrentHP"] -= Damage;
+
             if(A_Ability["CurrentHP"] < 0) {
                 A_Ability["CurrentHP"] = 0;
             }
+            if(A_Ability["CurrentHP"] > A_Ability["HP"]){
+                A_Ability["CurrentHP"] = A_Ability["HP"];
+            }
             A->SetCurrentHP(A_Ability["CurrentHP"]);
+            B_Ability["CurrentHP"] -= Damage;
             if (B_Ability["CurrentHP"] < 0) {
                 B_Ability["CurrentHP"] = 0;
             }
