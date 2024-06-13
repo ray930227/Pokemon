@@ -55,12 +55,6 @@ void App::Start() {
         m_Root.AddChildren(Child);
     }
 
-    m_Fightitem = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightitembox.png");
-    m_Fightitem->SetZIndex(54);
-    m_Fightitem->SetVisible(false);
-    m_Fightitem->SetPosition({0, -60});
-    m_Root.AddChild(m_Fightitem);
-
     m_PlayerPokeInfo = std::make_shared<Text>();
     m_PlayerPokeInfo->SetZIndex(99);
     m_PlayerPokeInfo->SetVisible(false);
@@ -131,6 +125,9 @@ void App::Start() {
     for (const auto &Child: m_LoadingUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
+
+    m_BackPackUI = std::make_shared<ItemUI>(Player);
+    m_Root.AddChildren(m_BackPackUI->GetChildren());
 
     tempImagePathses.clear();
     tempImagePathses.resize(1);

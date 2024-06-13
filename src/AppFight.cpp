@@ -16,9 +16,9 @@ void App::Fight() {
                     LOG_DEBUG("State:Pokepack");
                     m_CurrentFighting = FightID::POKEPACK;
                 } else if (m_FightMainUI->GetDecision() == "BackPack") {
-                    m_Fightitem->SetVisible(true);
                     m_FightMainUI->SetArrowVisible(false);
                     LOG_DEBUG("State:Backpack");
+                    m_BackPackUI->Start(1);
                     m_CurrentFighting = FightID::BACKPACK;
                 } else if (m_FightMainUI->GetDecision() == "Run") {
                     LOG_DEBUG("Run");
@@ -163,11 +163,12 @@ void App::Fight() {
 
         case FightID::BACKPACK:
             //region BackPack
-            if (Util::Input::IsKeyDown(Util::Keycode::X)) {
-                m_Fightitem->SetVisible(false);
+            m_BackPackUI->Run();
+            if (!m_BackPackUI->GetVisible()) {
                 m_FightMainUI->SetArrowVisible(true);
-                m_CurrentFighting = FightID::HOME;
+                m_CurrentFighting = FightID::UPDATEINFO;
             }
+
             break;
             //endregion
 

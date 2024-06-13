@@ -78,7 +78,7 @@ void SettingUI::Run() {
                     m_TB->SetVisible(true);
                     m_TB->SetText("尚無任何道具!");
                 } else {
-                    m_ItemUI->Start(1);
+                    m_ItemUI->Start(0);
                 }
 
                 break;
