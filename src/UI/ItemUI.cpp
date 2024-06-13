@@ -156,12 +156,15 @@ void ItemUI::ChooseItem() {
         if ((id >= 16 && id <= 20) || id >= 196) {
             m_PokeBagUI->SetVisible(true);
         } else {
-            if (id <= 4) {
-                m_TB->SetText("捕捉球只能在戰鬥中使用");
-            } else {
-                m_TB->SetText("該道具無法使用");
+            if(m_mode == 0) {
+                if (id <= 4) {
+                    m_TB->SetText("捕捉球只能在戰鬥中使用");
+                } else {
+                    m_TB->SetText("該道具無法使用");
+                }
+                m_TB->SetVisible(true);
             }
-            m_TB->SetVisible(true);
+
             SetVisible(true);
         }
 

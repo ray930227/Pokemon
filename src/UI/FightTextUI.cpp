@@ -172,16 +172,17 @@ void FightTextUI::SetLose(const std::string &PlayerName) {
 void FightTextUI::SetNoHit(const std::string &PokeName) {
     m_NoHitTextBox->SetVisible(true);
     m_NoHitTextBox->Reload();
-    m_NoHitTextBox->AddText("技能沒有命中!");
+
     if(m_PlayerTextBox->GetVisibility()){
         auto temp =m_PlayerTextBox->GetText();
-        m_PlayerTextBox->Reload();
-        m_PlayerTextBox->AddText(temp);
+        m_NoHitTextBox->AddText(temp);
+        m_PlayerTextBox->SetVisible(false);
     } else{
         auto temp =m_EnemyTextBox->GetText();
-        m_EnemyTextBox->Reload();
-        m_EnemyTextBox->AddText(temp);
+        m_NoHitTextBox->AddText(temp);
+        m_EnemyTextBox->SetVisible(false);
     }
+    m_NoHitTextBox->AddText("技能沒有命中!");
 }
 
 bool FightTextUI::GetPlayerVisibility() const {
