@@ -306,22 +306,13 @@ void App::Event() {
                         m_TB->SetVisible(true);
                         if (TargetPosition.x == 4 && TargetPosition.y == 8) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
-                            NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
-
                             Lines.push_back(Player->GetName() + "選擇了小火龍");
-                            Lines.push_back(NPC_Bromance->GetName() + ":那我要傑尼龜");
                         } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
-                            NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
-
                             Lines.push_back(Player->GetName() + "選擇了傑尼龜");
-                            Lines.push_back(NPC_Bromance->GetName() + ":那我要妙蛙種子");
                         } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
-                            NPC_Bromance->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
-
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
-                            Lines.push_back(NPC_Bromance->GetName() + ":那我要小火龍");
                         }
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
@@ -337,8 +328,6 @@ void App::Event() {
                             auto context = Core::Context::GetInstance();
                             context->Update();
                         }
-                        m_Root.RemoveChild(
-                                m_MapSystem->GetBlocks()[TargetPosition.x][((int) TargetPosition.y - 8 + 1) % 3 + 8]);
                     } else {
 
                     }
@@ -375,8 +364,6 @@ void App::Event() {
                 if (m_TB->GetLineIndex() == 2) {
                     Player->SetCurrentImagePath(1);
                     NPC_Oak->SetCurrentImagePath(0);
-//                    NPC_Oak->GetImage()->SetDrawable(
-//                            std::make_shared<Util::Image>(RESOURCE_DIR"/Charactor/OakBack.png"));
                     NPC_Oak->GetImage()->SetVisible(true);
                     NPC_Oak->GetImage()->SetPosition({36, -180});
                     for (int i = 0; i < Player->GetSpeed(); i++) {
