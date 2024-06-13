@@ -470,7 +470,7 @@ void App::Event() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
                 if (!m_TB->GetVisibility()) {
-                    if (Enemy == nullptr) {
+                    if (Enemy->GetPokemonBag()->GetPokemons().size()==0) {
                         m_CurrentState = State::UPDATE;
                         m_CurrentEvent = EventID::NONE;
                     } else {
@@ -479,10 +479,26 @@ void App::Event() {
                     }
                 }
             }
+        } else if (currnetMap == "OakLab"){
+            m_TB->Reload();
+            m_TB->SetVisible(true);
+            if(Player->GetPokemonBag()->GetPokemons().size()==0){
+                m_TB->AddText("喔你來啦!");
+                m_TB->AddText("我曾經也是個神奇寶貝訓練家");
+                m_TB->AddText("如今我只剩三隻神奇寶貝了");
+                m_TB->AddText("旁邊那三個神奇寶貝球挑一隻送你吧!");
+            } else if(Player->GetItemBag()->GetItemQuantity("寶可夢圖鑑")==0){
+                Player->GetItemBag()->AddItemQuantity("寶可夢圖鑑",1);
+                m_TB->AddText("對了!");
+                m_TB->AddText("這個精靈圖鑑給你");
+                m_TB->AddText("只要獲得新的神奇寶貝，精靈圖鑑就會更新");
+                m_TB->AddText("祝你能收集到所有的神奇寶貝");
+            } else{
+                m_TB->AddText("努力的訓練你擁有的神奇寶貝並擊敗道館館主吧!");
+            }
         } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
                 if(Player->GetItemBag()->GetItemQuantity(21) > 0) {
-                    Enemy = nullptr;
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/Brock.txt");
                 } else {
                     std::vector<std::shared_ptr<Pokemon>> Pokemons;
@@ -498,7 +514,6 @@ void App::Event() {
                 }
             } else {
                 LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
-                Enemy = nullptr;
                 m_TB->Reload();
                 m_TB->SetText("NPC has not implement");
             }

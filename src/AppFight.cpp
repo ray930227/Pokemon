@@ -182,6 +182,7 @@ void App::Fight() {
                     m_FightMainUI->SetVisible(false);
                     m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                     m_BGM->Play();
+                    Enemy->GetPokemonBag()->SetPokemons({});
                     LOG_DEBUG("State:UPDATE");
                     m_CurrentState = State::UPDATE;
                 } else {
