@@ -242,6 +242,16 @@ void ShopUI::ShopInsideBG_Update() {
                 m_SellList.push_back(tempPair);
             }
         }
+        if(m_SellList.empty()){
+            m_ShopInsideBG->SetVisible(false);
+            m_Arrows[1]->SetVisible(false);
+            for(auto &i:m_ItemRow){
+                i.first->SetVisible(false);
+            }
+            m_Arrows[0]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
+            m_TextBox->SetText("沒有道具可以出售");
+            m_TextBox->SetVisible(true);
+        }
     }
     for (int i = 0; i < 4; i++) {
         if (m_Arrows[0]->GetPosition().y == 300) {
@@ -285,17 +295,21 @@ void ShopUI::Buy() {
 }
 
 void ShopUI::Sell() {
-    std::string tempStr = m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;
-    if (m_Player->GetItemBag()->GetItemQuantity(tempStr.substr(0, tempStr.find('X'))) >= m_Amount) {
-        m_TextBox->SetVisible(false);
-        m_Player->SetMoney(m_Player->GetMoney() +
-                           m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount);
-        m_Money->SetText("$" + std::to_string(m_Player->GetMoney()));
-        m_Player->GetItemBag()->AddItemQuantity(
-                tempStr.substr(0, tempStr.find('X')), m_Amount * -1);
-        m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
+    if(m_Player->GetItemBag()->isEmpty()){
+        m_TextBox->SetText("沒有道具可以售出");
     } else {
-        m_TextBox->SetText("數量不夠，無法售出！");
+        std::string tempStr = m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;
+        if (m_Player->GetItemBag()->GetItemQuantity(tempStr.substr(0, tempStr.find('X'))) >= m_Amount) {
+            m_TextBox->SetVisible(false);
+            m_Player->SetMoney(m_Player->GetMoney() +
+                               m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].second * m_Amount);
+            m_Money->SetText("$" + std::to_string(m_Player->GetMoney()));
+            m_Player->GetItemBag()->AddItemQuantity(
+                    tempStr.substr(0, tempStr.find('X')), m_Amount * -1);
+            m_Arrows[1]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
+        } else {
+            m_TextBox->SetText("數量不夠，無法售出！");
+        }
     }
 
 }

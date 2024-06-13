@@ -314,6 +314,7 @@ void App::Event() {
                             Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
                             Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
                         }
+                        Player->GetPokemonBag()->GetPokemons()[0]->SetLevel(8);
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
                         auto poke=Player->GetPokemonBag()->GetPokemons()[0];
@@ -520,12 +521,25 @@ void App::Event() {
                     Enemy->SetName("小剛");
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
                 }
-            } else {
-                LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
+            } else if (TargetPosition.x == 7 && TargetPosition.y == 6) {
+                std::vector<std::shared_ptr<Pokemon>> Pokemons;
+                Pokemons.push_back(std::make_shared<Pokemon>("050"));
+                Pokemons.push_back(std::make_shared<Pokemon>("027"));
+                Pokemons[0]->SetLevel(11);
+                Pokemons[1]->SetLevel(11);
+                Pokemons[0]->SetSkillByName({"抓"});
+                Pokemons[1]->SetSkillByName({"抓","潑沙"});
+                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                Enemy->SetName("童子軍");
                 m_TB->Reload();
-                m_TB->SetText("NPC has not implement");
+                m_TB->AddText("來決鬥吧!!!");
+            } else{
+                m_TB->Reload();
+                m_TB->AddText("這個道館得的館主是個很強悍的男人!");
             }
             m_TB->SetVisible(true);
+        } else if (currnetMap == "GYM2") {
+
         } else {
             LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
             m_TB->Reload();
@@ -604,20 +618,11 @@ void App::Event() {
                 m_TB->Reload();
                 m_TB->AddText("你戰勝了我!!!");
                 m_TB->AddText("給你神奇寶貝聯盟認證的灰色徽章");
-                m_TB->AddText("還有這個，給你");
-                m_TB->AddText("獲得了招式學習器３４（忍耐）");
-                m_TB->AddText("使用忍耐後，在２回合內忍受攻擊");
-                m_TB->AddText("受到的傷害會２倍返還給對手。");
-                m_TB->AddText("招式學習器只能給一個神奇寶貝學");
-                m_TB->AddText("所以要冷靜選擇，做出最好的選擇");
                 m_TB->SetVisible(true);
-                Player->GetItemBag()->AddItemQuantity("招式學習器３４（忍耐）", 1);
                 Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
             } else {
-                LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
-                Enemy = nullptr;
                 m_TB->Reload();
-                m_TB->SetText("NPC has not implement");
+                m_TB->SetText("可惡，居然輸了!");
             }
             m_TB->SetVisible(true);
         } else {

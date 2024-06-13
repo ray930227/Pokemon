@@ -573,7 +573,6 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
 
     if (isHit) {
         if (SkillClass == "變化") {
-
             std::string type = "";
             float rate = 0;
             if (Skill == "劍舞") {
@@ -623,7 +622,7 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
             } else if (Skill == "變小") {
                 type = "閃避率";
                 rate = 2.0;
-            } else if (Skill == "自我再生" || Skill == "替身") {
+            } else if (Skill == "自我再生" || Skill == "替身" || Skill == "生蛋") {
                 A_Ability["CurrentHP"] += A_Ability["HP"] / 2;
                 if (A_Ability["CurrentHP"] > A_Ability["HP"]) {
                     A_Ability["CurrentHP"] = A_Ability["HP"];
@@ -704,11 +703,15 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                 A_Ability["CurrentHP"] = 0;
             }
 
-            B_Ability["CurrentHP"] -= Damage;
+
             if(A_Ability["CurrentHP"] < 0) {
                 A_Ability["CurrentHP"] = 0;
             }
+            if(A_Ability["CurrentHP"] > A_Ability["HP"]){
+                A_Ability["CurrentHP"] = A_Ability["HP"];
+            }
             A->SetCurrentHP(A_Ability["CurrentHP"]);
+            B_Ability["CurrentHP"] -= Damage;
             if (B_Ability["CurrentHP"] < 0) {
                 B_Ability["CurrentHP"] = 0;
             }
