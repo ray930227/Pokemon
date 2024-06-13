@@ -637,7 +637,8 @@ void App::Event() {
                 m_TB->Next();
                 if (!m_TB->GetVisibility()) {
                     if(Player->GetItemBag()->GetItemQuantity("灰色徽章") > 0 &&
-                        Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0) {
+                        Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0 &&
+                            currnetMap == "GYM2" && TargetPosition.x == 3 && TargetPosition.y == 7) {
                         m_CurrentEvent = EventID::GAME_COMPLETED;
                     } else {
                         m_CurrentState = State::UPDATE;
@@ -704,15 +705,20 @@ void App::Event() {
                 m_TB->Next();
                 if(!m_TB->GetVisibility()){
                     m_WhiteBG->SetVisible(false);
+                    m_WhiteBG->SetImage(RESOURCE_DIR"/Background/WhiteBG.png");
+                    Player->GetImage()->SetVisible(true);
                     m_CurrentState = State::UPDATE;
                     m_CurrentEvent = EventID::NONE;
                 }
             }
         } else{
             m_WhiteBG->SetVisible(true);
+            m_WhiteBG->SetImage(RESOURCE_DIR"/Background/Congratulations.png");
+            m_SFX->Play("victory");
             m_TB->Reload();
             m_TB->ReadLines(RESOURCE_DIR"/Lines/GameCompleted.txt");
             m_TB->SetVisible(true);
+            Player->GetImage()->SetVisible(false);
         }
         //endregion
     } else if (m_CurrentEvent == EventID::NONE) {
