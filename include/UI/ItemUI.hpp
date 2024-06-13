@@ -16,12 +16,13 @@ private:
     std::shared_ptr<TextBox> m_TB;
     int m_RowTopIndex;
     std::vector<std::pair<std::string, int>> m_Items;
+    unsigned m_mode=0;
 public:
     ItemUI(const std::shared_ptr<Character> &Player);
 
-    void Start();
+    void Start(unsigned mode);
 
-    void Run(unsigned mode);
+    void Run();
 
     std::vector<std::shared_ptr<Util::GameObject>> GetChildren();
 

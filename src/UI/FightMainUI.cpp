@@ -67,12 +67,13 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
     m_EnemyPokeName->SetPosition({-110, 295});
     m_Player = Player;
     m_Enemy = Enemy;
+    m_SFX = std::make_shared<SFXSystem>();
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> FightMainUI::GetChildren() const {
     return {m_PlayerImage, m_PlayerPokemonImage, m_EnemyPokemonImage, m_PlayerHPImage, m_EnemyHPImage, m_PlayerHPUI,
             m_EnemyHPUI, m_PlayerBalls, m_BallAnimation, m_PlayerHP, m_PlayerPokeName, m_EnemyPokeName, m_Arrow,
-            m_FightBG,m_FightTB->GetChildren()[0],m_FightTB->GetChildren()[1]};
+            m_FightBG, m_FightTB->GetChildren()[0], m_FightTB->GetChildren()[1]};
 }
 
 void FightMainUI::SetVisible(bool visible) {
@@ -314,98 +315,4 @@ std::string FightMainUI::GetDecision() {
 
 int FightMainUI::GetBallAnimationIndex() {
     return m_BallAnimation->GetCurrentFrameIndex();
-}
-
-void FightMainUI::RunFightSystem(bool IsPlayerRound, bool IsChangePoke, int PlayerIndex, int EnemyIndex,
-                                 int PlayerSkillIndex, int EnemySkillIndex) {
-    if (!m_FightTB->GetVisibility()){
-        std::shared_ptr<Pokemon> PlayerPokemon = m_Player->GetPokemonBag()->GetPokemons()[PlayerIndex];
-        std::shared_ptr<Pokemon> EnemyPokemon = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex];
-        std::string PlayerPokeName = PlayerPokemon->GetName();
-        std::string PlayerSkillName = PlayerPokemon->GetSkill()[PlayerSkillIndex];
-        std::string PlayerSkillType = PlayerPokemon->GetSkillType()[PlayerSkillIndex];
-        std::string PlayerSkillClass = PlayerPokemon->GetSkillClass()[PlayerSkillIndex];
-        std::string EnemyPokeName = EnemyPokemon->GetName();
-        std::string EnemySkillName = EnemyPokemon->GetSkill()[EnemySkillIndex];
-        std::string EnemySkillType = EnemyPokemon->GetSkillType()[EnemySkillIndex];
-        std::string EnemySkillClass = EnemyPokemon->GetSkillClass()[EnemySkillIndex];
-        int PlayerDamge = m_Player->GetPokemonBag()->GetPokemons()[PlayerIndex]->FightDamge(EnemyPokemon, PlayerSkillIndex);
-        int EnemyDamge = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->FightDamge(PlayerPokemon, EnemySkillIndex);
-        float PlayerDamageRate = PokeFunction::TypeDamage(PlayerSkillType, EnemyPokemon->GetType());
-        float EnemyDamageRate = PokeFunction::TypeDamage(EnemySkillType, PlayerPokemon->GetType());
-        if (IsChangePoke) {
-            m_FightTB->Reload();
-            m_FightTB->AddText(EnemyPokeName + "使出了" + EnemySkillName + "!");
-            if (EnemyDamge == 0) {
-                m_FightTB->AddText(EnemyPokeName + "的攻擊未能命中敵人!");
-            } else {
-                if (EnemyDamageRate == 0) {
-                    m_FightTB->AddText("沒有效果!");
-                } else if (EnemyDamageRate >= 2.0) {
-                    m_FightTB->AddText("效果絕佳!");
-                } else if (EnemyDamageRate <= 0.5) {
-                    m_FightTB->AddText("效果不好!");
-                }
-            }
-        } else if (IsPlayerRound) {
-            m_FightTB->Reload();
-            m_FightTB->AddText(PlayerPokeName + "使出了" + PlayerSkillName + "!");
-            if (PlayerDamge == 0) {
-                m_FightTB->AddText(PlayerPokeName + "的攻擊未能命中敵人!");
-            } else {
-                if (PlayerDamageRate == 0) {
-                    m_FightTB->AddText("沒有效果!");
-                } else if (PlayerDamageRate >= 2.0) {
-                    m_FightTB->AddText("效果絕佳!");
-                } else if (PlayerDamageRate <= 0.5) {
-                    m_FightTB->AddText("效果不好!");
-                }
-            }
-            m_FightTB->AddText(EnemyPokeName + "使出了" + EnemySkillName + "!");
-            if (EnemyDamge == 0) {
-                m_FightTB->AddText(EnemyPokeName + "的攻擊未能命中敵人!");
-            } else {
-                if (EnemyDamageRate == 0) {
-                    m_FightTB->AddText("沒有效果!");
-                } else if (EnemyDamageRate >= 2.0) {
-                    m_FightTB->AddText("效果絕佳!");
-                } else if (EnemyDamageRate <= 0.5) {
-                    m_FightTB->AddText("效果不好!");
-                }
-            }
-        } else {
-            m_FightTB->Reload();
-            m_FightTB->AddText(EnemyPokeName + "使出了" + EnemySkillName + "!");
-            if (EnemyDamge == 0) {
-                m_FightTB->AddText(EnemyPokeName + "的攻擊未能命中敵人!");
-            } else {
-                if (EnemyDamageRate == 0) {
-                    m_FightTB->AddText("沒有效果!");
-                } else if (EnemyDamageRate >= 2.0) {
-                    m_FightTB->AddText("效果絕佳!");
-                } else if (EnemyDamageRate <= 0.5) {
-                    m_FightTB->AddText("效果不好!");
-                }
-            }
-            m_FightTB->AddText(PlayerPokeName + "使出了" + PlayerSkillName + "!");
-            if (PlayerDamge == 0) {
-                m_FightTB->AddText(PlayerPokeName + "的攻擊未能命中敵人!");
-            } else {
-                if (PlayerDamageRate == 0) {
-                    m_FightTB->AddText("沒有效果!");
-                } else if (PlayerDamageRate >= 2.0) {
-                    m_FightTB->AddText("效果絕佳!");
-                } else if (PlayerDamageRate <= 0.5) {
-                    m_FightTB->AddText("效果不好!");
-                }
-            }
-        }
-        m_FightTB->SetVisible(true);
-    }
-    if (m_FightTB->GetVisibility()) {
-
-        if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-            m_FightTB->Next();
-        }
-    }
 }

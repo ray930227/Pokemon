@@ -71,8 +71,6 @@ public:
 
     void PokemonHurt(int Damage);
 
-    void PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
-
     [[nodiscard]] int GetAttack();
 
     [[nodiscard]] int GetDefence();
@@ -133,7 +131,12 @@ public:
 
     void SetSkillByName(const std::vector<std::string> &SkillName);
 
+
     int FightDamge(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
+
+    void SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP);
+
+    void ReduceCurrentHP(int Damage);
 };
 
 #endif //POKEMON_POKEMON_HPP

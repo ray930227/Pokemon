@@ -2,7 +2,9 @@
 
 void App::Update() {
     LOG_TRACE("Update");
-    if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+    if (m_CurrentEvent != EventID::NONE) {
+        m_CurrentState = State::EVENT;
+    } else if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         Displacement = {0, -72.0 / Player->GetSpeed()};
         DisplacementCount = Player->GetSpeed();
         currentDirection = "UP";
@@ -82,14 +84,11 @@ void App::Update() {
         LOG_DEBUG("GetPokemon!");
         std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
         std::shared_ptr<Pokemon> TempPokemon2 = std::make_shared<Pokemon>("007");
-        TempPokemon->SetLevel(23);
-        TempPokemon2->SetLevel(23);
         Enemy->GetPokemonBag()->SetPokemons({TempPokemon, TempPokemon2});
         std::stringstream ToString;
         ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
         std::string StringID = ToString.str();
-        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>(StringID);
-        FirstPokemon->SetLevel(50);
+        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
 //        FirstPokemon->SetCurrentEXP(FirstPokemon->GetAbility()["EXP"]-1);
         Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }

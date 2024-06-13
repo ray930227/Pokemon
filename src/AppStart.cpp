@@ -118,8 +118,8 @@ void App::Start() {
     m_Root.AddChildren(m_FightMainUI->GetChildren());
 
     m_FightTextUI = std::make_shared<FightTextUI>(Player,Enemy);
-    for (const auto &Child: m_FightTextUI->GetChildren()) {
-        m_Root.AddChildren(Child);
+    for(auto &i:m_FightTextUI->GetChildren()){
+        m_Root.AddChildren(i);
     }
 
     m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>(Player);
@@ -139,10 +139,18 @@ void App::Start() {
 
     tempImagePathses.clear();
     tempImagePathses.resize(4);
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakBack.png"});
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakFront.png"});
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakLeft.png"});
-    tempImagePathses.push_back({RESOURCE_DIR"/Charactor/OakRight.png"});
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_1.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_2.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_1.png");
+    tempImagePathses[0].push_back(RESOURCE_DIR"/Charactor/OakBack_3.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_2.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_1.png");
+    tempImagePathses[1].push_back(RESOURCE_DIR"/Charactor/OakFront_3.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/OakLeft_1.png");
+    tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/OakLeft_2.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/OakRight_1.png");
+    tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/OakRight_2.png");
     NPC_Oak = std::make_shared<Character>(tempImagePathses);
     NPC_Oak->GetImage()->SetZIndex(49);
     NPC_Oak->GetImage()->SetVisible(false);
@@ -156,6 +164,9 @@ void App::Start() {
 
     m_SettingUI=std::make_shared<SettingUI>(Player,m_ComputerUI);
     m_Root.AddChildren(m_SettingUI->GetChildren());
+
+    m_PlayerBuff.insert({"Attack",1});
+    m_EnemyBuff.insert({"Attack",1});
 
     m_CurrentState = State::HOME;
 }

@@ -21,6 +21,7 @@ private:
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
     std::shared_ptr<TextBox> m_DefeatWildTextBox;
+    std::shared_ptr<TextBox> m_NoHitTextBox;
 public:
     FightTextUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
@@ -53,6 +54,8 @@ public:
 
     void SetLose(const std::string &PlayerName);
 
+    void SetNoHit(const std::string &PokeName);
+
     [[nodiscard]] bool GetPlayerVisibility() const;
 
     [[nodiscard]] bool GetEnemyVisibility() const;
@@ -70,6 +73,8 @@ public:
     [[nodiscard]] bool GetChangeFailVisibility() const;
 
     [[nodiscard]] bool GetLoseVisibility() const;
+
+    [[nodiscard]] bool GetNoHitVisibility() const;
 
     void Next();
 };
