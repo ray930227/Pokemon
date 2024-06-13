@@ -108,6 +108,9 @@ public:
 
     void End();
 
+protected:
+    void Fighting(const std::shared_ptr<Pokemon>& A,const std::shared_ptr<Pokemon>& B,std::map<std::string,float> &Abuff,std::map<std::string,float> &Bbuff,int useSkill);
+
 private:
     State m_CurrentState = State::START;
     EventID m_CurrentEvent = EventID::NONE;
@@ -153,6 +156,11 @@ private:
     int PlayerSkillChoose = 0;
     int EnemySkillChoose = 0;
     bool IsPlayerRound;
+    std::map<std::string,float> m_PlayerBuff;
+    std::map<std::string,float> m_EnemyBuff;
+
+    std::pair<std::shared_ptr<Pokemon>,std::shared_ptr<Pokemon>> m_FightPoke;
+    std::pair<int,int> m_FightSkill;
     int DisplacementCount;
     int m_PreviousPlayerPokemon = 0;
     int m_CurrentPlayerPokemon = 0;

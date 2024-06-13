@@ -118,8 +118,8 @@ void App::Start() {
     m_Root.AddChildren(m_FightMainUI->GetChildren());
 
     m_FightTextUI = std::make_shared<FightTextUI>(Player,Enemy);
-    for (const auto &Child: m_FightTextUI->GetChildren()) {
-        m_Root.AddChildren(Child);
+    for(auto &i:m_FightTextUI->GetChildren()){
+        m_Root.AddChildren(i);
     }
 
     m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>(Player);
@@ -164,6 +164,9 @@ void App::Start() {
 
     m_SettingUI=std::make_shared<SettingUI>(Player,m_ComputerUI);
     m_Root.AddChildren(m_SettingUI->GetChildren());
+
+    m_PlayerBuff.insert({"Attack",1});
+    m_EnemyBuff.insert({"Attack",1});
 
     m_CurrentState = State::HOME;
 }

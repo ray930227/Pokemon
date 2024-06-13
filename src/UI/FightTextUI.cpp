@@ -39,6 +39,9 @@ FightTextUI::FightTextUI(const std::shared_ptr<Character> &Player, const std::sh
     m_DefeatWildTextBox = std::make_shared<TextBox>();
     m_DefeatWildTextBox->SetZIndex(60);
     m_DefeatWildTextBox->SetVisible(false);
+    m_NoHitTextBox = std::make_shared<TextBox>();
+    m_NoHitTextBox->SetZIndex(60);
+    m_NoHitTextBox->SetVisible(false);
 
 }
 
@@ -46,7 +49,8 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> FightTextUI::GetChil
     return {m_PlayerTextBox->GetChildren(), m_EnemyTextBox->GetChildren(), m_FinishTextBox->GetChildren(),
             m_DefeatTextBox->GetChildren(), m_PokePackTextBox->GetChildren(), m_GainEXPTextBox->GetChildren(),
             m_RunTextBox->GetChildren(), m_LevelUPTextBox->GetChildren(), m_ChangePokeTextBox->GetChildren(),
-            m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren(), m_DefeatWildTextBox->GetChildren()};
+            m_ChangeFailTextBox->GetChildren(), m_LoseTextBox->GetChildren(), m_DefeatWildTextBox->GetChildren(),
+            m_NoHitTextBox->GetChildren()};
 }
 
 void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
@@ -58,13 +62,16 @@ void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
     m_PlayerTextBox->SetVisible(true);
     m_PlayerTextBox->Reload();
     m_PlayerTextBox->AddText(PokeName + "使出了" + UseSkill);
-    if (DamageRate == 0) {
-        m_PlayerTextBox->AddText("沒有效果!");
-    } else if (DamageRate >= 2.0) {
-        m_PlayerTextBox->AddText("效果絕佳!");
-    } else if (DamageRate <= 0.5) {
-        m_PlayerTextBox->AddText("效果不好!");
+    if(m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetSkillClass()[SkillIndex] == "變化"){
+        if (DamageRate == 0) {
+            m_PlayerTextBox->AddText("沒有效果!");
+        } else if (DamageRate >= 2.0) {
+            m_PlayerTextBox->AddText("效果絕佳!");
+        } else if (DamageRate <= 0.5) {
+            m_PlayerTextBox->AddText("效果不好!");
+        }
     }
+
 }
 
 void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
@@ -76,12 +83,14 @@ void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
     m_EnemyTextBox->SetVisible(true);
     m_EnemyTextBox->Reload();
     m_EnemyTextBox->AddText(PokeName + "使出了" + UseSkill);
-    if (DamageRate == 0) {
-        m_EnemyTextBox->AddText("沒有效果!");
-    } else if (DamageRate >= 2.0) {
-        m_EnemyTextBox->AddText("效果絕佳!");
-    } else if (DamageRate <= 0.5) {
-        m_EnemyTextBox->AddText("效果不好!");
+    if(m_Enemy->GetPokemonBag()->GetPokemons()[PokeIndex]->GetSkillClass()[SkillIndex] == "變化") {
+        if (DamageRate == 0) {
+            m_EnemyTextBox->AddText("沒有效果!");
+        } else if (DamageRate >= 2.0) {
+            m_EnemyTextBox->AddText("效果絕佳!");
+        } else if (DamageRate <= 0.5) {
+            m_EnemyTextBox->AddText("效果不好!");
+        }
     }
 }
 
@@ -160,6 +169,21 @@ void FightTextUI::SetLose(const std::string &PlayerName) {
     m_LoseTextBox->AddText(PlayerName + "的眼前一片漆黑!");
 }
 
+void FightTextUI::SetNoHit(const std::string &PokeName) {
+    m_NoHitTextBox->SetVisible(true);
+    m_NoHitTextBox->Reload();
+    m_NoHitTextBox->AddText("技能沒有命中!");
+    if(m_PlayerTextBox->GetVisibility()){
+        auto temp =m_PlayerTextBox->GetText();
+        m_PlayerTextBox->Reload();
+        m_PlayerTextBox->AddText(temp);
+    } else{
+        auto temp =m_EnemyTextBox->GetText();
+        m_EnemyTextBox->Reload();
+        m_EnemyTextBox->AddText(temp);
+    }
+}
+
 bool FightTextUI::GetPlayerVisibility() const {
     return m_PlayerTextBox->GetVisibility();
 }
@@ -196,6 +220,10 @@ bool FightTextUI::GetLoseVisibility() const {
     return m_LoseTextBox->GetVisibility();
 }
 
+bool FightTextUI::GetNoHitVisibility() const {
+    return m_NoHitTextBox->GetVisibility();
+}
+
 void FightTextUI::Next() {
     if (m_PlayerTextBox->GetVisibility()) {
         m_PlayerTextBox->Next();
@@ -219,5 +247,7 @@ void FightTextUI::Next() {
         m_LoseTextBox->Next();
     } else if (m_DefeatWildTextBox->GetVisibility()) {
         m_DefeatWildTextBox->Next();
+    } else if (m_NoHitTextBox->GetVisibility()) {
+        m_NoHitTextBox->Next();
     }
 }

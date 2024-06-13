@@ -5,6 +5,7 @@
 #include "GIF.hpp"
 #include "TextBox.hpp"
 #include "Character.hpp"
+#include "SFXSystem.hpp"
 #include "Util/Input.hpp"
 
 class FightMainUI {
@@ -25,7 +26,13 @@ private:
     std::shared_ptr<Text> m_EnemyPokeName;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<Character> m_Enemy;
-    int Counter = 0;
+    std::shared_ptr<TextBox> m_FightTB;
+    std::shared_ptr<SFXSystem> m_SFX;
+    int TBCounter = 0;
+    bool PlayerMiss = false;
+    bool EnemyMiss = false;
+    bool PlayerEffect = false;
+    bool EnemyEffect = false;
 public:
     FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 

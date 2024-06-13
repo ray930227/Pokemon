@@ -40,6 +40,9 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
     m_FightBG = std::make_shared<Image>(RESOURCE_DIR"/Fight/Fightselectbox.png");
     m_FightBG->SetZIndex(52);
     m_FightBG->SetVisible(false);
+    m_FightTB = std::make_shared<TextBox>();
+    m_FightTB->SetZIndex(60);
+    m_FightTB->SetVisible(false);
     std::vector<std::string> tempBallPath;
     for (int i = 1; i < 6; i++) {
         tempBallPath.push_back(RESOURCE_DIR"/Fight/BallEffect" + std::to_string(i) + ".png");
@@ -64,12 +67,13 @@ FightMainUI::FightMainUI(const std::shared_ptr<Character> &Player, const std::sh
     m_EnemyPokeName->SetPosition({-110, 295});
     m_Player = Player;
     m_Enemy = Enemy;
+    m_SFX = std::make_shared<SFXSystem>();
 }
 
 std::vector<std::shared_ptr<Util::GameObject>> FightMainUI::GetChildren() const {
     return {m_PlayerImage, m_PlayerPokemonImage, m_EnemyPokemonImage, m_PlayerHPImage, m_EnemyHPImage, m_PlayerHPUI,
             m_EnemyHPUI, m_PlayerBalls, m_BallAnimation, m_PlayerHP, m_PlayerPokeName, m_EnemyPokeName, m_Arrow,
-            m_FightBG};
+            m_FightBG, m_FightTB->GetChildren()[0], m_FightTB->GetChildren()[1]};
 }
 
 void FightMainUI::SetVisible(bool visible) {

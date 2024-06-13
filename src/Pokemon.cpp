@@ -17,6 +17,21 @@ Pokemon::Pokemon(const std::string &ID) {
     m_Ability.insert({"ID", std::stoi(ID)});
     m_Ability.insert({"EXP", 0});
     m_Ability.insert({"CurrentEXP", 0});
+    std::ifstream FileOfAbility(RESOURCE_DIR"/Pokemon/PokemonAbility.txt");
+    int Value[5];
+    for (int r = 0; r < 151; r++) {
+        if(r == m_Ability["ID"]) {
+            for (int c = 0; c < 5; c++) {
+                FileOfAbility >> Value[c];
+            }
+            break;
+        }
+    }
+    m_Ability.insert({"HPSS", Value[0]});
+    m_Ability.insert({"AttackSS", Value[1]});
+    m_Ability.insert({"DefenceSS", Value[2]});
+    m_Ability.insert({"SpecialSS", Value[3]});
+    m_Ability.insert({"SpeedSS", Value[4]});
     FindType();
     FindName();
     FindAbiltiy();
@@ -254,11 +269,11 @@ void Pokemon::FindAbiltiy() {
     m_Ability["EXP"] = m_Ability["LV"] * m_Ability["LV"] * m_Ability["LV"];
 }
 
-int Pokemon::GetHP()  {
+int Pokemon::GetHP() {
     return m_Ability["HP"];
 }
 
-int Pokemon::GetCurrentHP()  {
+int Pokemon::GetCurrentHP() {
     return m_Ability["CurrentHP"];
 }
 
@@ -266,44 +281,31 @@ void Pokemon::PokemonHurt(int Damage) {
     m_Ability["CurrentHP"] -= Damage;
 }
 
-void Pokemon::PokemonHurt(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose) {
-    int Damage;
-    Damage = round((((2.0 * EnemyPokemon->GetLV() + 10) / 250) * (1.0 * EnemyPokemon->GetAttack() / m_Ability["Defence"]) *
-                    std::stof(EnemyPokemon->GetSkillDamge()[SkillChoose]) + 2) *
-                   PokeFunction::TypeDamage(
-                           EnemyPokemon->GetSkillType()[SkillChoose],
-                           m_Type));
-    m_Ability["CurrentHP"] -= Damage;
-    if (m_Ability["CurrentHP"] < 0) {
-        m_Ability["CurrentHP"] = 0;
-    }
-}
-
-int Pokemon::GetAttack()  {
+int Pokemon::GetAttack() {
     return m_Ability["Attack"];
 }
 
-int Pokemon::GetDefence()  {
+int Pokemon::GetDefence() {
     return m_Ability["Defence"];
 }
 
-int Pokemon::GetSpecial()  {
+int Pokemon::GetSpecial() {
     return m_Ability["Special"];
 }
 
-int Pokemon::GetSpeed()  {
+int Pokemon::GetSpeed() {
     return m_Ability["Speed"];
 }
 
-int Pokemon::GetIV()  {
+int Pokemon::GetIV() {
     return m_Ability["IV"];
 }
 
-int Pokemon::GetLV()  {
+int Pokemon::GetLV() {
     return m_Ability["LV"];
 }
 
-int Pokemon::GetCurrentEXP()  {
+int Pokemon::GetCurrentEXP() {
     return m_Ability["CurrentEXP"];
 }
 
@@ -602,6 +604,37 @@ void Pokemon::SetSkillByName(const std::vector<std::string> &SkillName) {
     }
 }
 
+int Pokemon::FightDamge(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose) {
+    int Damage;
+    int Random = rand() % 100;
+    if (m_SkillClass[SkillChoose] == "物理" && m_SkillDamage[SkillChoose] != "變化") {
+        Damage = round(
+                (((2.0 * m_Ability["LV"] + 10) / 250) * (1.0 * m_Ability["Attack"] / EnemyPokemon->GetDefence()) *
+                 std::stof(m_SkillDamage[SkillChoose]) + 2) *
+                PokeFunction::TypeDamage(
+                        m_SkillTypes[SkillChoose], EnemyPokemon->GetType()));
+    } else if (m_SkillClass[SkillChoose] == "特殊" && m_SkillDamage[SkillChoose] != "變化") {
+        Damage = round(
+                (((2.0 * m_Ability["LV"] + 10) / 250) * (1.0 * m_Ability["Special"] / EnemyPokemon->GetSpecial()) *
+                 std::stof(m_SkillDamage[SkillChoose]) + 2) *
+                PokeFunction::TypeDamage(
+                        m_SkillTypes[SkillChoose], EnemyPokemon->GetType()));
+    }
+    if (Random < std::stoi(m_SkillHitRates[SkillChoose])) {
+        return Damage;
+    } else {
+        return 0;
+    }
+    return Damage;
+}
+
 void Pokemon::SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP) {
     m_CurrentSkillPPs=CurrentSkillPP;
+}
+
+void Pokemon::ReduceCurrentHP(int Damage) {
+    m_Ability["CurrentHP"] -= Damage;
+    if (m_Ability["CurrentHP"] < 0) {
+        m_Ability["CurrentHP"] = 0;
+    }
 }
