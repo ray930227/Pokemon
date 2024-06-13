@@ -572,6 +572,8 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
     bool isHit;
     if (Skill == "斷頭鉗" || Skill == "角鑽" || Skill == "地裂")
         isHit=(rand() % 254 + 1) <= (int)(30+A->GetLV()-B->GetLV())*2.55;
+    else if(Skill=="挣扎")
+        isHit= true;
     else
         isHit=(rand() % 254 + 1) <= (int)(std::stof(A->GetSkillHitRate()[useSkill])*2.55*Abuff["命中率"]*Bbuff["閃避率"]);
 
@@ -687,8 +689,7 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                 Damage=B_Ability["CurrentHP"]/2;
             } else if(Skill=="挣扎"){
                 Damage=round(
-                        (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) * 50 + 2) *
-                        PokeFunction::TypeDamage("一般",B_Type)) ;;
+                        (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) * 50 + 2)) ;;
             } else{
                     Damage = round(
                             (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) *
