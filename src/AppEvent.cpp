@@ -193,7 +193,7 @@ void App::Event() {
     } else if (m_CurrentEvent == EventID::BILLBOARD) {
         //region
         if (!m_TB->GetVisibility()) {
-
+            m_TB->Reload();
             if (TargetPosition.x == 83 && TargetPosition.y == 63) {
                 m_TB->SetText(Player->GetName() + "的家");
             } else if (TargetPosition.x == 83 && TargetPosition.y == 71) {
@@ -204,6 +204,25 @@ void App::Event() {
                 m_TB->SetText("大木博士的實驗室");
             } else if (TargetPosition.x == 13 && TargetPosition.y == 77) {
                 m_TB->SetText("深灰市神奇寶貝道館館主：小剛\n如岩石般强大的男人。");
+            } else if(TargetPosition.x == 69 && TargetPosition.y == 69) {
+                m_TB->SetText("↑↑↑\n深灰市");
+            } else if(TargetPosition.x == 35 && TargetPosition.y == 71) {
+                m_TB->SetText("這裡是深灰市。\n深灰即是堅若磐石的灰黑之色。");
+            } else if(TargetPosition.x == 23 && TargetPosition.y == 67) {
+                m_TB->AddText("戰鬥招式的使用次數受招式點數的限制，它的簡稱ＰＰ。");
+                m_TB->AddText("想要補充ＰＰ的話，那就到寶可夢中心，讓你的寶可夢好好休息吧！");
+            } else if(TargetPosition.x == 7 && TargetPosition.y == 69) {
+                m_TB->AddText("前方不可通行!!!");
+            } else if(TargetPosition.x == 23 && TargetPosition.y == 43) {
+                m_TB->SetText("歡迎來到華藍市");
+            } else if(TargetPosition.x == 33 && TargetPosition.y == 29) {
+                m_TB->SetText("這裡是華藍市。\n華藍即是神秘莫測的水藍之色。");
+            } else if(TargetPosition.x == 13 && TargetPosition.y == 25) {
+                m_TB->AddText("在寶可夢進化過程中，連按X鍵可以取消進化。");
+            } else if(TargetPosition.x == 21 && TargetPosition.y == 21) {
+                m_TB->SetText("華藍市神奇寶貝道館館主：小霞\n俏皮的美人魚。");
+            } else if(TargetPosition.x == 27 && TargetPosition.y == 35) {
+                m_TB->AddText("超級球提高了收服率，試試用它來抓那些很難收服的神奇寶貝。");
             } else {
                 m_TB->SetText("(" + std::to_string((int) TargetPosition.x) + "," +
                               std::to_string((int) TargetPosition.y) +
@@ -213,9 +232,11 @@ void App::Event() {
         }
 
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
-            m_TB->SetVisible(false);
-            m_CurrentEvent = EventID::NONE;
-            m_CurrentState = State::UPDATE;
+            m_TB->Next();
+            if(!m_TB->GetVisibility()) {
+                m_CurrentEvent = EventID::NONE;
+                m_CurrentState = State::UPDATE;
+            }
         }
         //endregion
     } else if (m_CurrentEvent == EventID::JUMP) {
