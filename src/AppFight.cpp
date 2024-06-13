@@ -688,7 +688,7 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
             } else if(Skill=="挣扎"){
                 Damage=round(
                         (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) * 50 + 2) *
-                        PokeFunction::TypeDamage(A->GetSkillType()[useSkill],B_Type)) ;;
+                        PokeFunction::TypeDamage("一般",B_Type)) ;;
             } else{
                     Damage = round(
                             (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) *
