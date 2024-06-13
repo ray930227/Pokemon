@@ -137,23 +137,23 @@ void App::Fight() {
                     m_FightTextUI->SetChangePoke(
                             Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->GetName(),
                             Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName());
+                    bool die=false;
                     if (Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()) {
-                        IsChangePokemon = false;
+                        die = true;
                         m_FightTextUI->Next();
                     }
                     m_PokeBagUI->SetVisible(false);
                     m_FightMainUI->SetArrowVisible(true);
                     m_FightSkillUI->ReSetArrow();
-                    if (!IsChangePokemon) {
+                    if (die) {
                         m_FightMainUI->SetPlayerPokeVisible(false);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
                         m_FightMainUI->SetBallAnimationVisible(true, true);
-                    }
-                    if (!IsChangePokemon) {
                         Timer = 101;
                     } else {
                         Timer = 0;
                     }
+                    LOG_DEBUG("State:CHANGEPOKE");
                     m_CurrentFighting = FightID::CHANGEPOKE;
                 }
             }
@@ -172,7 +172,7 @@ void App::Fight() {
 
         case FightID::RUN:
             //region Run
-            if (!m_FightTextUI->GetLoseVisibility() && !m_FightTextUI->GetRunVisibility()) {
+            if (!m_FightTextUI->GetTBVisibility()) {
                 if (isWildPokemon || m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
                     m_WhiteBG->SetVisible(false);
                     m_WhiteBG->SetZIndex(0);
@@ -197,8 +197,7 @@ void App::Fight() {
 
         case FightID::FIGHT:
             //region Fight
-            if(!m_FightTextUI->GetPlayerVisibility() && !m_FightTextUI->GetEnemyVisibility() &&
-               !m_FightTextUI->GetNoHitVisibility()){
+            if(!m_FightTextUI->GetTBVisibility()){
                 LOG_DEBUG(FightCounter);
                 if(FightCounter==0){
                     if (IsPlayerRound) {
@@ -225,8 +224,7 @@ void App::Fight() {
             }
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_FightTextUI->Next();
-                if (!m_FightTextUI->GetPlayerVisibility() && !m_FightTextUI->GetEnemyVisibility() &&
-                    !m_FightTextUI->GetNoHitVisibility()) {
+                if (!m_FightTextUI->GetTBVisibility()) {
                     FightCounter++;
                     if(FightCounter==2){
                         m_FightMainUI->SetArrowVisible(true);
@@ -254,32 +252,35 @@ void App::Fight() {
                 }
             } else {
                 if (m_FightMainUI->GetBallAnimationIndex() == 4) {
+                    LOG_DEBUG("State:UPDATEINFO");
                     m_CurrentFighting = FightID::UPDATEINFO;
                     m_FightMainUI->SetPlayerPokeVisible(true);
                     m_FightMainUI->SetBallAnimationVisible(false, true);
                     if (m_FightMainUI->GetPlayerPokeScale().x < 1) {
                         m_FightMainUI->ZoomImage(true);
-                    } else {
-                        if (Timer == 155) {
-                            m_SFX->Play("PokeSound" +
-                                        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
-                        }
-                        if (Timer == 180) {
-                            m_FightMainUI->SetPlayerPokeScale({1, 1});
-                            m_FightMainUI->SetPlayerHPUIVisible(true);
-                            m_FightMainUI->SetPlayerHPTextVisible(true);
-                            m_FightMainUI->SetPlayerPokeNameVisible(true);
-                            m_FightTextUI->Next();
-                        }
+                    }
+                    if (Timer == 155) {
+                        m_SFX->Play("PokeSound" +
+                                    Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
+                    }
+                    if (Timer == 170) {
+                        m_FightMainUI->SetPlayerPokeScale({1, 1});
+                        m_FightMainUI->SetPlayerHPUIVisible(true);
+                        m_FightMainUI->SetPlayerHPTextVisible(true);
+                        m_FightMainUI->SetPlayerPokeNameVisible(true);
+                        m_FightTextUI->Next();
                     }
                 }
             }
-            if (!m_FightTextUI->GetChangePokeVisibility()) {
+            if (!m_FightTextUI->GetTBVisibility()) {
                 Timer = 0;
                 m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
                 Fighting(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
                          Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff, m_PlayerBuff,
                          EnemySkillChoose);
+                FightCounter=1;
+                IsChangePokemon= false;
+                m_CurrentFighting = FightID::FIGHT;
             }
             break;
             //endregion
@@ -404,13 +405,13 @@ void App::Fight() {
                 Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GainBasePoints(m_Experience.second);
                 m_FightTextUI->SetDefeatWild(m_CurrentPlayerPokemon, 0, m_Experience.second);
                 FightCounter++;
-            } else if (!m_FightTextUI->GetDefeatWildVisibility() && m_Experience.first && FightCounter == 1) {
+            } else if (!m_FightTextUI->GetTBVisibility() && m_Experience.first && FightCounter == 1) {
                 m_BGM->Pause();
                 m_SFX->Play("LevelUp");
                 m_FightTextUI->SetLevelUP(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName(),
                                           Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV());
                 FightCounter++;
-            } else if (!m_FightTextUI->GetLevelUPVisibility() && FightCounter == 2) {
+            } else if (!m_FightTextUI->GetTBVisibility() && FightCounter == 2) {
                 m_CurrentFighting = FightID::UPDATEINFO;
                 FightCounter = 0;
                 if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsGetNewSkill()) {
@@ -431,8 +432,7 @@ void App::Fight() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_FightTextUI->Next();
             }
-            if (!m_FightTextUI->GetDefeatWildVisibility() && !m_FightTextUI->GetGainEXPVisibility() &&
-                !m_Experience.first && FightCounter == 1) {
+            if (!m_FightTextUI->GetTBVisibility() && !m_Experience.first && FightCounter == 1) {
                 FightCounter = 0;
                 m_CurrentFighting = FightID::UPDATEINFO;
             }
@@ -524,10 +524,12 @@ void App::Fight() {
                     m_CurrentEvent = EventID::NPC_END;
                 }
             } else if (IsChangePokemon) {
+                LOG_DEBUG("State:CHANGEPOKE");
                 m_CurrentFighting = FightID::CHANGEPOKE;
             } else if (m_Experience.first) {
                 m_CurrentFighting = FightID::WILDFINISH;
             } else {
+                LOG_DEBUG("State:HOME");
                 m_CurrentFighting = FightID::HOME;
             }
             break;
@@ -562,9 +564,9 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
 
     bool isHit;
     if (Skill == "斷頭鉗" || Skill == "角鑽" || Skill == "地裂")
-        isHit=(rand() % 254 + 1) < (int)(30+A->GetLV()-B->GetLV())*2.55;
+        isHit=(rand() % 254 + 1) <= (int)(30+A->GetLV()-B->GetLV())*2.55;
     else
-        isHit=(rand() % 254 + 1) < (int)(std::stof(A->GetSkillHitRate()[useSkill])*2.55*Abuff["命中率"]*Bbuff["閃避率"]);
+        isHit=(rand() % 254 + 1) <= (int)(std::stof(A->GetSkillHitRate()[useSkill])*2.55*Abuff["命中率"]*Bbuff["閃避率"]);
 
 
 
