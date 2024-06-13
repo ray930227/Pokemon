@@ -61,6 +61,7 @@ public:
         SETTING,
         NPC_END,
         ALL_POKEMON_DIE,
+        GAME_COMPLETED,
         NONE
     };
 
@@ -170,6 +171,7 @@ private:
     int ButtonTrigger = 0;
     int FightCounter = 0;
     int Timer = 0;
+    int m_PreviousHP;
     bool IsChangePokemon = false;
     bool m_SuccessCatch = false;
     std::pair<bool, int> m_Experience;

@@ -123,7 +123,10 @@ void ComputerUI::ChooseAction() {
             m_Arrows[0]->SetVisible(false);
             m_TB->SetVisible(false);
         } else {
-            if (m_Arrows[0]->GetPosition().y == 194 && m_Player->GetPokemonBag()->GetPokemons().size() == 1) {
+            if(m_Arrows[0]->GetPosition().y == 194 && m_Player->GetPokemonBag()->GetPokemons().size() == 0){
+                m_TB->SetVisible(true);
+                m_TB->SetText("你身上沒有神奇寶貝!!!");
+            } else if (m_Arrows[0]->GetPosition().y == 194 && m_Player->GetPokemonBag()->GetPokemons().size() == 1) {
                 m_TB->SetVisible(true);
                 m_TB->SetText("你身上只有一支神奇寶貝\n身上不能沒有神奇寶貝!!!");
             } else if(m_Arrows[0]->GetPosition().y == 290 && m_Player->GetPokemonBag()->GetPokemons().size() == 6){

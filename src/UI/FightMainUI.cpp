@@ -406,3 +406,7 @@ bool FightMainUI::IsCatching() {
 bool FightMainUI::SuccessCatch() {
     return isCatching==2;
 }
+
+void FightMainUI::ResetCatch() {
+    isCatching = 0;
+}

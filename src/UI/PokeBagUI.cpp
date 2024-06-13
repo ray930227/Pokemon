@@ -247,6 +247,7 @@ void PokeBagUI::Run(unsigned int mode) {
                     m_TB->SetText(
                             m_Player->GetPokemonBag()->GetPokemons()[GetDecision()]->GetName() + "已昏厥，無法上場!");
                 } else {
+                    m_CurrentPokemon = GetDecision();
                     SetVisible(false);
                 }
             }

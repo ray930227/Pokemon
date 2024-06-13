@@ -54,12 +54,6 @@ void App::Update() {
         m_CurrentState = State::EVENT;
     }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::Q)) {
-        glm::vec2 PlayerPosition = m_MapSystem->GetPlayerPosition();
-        LOG_DEBUG("({},{}),({},{})", m_MapSystem->GetPosition().x, m_MapSystem->GetPosition().y, PlayerPosition.x,
-                  PlayerPosition.y);
-    }
-
     if (Util::Input::IsKeyDown(Util::Keycode::A)) {
         Player->SetSpeed(Player->GetSpeed() == 15 ? 5 : 15);
         LOG_DEBUG("Set speed:{}", Player->GetSpeed());
@@ -68,30 +62,6 @@ void App::Update() {
     if (Util::Input::IsKeyDown(Util::Keycode::S)) {
         encounterable = !encounterable;
         LOG_DEBUG("Encounterable:{}", encounterable);
-    }
-    if (Util::Input::IsKeyDown(Util::Keycode::D)) {
-        m_CurrentEvent = EventID::SHOP;
-        m_CurrentState = State::EVENT;
-    }
-
-    if (Util::Input::IsKeyDown(Util::Keycode::F)) {
-        isWildPokemon = false;
-        m_CurrentLoading = LoadingID::INIT;
-        m_CurrentState = State::LOADING;
-    }
-
-    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
-        LOG_DEBUG("GetPokemon!");
-        std::shared_ptr<Pokemon> TempPokemon = std::make_shared<Pokemon>("001");
-        std::shared_ptr<Pokemon> TempPokemon2 = std::make_shared<Pokemon>("007");
-        Enemy->GetPokemonBag()->SetPokemons({TempPokemon, TempPokemon2});
-        std::stringstream ToString;
-        ToString << std::setw(3) << std::setfill('0') << rand() % 151 + 1;
-        std::string StringID = ToString.str();
-        std::shared_ptr<Pokemon> FirstPokemon = std::make_shared<Pokemon>("004");
-        FirstPokemon->SetCurrentSkillPP({"1","0"});
-//        FirstPokemon->SetCurrentEXP(FirstPokemon->GetAbility()["EXP"]-1);
-        Player->GetPokemonBag()->addPomekon(FirstPokemon);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::O)) {
@@ -107,15 +77,6 @@ void App::Update() {
             Poke->SetLevel(100);
         }
         Player->GetPokemonBag()->SetPokemons(Pokemons);
-    }
-
-    if (Util::Input::IsKeyDown(Util::Keycode::H)) {
-        LOG_DEBUG("Healing!");
-        Enemy->GetPokemonBag()->GetPokemons()[0]->SetCurrentHP(1);
-        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentHP(
-                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetHP());
-        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentEXP(
-                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetAbility()["EXP"] - 1);
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

@@ -111,6 +111,8 @@ public:
     bool IsCatching();
 
     bool SuccessCatch();
+
+    void ResetCatch();
 };
 
 #endif //POKEMON_FIGHTMAINUI_HPP

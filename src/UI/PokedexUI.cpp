@@ -120,14 +120,22 @@ void PokedexUI::Update() {
     if (m_RowTopIndex < 0) m_RowTopIndex = 0;
     if (m_RowTopIndex + 8 >= 151) m_RowTopIndex = 143;
     for (size_t i = 0; i < 8; i++) {
+
         m_IDTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(0, m_PokeNames[m_RowTopIndex + i].find(' ')));
-        m_NameTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(m_PokeNames[m_RowTopIndex + i].find(' '),
-                                                                      m_PokeNames[m_RowTopIndex + i].length()));
+        if(m_PokeGet[m_RowTopIndex + i]) {
+            m_NameTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(m_PokeNames[m_RowTopIndex + i].find(' '),
+                                                                          m_PokeNames[m_RowTopIndex + i].length()));
+        } else{
+            m_NameTexts[i]->SetText("？？？？？");
+        }
     }
 
-    m_PokeImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +
-                          m_IDTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText() + ".png");
-
+    if(m_NameTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText() == "？？？？？") {
+        m_PokeImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/PokemonUnknown.png");
+    } else {
+        m_PokeImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +
+                              m_IDTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText() + ".png");
+    }
     for (auto &i: m_Player->GetPokemonBag()->GetPokemons()) {
         m_PokeGet[std::stoi(i->GetID()) - 1] = true;
     }

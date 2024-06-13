@@ -12,12 +12,26 @@ void App::Loading() {
             }
             m_CurrentNPCPokemon = 0;
             IsChangePokemon = false;
+            m_SuccessCatch = false;
             m_BGM->LoadMedia(RESOURCE_DIR"/BGM/Battle.mp3");
             m_BGM->Play();
             m_LoadingUI->RandomMode();
             m_FightMainUI->ReSetWildPosition();
             m_FightSkillUI->ReSetArrow();
             m_PokeBagUI->ReSetCurrentPokemon();
+            m_PlayerBuff["攻擊"]=1.0;
+            m_PlayerBuff["命中率"]=1.0;
+            m_PlayerBuff["閃避率"]=1.0;
+            m_PlayerBuff["防禦"]=1.0;
+            m_PlayerBuff["特殊"]=1.0;
+            m_PlayerBuff["速度"]=1.0;
+            m_EnemyBuff["攻擊"]=1.0;
+            m_EnemyBuff["命中率"]=1.0;
+            m_EnemyBuff["閃避率"]=1.0;
+            m_EnemyBuff["防禦"]=1.0;
+            m_EnemyBuff["特殊"]=1.0;
+            m_EnemyBuff["速度"]=1.0;
+
             m_CurrentLoading = LoadingID::LOADING;
             break;
             //endregion
