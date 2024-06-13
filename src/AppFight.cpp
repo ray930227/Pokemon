@@ -556,8 +556,14 @@ void App::Fight() {
 
 void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Pokemon> &B, std::map<std::string, float> &Abuff,
               std::map<std::string, float> &Bbuff, int useSkill) {
-    auto SkillClass = A->GetSkillClass()[useSkill];
-    auto Skill = A->GetSkill()[useSkill];
+    std::string SkillClass,Skill;
+    if(useSkill==4){
+        SkillClass= "一般";
+        Skill= "挣扎";
+    } else{
+        SkillClass= A->GetSkillClass()[useSkill];
+        Skill= A->GetSkill()[useSkill];
+    }
     int Damage = 0;
     auto A_Ability = A->GetAbility();
     auto B_Ability = B->GetAbility();
@@ -668,9 +674,7 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                             m_FightTextUI->AddText(B->GetName()+"的"+type+"大幅下降了");
                     }
             }
-        }
-        else {
-
+        } else {
             if (Skill == "斷頭鉗" || Skill == "角鑽" || Skill == "地裂") {
                 Damage = 999999;
             } else if(Skill == "地球上投" || Skill=="黑夜魔影") {
@@ -681,6 +685,10 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                 Damage=A->GetLV()*(rand()%10+5)/10.0;
             } else if(Skill=="憤怒門牙"){
                 Damage=B_Ability["CurrentHP"]/2;
+            } else if(Skill=="挣扎"){
+                Damage=round(
+                        (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) * 50 + 2) *
+                        PokeFunction::TypeDamage(A->GetSkillType()[useSkill],B_Type)) ;;
             } else{
                     Damage = round(
                             (((2.0 * A->GetLV() + 10) / 250) * (1.0 * (A->GetAttack()*Abuff["攻擊"]) / (B_Ability["Defence"]*Bbuff["防禦"])) *
@@ -705,6 +713,8 @@ void App::Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Poke
                 A_Ability["CurrentHP"] += Damage/2;
             } else if(Skill=="自爆" || Skill=="大爆炸") {
                 A_Ability["CurrentHP"] = 0;
+            } else if(Skill=="挣扎") {
+                A_Ability["CurrentHP"] -= A_Ability["HP"]/4;
             }
 
 
