@@ -55,7 +55,10 @@ void App::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::A)) {
         Player->SetSpeed(Player->GetSpeed() == 15 ? 5 : 15);
-        LOG_DEBUG("Set speed:{}", Player->GetSpeed());
+        if(Player->GetSpeed() == 5)
+            LOG_DEBUG("Speed UP!");
+        else
+            LOG_DEBUG("Speed DOWN!");
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::S)) {
@@ -63,7 +66,7 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
 
-    if (Util::Input::IsKeyDown(Util::Keycode::O)) {
+    if (Util::Input::IsKeyDown(Util::Keycode::D)) {
         LOG_DEBUG("It's so powerful!!!!!!!!");
         std::vector<std::shared_ptr<Pokemon>> Pokemons;
         Pokemons.push_back(std::make_shared<Pokemon>("150"));
@@ -76,12 +79,6 @@ void App::Update() {
             Poke->SetLevel(100);
         }
         Player->GetPokemonBag()->SetPokemons(Pokemons);
-    }
-
-    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
-        std::shared_ptr<Pokemon> temp = std::make_shared<Pokemon>("074");
-        temp->SetLevel(22);
-        Player->GetPokemonBag()->addPomekon(temp);
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

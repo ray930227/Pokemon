@@ -157,7 +157,9 @@ void App::Event() {
                                        77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
                                        108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
                                        128, 129, 131, 132};
-            int r = rand() % tempID.size();
+            int r ;
+            if(Player->GetItemBag()->GetItemQuantity("藍色徽章")==0) r= rand() % tempID.size();
+            else r=rand()%151;
             std::stringstream ToString;
             ToString << std::setw(3) << std::setfill('0') << tempID[r];
             std::string StringID = ToString.str();
@@ -165,7 +167,9 @@ void App::Event() {
             int average = 0;
             for (auto &i: Player->GetPokemonBag()->GetPokemons())
                 average += i->GetLV();
-            temp->SetLevel(average / Player->GetPokemonBag()->GetPokemons().size()-2+rand()%5);
+            int lv=average / Player->GetPokemonBag()->GetPokemons().size()-2+rand()%5;
+            if(lv>100) lv=100;
+            temp->SetLevel(lv);
             Enemy->GetPokemonBag()->SetPokemons({temp});
             m_CurrentLoading = LoadingID::INIT;
             m_CurrentState = State::LOADING;
@@ -567,11 +571,27 @@ void App::Event() {
                 Enemy->SetName("女童軍");
                 m_TB->AddText("我比你想像中還要厲害!來對決吧!!");
             }
+        } else if(currnetMap=="PokeCenter"){
+            m_TB->Reload();
+            m_TB->SetVisible(true);
+            if(TargetPosition.x == 8 && TargetPosition.y == 1){
+                m_TB->AddText("我的波波昏厥了，所以我來這裡治療。");
+            } else if(TargetPosition.x == 9 && TargetPosition.y == 6){
+                m_TB->AddText("媽媽告訴我不要跟陌生人講話!!!");
+            } else if(TargetPosition.x == 7 && TargetPosition.y == 9){
+                if(Player->GetItemBag()->GetItemQuantity("秘傳學習器０１")==0) {
+                    m_TB->AddText("年輕人你相信機緣嗎");
+                    m_TB->AddText("這個招式我只教你一人");
+                    m_TB->AddText("秘傳學習器０１（居合斬）");
+                    Player->GetItemBag()->AddItemQuantity("秘傳學習器０１",1);
+                } else{
+                    m_TB->AddText("你有好好的利用居合斬嗎?");
+                }
+            } else{
+                m_TB->AddText("這裡只有員工可以進入!");
+            }
         } else {
             LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
-            m_TB->Reload();
-            m_TB->SetText("NPC has not implement");
-            m_TB->SetVisible(true);
         }
         //endregion
     } else if (m_CurrentEvent == EventID::COMPUTER) {
@@ -654,7 +674,10 @@ void App::Event() {
                 m_TB->AddText("給你神奇寶貝聯盟認證的灰色徽章");
                 Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
             } else {
-                m_TB->SetText("可惡，居然輸了!");
+                m_TB->AddText("可惡，居然輸了!");
+                int money=rand()%100+150;
+                m_TB->AddText("戰勝了訓練家，獲得了$" + std::to_string(money));
+                Player->SetMoney(Player->GetMoney() + money);
             }
         } else if (currnetMap == "GYM2") {
             m_TB->Reload();
@@ -667,6 +690,9 @@ void App::Event() {
 
             } else{
                 m_TB->AddText("你比我想像中還要厲害!");
+                int money=rand()%100+150;
+                m_TB->AddText("戰勝了訓練家，獲得了$" + std::to_string(money));
+                Player->SetMoney(Player->GetMoney() + money);
             }
         } else {
             LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);

@@ -205,6 +205,8 @@ void ItemUI::ChangeSkill() {
 void ItemUI::Action() {
     size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
     int id = m_Player->GetItemBag()->GetItemID(m_Items[index].first);
+    if(id==196)
+        m_Player->GetItemBag()->AddItemQuantity(id, -1);
     m_Player->GetItemBag()->AddItemQuantity(id, -1);
     auto tempPokemon = m_Player->GetPokemonBag()->GetPokemons()[m_PokeBagUI->GetDecision()];
     if (id >= 16 && id <= 20) {
