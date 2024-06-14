@@ -20,7 +20,7 @@ Debug Mode
 請調整/PTSD/include/condfig.hpp裡的TITLE、WINDOW_WIDTH以及WINDOW_HEIGHT以達到最佳遊玩體驗 ，調整方式如下:
 
 
-```C++=13
+```C++
 constexpr const char *TITLE = "Pokemon";
 
 constexpr unsigned int WINDOW_WIDTH = 720;
