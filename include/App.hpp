@@ -111,7 +111,9 @@ public:
     void End();
 
 protected:
-    void Fighting(const std::shared_ptr<Pokemon>& A,const std::shared_ptr<Pokemon>& B,std::map<std::string,float> &Abuff,std::map<std::string,float> &Bbuff,int useSkill);
+    void
+    Fighting(const std::shared_ptr<Pokemon> &A, const std::shared_ptr<Pokemon> &B, std::map<std::string, float> &Abuff,
+             std::map<std::string, float> &Bbuff, int useSkill);
 
 private:
     State m_CurrentState = State::START;
@@ -150,34 +152,34 @@ private:
 
     std::shared_ptr<TFBox> m_TFBox;
     std::shared_ptr<TextBox> m_TB;
-    std::shared_ptr<Character> Player;
-    std::shared_ptr<Character> Enemy;
-    std::shared_ptr<Character> NPC_Bromance;
-    std::shared_ptr<Character> NPC_Oak;
-    std::shared_ptr<TextBox> tempBox;
-    glm::vec2 Displacement = {0, 0};
-    int PlayerSkillChoose = 0;
-    int EnemySkillChoose = 0;
-    bool IsPlayerRound;
-    std::map<std::string,float> m_PlayerBuff;
-    std::map<std::string,float> m_EnemyBuff;
+    std::shared_ptr<Character> m_Player;
+    std::shared_ptr<Character> m_Enemy;
+    std::shared_ptr<Character> m_NPCBromance;
+    std::shared_ptr<Character> m_NPCOak;
+    std::shared_ptr<TextBox> m_TempBox;
+    glm::vec2 m_Displacement = {0, 0};
+    int m_PlayerSkillChoose = 0;
+    int m_EnemySkillChoose = 0;
+    bool m_IsPlayerRound;
+    std::map<std::string, float> m_PlayerBuff;
+    std::map<std::string, float> m_EnemyBuff;
 
-    std::pair<std::shared_ptr<Pokemon>,std::shared_ptr<Pokemon>> m_FightPoke;
-    std::pair<int,int> m_FightSkill;
-    int DisplacementCount;
+    std::pair<std::shared_ptr<Pokemon>, std::shared_ptr<Pokemon>> m_FightPoke;
+    std::pair<int, int> m_FightSkill;
+    int m_DisplacementCount;
     int m_PreviousPlayerPokemon = 0;
     int m_CurrentPlayerPokemon = 0;
     int m_CurrentNPCPokemon = 0;
-    int ButtonTrigger = 0;
-    int FightCounter = 0;
-    int Timer = 0;
+    int m_ButtonTrigger = 0;
+    int m_FightCounter = 0;
+    int m_Timer = 0;
     int m_PreviousHP;
-    bool IsChangePokemon = false;
+    bool m_IsChangePokemon = false;
     bool m_SuccessCatch = false;
     std::pair<bool, int> m_Experience;
-    bool encounterable = true;
-    bool isWildPokemon = false;
-    std::string currentDirection;
+    bool m_Encounterable = true;
+    bool m_IsWildPokemon = false;
+    std::string m_CurrentDirection;
 };
 
 #endif

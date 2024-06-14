@@ -29,8 +29,8 @@ private:
     std::shared_ptr<Character> m_Enemy;
     std::shared_ptr<TextBox> m_FightTB;
     std::shared_ptr<SFXSystem> m_SFX;
-    int isCatching = 0;
-    int Counter = 0;
+    int m_IsCatching = 0;
+    int m_Counter = 0;
 public:
     FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 

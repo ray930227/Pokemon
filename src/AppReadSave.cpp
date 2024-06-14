@@ -23,11 +23,11 @@ void App::ReadSave() {
             std::string tempStr;
             if (std::getline(file, tempStr)) {
                 file.close();
-                m_SettingUI->Read(Player, NPC_Bromance, m_ComputerUI, m_MapSystem);
+                m_SettingUI->Read(m_Player, m_NPCBromance, m_ComputerUI, m_MapSystem);
                 m_MapSystem->SetVisible(true);
-                Player->GetImage()->SetVisible(true);
-                Player->SetCurrentImagePath(0);
-                DisplacementCount = 0;
+                m_Player->GetImage()->SetVisible(true);
+                m_Player->SetCurrentImagePath(0);
+                m_DisplacementCount = 0;
                 m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                 m_BGM->Play();
                 m_CurrentState = State::UPDATE;

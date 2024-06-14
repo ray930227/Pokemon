@@ -36,11 +36,11 @@ MapSystem::MapSystem(const std::string &MapName) {
         auto &blocks = tempMap.m_Blocks;
         for (int i = 0; i < blocks.size(); i++) {
             for (int j = 0; j < blocks[i].size(); j++) {
-                if (blocks[i][j]->isDisplayable()) {
+                if (blocks[i][j]->IsDisplayable()) {
                     blocks[i][j]->SetZIndex(1);
                     blocks[i][j]->SetVisible(false);
                     blocks[i][j]->SetPosition(
-                            {(j - (int)blocks[i].size() / 2) * 72 + 36, ((int)blocks.size() / 2 - i) * 72 - 36});
+                            {(j - (int) blocks[i].size() / 2) * 72 + 36, ((int) blocks.size() / 2 - i) * 72 - 36});
                 }
             }
         }
@@ -61,7 +61,7 @@ std::vector<std::shared_ptr<Util::GameObject>> MapSystem::GetChildren() const {
         result.push_back(i.second.m_BackGround);
         for (auto &j: i.second.m_Blocks) {
             for (auto &block: j) {
-                if (block->isDisplayable())
+                if (block->IsDisplayable())
                     result.push_back(block);
             }
         }
@@ -87,24 +87,24 @@ std::string &MapSystem::GetCurrnetMap() {
 }
 
 int MapSystem::GetCurrentArea() {
-    auto currentMap=GetCurrnetMap();
+    auto currentMap = GetCurrnetMap();
     SetMap("MainMap");
-    auto PlayerPosition=GetPlayerPosition();
+    auto PlayerPosition = GetPlayerPosition();
     SetMap(currentMap);
     std::ifstream file(RESOURCE_DIR"/Map/MainMap/area.txt", std::ios::in);
     std::string tempStr;
-    int count=0;
+    int count = 0;
     while (std::getline(file, tempStr)) {
-        if(count==PlayerPosition.x){
+        if (count == PlayerPosition.x) {
             for (size_t i = 0; i < tempStr.size(); i += 2) {
-                if(i/2==PlayerPosition.y){
+                if (i / 2 == PlayerPosition.y) {
                     file.close();
                     return tempStr[i] - '0';
                 }
             }
-        }else if(count<PlayerPosition.y){
+        } else if (count < PlayerPosition.y) {
             count++;
-        } else{
+        } else {
             break;
         }
     }
@@ -122,7 +122,7 @@ void MapSystem::SetPosition(const glm::vec2 &Position) {
     auto &blocks = m_Maps[m_CurrentMapName].m_Blocks;
     for (size_t i = 0; i < blocks.size(); i++) {
         for (size_t j = 0; j < blocks[i].size(); j++) {
-            if (blocks[i][j]->isDisplayable())
+            if (blocks[i][j]->IsDisplayable())
                 blocks[i][j]->SetPosition(blocks[i][j]->GetPosition() + offset);
         }
     }
@@ -132,7 +132,7 @@ void MapSystem::SetVisible(const bool visible) {
     m_Maps[m_CurrentMapName].m_BackGround->SetVisible(visible);
     for (auto &i: m_Maps[m_CurrentMapName].m_Blocks) {
         for (auto &j: i) {
-            if (j->isDisplayable())
+            if (j->IsDisplayable())
                 j->SetVisible(visible);
         }
     }
@@ -149,7 +149,7 @@ void MapSystem::Move(const glm::vec2 &Displacement) {
     auto &blocks = m_Maps[m_CurrentMapName].m_Blocks;
     for (size_t i = 0; i < blocks.size(); i++) {
         for (size_t j = 0; j < blocks[i].size(); j++) {
-            if (blocks[i][j]->isDisplayable())
+            if (blocks[i][j]->IsDisplayable())
                 blocks[i][j]->SetPosition(blocks[i][j]->GetPosition() + Displacement);
         }
     }

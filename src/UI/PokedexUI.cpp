@@ -122,15 +122,15 @@ void PokedexUI::Update() {
     for (size_t i = 0; i < 8; i++) {
 
         m_IDTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(0, m_PokeNames[m_RowTopIndex + i].find(' ')));
-        if(m_PokeGet[m_RowTopIndex + i]) {
+        if (m_PokeGet[m_RowTopIndex + i]) {
             m_NameTexts[i]->SetText(m_PokeNames[m_RowTopIndex + i].substr(m_PokeNames[m_RowTopIndex + i].find(' '),
                                                                           m_PokeNames[m_RowTopIndex + i].length()));
-        } else{
+        } else {
             m_NameTexts[i]->SetText("？？？？？");
         }
     }
 
-    if(m_NameTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText() == "？？？？？") {
+    if (m_NameTexts[7 - (m_Arrow->GetPosition().y + 264) / 72]->GetText() == "？？？？？") {
         m_PokeImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/PokemonUnknown.png");
     } else {
         m_PokeImage->SetImage(RESOURCE_DIR"/Pokemon/PokeImage/Pokemonfront" +

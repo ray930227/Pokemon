@@ -57,17 +57,17 @@ std::string ItemBag::GetItemName(size_t ID) {
 }
 
 int ItemBag::GetItemID(const std::string &name) {
-    for (int i=0;i<m_Items.size();i++) {
-        if(m_Items[i].first==name)
+    for (int i = 0; i < m_Items.size(); i++) {
+        if (m_Items[i].first == name)
             return i;
     }
     return -1;
 }
 
-bool ItemBag::isEmpty() {
-    bool result= true;
-    for(auto &i:m_Items){
-        if(i.second>0) {
+bool ItemBag::IsEmpty() {
+    bool result = true;
+    for (auto &i: m_Items) {
+        if (i.second > 0) {
             result = false;
             break;
         }

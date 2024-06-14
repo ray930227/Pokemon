@@ -5,37 +5,37 @@ void App::Update() {
     if (m_CurrentEvent != EventID::NONE) {
         m_CurrentState = State::EVENT;
     } else if (Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-        Displacement = {0, -72.0 / Player->GetSpeed()};
-        DisplacementCount = Player->GetSpeed();
-        currentDirection = "UP";
-        Player->SetCurrentImagePath(0);
+        m_Displacement = {0, -72.0 / m_Player->GetSpeed()};
+        m_DisplacementCount = m_Player->GetSpeed();
+        m_CurrentDirection = "UP";
+        m_Player->SetCurrentImagePath(0);
         m_CurrentEvent = EventID::MOVE;
     } else if (Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-        Displacement = {0, 72.0 / Player->GetSpeed()};
-        DisplacementCount = Player->GetSpeed();
-        currentDirection = "DOWN";
-        Player->SetCurrentImagePath(1);
+        m_Displacement = {0, 72.0 / m_Player->GetSpeed()};
+        m_DisplacementCount = m_Player->GetSpeed();
+        m_CurrentDirection = "DOWN";
+        m_Player->SetCurrentImagePath(1);
         m_CurrentEvent = EventID::MOVE;
     } else if (Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-        Displacement = {72.0 / Player->GetSpeed(), 0};
-        DisplacementCount = Player->GetSpeed();
-        currentDirection = "LEFT";
-        Player->SetCurrentImagePath(2);
+        m_Displacement = {72.0 / m_Player->GetSpeed(), 0};
+        m_DisplacementCount = m_Player->GetSpeed();
+        m_CurrentDirection = "LEFT";
+        m_Player->SetCurrentImagePath(2);
         m_CurrentEvent = EventID::MOVE;
     } else if (Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-        Displacement = {-72.0 / Player->GetSpeed(), 0};
-        DisplacementCount = Player->GetSpeed();
-        currentDirection = "RIGHT";
-        Player->SetCurrentImagePath(3);
+        m_Displacement = {-72.0 / m_Player->GetSpeed(), 0};
+        m_DisplacementCount = m_Player->GetSpeed();
+        m_CurrentDirection = "RIGHT";
+        m_Player->SetCurrentImagePath(3);
         m_CurrentEvent = EventID::MOVE;
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
         glm::vec2 targetPosition = m_MapSystem->GetPlayerPosition();
-        if (currentDirection == "UP") targetPosition.x--;
-        else if (currentDirection == "DOWN") targetPosition.x++;
-        else if (currentDirection == "LEFT") targetPosition.y--;
-        else if (currentDirection == "RIGHT") targetPosition.y++;
+        if (m_CurrentDirection == "UP") targetPosition.x--;
+        else if (m_CurrentDirection == "DOWN") targetPosition.x++;
+        else if (m_CurrentDirection == "LEFT") targetPosition.y--;
+        else if (m_CurrentDirection == "RIGHT") targetPosition.y++;
 
         int temp = m_MapSystem->GetBlocks()[targetPosition.x][targetPosition.y]->GetEventID();
 
@@ -54,16 +54,16 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::A)) {
-        Player->SetSpeed(Player->GetSpeed() == 15 ? 5 : 15);
-        if(Player->GetSpeed() == 5)
+        m_Player->SetSpeed(m_Player->GetSpeed() == 15 ? 5 : 15);
+        if (m_Player->GetSpeed() == 5)
             LOG_DEBUG("Speed UP!");
         else
             LOG_DEBUG("Speed DOWN!");
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::S)) {
-        encounterable = !encounterable;
-        LOG_DEBUG("Encounterable:{}", encounterable);
+        m_Encounterable = !m_Encounterable;
+        LOG_DEBUG("Encounterable:{}", m_Encounterable);
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
@@ -78,7 +78,7 @@ void App::Update() {
         for (auto Poke: Pokemons) {
             Poke->SetLevel(100);
         }
-        Player->GetPokemonBag()->SetPokemons(Pokemons);
+        m_Player->GetPokemonBag()->SetPokemons(Pokemons);
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

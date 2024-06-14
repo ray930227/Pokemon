@@ -33,7 +33,7 @@ public:
 
     void SetEventID(int EventID);
 
-    bool isDisplayable();
+    bool IsDisplayable();
 };
 
 #endif

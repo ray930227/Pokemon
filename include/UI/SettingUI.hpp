@@ -20,7 +20,7 @@ private:
     std::shared_ptr<TFBox> m_TFBox;
     std::shared_ptr<Character> m_Player;
     std::shared_ptr<PokedexUI> m_PokedexUI;
-    bool m_isSave = false;
+    bool m_IsSave = false;
 public:
     SettingUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<ComputerUI> &ComputerUI);
 

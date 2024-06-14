@@ -242,10 +242,10 @@ void ShopUI::ShopInsideBG_Update() {
                 m_SellList.push_back(tempPair);
             }
         }
-        if(m_SellList.empty()){
+        if (m_SellList.empty()) {
             m_ShopInsideBG->SetVisible(false);
             m_Arrows[1]->SetVisible(false);
-            for(auto &i:m_ItemRow){
+            for (auto &i: m_ItemRow) {
                 i.first->SetVisible(false);
             }
             m_Arrows[0]->SetImage(RESOURCE_DIR"/Background/BlockArrow.png");
@@ -295,7 +295,7 @@ void ShopUI::Buy() {
 }
 
 void ShopUI::Sell() {
-    if(m_Player->GetItemBag()->isEmpty()){
+    if (m_Player->GetItemBag()->IsEmpty()) {
         m_TextBox->SetText("沒有道具可以售出");
     } else {
         std::string tempStr = m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;

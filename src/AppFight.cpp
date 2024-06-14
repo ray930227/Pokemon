@@ -4,7 +4,6 @@ void App::Fight() {
     switch (m_CurrentFighting) {
         case FightID::HOME:
             // region Home
-            LOG_DEBUG("State:Home");
             if (m_FightTextUI->GetTBVisibility()) {
                 if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                     m_FightTextUI->Next();
@@ -22,20 +21,21 @@ void App::Fight() {
                     } else if (m_FightMainUI->GetDecision() == "BackPack") {
                         m_FightMainUI->SetArrowVisible(false);
                         m_BackPackUI->Start(1);
-                        m_PreviousHP = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP();
+                        m_PreviousHP = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP();
                         m_CurrentFighting = FightID::BACKPACK;
                     } else if (m_FightMainUI->GetDecision() == "Run") {
-                        m_FightTextUI->SetRun(isWildPokemon);
+                        m_FightTextUI->SetRun(m_IsWildPokemon);
                         m_CurrentFighting = FightID::RUN;
                     }
                 }
             }
 
-            if (Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() && !Player->GetPokemonBag()->IsAllPokeDie()) {
+            if (m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() &&
+                !m_Player->GetPokemonBag()->IsAllPokeDie()) {
                 m_CurrentFighting = FightID::WILDFINISH;
-            } else if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
+            } else if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
                 bool Check = false; //IsAllPokeDie
-                for (auto i: Player->GetPokemonBag()->GetPokemons()) {
+                for (auto i: m_Player->GetPokemonBag()->GetPokemons()) {
                     if (!i->IsPokemonDying()) {
                         Check = true;
                         break;
@@ -45,29 +45,29 @@ void App::Fight() {
                 m_FightMainUI->SetPlayerHPUIVisible(false);
                 m_FightMainUI->SetPlayerHPTextVisible(false);
                 m_FightMainUI->SetPlayerPokeNameVisible(false);
-                m_PokeFaintedUI->SetText(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName());
+                m_PokeFaintedUI->SetText(m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName());
                 if (Check) {
                     m_CurrentFighting = FightID::POKEFAINTED;
                 } else {
                     m_PokeFaintedUI->SetVisible(false);
-                    m_FightTextUI->SetLose(Player->GetName());
+                    m_FightTextUI->SetLose(m_Player->GetName());
                     m_CurrentEvent = EventID::ALL_POKEMON_DIE;
                     m_CurrentFighting = FightID::RUN;
                 }
             }
             if (Util::Input::IsKeyDown(Util::Keycode::I)) {
-                Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->LevelUp();
+                m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->LevelUp();
                 m_FightMainUI->SetTextEnemyPokeName(0);
                 m_CurrentFighting = FightID::UPDATEINFO;
             }
             if (Util::Input::IsKeyDown(Util::Keycode::U)) {
-                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->LevelUp();
-                if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsGetNewSkill()) {
+                m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->LevelUp();
+                if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsGetNewSkill()) {
                     m_ReplaceSkillUI->SetText(m_CurrentPlayerPokemon);
                     m_CurrentFighting = FightID::GETSKILL;
-                } else if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsEvolution()) {
+                } else if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsEvolution()) {
                     m_EvolutionUI->Setting(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetIDByInt());
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetIDByInt());
                     m_EvolutionUI->SetVisible(true);
                     m_EvolutionUI->SetPokeVisible(false);
                     m_CurrentFighting = FightID::EVOLUTION;
@@ -78,7 +78,7 @@ void App::Fight() {
             }
 
             if (Util::Input::IsKeyDown(Util::Keycode::H)) {
-                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->PokemonHurt(1);
+                m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->PokemonHurt(1);
                 m_FightMainUI->SetPlayerHPScale(m_CurrentPlayerPokemon);
                 m_CurrentFighting = FightID::UPDATEINFO;
             }
@@ -87,58 +87,57 @@ void App::Fight() {
 
         case FightID::SKILL:
             // region Skill
-            LOG_DEBUG("State:Skill");
             if (m_FightTextUI->GetTBVisibility()) {
                 if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                     m_FightTextUI->Next();
                 }
-            } else if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPPAllZero()) {
-                PlayerSkillChoose = 4;
-                EnemySkillChoose = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->CaculateDamge(
-                        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
-                IsPlayerRound = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSpeed() >
-                                Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetSpeed();
-                if (IsPlayerRound) {
-                    m_FightPoke.first = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
-                    m_FightPoke.second = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
-                    m_FightSkill.first = PlayerSkillChoose;
-                    m_FightSkill.second = EnemySkillChoose;
+            } else if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPPAllZero()) {
+                m_PlayerSkillChoose = 4;
+                m_EnemySkillChoose = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->CaculateDamge(
+                        m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
+                m_IsPlayerRound = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSpeed() >
+                                  m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetSpeed();
+                if (m_IsPlayerRound) {
+                    m_FightPoke.first = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
+                    m_FightPoke.second = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
+                    m_FightSkill.first = m_PlayerSkillChoose;
+                    m_FightSkill.second = m_EnemySkillChoose;
                 } else {
-                    m_FightPoke.first = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
-                    m_FightPoke.second = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
-                    m_FightSkill.first = EnemySkillChoose;
-                    m_FightSkill.second = PlayerSkillChoose;
+                    m_FightPoke.first = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
+                    m_FightPoke.second = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
+                    m_FightSkill.first = m_EnemySkillChoose;
+                    m_FightSkill.second = m_PlayerSkillChoose;
                 }
                 m_FightSkillUI->SetVisible(false);
                 m_CurrentFighting = FightID::FIGHT;
             } else {
                 m_FightSkillUI->ShowSkillInfo(m_CurrentPlayerPokemon);
                 if (m_FightSkillUI->Choose(m_CurrentPlayerPokemon)) {
-                    IsChangePokemon = false;
-                    PlayerSkillChoose = m_FightSkillUI->GetDecision();
-                    EnemySkillChoose = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->CaculateDamge(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
+                    m_IsChangePokemon = false;
+                    m_PlayerSkillChoose = m_FightSkillUI->GetDecision();
+                    m_EnemySkillChoose = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->CaculateDamge(
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
                     if (std::stoi(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentSkillPP()[PlayerSkillChoose]) ==
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentSkillPP()[m_PlayerSkillChoose]) ==
                         0) {
-                        m_FightTextUI->SetPPRunOut(m_CurrentPlayerPokemon, PlayerSkillChoose);
+                        m_FightTextUI->SetPPRunOut(m_CurrentPlayerPokemon, m_PlayerSkillChoose);
                         m_CurrentFighting = FightID::SKILL;
                         break;
                     }
-                    IsPlayerRound = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSpeed() >
-                                    Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetSpeed() ||
-                                    Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill()[PlayerSkillChoose] ==
-                                    "電光一閃";
-                    if (IsPlayerRound) {
-                        m_FightPoke.first = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
-                        m_FightPoke.second = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
-                        m_FightSkill.first = PlayerSkillChoose;
-                        m_FightSkill.second = EnemySkillChoose;
+                    m_IsPlayerRound = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSpeed() >
+                                      m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetSpeed() ||
+                                      m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill()[m_PlayerSkillChoose] ==
+                                      "電光一閃";
+                    if (m_IsPlayerRound) {
+                        m_FightPoke.first = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
+                        m_FightPoke.second = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
+                        m_FightSkill.first = m_PlayerSkillChoose;
+                        m_FightSkill.second = m_EnemySkillChoose;
                     } else {
-                        m_FightPoke.first = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
-                        m_FightPoke.second = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
-                        m_FightSkill.first = EnemySkillChoose;
-                        m_FightSkill.second = PlayerSkillChoose;
+                        m_FightPoke.first = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
+                        m_FightPoke.second = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
+                        m_FightSkill.first = m_EnemySkillChoose;
+                        m_FightSkill.second = m_PlayerSkillChoose;
                     }
                     m_FightSkillUI->SetVisible(false);
                     m_CurrentFighting = FightID::FIGHT;
@@ -155,10 +154,9 @@ void App::Fight() {
 
         case FightID::POKEPACK:
             //region PokePack
-            LOG_DEBUG("State:POKEPACK");
             if (m_PokeBagUI->GetVisible()) {
                 m_FightTextUI->SetPokePack();
-                if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
+                if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
                     m_PokeBagUI->Run(1);
                 } else {
                     m_PokeBagUI->Run(2);
@@ -172,13 +170,13 @@ void App::Fight() {
                 } else {
                     m_PreviousPlayerPokemon = m_CurrentPlayerPokemon;
                     m_CurrentPlayerPokemon = m_PokeBagUI->GetDecision();
-                    IsChangePokemon = true;
-                    IsPlayerRound = false;
+                    m_IsChangePokemon = true;
+                    m_IsPlayerRound = false;
                     m_FightTextUI->SetChangePoke(
-                            Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->GetName(),
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName());
+                            m_Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->GetName(),
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName());
                     bool die = false;
-                    if (Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()) {
+                    if (m_Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()) {
                         die = true;
                         m_FightTextUI->Next();
                     }
@@ -189,9 +187,9 @@ void App::Fight() {
                         m_FightMainUI->SetPlayerPokeVisible(false);
                         m_FightMainUI->SetPlayerPokeScale({0.5, 0.5});
                         m_FightMainUI->SetBallAnimationVisible(true, true);
-                        Timer = 101;
+                        m_Timer = 101;
                     } else {
-                        Timer = 0;
+                        m_Timer = 0;
                     }
                     m_CurrentFighting = FightID::CHANGEPOKE;
                 }
@@ -201,7 +199,6 @@ void App::Fight() {
 
         case FightID::BACKPACK:
             //region BackPack
-            LOG_DEBUG("State:BACKPACK");
             m_BackPackUI->Run();
             if (!m_BackPackUI->GetVisible()) {
                 m_FightMainUI->SetArrowVisible(true);
@@ -209,33 +206,32 @@ void App::Fight() {
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::HOME;
                 } else {
-                    if (isWildPokemon) {
+                    if (m_IsWildPokemon) {
                         if (m_BackPackUI->GetDecision() < 5) {
-                            Player->GetItemBag()->AddItemQuantity(m_BackPackUI->GetDecision(), -1);
+                            m_Player->GetItemBag()->AddItemQuantity(m_BackPackUI->GetDecision(), -1);
                             int CatachRate;
                             m_SuccessCatch = false;
                             if (m_BackPackUI->GetDecision() == 1) {
                                 CatachRate = 255;
                             } else {
                                 std::string Rate;
-                                int Line_num=1;
+                                int Line_num = 1;
                                 std::ifstream FileOfAbility(RESOURCE_DIR"/Pokemon/CatchRate.txt");
-                                while (std::getline(FileOfAbility, Rate)){
-                                    if (Line_num==Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetIDByInt()){
+                                while (std::getline(FileOfAbility, Rate)) {
+                                    if (Line_num ==
+                                        m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetIDByInt()) {
                                         break;
                                     }
                                     Line_num++;
                                 }
                                 FileOfAbility.close();
-                                LOG_DEBUG(Rate);
-                                CatachRate = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetHP() *
+                                CatachRate = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetHP() *
                                              (256 / (8 + (m_BackPackUI->GetDecision() - 2) * 2))
                                              /
                                              (1.0 *
-                                              Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetCurrentHP() /
+                                              m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetCurrentHP() /
                                               4);
-                                CatachRate*=stof(Rate)/256;
-                                LOG_DEBUG(CatachRate);
+                                CatachRate *= stof(Rate) / 256;
                             }
                             if (rand() % 256 <= CatachRate) {
                                 m_SuccessCatch = true;
@@ -244,15 +240,16 @@ void App::Fight() {
                             m_CurrentFighting = FightID::CATCHPOKE;
                         } else {
                             if (m_PreviousHP ==
-                                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) {
+                                m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) {
                                 m_CurrentFighting = FightID::HOME;
                             } else {
-                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
-                                Fighting(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
-                                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
+                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon,
+                                                        m_EnemySkillChoose);
+                                Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
+                                         m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
                                          m_PlayerBuff,
-                                         EnemySkillChoose);
-                                FightCounter = 1;
+                                         m_EnemySkillChoose);
+                                m_FightCounter = 1;
                                 m_CurrentFighting = FightID::FIGHT;
                             }
                         }
@@ -262,15 +259,16 @@ void App::Fight() {
                             m_CurrentFighting = FightID::HOME;
                         } else {
                             if (m_PreviousHP ==
-                                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) {
+                                m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) {
                                 m_CurrentFighting = FightID::HOME;
                             } else {
-                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
-                                Fighting(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
-                                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
+                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon,
+                                                        m_EnemySkillChoose);
+                                Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
+                                         m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
                                          m_PlayerBuff,
-                                         EnemySkillChoose);
-                                FightCounter = 1;
+                                         m_EnemySkillChoose);
+                                m_FightCounter = 1;
                                 m_CurrentFighting = FightID::FIGHT;
                             }
                         }
@@ -282,23 +280,22 @@ void App::Fight() {
 
         case FightID::CATCHPOKE:
             //region Catch
-            LOG_DEBUG("State:CATCHPOKE");
             if (m_FightMainUI->IsCatching()) {
                 m_FightMainUI->RunCatchPokemon(m_SuccessCatch, m_CurrentNPCPokemon);
             } else if (m_FightMainUI->SuccessCatch()) {
-                std::shared_ptr<Pokemon> EnemyPokemon = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
-                if (Player->GetPokemonBag()->isFull()) {
-                    m_ComputerUI->Keep(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]);
+                std::shared_ptr<Pokemon> EnemyPokemon = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
+                if (m_Player->GetPokemonBag()->IsFull()) {
+                    m_ComputerUI->Keep(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]);
                 } else {
-                    Player->GetPokemonBag()->addPomekon(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]);
+                    m_Player->GetPokemonBag()->AddPomekon(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]);
                 }
                 m_CurrentFighting = FightID::WILDFINISH;
             } else {
-                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
-                Fighting(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
-                         Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff, m_PlayerBuff,
-                         EnemySkillChoose);
-                FightCounter = 1;
+                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
+                Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
+                         m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff, m_PlayerBuff,
+                         m_EnemySkillChoose);
+                m_FightCounter = 1;
                 m_CurrentFighting = FightID::FIGHT;
             }
             break;
@@ -306,9 +303,8 @@ void App::Fight() {
 
         case FightID::RUN:
             //region Run
-            LOG_DEBUG("State:RUN");
             if (!m_FightTextUI->GetTBVisibility()) {
-                if (isWildPokemon || m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
+                if (m_IsWildPokemon || m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
                     m_WhiteBG->SetVisible(false);
                     m_WhiteBG->SetZIndex(0);
                     m_FightMainUI->SetVisible(false);
@@ -317,7 +313,7 @@ void App::Fight() {
                     m_FightMainUI->SetVisible(false);
                     m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                     m_BGM->Play();
-                    Enemy->GetPokemonBag()->SetPokemons({});
+                    m_Enemy->GetPokemonBag()->SetPokemons({});
                     m_CurrentState = State::UPDATE;
                 } else {
                     m_FightMainUI->SetArrowVisible(true);
@@ -332,26 +328,25 @@ void App::Fight() {
 
         case FightID::FIGHT:
             //region Fight
-            LOG_DEBUG("State:FIGHT");
             if (!m_FightTextUI->GetTBVisibility()) {
-                if (FightCounter == 0) {
-                    if (IsPlayerRound) {
-                        m_FightTextUI->SetPlayer(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, PlayerSkillChoose);
+                if (m_FightCounter == 0) {
+                    if (m_IsPlayerRound) {
+                        m_FightTextUI->SetPlayer(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, m_PlayerSkillChoose);
                     } else {
-                        m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
+                        m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
                     }
                     Fighting(m_FightPoke.first, m_FightPoke.second, m_PlayerBuff, m_EnemyBuff, m_FightSkill.first);
                 } else {
                     if (m_FightPoke.second->GetCurrentHP() <= 0) {
                         m_FightMainUI->SetArrowVisible(true);
-                        FightCounter = 0;
+                        m_FightCounter = 0;
                         m_CurrentFighting = FightID::HOME;
                         break;
                     }
-                    if (!IsPlayerRound) {
-                        m_FightTextUI->SetPlayer(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, PlayerSkillChoose);
+                    if (!m_IsPlayerRound) {
+                        m_FightTextUI->SetPlayer(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, m_PlayerSkillChoose);
                     } else {
-                        m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
+                        m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
                     }
                     Fighting(m_FightPoke.second, m_FightPoke.first, m_EnemyBuff, m_PlayerBuff, m_FightSkill.second);
                 }
@@ -359,10 +354,10 @@ void App::Fight() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_FightTextUI->Next();
                 if (!m_FightTextUI->GetTBVisibility()) {
-                    FightCounter++;
-                    if (FightCounter == 2) {
+                    m_FightCounter++;
+                    if (m_FightCounter == 2) {
                         m_FightMainUI->SetArrowVisible(true);
-                        FightCounter = 0;
+                        m_FightCounter = 0;
                         m_CurrentFighting = FightID::HOME;
                     }
                 }
@@ -372,15 +367,14 @@ void App::Fight() {
 
         case FightID::CHANGEPOKE:
             //region ChangePoke
-            LOG_DEBUG("State:CHANGEPOKE");
-            Timer++;
-            if (m_FightMainUI->GetPlayerPokeScale().x > 0.5 && Timer < 100) {
-                if (Timer > 80) {
+            m_Timer++;
+            if (m_FightMainUI->GetPlayerPokeScale().x > 0.5 && m_Timer < 100) {
+                if (m_Timer > 80) {
                     m_FightMainUI->ReduceImage(true);
                 }
-            } else if (m_FightMainUI->GetPlayerPokeScale().x <= 0.5 && Timer <= 100) {
+            } else if (m_FightMainUI->GetPlayerPokeScale().x <= 0.5 && m_Timer <= 100) {
                 m_FightMainUI->SetPlayerPokeVisible(false);
-                if (Timer == 100) {
+                if (m_Timer == 100) {
                     m_FightTextUI->Next();
                     m_FightMainUI->SetBallAnimationVisible(true, true);
                 }
@@ -393,17 +387,17 @@ void App::Fight() {
                     if (m_FightMainUI->GetPlayerPokeScale().x < 1) {
                         m_FightMainUI->ZoomImage(true);
                     }
-                    if (Timer == 155) {
+                    if (m_Timer == 155) {
                         m_SFX->Play("PokeSound" +
-                                    Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
+                                    m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                     }
-                    if (Timer == 170) {
-                        m_PlayerBuff["攻擊"]=1.0;
-                        m_PlayerBuff["命中率"]=1.0;
-                        m_PlayerBuff["閃避率"]=1.0;
-                        m_PlayerBuff["防禦"]=1.0;
-                        m_PlayerBuff["特殊"]=1.0;
-                        m_PlayerBuff["速度"]=1.0;
+                    if (m_Timer == 170) {
+                        m_PlayerBuff["攻擊"] = 1.0;
+                        m_PlayerBuff["命中率"] = 1.0;
+                        m_PlayerBuff["閃避率"] = 1.0;
+                        m_PlayerBuff["防禦"] = 1.0;
+                        m_PlayerBuff["特殊"] = 1.0;
+                        m_PlayerBuff["速度"] = 1.0;
                         m_FightMainUI->SetPlayerPokeScale({1, 1});
                         m_FightMainUI->SetPlayerHPUIVisible(true);
                         m_FightMainUI->SetPlayerHPTextVisible(true);
@@ -413,19 +407,20 @@ void App::Fight() {
                 }
             }
             if (!m_FightTextUI->GetTBVisibility()) {
-                Timer = 0;
-                if(Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()){
+                m_Timer = 0;
+                if (m_Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()) {
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::HOME;
                 } else {
-                    EnemySkillChoose = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->CaculateDamge(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
-                    m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, EnemySkillChoose);
-                    Fighting(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
-                             Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff, m_PlayerBuff,
-                             EnemySkillChoose);
-                    FightCounter = 1;
-                    IsChangePokemon = false;
+                    m_EnemySkillChoose = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->CaculateDamge(
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
+                    m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
+                    Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
+                             m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
+                             m_PlayerBuff,
+                             m_EnemySkillChoose);
+                    m_FightCounter = 1;
+                    m_IsChangePokemon = false;
                     m_CurrentFighting = FightID::FIGHT;
                 }
             }
@@ -434,7 +429,6 @@ void App::Fight() {
 
         case FightID::POKEFAINTED:
             //region PokeFainted
-            LOG_DEBUG("State:PokeFainted");
             if (m_PokeFaintedUI->GetCurrentIndex() == 1 && Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_PokeFaintedUI->SetTFBoxVisible(true);
                 m_PokeFaintedUI->Next();
@@ -445,11 +439,10 @@ void App::Fight() {
                         m_PokeFaintedUI->SetTFBoxVisible(false);
                         m_FightMainUI->SetArrowVisible(false);
                         m_PokeBagUI->SetVisible(true);
-                        LOG_DEBUG("State:Pokepack");
                         m_CurrentFighting = FightID::POKEPACK;
                     } else {
                         m_PokeFaintedUI->SetVisible(false);
-                        Enemy->GetPokemonBag()->SetPokemons({});
+                        m_Enemy->GetPokemonBag()->SetPokemons({});
                         m_CurrentFighting = FightID::RUN;
                     }
                 }
@@ -460,51 +453,50 @@ void App::Fight() {
 
         case FightID::EVOLUTION:
             //region Evolution
-            LOG_DEBUG("State:Evolution");
             switch (m_EvolutionUI->GetTextIndex()) {
                 case 1:
-                    if (ButtonTrigger >= 5 && FightCounter > 60) {
+                    if (m_ButtonTrigger >= 5 && m_FightCounter > 60) {
                         m_SFX->SetVolume("Evolution", 0);
                         m_EvolutionUI->Pause();
                         m_EvolutionUI->SetCurrentFrame(0);
                         m_EvolutionUI->Next();
-                    } else if (FightCounter >= 420) {
+                    } else if (m_FightCounter >= 420) {
                         m_SFX->SetVolume("Evolution", 0);
                         m_SFX->Play("EndEvolution");
                         m_EvolutionUI->Pause();
                         m_EvolutionUI->SetCurrentFrame(1);
-                        Timer = 0;
+                        m_Timer = 0;
                         m_EvolutionUI->Next();
                     } else {
-                        FightCounter++;
-                        if (FightCounter % 30 == 0 && FightCounter > 120) {
+                        m_FightCounter++;
+                        if (m_FightCounter % 30 == 0 && m_FightCounter > 120) {
                             m_EvolutionUI->Play();
                             if (m_EvolutionUI->GetInterval() > 0) {
                                 m_EvolutionUI->SetInterval(m_EvolutionUI->GetInterval() - 40);
                             }
-                        } else if (FightCounter > 60) {
+                        } else if (m_FightCounter > 60) {
                             m_EvolutionUI->SetPokeVisible(true);
                         }
                         if (Util::Input::IsKeyDown(Util::Keycode::X)) {
-                            ButtonTrigger++;
+                            m_ButtonTrigger++;
                         }
                     }
                     break;
                 case 2:
-                    if (Timer < 200) {
-                        Timer++;
+                    if (m_Timer < 200) {
+                        m_Timer++;
                     }
-                    if (ButtonTrigger >= 5) {
+                    if (m_ButtonTrigger >= 5) {
                         m_EvolutionUI->StopEvolution();
                     }
-                    if (Util::Input::IsKeyDown(Util::Keycode::Z) && Timer >= 200) {
-                        if (ButtonTrigger < 5) {
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->Evolution();
+                    if (Util::Input::IsKeyDown(Util::Keycode::Z) && m_Timer >= 200) {
+                        if (m_ButtonTrigger < 5) {
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->Evolution();
                             m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
                         }
-                        FightCounter = 0;
-                        ButtonTrigger = 0;
-                        Timer = 0;
+                        m_FightCounter = 0;
+                        m_ButtonTrigger = 0;
+                        m_Timer = 0;
                         m_EvolutionUI->SetInterval(401);
                         m_EvolutionUI->SetVisible(false);
                         m_CurrentFighting = FightID::UPDATEINFO;
@@ -516,7 +508,6 @@ void App::Fight() {
 
         case FightID::GETSKILL:
             //region GetSkill
-            LOG_DEBUG("State:GetSkill");
             if (m_ReplaceSkillUI->GetVisibility()) {
                 m_ReplaceSkillUI->Run();
             } else {
@@ -524,13 +515,13 @@ void App::Fight() {
                 m_FightMainUI->SetArrowVisible(false);
                 m_FightSkillUI->ShowSkillInfo(m_CurrentPlayerPokemon);
                 if (m_FightSkillUI->Choose(m_CurrentPlayerPokemon)) {
-                    PlayerSkillChoose = m_FightSkillUI->GetDecision();
-                    Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetNewSkill(PlayerSkillChoose);
+                    m_PlayerSkillChoose = m_FightSkillUI->GetDecision();
+                    m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetNewSkill(m_PlayerSkillChoose);
                     m_FightSkillUI->SetVisible(false);
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::UPDATEINFO;
                 } else if (m_ReplaceSkillUI->GetCurrentIndex() == 1) {
-                    Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetNewSkill();
+                    m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetNewSkill();
                     m_FightSkillUI->SetVisible(false);
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::UPDATEINFO;
@@ -545,38 +536,37 @@ void App::Fight() {
 
         case FightID::WILDFINISH:
             //region WildFinish
-            LOG_DEBUG("State:WildFinish");
             if (!m_FightMainUI->SuccessCatch()) {
                 m_FightMainUI->SetEnemyPokeVisible(false);
                 m_FightMainUI->SetEnemyHPUIVisible(false);
                 m_FightMainUI->SetEnemyPokeNameVisible(false);
             }
-            if (FightCounter == 0) {
-                m_Experience = Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GainExperince(
-                        Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetLV());
-                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GainBasePoints(m_Experience.second);
+            if (m_FightCounter == 0) {
+                m_Experience = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GainExperince(
+                        m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetLV());
+                m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GainBasePoints(m_Experience.second);
                 m_FightTextUI->SetDefeatWild(m_CurrentPlayerPokemon, 0, m_Experience.second);
                 if (m_FightMainUI->SuccessCatch()) {
                     m_FightTextUI->Next();
                 }
-                FightCounter++;
-            } else if (!m_FightTextUI->GetTBVisibility() && m_Experience.first && FightCounter == 1) {
+                m_FightCounter++;
+            } else if (!m_FightTextUI->GetTBVisibility() && m_Experience.first && m_FightCounter == 1) {
                 m_SFX->Play("LevelUp");
                 m_FightMainUI->SetTextPlayerPokeName(m_CurrentPlayerPokemon);
                 m_FightMainUI->SetTextHP(m_CurrentPlayerPokemon);
-                m_FightTextUI->SetLevelUP(Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName(),
-                                          Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV());
-                FightCounter++;
-            } else if (!m_FightTextUI->GetTBVisibility() && FightCounter == 2) {
-                FightCounter = 0;
-                if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsGetNewSkill()) {
+                m_FightTextUI->SetLevelUP(m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetName(),
+                                          m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetLV());
+                m_FightCounter++;
+            } else if (!m_FightTextUI->GetTBVisibility() && m_FightCounter == 2) {
+                m_FightCounter = 0;
+                if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsGetNewSkill()) {
                     m_SFX->Play("LevelUp");
                     m_ReplaceSkillUI->SetText(m_CurrentPlayerPokemon);
                     m_CurrentFighting = FightID::GETSKILL;
-                } else if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsEvolution()) {
+                } else if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsEvolution()) {
                     m_SFX->Play("Evolution");
                     m_EvolutionUI->Setting(
-                            Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetIDByInt());
+                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetIDByInt());
                     m_EvolutionUI->SetVisible(true);
                     m_EvolutionUI->SetPokeVisible(false);
                     m_CurrentFighting = FightID::EVOLUTION;
@@ -587,8 +577,8 @@ void App::Fight() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_FightTextUI->Next();
             }
-            if (!m_FightTextUI->GetTBVisibility() && !m_Experience.first && FightCounter == 1) {
-                FightCounter = 0;
+            if (!m_FightTextUI->GetTBVisibility() && !m_Experience.first && m_FightCounter == 1) {
+                m_FightCounter = 0;
                 m_CurrentFighting = FightID::UPDATEINFO;
             }
             break;
@@ -596,22 +586,22 @@ void App::Fight() {
 
         case FightID::NPCCHANGE:
             //region NPCChange
-            LOG_DEBUG("State:NPChange");
             if (m_FightMainUI->GetBallAnimationIndex() == 4) {
                 m_FightMainUI->SetEnemyPokeVisible(true);
                 m_FightMainUI->SetBallAnimationVisible(false, false);
                 if (m_FightMainUI->GetEnemyPokeScale().x < 1) {
                     m_FightMainUI->ZoomImage(false);
                 } else {
-                    Timer++;
-                    if (Timer == 1) {
-                        m_SFX->Play("PokeSound" + Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
-                    } else if (Timer == 60) {
+                    m_Timer++;
+                    if (m_Timer == 1) {
+                        m_SFX->Play(
+                                "PokeSound" + m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
+                    } else if (m_Timer == 60) {
                         m_FightMainUI->SetEnemyPokeScale({1, 1});
                         m_FightMainUI->SetEnemyHPUIVisible(true);
                         m_FightMainUI->SetEnemyPokeNameVisible(true);
                         m_LoadingUI->SetTBVisible(false);
-                        Timer = 0;
+                        m_Timer = 0;
                         m_CurrentFighting = FightID::HOME;
                     }
                     if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -624,15 +614,14 @@ void App::Fight() {
 
         case FightID::UPDATEINFO:
             //region UpdateInfo
-            LOG_DEBUG("State:UPDATEINFO");
             m_FightMainUI->SetPlayerPokeImage(m_CurrentPlayerPokemon);
             m_FightMainUI->SetTextPlayerPokeName(m_CurrentPlayerPokemon);
             m_FightMainUI->SetPlayerHPScale(m_CurrentPlayerPokemon);
             m_FightMainUI->SetTextHP(m_CurrentPlayerPokemon);
             m_FightSkillUI->SetText(m_CurrentPlayerPokemon);
-            if (Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() ||
+            if (m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() ||
                 m_FightMainUI->SuccessCatch()) {
-                if (isWildPokemon) {
+                if (m_IsWildPokemon) {
                     m_WhiteBG->SetVisible(false);
                     m_WhiteBG->SetZIndex(0);
                     m_FightMainUI->SetVisible(false);
@@ -642,11 +631,11 @@ void App::Fight() {
                     m_FightMainUI->ResetCatch();
                     m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                     m_BGM->Play();
-                    Enemy->GetPokemonBag()->SetPokemons({});
+                    m_Enemy->GetPokemonBag()->SetPokemons({});
                     m_CurrentState = State::UPDATE;
                 } else {
                     bool AllNPCPokemonDie = true;
-                    for (auto EnemyPokemon: Enemy->GetPokemonBag()->GetPokemons()) {
+                    for (auto EnemyPokemon: m_Enemy->GetPokemonBag()->GetPokemons()) {
                         if (EnemyPokemon->IsPokemonDying()) {
                             m_CurrentNPCPokemon++;
                         } else {
@@ -663,21 +652,21 @@ void App::Fight() {
                         m_FightMainUI->SetVisible(false);
                         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
                         m_BGM->Play();
-                        Enemy->GetPokemonBag()->SetPokemons({});
+                        m_Enemy->GetPokemonBag()->SetPokemons({});
                         m_CurrentState = State::UPDATE;
                     } else {
-                        m_EnemyBuff["攻擊"]=1.0;
-                        m_EnemyBuff["命中率"]=1.0;
-                        m_EnemyBuff["閃避率"]=1.0;
-                        m_EnemyBuff["防禦"]=1.0;
-                        m_EnemyBuff["特殊"]=1.0;
-                        m_EnemyBuff["速度"]=1.0;
+                        m_EnemyBuff["攻擊"] = 1.0;
+                        m_EnemyBuff["命中率"] = 1.0;
+                        m_EnemyBuff["閃避率"] = 1.0;
+                        m_EnemyBuff["防禦"] = 1.0;
+                        m_EnemyBuff["特殊"] = 1.0;
+                        m_EnemyBuff["速度"] = 1.0;
                         m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
                         m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
                         m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);
                         m_FightMainUI->SetBallAnimationVisible(true, false);
                         m_FightMainUI->SetEnemyPokeScale({0.5, 0.5});
-                        m_LoadingUI->LoadText(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, isWildPokemon);
+                        m_LoadingUI->LoadText(m_CurrentPlayerPokemon, m_CurrentNPCPokemon, m_IsWildPokemon);
                         m_LoadingUI->Next();
                         m_CurrentFighting = FightID::NPCCHANGE;
                     }
@@ -685,7 +674,7 @@ void App::Fight() {
                 if (m_CurrentEvent == EventID::NPC) {
                     m_CurrentEvent = EventID::NPC_END;
                 }
-            } else if (IsChangePokemon) {
+            } else if (m_IsChangePokemon) {
                 m_CurrentFighting = FightID::CHANGEPOKE;
             } else if (m_Experience.first) {
                 m_CurrentFighting = FightID::WILDFINISH;
@@ -697,11 +686,6 @@ void App::Fight() {
 
         case FightID::NONE:
             break;
-    }
-
-    if (Util::Input::IsKeyDown(Util::Keycode::KP_ENTER) || Util::Input::IsKeyPressed(Util::Keycode::RETURN)) {
-        LOG_DEBUG("Position:({},{})", Util::Input::GetCursorPosition().x, Util::Input::GetCursorPosition().y);
-        LOG_DEBUG(Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
     }
 
     m_FightMainUI->DetectBlood();

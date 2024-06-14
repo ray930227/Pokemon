@@ -1,22 +1,22 @@
 #include "App.hpp"
 
 void App::Init() {
-    if (tempBox->GetVisibility()) {
-        tempBox->InputString();
+    if (m_TempBox->GetVisibility()) {
+        m_TempBox->InputString();
         if (Util::Input::IsKeyPressed(Util::Keycode::KP_ENTER) || Util::Input::IsKeyPressed(Util::Keycode::RETURN)) {
-            tempBox->SetVisible(false);
+            m_TempBox->SetVisible(false);
             m_TB->Next();
             if (m_TB->GetLineIndex() == 11) {
-                Player->SetName(tempBox->GetText());
+                m_Player->SetName(m_TempBox->GetText());
             } else {
-                NPC_Bromance->SetName(tempBox->GetText());
+                m_NPCBromance->SetName(m_TempBox->GetText());
             }
 
         }
-        if (tempBox->GetText().size() >= 8) {
-            std::string tempStr = tempBox->GetText();
+        if (m_TempBox->GetText().size() >= 8) {
+            std::string tempStr = m_TempBox->GetText();
             tempStr.pop_back();
-            tempBox->SetText(tempStr);
+            m_TempBox->SetText(tempStr);
         }
     } else if (m_tempImage->GetPosition().x != 0) {
         m_tempImage->Move({-10, 0});
@@ -30,10 +30,10 @@ void App::Init() {
                 break;
             case 10:
             case 13:
-                tempBox->SetPosition({0, 0});
-                tempBox->SetScale({0.5, 0.5});
-                tempBox->SetVisible(true);
-                tempBox->SetText(" ");
+                m_TempBox->SetPosition({0, 0});
+                m_TempBox->SetScale({0.5, 0.5});
+                m_TempBox->SetVisible(true);
+                m_TempBox->SetText(" ");
                 break;
             case 12:
                 m_tempImage->SetPosition({360, 0});
@@ -50,14 +50,14 @@ void App::Init() {
         std::string tempStr = m_TB->GetText();
         tempStr.replace(tempStr.begin() + tempStr.find("<Player>"),
                         tempStr.begin() + tempStr.find("<Player>") + 8,
-                        Player->GetName());
+                        m_Player->GetName());
         m_TB->SetText(tempStr);
     }
     if (m_TB->GetText().find("<NPC_Bromance>") < m_TB->GetText().size()) {
         std::string tempStr = m_TB->GetText();
         tempStr.replace(tempStr.begin() + tempStr.find("<NPC_Bromance>"),
                         tempStr.begin() + tempStr.find("<NPC_Bromance>") + 14,
-                        NPC_Bromance->GetName());
+                        m_NPCBromance->GetName());
         m_TB->SetText(tempStr);
     }
     if (!m_TB->GetVisibility()) {
@@ -65,9 +65,9 @@ void App::Init() {
         m_tempImage->SetVisible(false);
         m_MapSystem->SetVisible(true);
         m_MapSystem->SetPosition({72, 144});
-        Player->GetImage()->SetVisible(true);
-        Player->SetCurrentImagePath(0);
-        DisplacementCount = 0;
+        m_Player->GetImage()->SetVisible(true);
+        m_Player->SetCurrentImagePath(0);
+        m_DisplacementCount = 0;
         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/PalletTown.mp3");
         m_BGM->Play();
         m_CurrentState = State::UPDATE;

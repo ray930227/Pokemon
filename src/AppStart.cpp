@@ -30,12 +30,12 @@ void App::Start() {
     m_tempImage->SetVisible(false);
     m_Root.AddChild(m_tempImage);
 
-    m_ReadSaveBG=std::make_shared<Image>(RESOURCE_DIR"/Background/ReadSaveBG.png");
+    m_ReadSaveBG = std::make_shared<Image>(RESOURCE_DIR"/Background/ReadSaveBG.png");
     m_ReadSaveBG->SetVisible(false);
     m_ReadSaveBG->SetZIndex(50);
     m_Root.AddChild(m_ReadSaveBG);
 
-    m_Arrow=std::make_shared<Image>(RESOURCE_DIR"/Background/BlockArrow.png");
+    m_Arrow = std::make_shared<Image>(RESOURCE_DIR"/Background/BlockArrow.png");
     m_Arrow->SetVisible(false);
     m_Arrow->SetZIndex(51);
     m_Arrow->SetPosition({-300, 290});
@@ -72,9 +72,9 @@ void App::Start() {
     m_TB->SetVisible(false);
     m_Root.AddChildren(m_TB->GetChildren());
 
-    tempBox = std::make_shared<TextBox>();
-    tempBox->SetVisible(false);
-    m_Root.AddChildren(tempBox->GetChildren());
+    m_TempBox = std::make_shared<TextBox>();
+    m_TempBox->SetVisible(false);
+    m_Root.AddChildren(m_TempBox->GetChildren());
 
     m_TFBox = std::make_shared<TFBox>();
     m_Root.AddChildren(m_TFBox->GetChildren());
@@ -93,46 +93,46 @@ void App::Start() {
     tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/playerLeft_2.png");
     tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_1.png");
     tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/playerRight_2.png");
-    Player = std::make_shared<Character>(tempImagePathses);
-    Player->SetCurrentImagePath(1);
-    Player->GetImage()->SetZIndex(50);
-    Player->GetImage()->SetPosition({36, -36});
-    Player->GetImage()->SetVisible(false);
-    m_Root.AddChild(Player->GetImage());
+    m_Player = std::make_shared<Character>(tempImagePathses);
+    m_Player->SetCurrentImagePath(1);
+    m_Player->GetImage()->SetZIndex(50);
+    m_Player->GetImage()->SetPosition({36, -36});
+    m_Player->GetImage()->SetVisible(false);
+    m_Root.AddChild(m_Player->GetImage());
 
-    Enemy=std::make_shared<Character>();
+    m_Enemy = std::make_shared<Character>();
 
-    m_PokeBagUI = std::make_shared<PokeBagUI>(Player);
+    m_PokeBagUI = std::make_shared<PokeBagUI>(m_Player);
     m_Root.AddChildren(m_PokeBagUI->GetChildren());
 
-    m_FightSkillUI = std::make_shared<FightSkillUI>(Player);
+    m_FightSkillUI = std::make_shared<FightSkillUI>(m_Player);
     m_Root.AddChildren(m_FightSkillUI->GetChildren());
 
-    m_FightMainUI = std::make_shared<FightMainUI>(Player,Enemy);
+    m_FightMainUI = std::make_shared<FightMainUI>(m_Player, m_Enemy);
     m_Root.AddChildren(m_FightMainUI->GetChildren());
 
-    m_FightTextUI = std::make_shared<FightTextUI>(Player,Enemy);
-    for(auto &i:m_FightTextUI->GetChildren()){
+    m_FightTextUI = std::make_shared<FightTextUI>(m_Player, m_Enemy);
+    for (auto &i: m_FightTextUI->GetChildren()) {
         m_Root.AddChildren(i);
     }
 
-    m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>(Player);
+    m_ReplaceSkillUI = std::make_shared<ReplaceSkillUI>(m_Player);
     for (const auto &Child: m_ReplaceSkillUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
 
-    m_LoadingUI = std::make_shared<LoadingUI>(Player,Enemy);
+    m_LoadingUI = std::make_shared<LoadingUI>(m_Player, m_Enemy);
     for (const auto &Child: m_LoadingUI->GetChildren()) {
         m_Root.AddChildren(Child);
     }
 
-    m_BackPackUI = std::make_shared<ItemUI>(Player);
+    m_BackPackUI = std::make_shared<ItemUI>(m_Player);
     m_Root.AddChildren(m_BackPackUI->GetChildren());
 
     tempImagePathses.clear();
     tempImagePathses.resize(1);
     tempImagePathses.push_back({RESOURCE_DIR"/Charactor/enemyfront_1.png"});
-    NPC_Bromance = std::make_shared<Character>(tempImagePathses);
+    m_NPCBromance = std::make_shared<Character>(tempImagePathses);
 
     tempImagePathses.clear();
     tempImagePathses.resize(4);
@@ -148,25 +148,29 @@ void App::Start() {
     tempImagePathses[2].push_back(RESOURCE_DIR"/Charactor/OakLeft_2.png");
     tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/OakRight_1.png");
     tempImagePathses[3].push_back(RESOURCE_DIR"/Charactor/OakRight_2.png");
-    NPC_Oak = std::make_shared<Character>(tempImagePathses);
-    NPC_Oak->GetImage()->SetZIndex(49);
-    NPC_Oak->GetImage()->SetVisible(false);
-    m_Root.AddChild(NPC_Oak->GetImage());
+    m_NPCOak = std::make_shared<Character>(tempImagePathses);
+    m_NPCOak->GetImage()->SetZIndex(49);
+    m_NPCOak->GetImage()->SetVisible(false);
+    m_Root.AddChild(m_NPCOak->GetImage());
 
-    m_ShopUI = std::make_shared<ShopUI>(Player);
+    m_ShopUI = std::make_shared<ShopUI>(m_Player);
     m_Root.AddChildren(m_ShopUI->GetChildren());
 
-    m_ComputerUI = std::make_shared<ComputerUI>(Player);
+    m_ComputerUI = std::make_shared<ComputerUI>(m_Player);
     m_Root.AddChildren(m_ComputerUI->GetChildren());
 
-    m_SettingUI=std::make_shared<SettingUI>(Player,m_ComputerUI);
+    m_SettingUI = std::make_shared<SettingUI>(m_Player, m_ComputerUI);
     m_Root.AddChildren(m_SettingUI->GetChildren());
 
 
-    std::vector<std::pair<std::string,float>> tempPairs={{"攻擊",1.0},{"命中率",1.0},{"閃避率",1.0},
-                                                         {"防禦",1.0},{"特殊",1.0},{"速度",1.0},};
+    std::vector<std::pair<std::string, float>> tempPairs = {{"攻擊",   1.0},
+                                                            {"命中率", 1.0},
+                                                            {"閃避率", 1.0},
+                                                            {"防禦",   1.0},
+                                                            {"特殊",   1.0},
+                                                            {"速度",   1.0},};
 
-    for(auto &i:tempPairs){
+    for (auto &i: tempPairs) {
         m_PlayerBuff.insert(i);
         m_EnemyBuff.insert(i);
     }

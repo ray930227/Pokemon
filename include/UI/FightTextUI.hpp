@@ -43,7 +43,7 @@ public:
 
     void SetCatch();
 
-    void SetPPRunOut(int PokeIndex ,int SkillIndex);
+    void SetPPRunOut(int PokeIndex, int SkillIndex);
 
     void AddText(const std::string &Text);
 

@@ -16,8 +16,8 @@ private:
     std::shared_ptr<TextBox> m_TB;
     int m_RowTopIndex;
     std::vector<std::pair<std::string, int>> m_Items;
-    unsigned m_mode=0;
-    bool m_IsXLeave= false;
+    unsigned m_Mode = 0;
+    bool m_IsXLeave = false;
 public:
     ItemUI(const std::shared_ptr<Character> &Player);
 
@@ -34,6 +34,7 @@ public:
     int GetDecision();
 
     bool IsXLeave();
+
 protected:
     void Updata();
 
