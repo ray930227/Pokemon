@@ -23,3 +23,11 @@ int PokemonBag::size() {
 bool PokemonBag::isFull() {
     return m_Pokemons.size() == 6;
 }
+
+bool PokemonBag::IsAllPokeDie() {
+    for (const auto& pokemon: m_Pokemons) {
+        if (!pokemon->IsPokemonDying())
+            return false;
+    }
+    return true;
+}

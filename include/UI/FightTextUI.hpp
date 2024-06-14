@@ -41,6 +41,10 @@ public:
 
     void SetNoHit(const std::string &PokeName);
 
+    void SetCatch();
+
+    void SetPPRunOut(int PokeIndex ,int SkillIndex);
+
     void AddText(const std::string &Text);
 
     [[nodiscard]] bool GetTBVisibility() const;

@@ -59,6 +59,7 @@ void ItemUI::Start(unsigned mode) {
     for (auto &i: m_Texts)
         i->SetVisible(true);
     m_mode=mode;
+    m_IsXLeave= false;
     Updata();
 }
 
@@ -72,7 +73,7 @@ void ItemUI::Run() {
         }
     } else if (m_PokeBagUI->GetVisible()) {
         m_PokeBagUI->Run(0);
-        if (!m_PokeBagUI->GetVisible()) {
+        if (!m_PokeBagUI->GetVisible() && m_PokeBagUI->GetDecision()!=-1) {
             size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
             int id = m_Player->GetItemBag()->GetItemID(m_Items[index].first);
             auto tempPokemon = m_Player->GetPokemonBag()->GetPokemons()[m_PokeBagUI->GetDecision()];
@@ -156,6 +157,7 @@ void ItemUI::ChooseItem() {
         if ((id >= 16 && id <= 20) || id >= 196) {
             m_PokeBagUI->SetVisible(true);
         } else {
+            SetVisible(true);
             if(m_mode == 0) {
                 if (id <= 4) {
                     m_TB->SetText("捕捉球只能在戰鬥中使用");
@@ -163,15 +165,19 @@ void ItemUI::ChooseItem() {
                     m_TB->SetText("該道具無法使用");
                 }
                 m_TB->SetVisible(true);
+            } else if(m_mode == 1) {
+                if (id <= 4) {
+                    SetVisible(false);
+                }
             }
 
-            SetVisible(true);
         }
 
     }
 
     if (Util::Input::IsKeyDown(Util::Keycode::X)) {
         SetVisible(false);
+        m_IsXLeave= true;
     }
 
 }
@@ -254,4 +260,8 @@ void ItemUI::Action() {
 int ItemUI::GetDecision() {
     size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
     return m_Player->GetItemBag()->GetItemID(m_Items[index].first);
+}
+
+bool ItemUI::IsXLeave() {
+    return m_IsXLeave;
 }

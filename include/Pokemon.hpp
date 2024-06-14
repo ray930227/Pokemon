@@ -131,12 +131,13 @@ public:
 
     void SetSkillByName(const std::vector<std::string> &SkillName);
 
-
     int FightDamge(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillChoose);
 
     void SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP);
 
     void ReduceCurrentHP(int Damage);
+
+    bool IsPPAllZero();
 };
 
 #endif //POKEMON_POKEMON_HPP

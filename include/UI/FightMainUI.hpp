@@ -21,6 +21,7 @@ private:
     std::shared_ptr<Image> m_Arrow;
     std::shared_ptr<Image> m_FightBG;
     std::shared_ptr<GIF> m_BallAnimation;
+    std::shared_ptr<GIF> m_CatchBallAnimation;
     std::shared_ptr<Text> m_PlayerHP;
     std::shared_ptr<Text> m_PlayerPokeName;
     std::shared_ptr<Text> m_EnemyPokeName;
@@ -28,11 +29,8 @@ private:
     std::shared_ptr<Character> m_Enemy;
     std::shared_ptr<TextBox> m_FightTB;
     std::shared_ptr<SFXSystem> m_SFX;
-    int TBCounter = 0;
-    bool PlayerMiss = false;
-    bool EnemyMiss = false;
-    bool PlayerEffect = false;
-    bool EnemyEffect = false;
+    int isCatching = 0;
+    int Counter = 0;
 public:
     FightMainUI(const std::shared_ptr<Character> &Player, const std::shared_ptr<Character> &Enemy);
 
@@ -57,6 +55,8 @@ public:
     void SetPlayerBallVisible(bool visible);
 
     void SetBallAnimationVisible(bool visible, bool isPlayer);
+
+    void SetCatchBallAnimationVisible(bool visible);
 
     void SetPlayerHPTextVisible(bool visible);
 
@@ -105,6 +105,14 @@ public:
     std::string GetDecision();
 
     int GetBallAnimationIndex();
+
+    void RunCatchPokemon(bool SuccessCatch, int EnemyIndex);
+
+    bool IsCatching();
+
+    bool SuccessCatch();
+
+    void ResetCatch();
 };
 
 #endif //POKEMON_FIGHTMAINUI_HPP
