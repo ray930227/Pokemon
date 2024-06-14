@@ -49,7 +49,6 @@ void App::Update() {
         m_CurrentState = State::EVENT;
     }
 
-
     if (m_CurrentEvent != EventID::NONE) {
         m_CurrentState = State::EVENT;
     }
@@ -77,6 +76,12 @@ void App::Update() {
             Poke->SetLevel(100);
         }
         Player->GetPokemonBag()->SetPokemons(Pokemons);
+    }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
+        std::shared_ptr<Pokemon> temp = std::make_shared<Pokemon>("074");
+        temp->SetLevel(22);
+        Player->GetPokemonBag()->addPomekon(temp);
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

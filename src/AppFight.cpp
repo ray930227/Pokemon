@@ -31,10 +31,10 @@ void App::Fight() {
                 }
             }
 
-            if (Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying()) {
+            if (Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() && !Player->GetPokemonBag()->IsAllPokeDie()) {
                 m_CurrentFighting = FightID::WILDFINISH;
             } else if (Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
-                bool Check = false;
+                bool Check = false; //IsAllPokeDie
                 for (auto i: Player->GetPokemonBag()->GetPokemons()) {
                     if (!i->IsPokemonDying()) {
                         Check = true;
@@ -217,12 +217,25 @@ void App::Fight() {
                             if (m_BackPackUI->GetDecision() == 1) {
                                 CatachRate = 255;
                             } else {
+                                std::string Rate;
+                                int Line_num=1;
+                                std::ifstream FileOfAbility(RESOURCE_DIR"/Pokemon/CatchRate.txt");
+                                while (std::getline(FileOfAbility, Rate)){
+                                    if (Line_num==Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetIDByInt()){
+                                        break;
+                                    }
+                                    Line_num++;
+                                }
+                                FileOfAbility.close();
+                                LOG_DEBUG(Rate);
                                 CatachRate = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetHP() *
                                              (256 / (8 + (m_BackPackUI->GetDecision() - 2) * 2))
                                              /
                                              (1.0 *
                                               Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetCurrentHP() /
                                               4);
+                                CatachRate*=stof(Rate)/256;
+                                LOG_DEBUG(CatachRate);
                             }
                             if (rand() % 256 <= CatachRate) {
                                 m_SuccessCatch = true;
@@ -385,6 +398,12 @@ void App::Fight() {
                                     Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                     }
                     if (Timer == 170) {
+                        m_PlayerBuff["攻擊"]=1.0;
+                        m_PlayerBuff["命中率"]=1.0;
+                        m_PlayerBuff["閃避率"]=1.0;
+                        m_PlayerBuff["防禦"]=1.0;
+                        m_PlayerBuff["特殊"]=1.0;
+                        m_PlayerBuff["速度"]=1.0;
                         m_FightMainUI->SetPlayerPokeScale({1, 1});
                         m_FightMainUI->SetPlayerHPUIVisible(true);
                         m_FightMainUI->SetPlayerHPTextVisible(true);
@@ -613,7 +632,6 @@ void App::Fight() {
             m_FightSkillUI->SetText(m_CurrentPlayerPokemon);
             if (Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() ||
                 m_FightMainUI->SuccessCatch()) {
-
                 if (isWildPokemon) {
                     m_WhiteBG->SetVisible(false);
                     m_WhiteBG->SetZIndex(0);
@@ -648,6 +666,12 @@ void App::Fight() {
                         Enemy->GetPokemonBag()->SetPokemons({});
                         m_CurrentState = State::UPDATE;
                     } else {
+                        m_EnemyBuff["攻擊"]=1.0;
+                        m_EnemyBuff["命中率"]=1.0;
+                        m_EnemyBuff["閃避率"]=1.0;
+                        m_EnemyBuff["防禦"]=1.0;
+                        m_EnemyBuff["特殊"]=1.0;
+                        m_EnemyBuff["速度"]=1.0;
                         m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
                         m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
                         m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);

@@ -18,6 +18,8 @@ public:
     int size();
 
     bool isFull();
+
+    bool IsAllPokeDie();
 };
 
 #endif //POKEMON_POKEMONBAG_HPP
