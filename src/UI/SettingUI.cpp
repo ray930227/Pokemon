@@ -145,6 +145,7 @@ void SettingUI::Save(const std::shared_ptr<Character> &player, const std::shared
     for (int i = 0; i < 256; i++) {
         file << (std::to_string(player->GetItemBag()->GetItemQuantity(i)) + "\n");
     }
+    file<<std::to_string(player->GetMoney())+"\n";
     file.close();
 
     file.open(RESOURCE_DIR"/Save/CharacterData.txt", std::ios::trunc);
@@ -175,6 +176,8 @@ void SettingUI::Read(const std::shared_ptr<Character> &player, const std::shared
         std::getline(file, tempStr);
         player->GetItemBag()->AddItemQuantity(i, std::stoi(tempStr));
     }
+    std::getline(file, tempStr);
+    player->SetMoney(std::stoi(tempStr));
     file.close();
 
     file.open(RESOURCE_DIR"/Save/CharacterData.txt", std::ios::in);

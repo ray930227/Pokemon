@@ -14,7 +14,7 @@ private:
     std::shared_ptr<GIF> m_Image;
     std::vector<std::vector<std::string>> m_ImagePathses;
     size_t m_CurrentImagePath;
-    int m_Money = 100000;
+    int m_Money = 2000;
 public:
     Character();
 
