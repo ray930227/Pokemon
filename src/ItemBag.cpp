@@ -64,7 +64,7 @@ int ItemBag::GetItemID(const std::string &name) {
     return -1;
 }
 
-bool ItemBag::isEmpty() {
+bool ItemBag::IsEmpty() {
     bool result= true;
     for(auto &i:m_Items){
         if(i.second>0) {

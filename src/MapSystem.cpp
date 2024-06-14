@@ -36,7 +36,7 @@ MapSystem::MapSystem(const std::string &MapName) {
         auto &blocks = tempMap.m_Blocks;
         for (int i = 0; i < blocks.size(); i++) {
             for (int j = 0; j < blocks[i].size(); j++) {
-                if (blocks[i][j]->isDisplayable()) {
+                if (blocks[i][j]->IsDisplayable()) {
                     blocks[i][j]->SetZIndex(1);
                     blocks[i][j]->SetVisible(false);
                     blocks[i][j]->SetPosition(
@@ -61,7 +61,7 @@ std::vector<std::shared_ptr<Util::GameObject>> MapSystem::GetChildren() const {
         result.push_back(i.second.m_BackGround);
         for (auto &j: i.second.m_Blocks) {
             for (auto &block: j) {
-                if (block->isDisplayable())
+                if (block->IsDisplayable())
                     result.push_back(block);
             }
         }
@@ -122,7 +122,7 @@ void MapSystem::SetPosition(const glm::vec2 &Position) {
     auto &blocks = m_Maps[m_CurrentMapName].m_Blocks;
     for (size_t i = 0; i < blocks.size(); i++) {
         for (size_t j = 0; j < blocks[i].size(); j++) {
-            if (blocks[i][j]->isDisplayable())
+            if (blocks[i][j]->IsDisplayable())
                 blocks[i][j]->SetPosition(blocks[i][j]->GetPosition() + offset);
         }
     }
@@ -132,7 +132,7 @@ void MapSystem::SetVisible(const bool visible) {
     m_Maps[m_CurrentMapName].m_BackGround->SetVisible(visible);
     for (auto &i: m_Maps[m_CurrentMapName].m_Blocks) {
         for (auto &j: i) {
-            if (j->isDisplayable())
+            if (j->IsDisplayable())
                 j->SetVisible(visible);
         }
     }
@@ -149,7 +149,7 @@ void MapSystem::Move(const glm::vec2 &Displacement) {
     auto &blocks = m_Maps[m_CurrentMapName].m_Blocks;
     for (size_t i = 0; i < blocks.size(); i++) {
         for (size_t j = 0; j < blocks[i].size(); j++) {
-            if (blocks[i][j]->isDisplayable())
+            if (blocks[i][j]->IsDisplayable())
                 blocks[i][j]->SetPosition(blocks[i][j]->GetPosition() + Displacement);
         }
     }

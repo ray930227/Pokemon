@@ -7,8 +7,8 @@ std::vector<std::shared_ptr<Pokemon>> PokemonBag::GetPokemons() {
     return m_Pokemons;
 }
 
-void PokemonBag::addPomekon(const std::shared_ptr<Pokemon> &pokemon) {
-    if (!isFull())
+void PokemonBag::AddPomekon(const std::shared_ptr<Pokemon> &pokemon) {
+    if (!IsFull())
         m_Pokemons.push_back(pokemon);
 }
 
@@ -16,11 +16,11 @@ void PokemonBag::SetPokemons(std::vector<std::shared_ptr<Pokemon>> Pokemons) {
     m_Pokemons=Pokemons;
 }
 
-int PokemonBag::size() {
+int PokemonBag::Size() {
     return m_Pokemons.size();
 }
 
-bool PokemonBag::isFull() {
+bool PokemonBag::IsFull() {
     return m_Pokemons.size() == 6;
 }
 

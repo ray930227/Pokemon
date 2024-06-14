@@ -295,7 +295,7 @@ void ShopUI::Buy() {
 }
 
 void ShopUI::Sell() {
-    if(m_Player->GetItemBag()->isEmpty()){
+    if(m_Player->GetItemBag()->IsEmpty()){
         m_TextBox->SetText("沒有道具可以售出");
     } else {
         std::string tempStr = m_SellList[m_RowTopIndex + (180 - m_Arrows[1]->GetPosition().y) / 90].first;

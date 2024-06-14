@@ -17,8 +17,8 @@ void App::Home() {
     if (Util::Input::IsKeyPressed(Util::Keycode::F1)) {
 
         m_OpeningAnimation->SetVisible(false);
-        Player->SetName("Player");
-        NPC_Bromance->SetName("Bromance");
+        m_Player->SetName("Player");
+        m_NPCBromance->SetName("Bromance");
         m_CurrentState = State::INIT;
     }
     if ((m_OpeningAnimationCount == 635 && Util::Input::IsKeyPressed(Util::Keycode::Z)) || Util::Input::IsKeyDown(Util::Keycode::F2)) {

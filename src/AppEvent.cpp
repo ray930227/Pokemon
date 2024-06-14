@@ -4,70 +4,70 @@ void App::Event() {
     auto PlayerPosition = m_MapSystem->GetPlayerPosition();
     auto currnetMap = m_MapSystem->GetCurrnetMap();
     glm::vec2 TargetPosition = m_MapSystem->GetPlayerPosition();
-    if (currentDirection == "UP") TargetPosition.x--;
-    else if (currentDirection == "DOWN") TargetPosition.x++;
-    else if (currentDirection == "LEFT") TargetPosition.y--;
+    if (m_CurrentDirection == "UP") TargetPosition.x--;
+    else if (m_CurrentDirection == "DOWN") TargetPosition.x++;
+    else if (m_CurrentDirection == "LEFT") TargetPosition.y--;
     else TargetPosition.y++;
 
     if (m_CurrentEvent == EventID::MOVE) {
         //region
-        if (DisplacementCount != 0) {
+        if (m_DisplacementCount != 0) {
             glm::vec2 PlayerPosition = m_MapSystem->GetPlayerPosition();
 
-            bool up = currentDirection == "UP" &&
+            bool up = m_CurrentDirection == "UP" &&
                       m_MapSystem->GetBlocks()[PlayerPosition.x - 1][PlayerPosition.y]->GetTraversable();
-            bool down = currentDirection == "DOWN" &&
+            bool down = m_CurrentDirection == "DOWN" &&
                         m_MapSystem->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetTraversable();
-            bool left = currentDirection == "LEFT" &&
+            bool left = m_CurrentDirection == "LEFT" &&
                         m_MapSystem->GetBlocks()[PlayerPosition.x][PlayerPosition.y - 1]->GetTraversable();
-            bool right = currentDirection == "RIGHT" &&
+            bool right = m_CurrentDirection == "RIGHT" &&
                          m_MapSystem->GetBlocks()[PlayerPosition.x][PlayerPosition.y + 1]->GetTraversable();
             bool canMove = up || down || left || right;
 
-            if (!((DisplacementCount == Player->GetSpeed() && canMove) ||
-                  DisplacementCount != Player->GetSpeed())) {
-                if (currentDirection == "DOWN" &&
+            if (!((m_DisplacementCount == m_Player->GetSpeed() && canMove) ||
+                  m_DisplacementCount != m_Player->GetSpeed())) {
+                if (m_CurrentDirection == "DOWN" &&
                     m_MapSystem->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetEventID() ==
                     (int) EventID::JUMP) {
                     m_CurrentEvent = EventID::JUMP;
-                    DisplacementCount *= 2;
-                } else if (currentDirection == "DOWN" &&
+                    m_DisplacementCount *= 2;
+                } else if (m_CurrentDirection == "DOWN" &&
                            m_MapSystem->GetBlocks()[PlayerPosition.x + 1][PlayerPosition.y]->GetEventID() ==
                            (int) EventID::DOOR) {
                     m_CurrentEvent = EventID::DOOR;
-                    Displacement = {0, 0};
+                    m_Displacement = {0, 0};
                 } else {
-                    Displacement = {0, 0};
+                    m_Displacement = {0, 0};
                 }
             }
-            m_MapSystem->Move(Displacement);
-            if (DisplacementCount == Player->GetSpeed() / 4 || DisplacementCount == Player->GetSpeed() / 3 * 2) {
-                size_t FrameCount = Player->GetImage()->GetFrameCount();
-                size_t CurrentFrameIndex = Player->GetImage()->GetCurrentFrameIndex();
-                Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+            m_MapSystem->Move(m_Displacement);
+            if (m_DisplacementCount == m_Player->GetSpeed() / 4 || m_DisplacementCount == m_Player->GetSpeed() / 3 * 2) {
+                size_t FrameCount = m_Player->GetImage()->GetFrameCount();
+                size_t CurrentFrameIndex = m_Player->GetImage()->GetCurrentFrameIndex();
+                m_Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
             }
 
-            DisplacementCount--;
-            if (DisplacementCount == 0) {
+            m_DisplacementCount--;
+            if (m_DisplacementCount == 0) {
                 m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
                 glm::vec2 playerPosition = m_MapSystem->GetPlayerPosition();
                 std::shared_ptr<Block> block = m_MapSystem->GetBlocks()[playerPosition.x][playerPosition.y];
-                if (block->GetEventID() != 0 && (Displacement.x != 0 || Displacement.y != 0)) {
-                    if (block->GetEventID() == (int) EventID::GRASS && Player->GetPokemonBag()->size() == 0) {
+                if (block->GetEventID() != 0 && (m_Displacement.x != 0 || m_Displacement.y != 0)) {
+                    if (block->GetEventID() == (int) EventID::GRASS && m_Player->GetPokemonBag()->Size() == 0) {
                         m_TB->ReadLines(RESOURCE_DIR"/Lines/FirstInGrass.txt");
                         m_TB->SetVisible(true);
                         m_CurrentEvent = EventID::CHOOSE_POKEMON;
                     } else {
                         m_CurrentEvent = (EventID) block->GetEventID();
                     }
-                } else if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-                    DisplacementCount = Player->GetSpeed();
-                } else if (currentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-                    DisplacementCount = Player->GetSpeed();
-                } else if (currentDirection == "LEFT" && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-                    DisplacementCount = Player->GetSpeed();
-                } else if (currentDirection == "RIGHT" && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-                    DisplacementCount = Player->GetSpeed();
+                } else if (m_CurrentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+                    m_DisplacementCount = m_Player->GetSpeed();
+                } else if (m_CurrentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+                    m_DisplacementCount = m_Player->GetSpeed();
+                } else if (m_CurrentDirection == "LEFT" && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
+                    m_DisplacementCount = m_Player->GetSpeed();
+                } else if (m_CurrentDirection == "RIGHT" && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+                    m_DisplacementCount = m_Player->GetSpeed();
                 } else {
                     m_CurrentEvent = EventID::NONE;
                     m_CurrentState = State::UPDATE;
@@ -107,8 +107,6 @@ void App::Event() {
                 } else if (PlayerPosition.x == 21 && PlayerPosition.y == 26) {
                     m_MapSystem->SetMap("GYM2");
                     m_MapSystem->SetPosition({72, 432});
-                } else {
-                    LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
                 }
             } else if (currnetMap == "PlayerHouse1F") {
                 if (PlayerPosition.x == 2 && PlayerPosition.y == 8) {
@@ -131,16 +129,14 @@ void App::Event() {
                     m_BGM->Play();
                 }
                 m_MapSystem->SetMap("MainMap");
-            } else {
-                LOG_DEBUG("({},{})'s door has not implement", PlayerPosition.x, PlayerPosition.y);
             }
             m_WhiteBG->SetVisible(false);
             m_WhiteBG->SetZIndex(0);
             if (m_MapSystem->GetCurrnetMap() == "MainMap") {
-                Displacement = {0, 72.0 / Player->GetSpeed()};
-                DisplacementCount = Player->GetSpeed();
-                currentDirection = "DOWN";
-                Player->SetCurrentImagePath(1);
+                m_Displacement = {0, 72.0 / m_Player->GetSpeed()};
+                m_DisplacementCount = m_Player->GetSpeed();
+                m_CurrentDirection = "DOWN";
+                m_Player->SetCurrentImagePath(1);
                 m_CurrentEvent = EventID::MOVE;
             } else {
                 m_CurrentState = State::UPDATE;
@@ -150,27 +146,27 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::GRASS) {
         //region
-        if (encounterable && rand() % 100 < 20) {
-            isWildPokemon = true;
+        if (m_Encounterable && rand() % 100 < 20) {
+            m_IsWildPokemon = true;
             std::vector<int> tempID = {13, 16, 19, 21, 23, 25, 26, 27, 29, 31, 32, 34, 35, 36, 37, 38, 39, 40, 41, 43,
                                        45, 46, 48, 50, 52, 54, 56, 58, 59, 60, 62, 63, 65, 66, 68, 69, 71, 72, 74, 76,
                                        77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
                                        108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
                                        128, 129, 131, 132};
             int r ;
-            if(Player->GetItemBag()->GetItemQuantity("藍色徽章")==0) r= rand() % tempID.size();
+            if(m_Player->GetItemBag()->GetItemQuantity("藍色徽章") == 0) r= rand() % tempID.size();
             else r=rand()%151;
             std::stringstream ToString;
             ToString << std::setw(3) << std::setfill('0') << tempID[r];
             std::string StringID = ToString.str();
             auto temp = std::make_shared<Pokemon>(StringID);
             int average = 0;
-            for (auto &i: Player->GetPokemonBag()->GetPokemons())
+            for (auto &i: m_Player->GetPokemonBag()->GetPokemons())
                 average += i->GetLV();
-            int lv=average / Player->GetPokemonBag()->GetPokemons().size()-2+rand()%5;
+            int lv= average / m_Player->GetPokemonBag()->GetPokemons().size() - 2 + rand() % 5;
             if(lv>100) lv=100;
             temp->SetLevel(lv);
-            Enemy->GetPokemonBag()->SetPokemons({temp});
+            m_Enemy->GetPokemonBag()->SetPokemons({temp});
             m_CurrentLoading = LoadingID::INIT;
             m_CurrentState = State::LOADING;
             m_CurrentEvent = EventID::NONE;
@@ -178,14 +174,14 @@ void App::Event() {
         } else {
             m_CurrentEvent = EventID::MOVE;
             m_CurrentState = State::EVENT;
-            if (currentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-                DisplacementCount = Player->GetSpeed();
-            } else if (currentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-                DisplacementCount = Player->GetSpeed();
-            } else if (currentDirection == "LEFT" && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-                DisplacementCount = Player->GetSpeed();
-            } else if (currentDirection == "RIGHT" && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-                DisplacementCount = Player->GetSpeed();
+            if (m_CurrentDirection == "UP" && Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+                m_DisplacementCount = m_Player->GetSpeed();
+            } else if (m_CurrentDirection == "DOWN" && Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+                m_DisplacementCount = m_Player->GetSpeed();
+            } else if (m_CurrentDirection == "LEFT" && Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
+                m_DisplacementCount = m_Player->GetSpeed();
+            } else if (m_CurrentDirection == "RIGHT" && Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+                m_DisplacementCount = m_Player->GetSpeed();
             } else {
                 m_CurrentEvent = EventID::NONE;
                 m_CurrentState = State::UPDATE;
@@ -199,9 +195,9 @@ void App::Event() {
         if (!m_TB->GetVisibility()) {
             m_TB->Reload();
             if (TargetPosition.x == 83 && TargetPosition.y == 63) {
-                m_TB->SetText(Player->GetName() + "的家");
+                m_TB->SetText(m_Player->GetName() + "的家");
             } else if (TargetPosition.x == 83 && TargetPosition.y == 71) {
-                m_TB->SetText(NPC_Bromance->GetName() + "的家");
+                m_TB->SetText(m_NPCBromance->GetName() + "的家");
             } else if (TargetPosition.x == 87 && TargetPosition.y == 67) {
                 m_TB->SetText("真新鎮");
             } else if (TargetPosition.x == 91 && TargetPosition.y == 73) {
@@ -245,17 +241,17 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::JUMP) {
         //region
-        if (DisplacementCount != 0) {
-            m_MapSystem->Move(Displacement);
-            if (DisplacementCount > Player->GetSpeed()) {
-                Player->GetImage()->Move(Displacement);
+        if (m_DisplacementCount != 0) {
+            m_MapSystem->Move(m_Displacement);
+            if (m_DisplacementCount > m_Player->GetSpeed()) {
+                m_Player->GetImage()->Move(m_Displacement);
             } else {
-                Player->GetImage()->Move({0, Displacement.y * -1});
+                m_Player->GetImage()->Move({0, m_Displacement.y * -1});
             }
-            DisplacementCount--;
+            m_DisplacementCount--;
         } else {
             m_MapSystem->SetPosition({round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
-            Player->GetImage()->SetPosition({36, -36});
+            m_Player->GetImage()->SetPosition({36, -36});
             m_CurrentEvent = EventID::NONE;
             m_CurrentState = State::UPDATE;
         }
@@ -286,7 +282,7 @@ void App::Event() {
         } else {
             m_TB->SetText("沒有神奇寶貝擁有居合斬\n因此無法破換小樹叢");
             m_TB->SetVisible(true);
-            for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+            for (auto &i: m_Player->GetPokemonBag()->GetPokemons()) {
                 for (auto &j: i->GetSkill()) {
                     if (j == "居合斬") {
                         m_TB->SetText("是否要破壞小樹叢?");
@@ -309,19 +305,19 @@ void App::Event() {
                         std::vector<std::string> Lines;
                         m_TB->SetVisible(true);
                         if (TargetPosition.x == 4 && TargetPosition.y == 8) {
-                            Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("004"));
-                            Lines.push_back(Player->GetName() + "選擇了小火龍");
+                            m_Player->GetPokemonBag()->AddPomekon(std::make_shared<Pokemon>("004"));
+                            Lines.push_back(m_Player->GetName() + "選擇了小火龍");
                         } else if (TargetPosition.x == 4 && TargetPosition.y == 9) {
-                            Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("007"));
-                            Lines.push_back(Player->GetName() + "選擇了傑尼龜");
+                            m_Player->GetPokemonBag()->AddPomekon(std::make_shared<Pokemon>("007"));
+                            Lines.push_back(m_Player->GetName() + "選擇了傑尼龜");
                         } else if (TargetPosition.x == 4 && TargetPosition.y == 10) {
-                            Player->GetPokemonBag()->addPomekon(std::make_shared<Pokemon>("001"));
-                            Lines.push_back(Player->GetName() + "選擇了妙蛙種子");
+                            m_Player->GetPokemonBag()->AddPomekon(std::make_shared<Pokemon>("001"));
+                            Lines.push_back(m_Player->GetName() + "選擇了妙蛙種子");
                         }
-                        Player->GetPokemonBag()->GetPokemons()[0]->SetLevel(8);
+                        m_Player->GetPokemonBag()->GetPokemons()[0]->SetLevel(8);
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
-                        auto poke=Player->GetPokemonBag()->GetPokemons()[0];
+                        auto poke=m_Player->GetPokemonBag()->GetPokemons()[0];
                         auto Ability=poke->GetAbility();
                         Ability["IV"]=31;
                         poke->SetAbility(Ability);
@@ -342,7 +338,7 @@ void App::Event() {
             }
         } else {
             if (currnetMap == "OakLab") {
-                if (Player->GetPokemonBag()->size() == 0) {
+                if (m_Player->GetPokemonBag()->Size() == 0) {
                     m_TFBox->SetVisible(true);
                     m_TB->SetVisible(true);
                     if (TargetPosition.x == 4 && TargetPosition.y == 8) {
@@ -367,24 +363,24 @@ void App::Event() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
                 if (m_TB->GetLineIndex() == 2) {
-                    Player->SetCurrentImagePath(1);
-                    NPC_Oak->SetCurrentImagePath(0);
-                    NPC_Oak->GetImage()->SetVisible(true);
-                    NPC_Oak->GetImage()->SetPosition({36, -180});
-                    for (int i = 0; i < Player->GetSpeed(); i++) {
-                        NPC_Oak->GetImage()->Move({0, 72.0 / Player->GetSpeed()});
-                        if (i == Player->GetSpeed() / 4 || i == Player->GetSpeed() / 3 * 2) {
-                            size_t FrameCount = NPC_Oak->GetImage()->GetFrameCount();
-                            size_t CurrentFrameIndex = NPC_Oak->GetImage()->GetCurrentFrameIndex();
-                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+                    m_Player->SetCurrentImagePath(1);
+                    m_NPCOak->SetCurrentImagePath(0);
+                    m_NPCOak->GetImage()->SetVisible(true);
+                    m_NPCOak->GetImage()->SetPosition({36, -180});
+                    for (int i = 0; i < m_Player->GetSpeed(); i++) {
+                        m_NPCOak->GetImage()->Move({0, 72.0 / m_Player->GetSpeed()});
+                        if (i == m_Player->GetSpeed() / 4 || i == m_Player->GetSpeed() / 3 * 2) {
+                            size_t FrameCount = m_NPCOak->GetImage()->GetFrameCount();
+                            size_t CurrentFrameIndex = m_NPCOak->GetImage()->GetCurrentFrameIndex();
+                            m_NPCOak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
                         }
 
                         m_Root.Update();
                         auto context = Core::Context::GetInstance();
                         context->Update();
                     }
-                    NPC_Oak->GetImage()->SetPosition(
-                            {round(NPC_Oak->GetImage()->GetPosition().x), round(NPC_Oak->GetImage()->GetPosition().y)});
+                    m_NPCOak->GetImage()->SetPosition(
+                            {round(m_NPCOak->GetImage()->GetPosition().x), round(m_NPCOak->GetImage()->GetPosition().y)});
                 }
 
             }
@@ -392,61 +388,61 @@ void App::Event() {
                 std::string tempStr = m_TB->GetText();
                 tempStr.replace(tempStr.begin() + tempStr.find("<Player>"),
                                 tempStr.begin() + tempStr.find("<Player>") + 8,
-                                Player->GetName());
+                                m_Player->GetName());
                 m_TB->SetText(tempStr);
             }
             if (m_TB->GetText().find("<NPC_Bromance>") < m_TB->GetText().size()) {
                 std::string tempStr = m_TB->GetText();
                 tempStr.replace(tempStr.begin() + tempStr.find("<NPC_Bromance>"),
                                 tempStr.begin() + tempStr.find("<NPC_Bromance>") + 14,
-                                NPC_Bromance->GetName());
+                                m_NPCBromance->GetName());
                 m_TB->SetText(tempStr);
             }
         } else {
             std::vector<std::pair<int, glm::vec2>> temp;
-            temp.push_back({1, {0, 72.0 / Player->GetSpeed()}});
-            temp.push_back({m_MapSystem->GetPosition().x == -1584 ? 1 : 2, {72.0 / Player->GetSpeed(), 0}});
-            temp.push_back({10, {0, 72.0 / Player->GetSpeed()}});
-            temp.push_back({3, {-72.0 / Player->GetSpeed(), 0}});
-            temp.push_back({1, {0, -72.0 / Player->GetSpeed()}});
+            temp.push_back({1, {0, 72.0 / m_Player->GetSpeed()}});
+            temp.push_back({m_MapSystem->GetPosition().x == -1584 ? 1 : 2, {72.0 / m_Player->GetSpeed(), 0}});
+            temp.push_back({10, {0, 72.0 / m_Player->GetSpeed()}});
+            temp.push_back({3, {-72.0 / m_Player->GetSpeed(), 0}});
+            temp.push_back({1, {0, -72.0 / m_Player->GetSpeed()}});
 
             for (size_t i = 0; i < temp.size(); i++) {
-                if (temp[i].second.y < 0) Player->SetCurrentImagePath(0);
-                else if (temp[i].second.y > 0) Player->SetCurrentImagePath(1);
-                else if (temp[i].second.x > 0) Player->SetCurrentImagePath(2);
-                else Player->SetCurrentImagePath(3);
+                if (temp[i].second.y < 0) m_Player->SetCurrentImagePath(0);
+                else if (temp[i].second.y > 0) m_Player->SetCurrentImagePath(1);
+                else if (temp[i].second.x > 0) m_Player->SetCurrentImagePath(2);
+                else m_Player->SetCurrentImagePath(3);
 
                 for (int times = 0; times < temp[i].first; times++) {
 //                    NPC_Oak->SetCurrentImagePath(1);
                     if (i == temp.size() - 1)
-                        NPC_Oak->GetImage()->SetVisible(false);
-                    for (int count = Player->GetSpeed(); count > 0; count--) {
+                        m_NPCOak->GetImage()->SetVisible(false);
+                    for (int count = m_Player->GetSpeed(); count > 0; count--) {
                         m_MapSystem->Move(temp[i].second);
                         if (i + 1 < temp.size() && times == temp[i].first - 1) {
                             if (temp[i].second.x == 0)
-                                NPC_Oak->GetImage()->Move({0 - temp[i + 1].second.x, temp[i].second.y});
+                                m_NPCOak->GetImage()->Move({0 - temp[i + 1].second.x, temp[i].second.y});
                             else
-                                NPC_Oak->GetImage()->Move({temp[i].second.x, 0 - temp[i + 1].second.y});
+                                m_NPCOak->GetImage()->Move({temp[i].second.x, 0 - temp[i + 1].second.y});
 
                             if (temp[i + 1].second.y < 0)
-                                NPC_Oak->SetCurrentImagePath(0);
+                                m_NPCOak->SetCurrentImagePath(0);
                             else if (temp[i + 1].second.y > 0)
-                                NPC_Oak->SetCurrentImagePath(1);
+                                m_NPCOak->SetCurrentImagePath(1);
                             else if (temp[i + 1].second.x > 0)
-                                NPC_Oak->SetCurrentImagePath(2);
+                                m_NPCOak->SetCurrentImagePath(2);
                             else
-                                NPC_Oak->SetCurrentImagePath(3);
+                                m_NPCOak->SetCurrentImagePath(3);
 
 
                         }
 
-                        if (count == Player->GetSpeed() / 4 || count == Player->GetSpeed() / 3 * 2) {
-                            size_t FrameCount = Player->GetImage()->GetFrameCount();
-                            size_t CurrentFrameIndex = Player->GetImage()->GetCurrentFrameIndex();
-                            Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
-                            FrameCount = NPC_Oak->GetImage()->GetFrameCount();
-                            CurrentFrameIndex = NPC_Oak->GetImage()->GetCurrentFrameIndex();
-                            NPC_Oak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+                        if (count == m_Player->GetSpeed() / 4 || count == m_Player->GetSpeed() / 3 * 2) {
+                            size_t FrameCount = m_Player->GetImage()->GetFrameCount();
+                            size_t CurrentFrameIndex = m_Player->GetImage()->GetCurrentFrameIndex();
+                            m_Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
+                            FrameCount = m_NPCOak->GetImage()->GetFrameCount();
+                            CurrentFrameIndex = m_NPCOak->GetImage()->GetCurrentFrameIndex();
+                            m_NPCOak->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
                         }
 
                         m_Root.Update();
@@ -455,7 +451,7 @@ void App::Event() {
                     }
                     m_MapSystem->SetPosition(
                             {round(m_MapSystem->GetPosition().x), round(m_MapSystem->GetPosition().y)});
-                    auto NPC_OakImage = NPC_Oak->GetImage();
+                    auto NPC_OakImage = m_NPCOak->GetImage();
                     NPC_OakImage->SetPosition(
                             {round(NPC_OakImage->GetPosition().x), round(NPC_OakImage->GetPosition().y)});
                 }
@@ -478,12 +474,12 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
         //region
-        isWildPokemon= false;
+        m_IsWildPokemon= false;
         if (m_TB->GetVisibility()) {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
                 if (!m_TB->GetVisibility()) {
-                    if (Enemy->GetPokemonBag()->GetPokemons().size()==0) {
+                    if (m_Enemy->GetPokemonBag()->GetPokemons().size() == 0) {
                         m_CurrentState = State::UPDATE;
                         m_CurrentEvent = EventID::NONE;
                     } else {
@@ -495,13 +491,13 @@ void App::Event() {
         } else if (currnetMap == "OakLab"){
             m_TB->Reload();
             m_TB->SetVisible(true);
-            if(Player->GetPokemonBag()->GetPokemons().size()==0){
+            if(m_Player->GetPokemonBag()->GetPokemons().size() == 0){
                 m_TB->AddText("喔你來啦!");
                 m_TB->AddText("我曾經也是個神奇寶貝訓練家");
                 m_TB->AddText("如今我只剩三隻神奇寶貝了");
                 m_TB->AddText("旁邊那三個神奇寶貝球挑一隻送你吧!");
-            } else if(Player->GetItemBag()->GetItemQuantity("寶可夢圖鑑")==0){
-                Player->GetItemBag()->AddItemQuantity("寶可夢圖鑑",1);
+            } else if(m_Player->GetItemBag()->GetItemQuantity("寶可夢圖鑑") == 0){
+                m_Player->GetItemBag()->AddItemQuantity("寶可夢圖鑑", 1);
                 m_TB->AddText("對了!");
                 m_TB->AddText("這個精靈圖鑑給你");
                 m_TB->AddText("只要獲得新的神奇寶貝，精靈圖鑑就會更新");
@@ -511,7 +507,7 @@ void App::Event() {
             }
         } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-                if(Player->GetItemBag()->GetItemQuantity(21) > 0) {
+                if(m_Player->GetItemBag()->GetItemQuantity(21) > 0) {
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/Brock.txt");
                 } else {
                     std::vector<std::shared_ptr<Pokemon>> Pokemons;
@@ -521,8 +517,8 @@ void App::Event() {
                     Pokemons[1]->SetLevel(14);
                     Pokemons[0]->SetSkillByID({33, 111});
                     Pokemons[1]->SetSkillByID({33, 103, 117});
-                    Enemy->GetPokemonBag()->SetPokemons(Pokemons);
-                    Enemy->SetName("小剛");
+                    m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                    m_Enemy->SetName("小剛");
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM1.txt");
                 }
             } else if (TargetPosition.x == 7 && TargetPosition.y == 6) {
@@ -533,8 +529,8 @@ void App::Event() {
                 Pokemons[1]->SetLevel(11);
                 Pokemons[0]->SetSkillByName({"抓"});
                 Pokemons[1]->SetSkillByName({"抓","潑沙"});
-                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
-                Enemy->SetName("童子軍");
+                m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                m_Enemy->SetName("童子軍");
                 m_TB->Reload();
                 m_TB->AddText("來決鬥吧!!!");
             } else{
@@ -546,9 +542,9 @@ void App::Event() {
             m_TB->Reload();
             m_TB->SetVisible(true);
             if(TargetPosition.x == 3 && TargetPosition.y == 7){
-                if(Player->GetItemBag()->GetItemQuantity(21) == 0) {
+                if(m_Player->GetItemBag()->GetItemQuantity(21) == 0) {
                     m_TB->AddText("你連深灰市道館館主都還沒打贏就想挑戰我?");
-                } else if(Player->GetItemBag()->GetItemQuantity(22) > 0){
+                } else if(m_Player->GetItemBag()->GetItemQuantity(22) > 0){
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/Misty.txt");
                 } else {
                     std::vector<std::shared_ptr<Pokemon>> Pokemons;
@@ -558,8 +554,8 @@ void App::Event() {
                     Pokemons[1]->SetLevel(21);
                     Pokemons[0]->SetSkillByName({"撞擊","水槍"});
                     Pokemons[1]->SetSkillByName({"撞擊","水槍","泡沫光線"});
-                    Enemy->GetPokemonBag()->SetPokemons(Pokemons);
-                    Enemy->SetName("小霞");
+                    m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                    m_Enemy->SetName("小霞");
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM2.txt");
                 }
             } else{
@@ -567,8 +563,8 @@ void App::Event() {
                 Pokemons.push_back(std::make_shared<Pokemon>("118"));
                 Pokemons[0]->SetLevel(19);
                 Pokemons[0]->SetSkillByName({"搖尾巴","啄","超音波"});
-                Enemy->GetPokemonBag()->SetPokemons(Pokemons);
-                Enemy->SetName("女童軍");
+                m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
+                m_Enemy->SetName("女童軍");
                 m_TB->AddText("我比你想像中還要厲害!來對決吧!!");
             }
         } else if(currnetMap=="PokeCenter"){
@@ -579,19 +575,17 @@ void App::Event() {
             } else if(TargetPosition.x == 9 && TargetPosition.y == 6){
                 m_TB->AddText("媽媽告訴我不要跟陌生人講話!!!");
             } else if(TargetPosition.x == 7 && TargetPosition.y == 9){
-                if(Player->GetItemBag()->GetItemQuantity("秘傳學習器０１")==0) {
+                if(m_Player->GetItemBag()->GetItemQuantity("秘傳學習器０１") == 0) {
                     m_TB->AddText("年輕人你相信機緣嗎");
                     m_TB->AddText("這個招式我只教你一人");
                     m_TB->AddText("秘傳學習器０１（居合斬）");
-                    Player->GetItemBag()->AddItemQuantity("秘傳學習器０１",1);
+                    m_Player->GetItemBag()->AddItemQuantity("秘傳學習器０１", 1);
                 } else{
                     m_TB->AddText("你有好好的利用居合斬嗎?");
                 }
             } else{
                 m_TB->AddText("這裡只有員工可以進入!");
             }
-        } else {
-            LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
         }
         //endregion
     } else if (m_CurrentEvent == EventID::COMPUTER) {
@@ -614,7 +608,7 @@ void App::Event() {
                     if (m_TFBox->GetTF()) {
                         m_BGM->LoadMedia(RESOURCE_DIR"/BGM/HealPokemon.mp3");
                         m_BGM->Play();
-                        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+                        for (auto &i: m_Player->GetPokemonBag()->GetPokemons()) {
                             i->SetCurrentHP(i->GetHP());
                             i->SetCurrentSkillPP(i->GetSkillPP());
                         }
@@ -640,7 +634,7 @@ void App::Event() {
         if (m_SettingUI->GetVisible()) {
             m_SettingUI->Run();
             if(m_SettingUI->IsSave()){
-                m_SettingUI->Save(Player,NPC_Bromance,m_ComputerUI,m_MapSystem);
+                m_SettingUI->Save(m_Player, m_NPCBromance, m_ComputerUI, m_MapSystem);
             }
             if (!m_SettingUI->GetVisible()) {
                 m_CurrentEvent = EventID::NONE;
@@ -656,8 +650,8 @@ void App::Event() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
                 if (!m_TB->GetVisibility()) {
-                    if(Player->GetItemBag()->GetItemQuantity("灰色徽章") > 0 &&
-                        Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0 &&
+                    if(m_Player->GetItemBag()->GetItemQuantity("灰色徽章") > 0 &&
+                       m_Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0 &&
                             currnetMap == "GYM2" && TargetPosition.x == 3 && TargetPosition.y == 7) {
                         m_CurrentEvent = EventID::GAME_COMPLETED;
                     } else {
@@ -672,12 +666,12 @@ void App::Event() {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
                 m_TB->AddText("你戰勝了我!!!");
                 m_TB->AddText("給你神奇寶貝聯盟認證的灰色徽章");
-                Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
+                m_Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
             } else {
                 m_TB->AddText("可惡，居然輸了!");
                 int money=rand()%100+150;
                 m_TB->AddText("戰勝了訓練家，獲得了$" + std::to_string(money));
-                Player->SetMoney(Player->GetMoney() + money);
+                m_Player->SetMoney(m_Player->GetMoney() + money);
             }
         } else if (currnetMap == "GYM2") {
             m_TB->Reload();
@@ -686,19 +680,14 @@ void App::Event() {
                 m_TB->AddText("哇！你太厲害了!");
                 m_TB->AddText("好吧!");
                 m_TB->AddText("你可以拿到藍色徽章來證明你打敗了我！");
-                Player->GetItemBag()->AddItemQuantity("藍色徽章", 1);
+                m_Player->GetItemBag()->AddItemQuantity("藍色徽章", 1);
 
             } else{
                 m_TB->AddText("你比我想像中還要厲害!");
                 int money=rand()%100+150;
                 m_TB->AddText("戰勝了訓練家，獲得了$" + std::to_string(money));
-                Player->SetMoney(Player->GetMoney() + money);
+                m_Player->SetMoney(m_Player->GetMoney() + money);
             }
-        } else {
-            LOG_DEBUG("{}:({},{}) NPC has not implement", currnetMap, TargetPosition.x, TargetPosition.y);
-            m_TB->Reload();
-            m_TB->SetText("NPC has not implement");
-            m_TB->SetVisible(true);
         }
         //endregion
     } else if (m_CurrentEvent == EventID::ALL_POKEMON_DIE) {
@@ -716,8 +705,8 @@ void App::Event() {
         } else {
             m_MapSystem->SetPosition({1800, -1296});
         }
-        Player->SetCurrentImagePath(1);
-        for (auto &i: Player->GetPokemonBag()->GetPokemons()) {
+        m_Player->SetCurrentImagePath(1);
+        for (auto &i: m_Player->GetPokemonBag()->GetPokemons()) {
             i->SetCurrentHP(i->GetHP());
             i->SetCurrentSkillPP(i->GetSkillPP());
         }
@@ -732,7 +721,7 @@ void App::Event() {
                 if(!m_TB->GetVisibility()){
                     m_WhiteBG->SetVisible(false);
                     m_WhiteBG->SetImage(RESOURCE_DIR"/Background/WhiteBG.png");
-                    Player->GetImage()->SetVisible(true);
+                    m_Player->GetImage()->SetVisible(true);
                     m_CurrentState = State::UPDATE;
                     m_CurrentEvent = EventID::NONE;
                 }
@@ -744,7 +733,7 @@ void App::Event() {
             m_TB->Reload();
             m_TB->ReadLines(RESOURCE_DIR"/Lines/GameCompleted.txt");
             m_TB->SetVisible(true);
-            Player->GetImage()->SetVisible(false);
+            m_Player->GetImage()->SetVisible(false);
         }
         //endregion
     } else if (m_CurrentEvent == EventID::NONE) {

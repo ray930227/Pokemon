@@ -26,7 +26,7 @@ private:
     std::shared_ptr<Image> m_PokemonHPImage;
     std::map<std::string, std::shared_ptr<Text>> m_Texts;
     size_t m_CurrentPokemon = 0;
-    bool isXleave = false;
+    bool m_IsXleave = false;
 public:
     PokeBagUI(const std::shared_ptr<Character> &Player);
 

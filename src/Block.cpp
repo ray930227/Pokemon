@@ -58,6 +58,6 @@ void Block::SetEventID(int EventID) {
     m_EventID = EventID;
 }
 
-bool Block::isDisplayable() {
+bool Block::IsDisplayable() {
     return m_Displayable;
 }

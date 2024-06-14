@@ -158,7 +158,7 @@ void FightMainUI::SetBallAnimationVisible(bool visible, bool isPlayer) {
 }
 
 void FightMainUI::SetCatchBallAnimationVisible(bool visible) {
-    isCatching= 0;
+    m_IsCatching= 0;
     m_CatchBallAnimation->SetVisible(visible);
     if (visible) {
         m_CatchBallAnimation->Reset();
@@ -255,7 +255,7 @@ void FightMainUI::SetPlayerPokeImage(int PlayerIndex) {
 
 void FightMainUI::SetBallsImage() {
     m_PlayerBalls->SetImage(
-            RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(m_Player->GetPokemonBag()->size()) + ".png");
+            RESOURCE_DIR"/Fight/PlayerBall" + std::to_string(m_Player->GetPokemonBag()->Size()) + ".png");
 }
 
 void FightMainUI::SetTextHP(int PokeIndex) {
@@ -344,28 +344,28 @@ int FightMainUI::GetBallAnimationIndex() {
 }
 
 void FightMainUI::RunCatchPokemon(bool SuccessCatch, int EnemyIndex) {
-    if (Counter == 0) {
+    if (m_Counter == 0) {
         m_FightTB->SetVisible(true);
         m_FightTB->Reload();
         m_FightTB->AddText(m_Player->GetName()+"使用了精靈球!");
         m_CatchBallAnimation->SetPosition({-210, -10});
-        Counter++;
+        m_Counter++;
     }
     if (m_CatchBallAnimation->GetPosition().x != 210) {
         m_CatchBallAnimation->SetVisible(true);
         m_CatchBallAnimation->SetPosition(
                 {m_CatchBallAnimation->GetPosition().x + 10, m_CatchBallAnimation->GetPosition().y + 5});
     } else {
-        if (Counter == 1) {
+        if (m_Counter == 1) {
             m_CatchBallAnimation->SetVisible(false);
             SetBallAnimationVisible(true, false);
-            Counter++;
+            m_Counter++;
         }
-        if (GetBallAnimationIndex() == 4 && Counter == 2) {
+        if (GetBallAnimationIndex() == 4 && m_Counter == 2) {
             m_EnemyPokemonImage->SetVisible(false);
             m_BallAnimation->SetVisible(false);
             m_CatchBallAnimation->SetVisible(true);
-            Counter++;
+            m_Counter++;
         }
     }
     if (m_CatchBallAnimation->IsPlaying()) {
@@ -388,11 +388,11 @@ void FightMainUI::RunCatchPokemon(bool SuccessCatch, int EnemyIndex) {
     } else {
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             if (SuccessCatch) {
-                isCatching = 2;
+                m_IsCatching = 2;
             } else {
-                isCatching = 1;
+                m_IsCatching = 1;
             }
-            Counter=0;
+            m_Counter=0;
             m_FightTB->Next();
         }
     }
@@ -400,13 +400,13 @@ void FightMainUI::RunCatchPokemon(bool SuccessCatch, int EnemyIndex) {
 }
 
 bool FightMainUI::IsCatching() {
-    return isCatching==0;
+    return m_IsCatching == 0;
 }
 
 bool FightMainUI::SuccessCatch() {
-    return isCatching==2;
+    return m_IsCatching == 2;
 }
 
 void FightMainUI::ResetCatch() {
-    isCatching = 0;
+    m_IsCatching = 0;
 }

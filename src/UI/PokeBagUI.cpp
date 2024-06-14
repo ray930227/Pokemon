@@ -179,7 +179,7 @@ void PokeBagUI::SetVisible(bool visible) {
     m_Arrow[0]->SetVisible(visible);
     m_Arrow[0]->SetDrawable(std::make_shared<Util::Image>(RESOURCE_DIR"/Background/BlockArrow.png"));
     m_PokeBagBG->SetVisible(visible);
-    if (isXleave && visible) isXleave = false;
+    if (m_IsXleave && visible) m_IsXleave = false;
 }
 
 void PokeBagUI::Run(unsigned int mode) {
@@ -261,7 +261,7 @@ void PokeBagUI::Run(unsigned int mode) {
             }
         }
         if (Util::Input::IsKeyDown(Util::Keycode::X)) {
-            isXleave = true;
+            m_IsXleave = true;
             SetVisible(false);
         }
     }
@@ -273,7 +273,7 @@ bool PokeBagUI::GetVisible() {
 }
 
 int PokeBagUI::GetDecision() {
-    if (isXleave) return -1;
+    if (m_IsXleave) return -1;
     return (int) (m_Arrow[0]->GetPosition().y - 300) / (-80);
 }
 

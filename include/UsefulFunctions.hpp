@@ -6,7 +6,7 @@
 #include <algorithm>
 
 namespace useful {
-    std::vector<std::string> split(std::string &str, char interval);
+    std::vector<std::string> Split(std::string &str, char interval);
 }
 
 namespace PokeFunction {

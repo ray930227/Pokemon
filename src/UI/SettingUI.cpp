@@ -39,7 +39,7 @@ void SettingUI::Run() {
     if (m_TFBox->GetVisible()) {
         if (m_TFBox->Choose()) {
             if (m_TFBox->GetTF()) {
-                m_isSave = true;
+                m_IsSave = true;
             }
             m_TB->SetVisible(false);
             m_TFBox->SetVisible(false);
@@ -74,7 +74,7 @@ void SettingUI::Run() {
                 }
                 break;
             case 106:
-                if (m_Player->GetItemBag()->isEmpty()) {
+                if (m_Player->GetItemBag()->IsEmpty()) {
                     m_TB->SetVisible(true);
                     m_TB->SetText("尚無任何道具!");
                 } else {
@@ -207,7 +207,7 @@ void SettingUI::Read(const std::shared_ptr<Character> &player, const std::shared
 }
 
 bool SettingUI::IsSave() {
-    return m_isSave;
+    return m_IsSave;
 }
 
 void SettingUI::SavePokemons(const std::string &path, const std::vector<std::shared_ptr<Pokemon>> &pokemons) {

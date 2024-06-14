@@ -1,6 +1,6 @@
 #include "UsefulFunctions.hpp"
 
-std::vector<std::string> useful::split(std::string &str, char interval) {
+std::vector<std::string> useful::Split(std::string &str, char interval) {
     std::vector<std::string> result;
     str.pop_back();
     str += interval;

@@ -243,7 +243,6 @@ void ItemUI::Action() {
 
         auto skills = tempPokemon->GetSkill();
         if (skills.size() == 4) {
-            LOG_DEBUG(3 - ((m_Arrow2->GetPosition().y - 2) / 96));
             m_TB->SetText(tempPokemon->GetName() + "忘記了" + skills[3 - ((m_Arrow2->GetPosition().y - 2) / 96)] +
                           "\n學會了" + skillName);
             skills[3 - ((m_Arrow2->GetPosition().y - 2) / 96)] = skillName;
