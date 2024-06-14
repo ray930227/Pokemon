@@ -34,13 +34,13 @@ MapSystem::MapSystem(const std::string &MapName) {
         fileEvent.close();
 
         auto &blocks = tempMap.m_Blocks;
-        for (size_t i = 0; i < blocks.size(); i++) {
-            for (size_t j = 0; j < blocks[i].size(); j++) {
+        for (int i = 0; i < blocks.size(); i++) {
+            for (int j = 0; j < blocks[i].size(); j++) {
                 if (blocks[i][j]->isDisplayable()) {
                     blocks[i][j]->SetZIndex(1);
                     blocks[i][j]->SetVisible(false);
                     blocks[i][j]->SetPosition(
-                            {(j - blocks[i].size() / 2) * 72 + 36, (blocks.size() / 2 - i) * 72 - 36});
+                            {(j - (int)blocks[i].size() / 2) * 72 + 36, ((int)blocks.size() / 2 - i) * 72 - 36});
                 }
             }
         }
