@@ -13,7 +13,8 @@ std::vector<std::string> useful::Split(std::string &str, char interval) {
 }
 
 int PokeFunction::FindIndex(std::string MyType) {
-    std::vector<std::string> Type = {"一般", "格鬥", "飛行", "毒", "地面", "岩石", "蟲", "幽靈","鋼","火", "水", "草", "電",
+    std::vector<std::string> Type = {"一般", "格鬥", "飛行", "毒", "地面", "岩石", "蟲", "幽靈", "鋼", "火", "水", "草",
+                                     "電",
                                      "超能力", "冰", "龍", "惡", "妖精"};
     for (size_t i = 0; i < Type.size(); i++) {
         if (Type[i] == MyType) {

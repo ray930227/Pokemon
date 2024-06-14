@@ -13,7 +13,7 @@ void PokemonBag::AddPomekon(const std::shared_ptr<Pokemon> &pokemon) {
 }
 
 void PokemonBag::SetPokemons(std::vector<std::shared_ptr<Pokemon>> Pokemons) {
-    m_Pokemons=Pokemons;
+    m_Pokemons = Pokemons;
 }
 
 int PokemonBag::Size() {
@@ -25,7 +25,7 @@ bool PokemonBag::IsFull() {
 }
 
 bool PokemonBag::IsAllPokeDie() {
-    for (const auto& pokemon: m_Pokemons) {
+    for (const auto &pokemon: m_Pokemons) {
         if (!pokemon->IsPokemonDying())
             return false;
     }

@@ -16,7 +16,7 @@ LoadingUI::LoadingUI(const std::shared_ptr<Character> &Player, const std::shared
     m_LoadingImages[0][1]->SetZIndex(100);
     m_Player = Player;
     m_Enemy = Enemy;
-    m_WhiteBG=std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
+    m_WhiteBG = std::make_shared<Image>(RESOURCE_DIR"/Background/WhiteBG.png");
     m_WhiteBG->SetVisible(false);
 }
 
@@ -42,7 +42,7 @@ std::vector<std::vector<std::shared_ptr<Util::GameObject>>> LoadingUI::GetChildr
 void LoadingUI::StartLoading() {
     switch (m_Mode) {
         case 0:
-            if (m_LoadingImages[0][0]->GetPosition().x == 0 && m_LoadingImages[0][0]->GetVisible()){
+            if (m_LoadingImages[0][0]->GetPosition().x == 0 && m_LoadingImages[0][0]->GetVisible()) {
                 m_WhiteBG->SetVisible(true);
             }
             if (m_LoadingImages[0][0]->GetPosition().x != 720 && m_LoadingImages[0][0]->GetVisible()) {

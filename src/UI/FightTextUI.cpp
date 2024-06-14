@@ -19,9 +19,9 @@ void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
     std::string UseSkill;
     std::vector<std::string> EnemyType = m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetType();
     float DamageRate;
-    if(SkillIndex==4){
-        UseSkill="掙扎";
-        DamageRate=1;
+    if (SkillIndex == 4) {
+        UseSkill = "掙扎";
+        DamageRate = 1;
     } else {
         UseSkill = PlayerPokemons[PokeIndex]->GetSkill()[SkillIndex];
         DamageRate = PokeFunction::TypeDamage(PlayerPokemons[PokeIndex]->GetSkillType()[SkillIndex], EnemyType);
@@ -30,7 +30,7 @@ void FightTextUI::SetPlayer(int PokeIndex, int EnemyIndex, int SkillIndex) {
     m_TB->SetVisible(true);
     m_TB->Reload();
     m_TB->AddText(PokeName + "使出了" + UseSkill);
-    if(SkillIndex!=4 && m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetSkillClass()[SkillIndex] != "變化"){
+    if (SkillIndex != 4 && m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetSkillClass()[SkillIndex] != "變化") {
         if (DamageRate == 0) {
             m_TB->AddText("沒有效果!");
         } else if (DamageRate >= 2.0) {
@@ -48,9 +48,9 @@ void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
     std::string UseSkill;
     std::vector<std::string> EnemyType = m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetType();
     float DamageRate;
-    if(SkillIndex==4){
-        UseSkill="掙扎";
-        DamageRate=1;
+    if (SkillIndex == 4) {
+        UseSkill = "掙扎";
+        DamageRate = 1;
     } else {
         UseSkill = EnemyPokemons[EnemyIndex]->GetSkill()[SkillIndex];
         DamageRate = PokeFunction::TypeDamage(EnemyPokemons[EnemyIndex]->GetSkillType()[SkillIndex], EnemyType);
@@ -58,7 +58,7 @@ void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
     m_TB->SetVisible(true);
     m_TB->Reload();
     m_TB->AddText(PokeName + "使出了" + UseSkill);
-    if(SkillIndex!=4 && m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetSkillClass()[SkillIndex] != "變化") {
+    if (SkillIndex != 4 && m_Enemy->GetPokemonBag()->GetPokemons()[EnemyIndex]->GetSkillClass()[SkillIndex] != "變化") {
         if (DamageRate == 0) {
             m_TB->AddText("沒有效果!");
         } else if (DamageRate >= 2.0) {
@@ -142,7 +142,7 @@ void FightTextUI::SetLose(const std::string &PlayerName) {
 void FightTextUI::SetNoHit(const std::string &PokeName) {
     m_TB->SetVisible(true);
 
-    auto temp =m_TB->GetText();
+    auto temp = m_TB->GetText();
     m_TB->Reload();
     m_TB->AddText(temp);
     m_TB->AddText("技能沒有命中!");
@@ -154,7 +154,7 @@ void FightTextUI::SetCatch() {
     m_TB->AddText("與訓練家的戰鬥不能使用精靈球!");
 }
 
-void FightTextUI::SetPPRunOut(int PokeIndex ,int SkillIndex) {
+void FightTextUI::SetPPRunOut(int PokeIndex, int SkillIndex) {
     m_TB->SetVisible(true);
     m_TB->Reload();
     m_TB->AddText(m_Player->GetPokemonBag()->GetPokemons()[PokeIndex]->GetSkill()[SkillIndex] + "的招式點數已用完!!");

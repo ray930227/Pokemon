@@ -53,7 +53,7 @@ void TextBox::SetPosition(const glm::vec2 &Position) {
 
 void TextBox::SetZIndex(float index) {
     m_BG->SetZIndex(index);
-    m_Text->SetZIndex(index+1);
+    m_Text->SetZIndex(index + 1);
 }
 
 void TextBox::ReadLines(const std::string &LinesPath) {
@@ -203,7 +203,7 @@ void TextBox::InputString() {
 }
 
 void TextBox::AddText(const std::string &str) {
-    auto s=str;
+    auto s = str;
     if (s.size() > 60) s.insert(s.begin() + (s.size() / 2 / 3 * 3), '\n');
     m_AllText.push_back(s);
     SetText(m_AllText[0]);

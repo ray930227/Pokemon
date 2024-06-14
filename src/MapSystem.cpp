@@ -40,7 +40,7 @@ MapSystem::MapSystem(const std::string &MapName) {
                     blocks[i][j]->SetZIndex(1);
                     blocks[i][j]->SetVisible(false);
                     blocks[i][j]->SetPosition(
-                            {(j - (int)blocks[i].size() / 2) * 72 + 36, ((int)blocks.size() / 2 - i) * 72 - 36});
+                            {(j - (int) blocks[i].size() / 2) * 72 + 36, ((int) blocks.size() / 2 - i) * 72 - 36});
                 }
             }
         }
@@ -87,24 +87,24 @@ std::string &MapSystem::GetCurrnetMap() {
 }
 
 int MapSystem::GetCurrentArea() {
-    auto currentMap=GetCurrnetMap();
+    auto currentMap = GetCurrnetMap();
     SetMap("MainMap");
-    auto PlayerPosition=GetPlayerPosition();
+    auto PlayerPosition = GetPlayerPosition();
     SetMap(currentMap);
     std::ifstream file(RESOURCE_DIR"/Map/MainMap/area.txt", std::ios::in);
     std::string tempStr;
-    int count=0;
+    int count = 0;
     while (std::getline(file, tempStr)) {
-        if(count==PlayerPosition.x){
+        if (count == PlayerPosition.x) {
             for (size_t i = 0; i < tempStr.size(); i += 2) {
-                if(i/2==PlayerPosition.y){
+                if (i / 2 == PlayerPosition.y) {
                     file.close();
                     return tempStr[i] - '0';
                 }
             }
-        }else if(count<PlayerPosition.y){
+        } else if (count < PlayerPosition.y) {
             count++;
-        } else{
+        } else {
             break;
         }
     }

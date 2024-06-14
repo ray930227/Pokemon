@@ -21,7 +21,8 @@ void App::Home() {
         m_NPCBromance->SetName("Bromance");
         m_CurrentState = State::INIT;
     }
-    if ((m_OpeningAnimationCount == 635 && Util::Input::IsKeyPressed(Util::Keycode::Z)) || Util::Input::IsKeyDown(Util::Keycode::F2)) {
+    if ((m_OpeningAnimationCount == 635 && Util::Input::IsKeyPressed(Util::Keycode::Z)) ||
+        Util::Input::IsKeyDown(Util::Keycode::F2)) {
         m_OpeningAnimation->SetVisible(false);
 
         m_Arrow->SetVisible(true);

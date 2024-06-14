@@ -30,7 +30,8 @@ void App::Fight() {
                 }
             }
 
-            if (m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() && !m_Player->GetPokemonBag()->IsAllPokeDie()) {
+            if (m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->IsPokemonDying() &&
+                !m_Player->GetPokemonBag()->IsAllPokeDie()) {
                 m_CurrentFighting = FightID::WILDFINISH;
             } else if (m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->IsPokemonDying()) {
                 bool Check = false; //IsAllPokeDie
@@ -125,8 +126,8 @@ void App::Fight() {
                     }
                     m_IsPlayerRound = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSpeed() >
                                       m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetSpeed() ||
-                            m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill()[m_PlayerSkillChoose] ==
-                            "電光一閃";
+                                      m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetSkill()[m_PlayerSkillChoose] ==
+                                      "電光一閃";
                     if (m_IsPlayerRound) {
                         m_FightPoke.first = m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon];
                         m_FightPoke.second = m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon];
@@ -214,10 +215,11 @@ void App::Fight() {
                                 CatachRate = 255;
                             } else {
                                 std::string Rate;
-                                int Line_num=1;
+                                int Line_num = 1;
                                 std::ifstream FileOfAbility(RESOURCE_DIR"/Pokemon/CatchRate.txt");
-                                while (std::getline(FileOfAbility, Rate)){
-                                    if (Line_num == m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetIDByInt()){
+                                while (std::getline(FileOfAbility, Rate)) {
+                                    if (Line_num ==
+                                        m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetIDByInt()) {
                                         break;
                                     }
                                     Line_num++;
@@ -229,7 +231,7 @@ void App::Fight() {
                                              (1.0 *
                                               m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetCurrentHP() /
                                               4);
-                                CatachRate*=stof(Rate)/256;
+                                CatachRate *= stof(Rate) / 256;
                             }
                             if (rand() % 256 <= CatachRate) {
                                 m_SuccessCatch = true;
@@ -241,7 +243,8 @@ void App::Fight() {
                                 m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) {
                                 m_CurrentFighting = FightID::HOME;
                             } else {
-                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
+                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon,
+                                                        m_EnemySkillChoose);
                                 Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
                                          m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
                                          m_PlayerBuff,
@@ -259,7 +262,8 @@ void App::Fight() {
                                 m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetCurrentHP()) {
                                 m_CurrentFighting = FightID::HOME;
                             } else {
-                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
+                                m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon,
+                                                        m_EnemySkillChoose);
                                 Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
                                          m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
                                          m_PlayerBuff,
@@ -388,12 +392,12 @@ void App::Fight() {
                                     m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                     }
                     if (m_Timer == 170) {
-                        m_PlayerBuff["攻擊"]=1.0;
-                        m_PlayerBuff["命中率"]=1.0;
-                        m_PlayerBuff["閃避率"]=1.0;
-                        m_PlayerBuff["防禦"]=1.0;
-                        m_PlayerBuff["特殊"]=1.0;
-                        m_PlayerBuff["速度"]=1.0;
+                        m_PlayerBuff["攻擊"] = 1.0;
+                        m_PlayerBuff["命中率"] = 1.0;
+                        m_PlayerBuff["閃避率"] = 1.0;
+                        m_PlayerBuff["防禦"] = 1.0;
+                        m_PlayerBuff["特殊"] = 1.0;
+                        m_PlayerBuff["速度"] = 1.0;
                         m_FightMainUI->SetPlayerPokeScale({1, 1});
                         m_FightMainUI->SetPlayerHPUIVisible(true);
                         m_FightMainUI->SetPlayerHPTextVisible(true);
@@ -404,7 +408,7 @@ void App::Fight() {
             }
             if (!m_FightTextUI->GetTBVisibility()) {
                 m_Timer = 0;
-                if(m_Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()){
+                if (m_Player->GetPokemonBag()->GetPokemons()[m_PreviousPlayerPokemon]->IsPokemonDying()) {
                     m_FightMainUI->SetArrowVisible(true);
                     m_CurrentFighting = FightID::HOME;
                 } else {
@@ -412,7 +416,8 @@ void App::Fight() {
                             m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetType());
                     m_FightTextUI->SetEnemy(m_CurrentNPCPokemon, m_CurrentPlayerPokemon, m_EnemySkillChoose);
                     Fighting(m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon],
-                             m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff, m_PlayerBuff,
+                             m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon], m_EnemyBuff,
+                             m_PlayerBuff,
                              m_EnemySkillChoose);
                     m_FightCounter = 1;
                     m_IsChangePokemon = false;
@@ -589,7 +594,8 @@ void App::Fight() {
                 } else {
                     m_Timer++;
                     if (m_Timer == 1) {
-                        m_SFX->Play("PokeSound" + m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
+                        m_SFX->Play(
+                                "PokeSound" + m_Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetID());
                     } else if (m_Timer == 60) {
                         m_FightMainUI->SetEnemyPokeScale({1, 1});
                         m_FightMainUI->SetEnemyHPUIVisible(true);
@@ -649,12 +655,12 @@ void App::Fight() {
                         m_Enemy->GetPokemonBag()->SetPokemons({});
                         m_CurrentState = State::UPDATE;
                     } else {
-                        m_EnemyBuff["攻擊"]=1.0;
-                        m_EnemyBuff["命中率"]=1.0;
-                        m_EnemyBuff["閃避率"]=1.0;
-                        m_EnemyBuff["防禦"]=1.0;
-                        m_EnemyBuff["特殊"]=1.0;
-                        m_EnemyBuff["速度"]=1.0;
+                        m_EnemyBuff["攻擊"] = 1.0;
+                        m_EnemyBuff["命中率"] = 1.0;
+                        m_EnemyBuff["閃避率"] = 1.0;
+                        m_EnemyBuff["防禦"] = 1.0;
+                        m_EnemyBuff["特殊"] = 1.0;
+                        m_EnemyBuff["速度"] = 1.0;
                         m_FightMainUI->SetEnemyPokeImage(m_CurrentNPCPokemon);
                         m_FightMainUI->SetTextEnemyPokeName(m_CurrentNPCPokemon);
                         m_FightMainUI->SetEnemyHPScale(m_CurrentNPCPokemon);

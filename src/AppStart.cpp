@@ -30,12 +30,12 @@ void App::Start() {
     m_tempImage->SetVisible(false);
     m_Root.AddChild(m_tempImage);
 
-    m_ReadSaveBG=std::make_shared<Image>(RESOURCE_DIR"/Background/ReadSaveBG.png");
+    m_ReadSaveBG = std::make_shared<Image>(RESOURCE_DIR"/Background/ReadSaveBG.png");
     m_ReadSaveBG->SetVisible(false);
     m_ReadSaveBG->SetZIndex(50);
     m_Root.AddChild(m_ReadSaveBG);
 
-    m_Arrow=std::make_shared<Image>(RESOURCE_DIR"/Background/BlockArrow.png");
+    m_Arrow = std::make_shared<Image>(RESOURCE_DIR"/Background/BlockArrow.png");
     m_Arrow->SetVisible(false);
     m_Arrow->SetZIndex(51);
     m_Arrow->SetPosition({-300, 290});
@@ -100,7 +100,7 @@ void App::Start() {
     m_Player->GetImage()->SetVisible(false);
     m_Root.AddChild(m_Player->GetImage());
 
-    m_Enemy=std::make_shared<Character>();
+    m_Enemy = std::make_shared<Character>();
 
     m_PokeBagUI = std::make_shared<PokeBagUI>(m_Player);
     m_Root.AddChildren(m_PokeBagUI->GetChildren());
@@ -112,7 +112,7 @@ void App::Start() {
     m_Root.AddChildren(m_FightMainUI->GetChildren());
 
     m_FightTextUI = std::make_shared<FightTextUI>(m_Player, m_Enemy);
-    for(auto &i:m_FightTextUI->GetChildren()){
+    for (auto &i: m_FightTextUI->GetChildren()) {
         m_Root.AddChildren(i);
     }
 
@@ -159,14 +159,18 @@ void App::Start() {
     m_ComputerUI = std::make_shared<ComputerUI>(m_Player);
     m_Root.AddChildren(m_ComputerUI->GetChildren());
 
-    m_SettingUI=std::make_shared<SettingUI>(m_Player, m_ComputerUI);
+    m_SettingUI = std::make_shared<SettingUI>(m_Player, m_ComputerUI);
     m_Root.AddChildren(m_SettingUI->GetChildren());
 
 
-    std::vector<std::pair<std::string,float>> tempPairs={{"攻擊",1.0},{"命中率",1.0},{"閃避率",1.0},
-                                                         {"防禦",1.0},{"特殊",1.0},{"速度",1.0},};
+    std::vector<std::pair<std::string, float>> tempPairs = {{"攻擊",   1.0},
+                                                            {"命中率", 1.0},
+                                                            {"閃避率", 1.0},
+                                                            {"防禦",   1.0},
+                                                            {"特殊",   1.0},
+                                                            {"速度",   1.0},};
 
-    for(auto &i:tempPairs){
+    for (auto &i: tempPairs) {
         m_PlayerBuff.insert(i);
         m_EnemyBuff.insert(i);
     }

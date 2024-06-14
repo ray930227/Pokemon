@@ -158,7 +158,7 @@ void FightMainUI::SetBallAnimationVisible(bool visible, bool isPlayer) {
 }
 
 void FightMainUI::SetCatchBallAnimationVisible(bool visible) {
-    m_IsCatching= 0;
+    m_IsCatching = 0;
     m_CatchBallAnimation->SetVisible(visible);
     if (visible) {
         m_CatchBallAnimation->Reset();
@@ -347,7 +347,7 @@ void FightMainUI::RunCatchPokemon(bool SuccessCatch, int EnemyIndex) {
     if (m_Counter == 0) {
         m_FightTB->SetVisible(true);
         m_FightTB->Reload();
-        m_FightTB->AddText(m_Player->GetName()+"使用了精靈球!");
+        m_FightTB->AddText(m_Player->GetName() + "使用了精靈球!");
         m_CatchBallAnimation->SetPosition({-210, -10});
         m_Counter++;
     }
@@ -392,7 +392,7 @@ void FightMainUI::RunCatchPokemon(bool SuccessCatch, int EnemyIndex) {
             } else {
                 m_IsCatching = 1;
             }
-            m_Counter=0;
+            m_Counter = 0;
             m_FightTB->Next();
         }
     }

@@ -19,18 +19,18 @@ void App::Loading() {
             m_FightMainUI->ReSetWildPosition();
             m_FightSkillUI->ReSetArrow();
             m_PokeBagUI->ReSetCurrentPokemon();
-            m_PlayerBuff["攻擊"]=1.0;
-            m_PlayerBuff["命中率"]=1.0;
-            m_PlayerBuff["閃避率"]=1.0;
-            m_PlayerBuff["防禦"]=1.0;
-            m_PlayerBuff["特殊"]=1.0;
-            m_PlayerBuff["速度"]=1.0;
-            m_EnemyBuff["攻擊"]=1.0;
-            m_EnemyBuff["命中率"]=1.0;
-            m_EnemyBuff["閃避率"]=1.0;
-            m_EnemyBuff["防禦"]=1.0;
-            m_EnemyBuff["特殊"]=1.0;
-            m_EnemyBuff["速度"]=1.0;
+            m_PlayerBuff["攻擊"] = 1.0;
+            m_PlayerBuff["命中率"] = 1.0;
+            m_PlayerBuff["閃避率"] = 1.0;
+            m_PlayerBuff["防禦"] = 1.0;
+            m_PlayerBuff["特殊"] = 1.0;
+            m_PlayerBuff["速度"] = 1.0;
+            m_EnemyBuff["攻擊"] = 1.0;
+            m_EnemyBuff["命中率"] = 1.0;
+            m_EnemyBuff["閃避率"] = 1.0;
+            m_EnemyBuff["防禦"] = 1.0;
+            m_EnemyBuff["特殊"] = 1.0;
+            m_EnemyBuff["速度"] = 1.0;
 
             m_CurrentLoading = LoadingID::LOADING;
             break;
@@ -84,13 +84,13 @@ void App::Loading() {
                                         m_Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetID());
                         }
                         m_FightMainUI->ZoomImage(true);
-                        m_FightMainUI->SetBallAnimationVisible(false,true);
+                        m_FightMainUI->SetBallAnimationVisible(false, true);
                         m_FightMainUI->SetPlayerPokeVisible(true);
                         m_FightMainUI->SetPlayerHPUIVisible(true);
                         m_FightMainUI->SetPlayerPokeNameVisible(true);
                         m_FightMainUI->SetPlayerHPTextVisible(true);
                     } else if (m_FightMainUI->GetPlayerPokeScale().x >= 1) {
-                        m_Timer ++;
+                        m_Timer++;
                         m_FightMainUI->SetPlayerPokeScale({1.0, 1.0});
                         if (m_Timer == 40) {
                             m_LoadingUI->Next();

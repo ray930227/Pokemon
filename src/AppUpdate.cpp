@@ -55,7 +55,7 @@ void App::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::A)) {
         m_Player->SetSpeed(m_Player->GetSpeed() == 15 ? 5 : 15);
-        if(m_Player->GetSpeed() == 5)
+        if (m_Player->GetSpeed() == 5)
             LOG_DEBUG("Speed UP!");
         else
             LOG_DEBUG("Speed DOWN!");

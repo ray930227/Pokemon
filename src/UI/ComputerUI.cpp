@@ -123,13 +123,13 @@ void ComputerUI::ChooseAction() {
             m_Arrows[0]->SetVisible(false);
             m_TB->SetVisible(false);
         } else {
-            if(m_Arrows[0]->GetPosition().y == 194 && m_Player->GetPokemonBag()->GetPokemons().size() == 0){
+            if (m_Arrows[0]->GetPosition().y == 194 && m_Player->GetPokemonBag()->GetPokemons().size() == 0) {
                 m_TB->SetVisible(true);
                 m_TB->SetText("你身上沒有神奇寶貝!!!");
             } else if (m_Arrows[0]->GetPosition().y == 194 && m_Player->GetPokemonBag()->GetPokemons().size() == 1) {
                 m_TB->SetVisible(true);
                 m_TB->SetText("你身上只有一支神奇寶貝\n身上不能沒有神奇寶貝!!!");
-            } else if(m_Arrows[0]->GetPosition().y == 290 && m_Player->GetPokemonBag()->GetPokemons().size() == 6){
+            } else if (m_Arrows[0]->GetPosition().y == 290 && m_Player->GetPokemonBag()->GetPokemons().size() == 6) {
                 m_TB->SetVisible(true);
                 m_TB->SetText("你身上已經有6支神奇寶貝\n帶不動更多了!!!");
             } else if (m_Arrows[0]->GetPosition().y != 194 && m_ComputerPokemons.empty()) {
@@ -223,7 +223,7 @@ void ComputerUI::Action() {
     } else {
         m_ComputerPokemons.erase(m_ComputerPokemons.begin() + index);
     }
-    if ((m_Arrows[0]->GetPosition().y == 194 && PlayerPokemons.size() == 1)||
+    if ((m_Arrows[0]->GetPosition().y == 194 && PlayerPokemons.size() == 1) ||
         (m_Arrows[0]->GetPosition().y != 194 && m_ComputerPokemons.size() == 0) ||
         (m_Arrows[0]->GetPosition().y == 290 && PlayerPokemons.size() == 6)) {
         m_Arrows[1]->SetVisible(false);

@@ -20,7 +20,7 @@ Pokemon::Pokemon(const std::string &ID) {
     std::ifstream FileOfAbility(RESOURCE_DIR"/Pokemon/PokemonAbility.txt");
     int Value[5];
     for (int r = 0; r < 151; r++) {
-        if(r == m_Ability["ID"]) {
+        if (r == m_Ability["ID"]) {
             for (int c = 0; c < 5; c++) {
                 FileOfAbility >> Value[c];
             }
@@ -378,12 +378,12 @@ bool Pokemon::IsGetNewSkill() {
 }
 
 int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
-    if(IsPPAllZero()) return 4;
+    if (IsPPAllZero()) return 4;
     int MostPowerful = INT_MIN;
     int Damage;
     int EnemySkillChoose = 0;
     for (size_t i = 0; i < m_Skills.size(); i++) {
-        if (m_SkillDamage[i] != "變化" && std::stoi(m_CurrentSkillPPs[i])>0) {
+        if (m_SkillDamage[i] != "變化" && std::stoi(m_CurrentSkillPPs[i]) > 0) {
             Damage = round(std::stof(m_SkillDamage[i]) * PokeFunction::TypeDamage(m_SkillTypes[i], EnemyType));
             if (Damage > MostPowerful) {
                 MostPowerful = Damage;
@@ -391,9 +391,9 @@ int Pokemon::CaculateDamge(const std::vector<std::string> &EnemyType) {
             }
         }
     }
-    if(MostPowerful == INT_MIN) {
+    if (MostPowerful == INT_MIN) {
         for (size_t i = 0; i < 4; i++) {
-            if(std::stoi(m_CurrentSkillPPs[i])>0)
+            if (std::stoi(m_CurrentSkillPPs[i]) > 0)
                 return i;
         }
     }
@@ -638,7 +638,7 @@ int Pokemon::FightDamge(const std::shared_ptr<Pokemon> &EnemyPokemon, int SkillC
 }
 
 void Pokemon::SetCurrentSkillPP(std::vector<std::string> CurrentSkillPP) {
-    m_CurrentSkillPPs=CurrentSkillPP;
+    m_CurrentSkillPPs = CurrentSkillPP;
 }
 
 void Pokemon::ReduceCurrentHP(int Damage) {
@@ -649,7 +649,7 @@ void Pokemon::ReduceCurrentHP(int Damage) {
 }
 
 bool Pokemon::IsPPAllZero() {
-    for (const auto& PP: m_CurrentSkillPPs) {
+    for (const auto &PP: m_CurrentSkillPPs) {
         if (std::stoi(PP) != 0) {
             return false;
         }

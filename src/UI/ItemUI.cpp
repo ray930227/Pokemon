@@ -58,8 +58,8 @@ void ItemUI::Start(unsigned mode) {
     m_RowTopIndex = 0;
     for (auto &i: m_Texts)
         i->SetVisible(true);
-    m_mode=mode;
-    m_IsXLeave= false;
+    m_Mode = mode;
+    m_IsXLeave = false;
     Updata();
 }
 
@@ -73,7 +73,7 @@ void ItemUI::Run() {
         }
     } else if (m_PokeBagUI->GetVisible()) {
         m_PokeBagUI->Run(0);
-        if (!m_PokeBagUI->GetVisible() && m_PokeBagUI->GetDecision()!=-1) {
+        if (!m_PokeBagUI->GetVisible() && m_PokeBagUI->GetDecision() != -1) {
             size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
             int id = m_Player->GetItemBag()->GetItemID(m_Items[index].first);
             auto tempPokemon = m_Player->GetPokemonBag()->GetPokemons()[m_PokeBagUI->GetDecision()];
@@ -114,7 +114,7 @@ void ItemUI::Updata() {
     for (int i = 0; i < 256; i++) {
         int Quantity = ItemBag->GetItemQuantity(i);
         std::string ItemName = ItemBag->GetItemName(i);
-        if (Quantity > 0 && (m_mode==0 || (m_mode==1 && ((i>=1 && i<=4) || (i>=11 && i<=20))))) {
+        if (Quantity > 0 && (m_Mode == 0 || (m_Mode == 1 && ((i >= 1 && i <= 4) || (i >= 11 && i <= 20))))) {
             m_Items.push_back({ItemName, Quantity});
         }
     }
@@ -158,14 +158,14 @@ void ItemUI::ChooseItem() {
             m_PokeBagUI->SetVisible(true);
         } else {
             SetVisible(true);
-            if(m_mode == 0) {
+            if (m_Mode == 0) {
                 if (id <= 4) {
                     m_TB->SetText("捕捉球只能在戰鬥中使用");
                 } else {
                     m_TB->SetText("該道具無法使用");
                 }
                 m_TB->SetVisible(true);
-            } else if(m_mode == 1) {
+            } else if (m_Mode == 1) {
                 if (id <= 4) {
                     SetVisible(false);
                 }
@@ -177,7 +177,7 @@ void ItemUI::ChooseItem() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::X)) {
         SetVisible(false);
-        m_IsXLeave= true;
+        m_IsXLeave = true;
     }
 
 }
@@ -205,7 +205,7 @@ void ItemUI::ChangeSkill() {
 void ItemUI::Action() {
     size_t index = m_RowTopIndex + 3 - (m_Arrow->GetPosition().y - 2) / 96;
     int id = m_Player->GetItemBag()->GetItemID(m_Items[index].first);
-    if(id==196)
+    if (id == 196)
         m_Player->GetItemBag()->AddItemQuantity(id, -1);
     m_Player->GetItemBag()->AddItemQuantity(id, -1);
     auto tempPokemon = m_Player->GetPokemonBag()->GetPokemons()[m_PokeBagUI->GetDecision()];

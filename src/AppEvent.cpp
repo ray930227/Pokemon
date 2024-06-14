@@ -41,7 +41,8 @@ void App::Event() {
                 }
             }
             m_MapSystem->Move(m_Displacement);
-            if (m_DisplacementCount == m_Player->GetSpeed() / 4 || m_DisplacementCount == m_Player->GetSpeed() / 3 * 2) {
+            if (m_DisplacementCount == m_Player->GetSpeed() / 4 ||
+                m_DisplacementCount == m_Player->GetSpeed() / 3 * 2) {
                 size_t FrameCount = m_Player->GetImage()->GetFrameCount();
                 size_t CurrentFrameIndex = m_Player->GetImage()->GetCurrentFrameIndex();
                 m_Player->GetImage()->SetCurrentFrame((CurrentFrameIndex + 1) % FrameCount);
@@ -153,9 +154,9 @@ void App::Event() {
                                        77, 79, 81, 83, 84, 86, 88, 90, 92, 95, 96, 98, 100, 102, 103, 104, 106, 107,
                                        108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
                                        128, 129, 131, 132};
-            int r ;
-            if(m_Player->GetItemBag()->GetItemQuantity("藍色徽章") == 0) r= rand() % tempID.size();
-            else r=rand()%151;
+            int r;
+            if (m_Player->GetItemBag()->GetItemQuantity("藍色徽章") == 0) r = rand() % tempID.size();
+            else r = rand() % 151;
             std::stringstream ToString;
             ToString << std::setw(3) << std::setfill('0') << tempID[r];
             std::string StringID = ToString.str();
@@ -163,8 +164,8 @@ void App::Event() {
             int average = 0;
             for (auto &i: m_Player->GetPokemonBag()->GetPokemons())
                 average += i->GetLV();
-            int lv= average / m_Player->GetPokemonBag()->GetPokemons().size() - 2 + rand() % 5;
-            if(lv>100) lv=100;
+            int lv = average / m_Player->GetPokemonBag()->GetPokemons().size() - 2 + rand() % 5;
+            if (lv > 100) lv = 100;
             temp->SetLevel(lv);
             m_Enemy->GetPokemonBag()->SetPokemons({temp});
             m_CurrentLoading = LoadingID::INIT;
@@ -204,24 +205,24 @@ void App::Event() {
                 m_TB->SetText("大木博士的實驗室");
             } else if (TargetPosition.x == 13 && TargetPosition.y == 77) {
                 m_TB->SetText("深灰市神奇寶貝道館館主：小剛\n如岩石般强大的男人。");
-            } else if(TargetPosition.x == 69 && TargetPosition.y == 69) {
+            } else if (TargetPosition.x == 69 && TargetPosition.y == 69) {
                 m_TB->SetText("↑↑↑\n深灰市");
-            } else if(TargetPosition.x == 35 && TargetPosition.y == 71) {
+            } else if (TargetPosition.x == 35 && TargetPosition.y == 71) {
                 m_TB->SetText("這裡是深灰市。\n深灰即是堅若磐石的灰黑之色。");
-            } else if(TargetPosition.x == 23 && TargetPosition.y == 67) {
+            } else if (TargetPosition.x == 23 && TargetPosition.y == 67) {
                 m_TB->AddText("戰鬥招式的使用次數受招式點數的限制，它的簡稱ＰＰ。");
                 m_TB->AddText("想要補充ＰＰ的話，那就到寶可夢中心，讓你的寶可夢好好休息吧！");
-            } else if(TargetPosition.x == 7 && TargetPosition.y == 69) {
+            } else if (TargetPosition.x == 7 && TargetPosition.y == 69) {
                 m_TB->AddText("前方不可通行!!!");
-            } else if(TargetPosition.x == 23 && TargetPosition.y == 43) {
+            } else if (TargetPosition.x == 23 && TargetPosition.y == 43) {
                 m_TB->SetText("歡迎來到華藍市");
-            } else if(TargetPosition.x == 33 && TargetPosition.y == 29) {
+            } else if (TargetPosition.x == 33 && TargetPosition.y == 29) {
                 m_TB->SetText("這裡是華藍市。\n華藍即是神秘莫測的水藍之色。");
-            } else if(TargetPosition.x == 13 && TargetPosition.y == 25) {
+            } else if (TargetPosition.x == 13 && TargetPosition.y == 25) {
                 m_TB->AddText("在寶可夢進化過程中，連按X鍵可以取消進化。");
-            } else if(TargetPosition.x == 21 && TargetPosition.y == 21) {
+            } else if (TargetPosition.x == 21 && TargetPosition.y == 21) {
                 m_TB->SetText("華藍市神奇寶貝道館館主：小霞\n俏皮的美人魚。");
-            } else if(TargetPosition.x == 27 && TargetPosition.y == 35) {
+            } else if (TargetPosition.x == 27 && TargetPosition.y == 35) {
                 m_TB->AddText("超級球提高了收服率，試試用它來抓那些很難收服的神奇寶貝。");
             } else {
                 m_TB->SetText("(" + std::to_string((int) TargetPosition.x) + "," +
@@ -233,7 +234,7 @@ void App::Event() {
 
         if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
             m_TB->Next();
-            if(!m_TB->GetVisibility()) {
+            if (!m_TB->GetVisibility()) {
                 m_CurrentEvent = EventID::NONE;
                 m_CurrentState = State::UPDATE;
             }
@@ -317,9 +318,9 @@ void App::Event() {
                         m_Player->GetPokemonBag()->GetPokemons()[0]->SetLevel(8);
                         m_Root.RemoveChild(m_MapSystem->GetBlocks()[TargetPosition.x][TargetPosition.y]);
                         m_TB->ReadLines(Lines);
-                        auto poke=m_Player->GetPokemonBag()->GetPokemons()[0];
-                        auto Ability=poke->GetAbility();
-                        Ability["IV"]=31;
+                        auto poke = m_Player->GetPokemonBag()->GetPokemons()[0];
+                        auto Ability = poke->GetAbility();
+                        Ability["IV"] = 31;
                         poke->SetAbility(Ability);
                         while (m_TB->GetVisibility()) {
                             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
@@ -380,7 +381,8 @@ void App::Event() {
                         context->Update();
                     }
                     m_NPCOak->GetImage()->SetPosition(
-                            {round(m_NPCOak->GetImage()->GetPosition().x), round(m_NPCOak->GetImage()->GetPosition().y)});
+                            {round(m_NPCOak->GetImage()->GetPosition().x),
+                             round(m_NPCOak->GetImage()->GetPosition().y)});
                 }
 
             }
@@ -474,7 +476,7 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::NPC) {
         //region
-        m_IsWildPokemon= false;
+        m_IsWildPokemon = false;
         if (m_TB->GetVisibility()) {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
@@ -488,26 +490,26 @@ void App::Event() {
                     }
                 }
             }
-        } else if (currnetMap == "OakLab"){
+        } else if (currnetMap == "OakLab") {
             m_TB->Reload();
             m_TB->SetVisible(true);
-            if(m_Player->GetPokemonBag()->GetPokemons().size() == 0){
+            if (m_Player->GetPokemonBag()->GetPokemons().size() == 0) {
                 m_TB->AddText("喔你來啦!");
                 m_TB->AddText("我曾經也是個神奇寶貝訓練家");
                 m_TB->AddText("如今我只剩三隻神奇寶貝了");
                 m_TB->AddText("旁邊那三個神奇寶貝球挑一隻送你吧!");
-            } else if(m_Player->GetItemBag()->GetItemQuantity("寶可夢圖鑑") == 0){
+            } else if (m_Player->GetItemBag()->GetItemQuantity("寶可夢圖鑑") == 0) {
                 m_Player->GetItemBag()->AddItemQuantity("寶可夢圖鑑", 1);
                 m_TB->AddText("對了!");
                 m_TB->AddText("這個精靈圖鑑給你");
                 m_TB->AddText("只要獲得新的神奇寶貝，精靈圖鑑就會更新");
                 m_TB->AddText("祝你能收集到所有的神奇寶貝");
-            } else{
+            } else {
                 m_TB->AddText("努力的訓練你擁有的神奇寶貝並擊敗道館館主吧!");
             }
         } else if (currnetMap == "GYM1") {
             if (TargetPosition.x == 2 && TargetPosition.y == 7) {
-                if(m_Player->GetItemBag()->GetItemQuantity(21) > 0) {
+                if (m_Player->GetItemBag()->GetItemQuantity(21) > 0) {
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/Brock.txt");
                 } else {
                     std::vector<std::shared_ptr<Pokemon>> Pokemons;
@@ -528,12 +530,12 @@ void App::Event() {
                 Pokemons[0]->SetLevel(11);
                 Pokemons[1]->SetLevel(11);
                 Pokemons[0]->SetSkillByName({"抓"});
-                Pokemons[1]->SetSkillByName({"抓","潑沙"});
+                Pokemons[1]->SetSkillByName({"抓", "潑沙"});
                 m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
                 m_Enemy->SetName("童子軍");
                 m_TB->Reload();
                 m_TB->AddText("來決鬥吧!!!");
-            } else{
+            } else {
                 m_TB->Reload();
                 m_TB->AddText("這個道館得的館主是個很強悍的男人!");
             }
@@ -541,10 +543,10 @@ void App::Event() {
         } else if (currnetMap == "GYM2") {
             m_TB->Reload();
             m_TB->SetVisible(true);
-            if(TargetPosition.x == 3 && TargetPosition.y == 7){
-                if(m_Player->GetItemBag()->GetItemQuantity(21) == 0) {
+            if (TargetPosition.x == 3 && TargetPosition.y == 7) {
+                if (m_Player->GetItemBag()->GetItemQuantity(21) == 0) {
                     m_TB->AddText("你連深灰市道館館主都還沒打贏就想挑戰我?");
-                } else if(m_Player->GetItemBag()->GetItemQuantity(22) > 0){
+                } else if (m_Player->GetItemBag()->GetItemQuantity(22) > 0) {
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/Misty.txt");
                 } else {
                     std::vector<std::shared_ptr<Pokemon>> Pokemons;
@@ -552,38 +554,38 @@ void App::Event() {
                     Pokemons.push_back(std::make_shared<Pokemon>("121"));
                     Pokemons[0]->SetLevel(18);
                     Pokemons[1]->SetLevel(21);
-                    Pokemons[0]->SetSkillByName({"撞擊","水槍"});
-                    Pokemons[1]->SetSkillByName({"撞擊","水槍","泡沫光線"});
+                    Pokemons[0]->SetSkillByName({"撞擊", "水槍"});
+                    Pokemons[1]->SetSkillByName({"撞擊", "水槍", "泡沫光線"});
                     m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
                     m_Enemy->SetName("小霞");
                     m_TB->ReadLines(RESOURCE_DIR"/Lines/GYM2.txt");
                 }
-            } else{
+            } else {
                 std::vector<std::shared_ptr<Pokemon>> Pokemons;
                 Pokemons.push_back(std::make_shared<Pokemon>("118"));
                 Pokemons[0]->SetLevel(19);
-                Pokemons[0]->SetSkillByName({"搖尾巴","啄","超音波"});
+                Pokemons[0]->SetSkillByName({"搖尾巴", "啄", "超音波"});
                 m_Enemy->GetPokemonBag()->SetPokemons(Pokemons);
                 m_Enemy->SetName("女童軍");
                 m_TB->AddText("我比你想像中還要厲害!來對決吧!!");
             }
-        } else if(currnetMap=="PokeCenter"){
+        } else if (currnetMap == "PokeCenter") {
             m_TB->Reload();
             m_TB->SetVisible(true);
-            if(TargetPosition.x == 8 && TargetPosition.y == 1){
+            if (TargetPosition.x == 8 && TargetPosition.y == 1) {
                 m_TB->AddText("我的波波昏厥了，所以我來這裡治療。");
-            } else if(TargetPosition.x == 9 && TargetPosition.y == 6){
+            } else if (TargetPosition.x == 9 && TargetPosition.y == 6) {
                 m_TB->AddText("媽媽告訴我不要跟陌生人講話!!!");
-            } else if(TargetPosition.x == 7 && TargetPosition.y == 9){
-                if(m_Player->GetItemBag()->GetItemQuantity("秘傳學習器０１") == 0) {
+            } else if (TargetPosition.x == 7 && TargetPosition.y == 9) {
+                if (m_Player->GetItemBag()->GetItemQuantity("秘傳學習器０１") == 0) {
                     m_TB->AddText("年輕人你相信機緣嗎");
                     m_TB->AddText("這個招式我只教你一人");
                     m_TB->AddText("秘傳學習器０１（居合斬）");
                     m_Player->GetItemBag()->AddItemQuantity("秘傳學習器０１", 1);
-                } else{
+                } else {
                     m_TB->AddText("你有好好的利用居合斬嗎?");
                 }
-            } else{
+            } else {
                 m_TB->AddText("這裡只有員工可以進入!");
             }
         }
@@ -633,7 +635,7 @@ void App::Event() {
         //region
         if (m_SettingUI->GetVisible()) {
             m_SettingUI->Run();
-            if(m_SettingUI->IsSave()){
+            if (m_SettingUI->IsSave()) {
                 m_SettingUI->Save(m_Player, m_NPCBromance, m_ComputerUI, m_MapSystem);
             }
             if (!m_SettingUI->GetVisible()) {
@@ -650,9 +652,9 @@ void App::Event() {
             if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
                 if (!m_TB->GetVisibility()) {
-                    if(m_Player->GetItemBag()->GetItemQuantity("灰色徽章") > 0 &&
-                       m_Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0 &&
-                            currnetMap == "GYM2" && TargetPosition.x == 3 && TargetPosition.y == 7) {
+                    if (m_Player->GetItemBag()->GetItemQuantity("灰色徽章") > 0 &&
+                        m_Player->GetItemBag()->GetItemQuantity("藍色徽章") > 0 &&
+                        currnetMap == "GYM2" && TargetPosition.x == 3 && TargetPosition.y == 7) {
                         m_CurrentEvent = EventID::GAME_COMPLETED;
                     } else {
                         m_CurrentState = State::UPDATE;
@@ -669,22 +671,22 @@ void App::Event() {
                 m_Player->GetItemBag()->AddItemQuantity("灰色徽章", 1);
             } else {
                 m_TB->AddText("可惡，居然輸了!");
-                int money=rand()%100+150;
+                int money = rand() % 100 + 150;
                 m_TB->AddText("戰勝了訓練家，獲得了$" + std::to_string(money));
                 m_Player->SetMoney(m_Player->GetMoney() + money);
             }
         } else if (currnetMap == "GYM2") {
             m_TB->Reload();
             m_TB->SetVisible(true);
-            if(TargetPosition.x == 3 && TargetPosition.y == 7){
+            if (TargetPosition.x == 3 && TargetPosition.y == 7) {
                 m_TB->AddText("哇！你太厲害了!");
                 m_TB->AddText("好吧!");
                 m_TB->AddText("你可以拿到藍色徽章來證明你打敗了我！");
                 m_Player->GetItemBag()->AddItemQuantity("藍色徽章", 1);
 
-            } else{
+            } else {
                 m_TB->AddText("你比我想像中還要厲害!");
-                int money=rand()%100+150;
+                int money = rand() % 100 + 150;
                 m_TB->AddText("戰勝了訓練家，獲得了$" + std::to_string(money));
                 m_Player->SetMoney(m_Player->GetMoney() + money);
             }
@@ -715,10 +717,10 @@ void App::Event() {
         //endregion
     } else if (m_CurrentEvent == EventID::GAME_COMPLETED) {
         //region
-        if(m_TB->GetVisibility()){
-            if(Util::Input::IsKeyDown(Util::Keycode::Z)){
+        if (m_TB->GetVisibility()) {
+            if (Util::Input::IsKeyDown(Util::Keycode::Z)) {
                 m_TB->Next();
-                if(!m_TB->GetVisibility()){
+                if (!m_TB->GetVisibility()) {
                     m_WhiteBG->SetVisible(false);
                     m_WhiteBG->SetImage(RESOURCE_DIR"/Background/WhiteBG.png");
                     m_Player->GetImage()->SetVisible(true);
@@ -726,7 +728,7 @@ void App::Event() {
                     m_CurrentEvent = EventID::NONE;
                 }
             }
-        } else{
+        } else {
             m_WhiteBG->SetVisible(true);
             m_WhiteBG->SetImage(RESOURCE_DIR"/Background/Congratulations.png");
             m_SFX->Play("victory");
