@@ -14,3 +14,15 @@ Debug Mode
 遭遇野生神奇寶貝:在靜止的時候使用按S來切換，按一次不遇怪，再按一次遇怪。
 
 超強隊伍:在靜止的時候使用按D，背包內神奇寶貝會全部變成滿等神獸。
+
+注意事項
+------
+請調整/PTSD/include/condfig.hpp裡的TITLE、WINDOW_WIDTH以及WINDOW_HEIGHT以達到最佳遊玩體驗 ，調整方式如下:
+
+
+```C++=13
+constexpr const char *TITLE = "Pokemon";
+
+constexpr unsigned int WINDOW_WIDTH = 720;
+constexpr unsigned int WINDOW_HEIGHT = 720;
+```
