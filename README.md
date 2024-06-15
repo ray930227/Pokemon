@@ -15,6 +15,8 @@ Debug Mode
 
 超強隊伍:在靜止的時候使用按D，背包內神奇寶貝會全部變成滿等神獸。
 
+開頭動畫:使用F2可以直接跳過開頭動畫，使用F1可以直接跳過開場動面並跳過命名以及介紹開始新遊戲。
+
 注意事項
 ------
 請調整/PTSD/include/condfig.hpp裡的TITLE、WINDOW_WIDTH以及WINDOW_HEIGHT以達到最佳遊玩體驗 ，調整方式如下:
