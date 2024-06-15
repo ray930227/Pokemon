@@ -66,6 +66,7 @@ void App::Update() {
         LOG_DEBUG("Encounterable:{}", encounterable);
     }
 
+
     if (Util::Input::IsKeyDown(Util::Keycode::D)) {
         LOG_DEBUG("It's so powerful!!!!!!!!");
         std::vector<std::shared_ptr<Pokemon>> Pokemons;
@@ -79,6 +80,23 @@ void App::Update() {
             Poke->SetLevel(100);
         }
         Player->GetPokemonBag()->SetPokemons(Pokemons);
+    }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::G)) {
+        std::shared_ptr<Pokemon> PlayerPoke = std::make_shared<Pokemon>("007");
+        std::shared_ptr<Pokemon> PlayerPoke2 = std::make_shared<Pokemon>("025");
+        PlayerPoke->SetIV(31);
+        PlayerPoke2->SetIV(31);
+        PlayerPoke->SetLevel(8);
+        PlayerPoke2->SetLevel(8);
+        Player->GetPokemonBag()->addPomekon(PlayerPoke);
+        Player->GetPokemonBag()->addPomekon(PlayerPoke2);
+    }
+
+    if (Util::Input::IsKeyDown(Util::Keycode::H)) {
+        Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->SetCurrentEXP(
+                Player->GetPokemonBag()->GetPokemons()[m_CurrentPlayerPokemon]->GetEXP()-1
+                );
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||

@@ -409,7 +409,9 @@ std::pair<bool, int> Pokemon::GainExperince(int EnemyLV) {
     int EXP;
     bool IsTrue = false;
     EXP = round((RandomEXP * EnemyLV) / 7);
-    m_Ability["CurrentEXP"] += EXP;
+    if (m_Ability["LV"] != 100) {
+        m_Ability["CurrentEXP"] += EXP;
+    }
     while (m_Ability["CurrentEXP"] > m_Ability["EXP"]) {
         m_Ability["CurrentEXP"] -= m_Ability["EXP"];
         LevelUp();
@@ -655,4 +657,8 @@ bool Pokemon::IsPPAllZero() {
         }
     }
     return true;
+}
+
+int Pokemon::GetEXP() {
+    return m_Ability["EXP"];
 }

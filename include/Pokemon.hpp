@@ -138,6 +138,8 @@ public:
     void ReduceCurrentHP(int Damage);
 
     bool IsPPAllZero();
+
+    int GetEXP();
 };
 
 #endif //POKEMON_POKEMON_HPP

@@ -227,7 +227,6 @@ void App::Fight() {
                                     Line_num++;
                                 }
                                 FileOfAbility.close();
-                                LOG_DEBUG(Rate);
                                 CatachRate = Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetHP() *
                                              (256 / (8 + (m_BackPackUI->GetDecision() - 2) * 2))
                                              /
@@ -235,7 +234,6 @@ void App::Fight() {
                                               Enemy->GetPokemonBag()->GetPokemons()[m_CurrentNPCPokemon]->GetCurrentHP() /
                                               4);
                                 CatachRate*=stof(Rate)/256;
-                                LOG_DEBUG(CatachRate);
                             }
                             if (rand() % 256 <= CatachRate) {
                                 m_SuccessCatch = true;

@@ -55,7 +55,6 @@ void FightTextUI::SetEnemy(int EnemyIndex, int PokeIndex, int SkillIndex) {
         UseSkill = EnemyPokemons[EnemyIndex]->GetSkill()[SkillIndex];
         DamageRate = PokeFunction::TypeDamage(EnemyPokemons[EnemyIndex]->GetSkillType()[SkillIndex], EnemyType);
     }
-    LOG_DEBUG("q");
     m_TB->SetVisible(true);
     m_TB->Reload();
     m_TB->AddText(PokeName + "使出了" + UseSkill);
