@@ -155,10 +155,14 @@ void App::Event() {
                                        108, 109, 111, 113, 114, 115, 116, 118, 120, 121, 122, 124, 125, 126, 127,
                                        128, 129, 131, 132};
             int r;
-            if (m_Player->GetItemBag()->GetItemQuantity("藍色徽章") == 0) r = rand() % tempID.size();
-            else r = rand() % 151;
             std::stringstream ToString;
-            ToString << std::setw(3) << std::setfill('0') << tempID[r];
+            if (m_Player->GetItemBag()->GetItemQuantity("藍色徽章") == 0) {
+                r = rand() % tempID.size();
+                ToString << std::setw(3) << std::setfill('0') << tempID[r];
+            } else {
+                r = rand() % 151;
+                ToString << std::setw(3) << std::setfill('0') << r;
+            }
             std::string StringID = ToString.str();
             auto temp = std::make_shared<Pokemon>(StringID);
             int average = 0;
